@@ -76,6 +76,10 @@ src/
 - `.claude/agents/intern.md` — 实习生，熟悉项目代码，执行基础任务
 - `.claude/agents/tech-expert.md` — 技术专家，保持怀疑，审视架构与质量
 
+## 团队工作流
+
+当用户说 **"专家登场"** 或 **"开始团队工作"** 时，按 `.claude/skills/team-leader-work.md` 中定义的多 Agent 工作流执行：实习生并行调研 → 主对话整合 → 技术专家评审 → 不通过则重试（最多 3 轮）。
+
 ## Documentation
 
 - `user_request.md` — Original user requirements
