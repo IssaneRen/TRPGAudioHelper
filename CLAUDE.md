@@ -33,11 +33,13 @@ pnpm type-check       # Run TypeScript type checking (tsc --noEmit)
 ```
 src/
   components/       # Shared UI components (Shadcn/ui based)
+    ui/             # Shadcn/ui generated components
   pages/            # Top-level tab pages
     ProfileTab/     # TAB1 - Personal intro & module links
     ModuleToolTab/  # TAB2 - Module clue DAG visualization
     BlogTab/        # TAB3 - Blog & articles
   hooks/            # Custom React hooks
+  lib/              # Third-party library wrappers (cn, etc.)
   stores/           # State management (local storage sync)
   types/            # TypeScript type definitions
   utils/            # Utility functions (JSON import/export, etc.)
@@ -83,5 +85,8 @@ src/
 ## Documentation
 
 - `user_request.md` — Original user requirements
-- `docs/` — Technical documentation and AI work logs (to be created as needed)
+- `docs/dev-log.md` — AI development log (time, agent, work content)
+- `docs/business.md` — Business logic & code location index
+- `docs/tech-decisions.md` — Technical decisions record (ADR format)
+- `docs/reports/` — Team workflow reports
 - Keep documentation updated as features are implemented
