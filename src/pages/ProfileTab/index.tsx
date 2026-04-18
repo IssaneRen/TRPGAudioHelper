@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, lazy, Suspense } from "react";
 import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
 import { Plus, Download, Upload, Edit3, Trash2, BookOpen, Users, Shield, Star, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -11,6 +11,10 @@ import { toast } from "sonner";
 import type { Module, ModuleStatus } from "@/types";
 import { ModuleDialog } from "./ModuleDialog";
 import { ProfileEditor } from "./ProfileEditor";
+
+const Live2DBackground = lazy(() =>
+  import("./Live2DBackground").then((m) => ({ default: m.Live2DBackground }))
+);
 
 const statusConfig: Record<ModuleStatus, { label: string; variant: "default" | "secondary" | "outline" }> = {
   prepared: { label: "已备", variant: "default" },
@@ -137,6 +141,21 @@ export default function ProfileTab() {
           backgroundImage: `radial-gradient(circle at 30% 40%, oklch(0.55 0.12 160 / 15%) 0%, transparent 50%),
             radial-gradient(circle at 70% 60%, oklch(0.45 0.10 290 / 15%) 0%, transparent 50%)`
         }} />
+        {/* Live2D 角色背景层 */}
+        {!shouldReduceMotion && (
+          <Suspense fallback={null}>
+            <motion.div
+              style={{ y: heroY, opacity: heroOpacity }}
+              className="absolute inset-0 z-[1]"
+            >
+              <Live2DBackground
+                modelPath="https://cdn.jsdelivr.net/gh/Live2D/CubismWebSamples@develop/Samples/Resources/Hiyori/Hiyori.model3.json"
+                opacity={0.4}
+                className="h-full w-full"
+              />
+            </motion.div>
+          </Suspense>
+        )}
         <motion.div
           style={{ y: heroY, opacity: heroOpacity }}
           className="relative z-10 text-center space-y-6 max-w-2xl"

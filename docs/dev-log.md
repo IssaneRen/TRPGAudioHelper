@@ -66,3 +66,4 @@ Agent 角色：`团队负责人` / `实习生` / `技术专家` / `git-reviewer`
 | — | 技术专家 B | master | 审查Tab1 Apple风格(72分): ::before伪元素冲突bug、联系卡片溢出、标题字号过大、缺少useReducedMotion、冗余font-heading内联 | — |
 | — | 团队负责人 | master | **修复专家A反馈**: 新增getDownstreamHidden(展开时按hidden属性恢复)、边发现自动取消隐藏节点 | ClueNode.tsx, ModuleToolTab/index.tsx |
 | — | 团队负责人 | master | **修复专家B反馈**: profile-hero改用background多层叠加、联系卡片加flex-wrap、标题text-3xl→sm:text-5xl→md:text-6xl、min-h-[50vh] sm:min-h-[70vh]、useReducedMotion全局动效降级、移除冗余font-heading内联 | index.css, ProfileTab/index.tsx |
+| — | 团队负责人 | master | **Live2D背景层**: 创建Live2DBackground组件(pixi.js v7 + pixi-live2d-display/cubism4)，lazy加载集成到ProfileTab Hero区域，支持resize自适应、hit交互、shouldReduceMotion降级 | src/pages/ProfileTab/Live2DBackground.tsx, src/pages/ProfileTab/index.tsx |
