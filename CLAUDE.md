@@ -50,7 +50,8 @@ src/
 
 - **Three-tab layout**: ProfileTab, ModuleToolTab, BlogTab as core navigation
 - **JSON import/export**: TAB1 and TAB2 data can be exported as JSON and imported on another device, enabling cross-device migration without a backend
-- **DAG visualization**: React Flow handles the clue network graph — nodes are clues, edges are relationships, acquired clues are visually dimmed
+- **DAG visualization**: React Flow handles the clue network graph — nodes are clues/items, edges are relationships (many-to-many). Discovery is triggered by clicking edges (relationships), which marks both connected nodes as discovered. Direct node click is a special case requiring supplementary explanation.
+- **Visual style**: Cthulhu/cosmic horror aesthetic — dark theme priority, eerie fonts, muted greens/purples
 - **No backend required**: All data persists in localStorage; the app is a pure SPA
 
 ## Language & Communication
@@ -90,3 +91,21 @@ src/
 - `docs/tech-decisions.md` — Technical decisions record (ADR format)
 - `docs/reports/` — Team workflow reports
 - Keep documentation updated as features are implemented
+
+## 强制规则（MUST）
+
+### 开发日志必须实时更新
+
+**每次完成任何代码变更后，必须立即更新 `docs/dev-log.md`**。这是不可跳过的硬性规则。
+
+- 每个迭代/功能完成后，追加一行日志记录
+- 格式：`| 时间 | Agent | 分支 | 内容 | 涉及文件 |`
+- 不允许攒多个变更后再统一写日志
+- 如果忘记了，在下一次操作前必须先补全
+
+### 文档同步更新
+
+每次功能实现或架构变更后，必须同步更新以下文档（如涉及）：
+- `docs/business.md` — 业务逻辑变更
+- `docs/tech-decisions.md` — 新的技术决策
+- `user_request.md` — 用户需求变化

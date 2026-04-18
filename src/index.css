@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Noto+Serif+SC:wght@400;600;700&display=swap');
 @import "tailwindcss";
 
 @theme inline {
@@ -23,49 +24,53 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+  --font-sans: 'Noto Serif SC', 'Georgia', serif;
+  --font-heading: 'Cinzel', 'Noto Serif SC', serif;
 }
 
+/* === 克苏鲁浅色主题 — 泛黄古卷风 === */
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --radius: 0.625rem;
+  --background: oklch(0.94 0.01 85);          /* 泛黄羊皮纸 */
+  --foreground: oklch(0.18 0.02 300);          /* 深墨紫黑 */
+  --card: oklch(0.92 0.012 80);               /* 稍暗的羊皮纸 */
+  --card-foreground: oklch(0.18 0.02 300);
+  --popover: oklch(0.93 0.01 85);
+  --popover-foreground: oklch(0.18 0.02 300);
+  --primary: oklch(0.35 0.08 160);            /* 深海绿 */
+  --primary-foreground: oklch(0.95 0.01 85);
+  --secondary: oklch(0.88 0.015 80);          /* 浅褐 */
+  --secondary-foreground: oklch(0.25 0.03 300);
+  --muted: oklch(0.88 0.015 80);
+  --muted-foreground: oklch(0.45 0.02 300);
+  --accent: oklch(0.42 0.06 290);             /* 暗紫 */
+  --accent-foreground: oklch(0.95 0.01 85);
+  --destructive: oklch(0.50 0.20 25);         /* 暗血红 */
+  --border: oklch(0.82 0.02 80);
+  --input: oklch(0.85 0.015 80);
+  --ring: oklch(0.40 0.08 160);
+  --radius: 0.5rem;
 }
 
+/* === 克苏鲁暗色主题 — 深渊风 === */
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
+  --background: oklch(0.12 0.02 280);         /* 近乎黑的深紫 */
+  --foreground: oklch(0.85 0.02 85);           /* 泛黄白 */
+  --card: oklch(0.16 0.025 280);              /* 稍亮深紫 */
+  --card-foreground: oklch(0.85 0.02 85);
+  --popover: oklch(0.16 0.025 280);
+  --popover-foreground: oklch(0.85 0.02 85);
+  --primary: oklch(0.55 0.12 160);            /* 发光深海绿 */
+  --primary-foreground: oklch(0.10 0.02 280);
+  --secondary: oklch(0.22 0.03 280);          /* 深灰紫 */
+  --secondary-foreground: oklch(0.80 0.02 85);
+  --muted: oklch(0.22 0.03 280);
+  --muted-foreground: oklch(0.58 0.03 85);
+  --accent: oklch(0.45 0.10 290);             /* 幽光紫 */
+  --accent-foreground: oklch(0.90 0.02 85);
+  --destructive: oklch(0.55 0.18 25);
+  --border: oklch(0.25 0.03 280);
+  --input: oklch(0.22 0.03 280);
+  --ring: oklch(0.55 0.12 160);
 }
 
 @layer base {
@@ -74,5 +79,198 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-family: var(--font-sans);
+    transition: background-color 0.4s ease, color 0.4s ease;
   }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    letter-spacing: 0.02em;
+  }
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* 微妙的噪点纹理背景 */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+/* 暗角效果 (vignette) */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(ellipse at center, transparent 50%, oklch(0 0 0 / 15%) 100%);
+  pointer-events: none;
+}
+
+.dark body::after {
+  background: radial-gradient(ellipse at center, transparent 40%, oklch(0 0 0 / 40%) 100%);
+}
+
+/* Skeleton shimmer */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* React Flow edge flow animation */
+@keyframes dashFlow {
+  to { stroke-dashoffset: -18; }
+}
+
+/* 微妙的呼吸光效 — 用于重要元素 */
+@keyframes eldritch-glow {
+  0%, 100% { box-shadow: 0 0 8px oklch(0.55 0.12 160 / 20%); }
+  50% { box-shadow: 0 0 16px oklch(0.55 0.12 160 / 40%); }
+}
+
+/* 卡片 hover 深渊阴影 */
+@keyframes abyss-shadow {
+  0%, 100% { box-shadow: 0 4px 12px oklch(0 0 0 / 10%), 0 0 0 oklch(0.45 0.10 290 / 0%); }
+  50% { box-shadow: 0 8px 24px oklch(0 0 0 / 20%), 0 0 20px oklch(0.45 0.10 290 / 15%); }
+}
+
+/* 发光脉冲 — 用于卡片边框 */
+@keyframes glow-pulse {
+  0%, 100% { border-color: oklch(0.55 0.12 160 / 30%); }
+  50% { border-color: oklch(0.55 0.12 160 / 70%); }
+}
+
+/* 浮动效果 */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+/* 符文旋转 */
+@keyframes rune-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* 克苏鲁装饰卡片 */
+.eldritch-card {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.eldritch-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, oklch(0.55 0.12 160 / 20%), oklch(0.45 0.10 290 / 20%), transparent);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  opacity: 0;
+}
+
+.eldritch-card:hover::before {
+  opacity: 1;
+}
+
+.eldritch-card:hover {
+  animation: abyss-shadow 3s ease-in-out infinite;
+}
+
+/* 导航栏底部发光线 */
+.nav-glow-line {
+  position: relative;
+}
+
+.nav-glow-line::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, oklch(0.55 0.12 160 / 50%), oklch(0.45 0.10 290 / 50%), transparent);
+}
+
+/* 个人介绍区域装饰背景 — 使用 background 多层叠加避免与 eldritch-card::before 冲突 */
+.profile-hero {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 80% -20%, oklch(0.55 0.12 160 / 8%) 0%, transparent 50%),
+    radial-gradient(circle at -10% 130%, oklch(0.45 0.10 290 / 8%) 0%, transparent 50%);
+}
+
+/* SVG 内联符文装饰 */
+.rune-corner {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  opacity: 0.08;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.rune-corner:hover,
+.eldritch-card:hover .rune-corner {
+  opacity: 0.2;
+}
+
+/* DAG 区域增强 */
+.dag-container {
+  position: relative;
+}
+
+.dag-container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(ellipse at 50% 30%, oklch(0.55 0.12 160 / 3%) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* 移动端性能优化 */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* 博客卡片装饰 */
+.blog-card {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.blog-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, oklch(0.55 0.12 160 / 0%), oklch(0.55 0.12 160 / 60%), oklch(0.45 0.10 290 / 60%), oklch(0.45 0.10 290 / 0%));
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.blog-card:hover::after {
+  transform: scaleX(1);
 }

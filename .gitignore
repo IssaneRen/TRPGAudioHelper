@@ -36,3 +36,6 @@ pnpm-debug.log*
 
 # TypeScript
 *.tsbuildinfo
+
+# AI workflow reports (auto-generated)
+docs/reports/
