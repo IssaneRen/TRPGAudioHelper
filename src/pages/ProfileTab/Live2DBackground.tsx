@@ -11,6 +11,18 @@ interface Live2DBackgroundProps {
   className?: string;
 }
 
+/** 将模型适配到容器中心 */
+function fitModelToContainer(
+  model: InstanceType<typeof Live2DModel>,
+  width: number,
+  height: number,
+) {
+  const scale = (height / (model.height || 1)) * 0.8;
+  model.scale.set(scale, scale);
+  model.x = width / 2;
+  model.y = height / 2;
+}
+
 export function Live2DBackground({
   modelPath,
   opacity = 0.4,
@@ -19,23 +31,24 @@ export function Live2DBackground({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const appRef = useRef<PIXI.Application | null>(null);
   const modelRef = useRef<InstanceType<typeof Live2DModel> | null>(null);
+  const rafRef = useRef<number>(0);
 
   const handleResize = useCallback(() => {
-    const app = appRef.current;
-    const model = modelRef.current;
-    const canvas = canvasRef.current;
-    if (!app || !model || !canvas) return;
+    // RAF 节流，避免快速 resize 时大量重算
+    cancelAnimationFrame(rafRef.current);
+    rafRef.current = requestAnimationFrame(() => {
+      const app = appRef.current;
+      const model = modelRef.current;
+      const canvas = canvasRef.current;
+      if (!app || !model || !canvas) return;
 
-    const parent = canvas.parentElement;
-    if (!parent) return;
+      const parent = canvas.parentElement;
+      if (!parent) return;
 
-    const { width, height } = parent.getBoundingClientRect();
-    app.renderer.resize(width, height);
-
-    const scale = (height / (model.height || 1)) * 0.8;
-    model.scale.set(scale, scale);
-    model.x = width / 2;
-    model.y = height / 2;
+      const { width, height } = parent.getBoundingClientRect();
+      app.renderer.resize(width, height);
+      fitModelToContainer(model, width, height);
+    });
   }, []);
 
   useEffect(() => {
@@ -60,6 +73,16 @@ export function Live2DBackground({
 
     let destroyed = false;
 
+    const hitHandler = (hitAreas: string[]) => {
+      if (hitAreas.includes("Body")) {
+        modelRef.current?.motion("tap_body");
+      } else if (hitAreas.includes("Head")) {
+        modelRef.current?.expression();
+      } else {
+        modelRef.current?.motion("idle");
+      }
+    };
+
     Live2DModel.from(modelPath, { autoInteract: true })
       .then((model) => {
         if (destroyed) {
@@ -69,21 +92,10 @@ export function Live2DBackground({
         modelRef.current = model;
         app.stage.addChild(model);
 
-        const scale = (height / (model.height || 1)) * 0.8;
-        model.scale.set(scale, scale);
         model.anchor.set(0.5, 0.5);
-        model.x = width / 2;
-        model.y = height / 2;
+        fitModelToContainer(model, width, height);
 
-        model.on("hit", (hitAreas: string[]) => {
-          if (hitAreas.includes("Body")) {
-            model.motion("tap_body");
-          } else if (hitAreas.includes("Head")) {
-            model.expression();
-          } else {
-            model.motion("idle");
-          }
-        });
+        model.on("hit", hitHandler);
       })
       .catch((err) => {
         console.warn("[Live2D] 模型加载失败，静默降级:", err);
@@ -93,13 +105,23 @@ export function Live2DBackground({
 
     return () => {
       destroyed = true;
+      cancelAnimationFrame(rafRef.current);
       window.removeEventListener("resize", handleResize);
+
+      // 显式移除事件监听器再销毁模型
       if (modelRef.current) {
+        modelRef.current.off("hit", hitHandler);
         modelRef.current.destroy();
         modelRef.current = null;
       }
-      app.destroy(false, { children: true });
+
+      // 销毁 renderer 释放 WebGL context，再销毁 app
+      app.renderer.destroy(true);
+      app.destroy(true, { children: true });
       appRef.current = null;
+
+      // 清理全局 PIXI 引用，允许 GC
+      delete (window as unknown as Record<string, unknown>).PIXI;
     };
   }, [modelPath, handleResize]);
 
