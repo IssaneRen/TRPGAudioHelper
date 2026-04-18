@@ -23,6 +23,7 @@
 | 数据类型 | `src/types/index.ts` | ProfileData, Module, ModuleStatus |
 | 状态管理 | `src/stores/use-profile-store.ts` | localStorage 同步 |
 | 数据导出 | `src/utils/json-io.ts` | Zod 校验 + 5MB 限制 |
+| Live2D 背景 | `src/pages/ProfileTab/Live2DBackground.tsx` | PixiJS + pixi-live2d-display 封装，鼠标追踪 + 点击互动 |
 
 ---
 
