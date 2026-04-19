@@ -149,7 +149,7 @@ export default function ProfileTab() {
               className="absolute inset-0 z-[1]"
             >
               <Live2DBackground
-                modelPath="https://cdn.jsdelivr.net/gh/Live2D/CubismWebSamples@develop/Samples/Resources/Hiyori/Hiyori.model3.json"
+                modelPath="/live2d/Hiyori/Hiyori.model3.json"
                 opacity={0.4}
                 className="h-full w-full"
               />

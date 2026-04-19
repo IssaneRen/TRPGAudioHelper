@@ -3,7 +3,29 @@ import * as PIXI from "pixi.js";
 import { Live2DModel } from "pixi-live2d-display/cubism4";
 
 // pixi-live2d-display 要求 window.PIXI 存在以注册 Ticker 自动更新
+// 注意：不要在 cleanup 中 delete，因为模块顶层代码只执行一次
 (window as unknown as Record<string, unknown>).PIXI = PIXI;
+
+/** 等待 Cubism Core SDK (async script) 加载完成 */
+function waitForCubismCore(timeout = 10000): Promise<void> {
+  return new Promise((resolve, reject) => {
+    if ((window as unknown as Record<string, unknown>).Live2DCubismCore) {
+      resolve();
+      return;
+    }
+    const start = Date.now();
+    const check = () => {
+      if ((window as unknown as Record<string, unknown>).Live2DCubismCore) {
+        resolve();
+      } else if (Date.now() - start > timeout) {
+        reject(new Error("[Live2D] Cubism Core SDK 加载超时"));
+      } else {
+        requestAnimationFrame(check);
+      }
+    };
+    requestAnimationFrame(check);
+  });
+}
 
 interface Live2DBackgroundProps {
   modelPath: string;
@@ -60,15 +82,24 @@ export function Live2DBackground({
 
     const { width, height } = parent.getBoundingClientRect();
 
-    const app = new PIXI.Application({
-      view: canvas,
-      width,
-      height,
-      backgroundAlpha: 0,
-      antialias: true,
-      autoDensity: true,
-      resolution: window.devicePixelRatio || 1,
-    });
+    // 容器尚未完成布局（0 尺寸），PixiJS 会因 WebGL shader 参数为 0 而崩溃
+    if (width === 0 || height === 0) return;
+
+    let app: PIXI.Application;
+    try {
+      app = new PIXI.Application({
+        view: canvas,
+        width,
+        height,
+        backgroundAlpha: 0,
+        antialias: true,
+        autoDensity: true,
+        resolution: window.devicePixelRatio || 1,
+      });
+    } catch (err) {
+      console.warn("[Live2D] PixiJS 初始化失败，静默降级:", err);
+      return;
+    }
     appRef.current = app;
 
     let destroyed = false;
@@ -83,7 +114,8 @@ export function Live2DBackground({
       }
     };
 
-    Live2DModel.from(modelPath, { autoInteract: true })
+    waitForCubismCore()
+      .then(() => Live2DModel.from(modelPath, { autoInteract: true }))
       .then((model) => {
         if (destroyed) {
           model.destroy();
@@ -115,13 +147,9 @@ export function Live2DBackground({
         modelRef.current = null;
       }
 
-      // 销毁 renderer 释放 WebGL context，再销毁 app
-      app.renderer.destroy(true);
-      app.destroy(true, { children: true });
+      // 销毁 app，但不移除 canvas DOM（React 管理 canvas 生命周期）
+      app.destroy(false, { children: true });
       appRef.current = null;
-
-      // 清理全局 PIXI 引用，允许 GC
-      delete (window as unknown as Record<string, unknown>).PIXI;
     };
   }, [modelPath, handleResize]);
 

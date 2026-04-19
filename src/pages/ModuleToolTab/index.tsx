@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useState, useMemo } from "react";
 import {
   ReactFlow,
   Background,
@@ -9,13 +9,18 @@ import {
   type Node,
   type Edge,
   type NodeMouseHandler,
+  type Connection,
   useReactFlow,
   ReactFlowProvider,
   MarkerType,
+  ConnectionMode,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import { motion } from "framer-motion";
-import { RotateCcw, Download, Upload, LayoutGrid } from "lucide-react";
+import {
+  RotateCcw, Download, Upload, LayoutGrid,
+  Pencil, Eye, FilePlus,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
@@ -25,23 +30,24 @@ import { getAutoLayout } from "@/utils/auto-layout";
 import { ClueNodeType } from "./ClueNode";
 import { AnimatedEdge } from "./AnimatedEdge";
 import { DirectDiscoverDialog } from "./DirectDiscoverDialog";
+import { NodeEditDialog } from "./NodeEditDialog";
+import { EdgeEditDialog } from "./EdgeEditDialog";
+import { ImagePreviewDialog } from "./ImagePreviewDialog";
 
 const nodeTypes = { clueNode: ClueNodeType };
 const edgeTypes = { animated: AnimatedEdge };
 
-function ModuleToolInner() {
-  const { clueData, triggerEdge, directDiscoverNode, cancelDirectDiscovery, resetAll, setClueData } =
-    useClueStore();
-  const { fitView } = useReactFlow();
-
-  // 计算哪些节点有出边（有下游子节点）
+function buildInitialNodes(clueData: ReturnType<typeof useClueStore>["clueData"]): Node[] {
   const nodesWithChildren = new Set(clueData.edges.map((e) => e.source));
-  const initialNodes: Node[] = clueData.nodes.map((n) => ({
+  return clueData.nodes.map((n) => ({
     ...n,
     type: n.type || "clueNode",
     data: { ...n.data, hasChildren: nodesWithChildren.has(n.id) },
   }));
-  const initialEdges: Edge[] = clueData.edges.map((e) => ({
+}
+
+function buildInitialEdges(clueData: ReturnType<typeof useClueStore>["clueData"]): Edge[] {
+  return clueData.edges.map((e) => ({
     ...e,
     type: "animated",
     markerEnd: {
@@ -51,26 +57,50 @@ function ModuleToolInner() {
       color: "var(--primary)",
     },
   }));
+}
 
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+function ModuleToolInner() {
+  const store = useClueStore();
+  const { clueData } = store;
+  const { fitView, getNodes, getEdges } = useReactFlow();
 
-  // 直接发现弹窗
+  const [nodes, setNodes, onNodesChange] = useNodesState(buildInitialNodes(clueData));
+  const [edges, setEdges, onEdgesChange] = useEdgesState(buildInitialEdges(clueData));
+
+  // 模式：view（展示）/ edit（创建/编辑）
+  const [mode, setMode] = useState<"view" | "edit">("view");
+  const isEditMode = mode === "edit";
+
+  // 各种对话框状态
   const [discoverDialog, setDiscoverDialog] = useState<{
-    open: boolean;
-    nodeId: string;
-    nodeLabel: string;
+    open: boolean; nodeId: string; nodeLabel: string;
   }>({ open: false, nodeId: "", nodeLabel: "" });
 
-  // 边点击：触发关系发现
+  const [nodeEditDialog, setNodeEditDialog] = useState<{
+    open: boolean;
+    mode: "create" | "edit";
+    sourceNodeId?: string;
+    editNodeId?: string;
+    initialData?: { label: string; description: string; category: string; imageData?: string };
+  }>({ open: false, mode: "create" });
+
+  const [edgeEditDialog, setEdgeEditDialog] = useState<{
+    open: boolean; edgeId: string; initialAction: string;
+  }>({ open: false, edgeId: "", initialAction: "" });
+
+  const [imagePreview, setImagePreview] = useState<{
+    open: boolean; imageUrl: string; nodeLabel: string;
+  }>({ open: false, imageUrl: "", nodeLabel: "" });
+
+  // ==== 展示模式逻辑 ====
   const handleEdgeClick = useCallback(
     (_event: React.MouseEvent, edge: Edge) => {
-      triggerEdge(edge.id);
-
-      // 同步本地状态
-      const sourceNode = nodes.find((n) => n.id === edge.source);
-      const targetNode = nodes.find((n) => n.id === edge.target);
-
+      if (isEditMode) return;
+      store.triggerEdge(edge.id);
+      const currentNodes = getNodes();
+      const currentEdges = getEdges();
+      const sourceNode = currentNodes.find((n) => n.id === edge.source);
+      const targetNode = currentNodes.find((n) => n.id === edge.target);
       const isNowTriggered = !edge.data?.triggered;
 
       setEdges((eds) =>
@@ -82,7 +112,6 @@ function ModuleToolInner() {
       );
 
       if (isNowTriggered) {
-        // 标记两端节点为已发现，并自动取消隐藏
         setNodes((nds) =>
           nds.map((n) =>
             n.id === edge.source || n.id === edge.target
@@ -90,13 +119,11 @@ function ModuleToolInner() {
               : n
           )
         );
-        // 同时取消隐藏相关的边
         setEdges((eds) =>
           eds.map((e) =>
             e.source === edge.source || e.target === edge.source ||
             e.source === edge.target || e.target === edge.target
-              ? { ...e, hidden: false }
-              : e
+              ? { ...e, hidden: false } : e
           )
         );
         toast(
@@ -104,11 +131,10 @@ function ModuleToolInner() {
           { duration: 2500 }
         );
       } else {
-        // 取消触发：检查节点是否还有其他已触发的边
         setNodes((nds) =>
           nds.map((n) => {
             if (n.id !== edge.source && n.id !== edge.target) return n;
-            const hasOtherTriggered = edges.some(
+            const hasOtherTriggered = currentEdges.some(
               (otherE) =>
                 otherE.id !== edge.id &&
                 otherE.data?.triggered &&
@@ -123,16 +149,20 @@ function ModuleToolInner() {
         toast(`已取消「${edge.data?.action || "关联"}」`, { duration: 1500 });
       }
     },
-    [triggerEdge, setEdges, setNodes, nodes, edges]
+    [isEditMode, store, setEdges, setNodes, getNodes, getEdges]
   );
 
-  // 节点点击：三种情况
   const handleNodeClick: NodeMouseHandler = useCallback((_event, node) => {
+    if (isEditMode) return; // 编辑模式不处理展示逻辑
+
+    // 检查是否有图片需要预览
+    // 图片节点的放大预览在双击中处理
+
     if (node.data?.discovered) {
       if (node.data?.directDiscoveryNote) {
-        // 已发现 + 有特殊发现说明 → 取消特殊发现
-        cancelDirectDiscovery(node.id);
-        const hasTriggeredEdge = edges.some(
+        store.cancelDirectDiscovery(node.id);
+        const currentEdges = getEdges();
+        const hasTriggeredEdge = currentEdges.some(
           (e) => e.data?.triggered && (e.source === node.id || e.target === node.id)
         );
         setNodes((nds) =>
@@ -144,22 +174,20 @@ function ModuleToolInner() {
         );
         toast.success(`已取消「${node.data?.label}」的特殊发现`);
       } else {
-        // 已发现 + 无特殊发现说明（通过边触发） → 提示
         toast(`「${node.data?.label}」已通过关系触发发现`, { duration: 1500 });
       }
       return;
     }
-    // 未发现 → 打开特殊发现弹窗
     setDiscoverDialog({
       open: true,
       nodeId: node.id,
       nodeLabel: (node.data?.label as string) || "",
     });
-  }, [cancelDirectDiscovery, edges, setNodes]);
+  }, [isEditMode, store, getEdges, setNodes]);
 
   const handleDirectDiscover = useCallback(
     (note: string) => {
-      directDiscoverNode(discoverDialog.nodeId, note);
+      store.directDiscoverNode(discoverDialog.nodeId, note);
       setNodes((nds) =>
         nds.map((n) =>
           n.id === discoverDialog.nodeId
@@ -170,14 +198,230 @@ function ModuleToolInner() {
       toast.success(`直接发现「${discoverDialog.nodeLabel}」: ${note}`);
       setDiscoverDialog({ open: false, nodeId: "", nodeLabel: "" });
     },
-    [discoverDialog, directDiscoverNode, setNodes]
+    [discoverDialog, store, setNodes]
   );
 
-  // 统计
+  // ==== 编辑模式逻辑 ====
+
+  // 添加节点（从某个节点的"+"按钮触发）
+  const handleAddNodeNear = useCallback((sourceNodeId: string) => {
+    setNodeEditDialog({
+      open: true,
+      mode: "create",
+      sourceNodeId,
+    });
+  }, []);
+
+  // 双击节点编辑
+  const handleNodeDoubleClick = useCallback((_event: React.MouseEvent, node: Node) => {
+    if (!isEditMode) {
+      // 展示模式：双击打开图片预览（如果有图片）
+      if (node.data?.imageData) {
+        setImagePreview({
+          open: true,
+          imageUrl: node.data.imageData as string,
+          nodeLabel: (node.data?.label as string) || "",
+        });
+      }
+      return;
+    }
+    setNodeEditDialog({
+      open: true,
+      mode: "edit",
+      editNodeId: node.id,
+      initialData: {
+        label: (node.data?.label as string) || "",
+        description: (node.data?.description as string) || "",
+        category: (node.data?.category as string) || "default",
+        imageData: node.data?.imageData as string | undefined,
+      },
+    });
+  }, [isEditMode]);
+
+  // 双击边编辑
+  const handleEdgeDoubleClick = useCallback((_event: React.MouseEvent, edge: Edge) => {
+    if (!isEditMode) return;
+    setEdgeEditDialog({
+      open: true,
+      edgeId: edge.id,
+      initialAction: (edge.data?.action as string) || "",
+    });
+  }, [isEditMode]);
+
+  // 节点编辑确认
+  const handleNodeEditConfirm = useCallback(
+    (data: { label: string; description: string; category: string; imageData?: string }) => {
+      if (nodeEditDialog.mode === "create" && nodeEditDialog.sourceNodeId) {
+        const sourceNode = nodes.find((n) => n.id === nodeEditDialog.sourceNodeId);
+        if (!sourceNode) return;
+
+        const newNodeId = crypto.randomUUID();
+        const newNode: Node = {
+          id: newNodeId,
+          type: "clueNode",
+          position: {
+            x: sourceNode.position.x + 200,
+            y: sourceNode.position.y + 150,
+          },
+          data: {
+            ...data,
+            discovered: false,
+            hasChildren: false,
+          },
+        };
+
+        const newEdge: Edge = {
+          id: `e-${crypto.randomUUID()}`,
+          source: nodeEditDialog.sourceNodeId,
+          target: newNodeId,
+          type: "animated",
+          animated: true,
+          data: { action: "新关系", triggered: false },
+          markerEnd: {
+            type: MarkerType.ArrowClosed,
+            width: 16,
+            height: 16,
+            color: "var(--primary)",
+          },
+        };
+
+        setNodes((nds) => {
+          const updated = nds.map((n) =>
+            n.id === nodeEditDialog.sourceNodeId
+              ? { ...n, data: { ...n.data, hasChildren: true } }
+              : n
+          );
+          return [...updated, newNode];
+        });
+        setEdges((eds) => [...eds, newEdge]);
+
+        store.addNode({
+          id: newNodeId,
+          type: "clueNode",
+          position: newNode.position,
+          data: { ...data, discovered: false },
+        });
+        store.addEdge({
+          id: newEdge.id,
+          source: nodeEditDialog.sourceNodeId,
+          target: newNodeId,
+          animated: true,
+          data: { action: "新关系", triggered: false },
+        });
+
+        toast.success(`已添加线索「${data.label}」`);
+      } else if (nodeEditDialog.mode === "edit" && nodeEditDialog.editNodeId) {
+        setNodes((nds) =>
+          nds.map((n) =>
+            n.id === nodeEditDialog.editNodeId
+              ? { ...n, data: { ...n.data, ...data } }
+              : n
+          )
+        );
+        store.updateNode(nodeEditDialog.editNodeId, data);
+        toast.success(`已更新线索「${data.label}」`);
+      }
+      setNodeEditDialog({ open: false, mode: "create" });
+    },
+    [nodeEditDialog, nodes, setNodes, setEdges, store]
+  );
+
+  // 边编辑确认
+  const handleEdgeEditConfirm = useCallback(
+    (action: string) => {
+      setEdges((eds) =>
+        eds.map((e) =>
+          e.id === edgeEditDialog.edgeId
+            ? { ...e, data: { ...e.data, action } }
+            : e
+        )
+      );
+      store.updateEdge(edgeEditDialog.edgeId, { action });
+      toast.success("关系已更新");
+      setEdgeEditDialog({ open: false, edgeId: "", initialAction: "" });
+    },
+    [edgeEditDialog, setEdges, store]
+  );
+
+  // 拖拽连线（编辑模式）
+  const handleConnect = useCallback(
+    (connection: Connection) => {
+      if (!connection.source || !connection.target) return;
+      if (connection.source === connection.target) return;
+
+      const newEdgeId = `e-${crypto.randomUUID()}`;
+      const newEdge: Edge = {
+        id: newEdgeId,
+        source: connection.source,
+        target: connection.target,
+        type: "animated",
+        animated: true,
+        data: { action: "新关系", triggered: false },
+        markerEnd: {
+          type: MarkerType.ArrowClosed,
+          width: 16,
+          height: 16,
+          color: "var(--primary)",
+        },
+      };
+
+      setEdges((eds) => [...eds, newEdge]);
+      store.addEdge({
+        id: newEdgeId,
+        source: connection.source,
+        target: connection.target,
+        animated: true,
+        data: { action: "新关系", triggered: false },
+      });
+
+      // 更新 source 节点的 hasChildren
+      setNodes((nds) =>
+        nds.map((n) =>
+          n.id === connection.source
+            ? { ...n, data: { ...n.data, hasChildren: true } }
+            : n
+        )
+      );
+
+      toast.success("已创建新连线，双击标签可编辑");
+    },
+    [setEdges, setNodes, store]
+  );
+
+  // 删除节点/边（编辑模式，按 Delete/Backspace）
+  const handleNodesDelete = useCallback(
+    (deleted: Node[]) => {
+      if (!isEditMode) return;
+      for (const node of deleted) {
+        if (node.id === "start") {
+          toast.error("不能删除「模组开始」节点");
+          // 恢复节点
+          setNodes((nds) => [...nds, node]);
+          return;
+        }
+        store.deleteNode(node.id);
+      }
+      toast.success(`已删除 ${deleted.length} 个节点`);
+    },
+    [isEditMode, store, setNodes]
+  );
+
+  const handleEdgesDelete = useCallback(
+    (deleted: Edge[]) => {
+      if (!isEditMode) return;
+      for (const edge of deleted) {
+        store.deleteEdge(edge.id);
+      }
+      toast.success(`已删除 ${deleted.length} 条关系`);
+    },
+    [isEditMode, store]
+  );
+
+  // ==== 通用工具栏操作 ====
+
   const discoveredCount = nodes.filter((n) => n.data?.discovered).length;
   const triggeredCount = edges.filter((e) => e.data?.triggered).length;
 
-  // 一键排版
   const handleAutoLayout = useCallback(() => {
     const layoutedNodes = getAutoLayout(nodes, edges, "TB");
     setNodes(layoutedNodes);
@@ -185,7 +429,6 @@ function ModuleToolInner() {
     toast.success("已完成自动排版");
   }, [nodes, edges, setNodes, fitView]);
 
-  // 导出
   const handleExport = () => {
     downloadJson(
       {
@@ -209,7 +452,6 @@ function ModuleToolInner() {
     toast.success("线索数据导出成功");
   };
 
-  // 导入
   const handleImport = async () => {
     const input = document.createElement("input");
     input.type = "file";
@@ -221,13 +463,9 @@ function ModuleToolInner() {
         const data = await importFromJson(file);
         if (data.modules?.[0]) {
           const mod = data.modules[0];
-          setClueData(mod);
-          setNodes(mod.nodes.map((n) => ({ ...n, type: n.type || "clueNode" })));
-          setEdges(mod.edges.map((edge) => ({
-            ...edge,
-            type: "animated",
-            markerEnd: { type: MarkerType.ArrowClosed, width: 16, height: 16, color: "var(--primary)" },
-          })));
+          store.setClueData(mod);
+          setNodes(buildInitialNodes(mod));
+          setEdges(buildInitialEdges(mod));
           toast.success("线索数据导入成功");
         } else {
           toast.error("未找到线索数据");
@@ -239,9 +477,8 @@ function ModuleToolInner() {
     input.click();
   };
 
-  // 重置
   const handleReset = () => {
-    resetAll();
+    store.resetAll();
     setNodes((nds) =>
       nds.map((n) => ({
         ...n,
@@ -257,6 +494,41 @@ function ModuleToolInner() {
     toast.success("已重置所有状态");
   };
 
+  const handleNewModule = () => {
+    const name = prompt("请输入新模组名称：");
+    if (!name?.trim()) return;
+    const newData = store.createNewModule(name.trim());
+    setNodes(buildInitialNodes(newData));
+    setEdges(buildInitialEdges(newData));
+    setMode("edit");
+    toast.success(`已创建新模组「${name.trim()}」`);
+  };
+
+  const handleModeToggle = () => {
+    setMode((prev) => (prev === "view" ? "edit" : "view"));
+  };
+
+  // 将 handleAddNodeNear 传递给节点（通过 data）
+  const nodesWithEditCallbacks = useMemo(() =>
+    isEditMode
+      ? nodes.map((n) => ({
+          ...n,
+          data: {
+            ...n.data,
+            isEditMode: true,
+            onAddNode: handleAddNodeNear,
+          },
+        }))
+      : nodes.map((n) => ({
+          ...n,
+          data: {
+            ...n.data,
+            isEditMode: false,
+          },
+        })),
+    [nodes, isEditMode, handleAddNodeNear]
+  );
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -266,19 +538,45 @@ function ModuleToolInner() {
       {/* 工具栏 */}
       <div className="flex flex-wrap items-center gap-2">
         <h2 className="text-xl font-bold">{clueData.moduleName}</h2>
-        <Badge variant="secondary">
-          线索 {discoveredCount}/{nodes.length}
-        </Badge>
-        <Badge variant="outline">
-          关系 {triggeredCount}/{edges.length}
-        </Badge>
+        {!isEditMode && (
+          <>
+            <Badge variant="secondary">
+              线索 {discoveredCount}/{nodes.length}
+            </Badge>
+            <Badge variant="outline">
+              关系 {triggeredCount}/{edges.length}
+            </Badge>
+          </>
+        )}
+        {isEditMode && (
+          <Badge variant="default" className="bg-amber-600">
+            编辑模式
+          </Badge>
+        )}
         <div className="flex-1" />
+
+        <Button variant="outline" size="sm" onClick={handleNewModule}>
+          <FilePlus className="mr-1 h-4 w-4" /> 新建模组
+        </Button>
+        <Button
+          variant={isEditMode ? "default" : "outline"}
+          size="sm"
+          onClick={handleModeToggle}
+        >
+          {isEditMode ? (
+            <><Eye className="mr-1 h-4 w-4" /> 展示模式</>
+          ) : (
+            <><Pencil className="mr-1 h-4 w-4" /> 编辑模式</>
+          )}
+        </Button>
         <Button variant="outline" size="sm" onClick={handleAutoLayout}>
           <LayoutGrid className="mr-1 h-4 w-4" /> 一键排版
         </Button>
-        <Button variant="outline" size="sm" onClick={handleReset}>
-          <RotateCcw className="mr-1 h-4 w-4" /> 重置
-        </Button>
+        {!isEditMode && (
+          <Button variant="outline" size="sm" onClick={handleReset}>
+            <RotateCcw className="mr-1 h-4 w-4" /> 重置
+          </Button>
+        )}
         <Button variant="outline" size="sm" onClick={handleExport}>
           <Download className="mr-1 h-4 w-4" /> 导出
         </Button>
@@ -288,20 +586,40 @@ function ModuleToolInner() {
       </div>
 
       <p className="text-sm text-muted-foreground">
-        点击<strong>关系标签</strong>（边上的文字）触发发现，自动标记两端线索。点击未发现的<strong>节点</strong>可直接发现（需说明原因）。
+        {isEditMode ? (
+          <>
+            <strong>编辑模式</strong>：点击节点旁「+」添加线索，从Handle拖拽连线，双击编辑节点/边，Delete键删除。
+          </>
+        ) : (
+          <>
+            点击<strong>关系标签</strong>（边上的文字）触发发现，自动标记两端线索。点击未发现的<strong>节点</strong>可直接发现（需说明原因）。双击有图片的节点可放大查看。
+          </>
+        )}
       </p>
 
       {/* DAG 图 */}
       <div className="h-[calc(100vh-240px)] min-h-[400px] overflow-hidden rounded-lg border bg-card dag-container">
         <ReactFlow
-          nodes={nodes}
+          nodes={nodesWithEditCallbacks}
           edges={edges}
           nodeTypes={nodeTypes}
           edgeTypes={edgeTypes}
           onNodesChange={onNodesChange}
           onEdgesChange={onEdgesChange}
           onEdgeClick={handleEdgeClick}
-          onNodeClick={handleNodeClick}
+          onNodeClick={isEditMode ? undefined : handleNodeClick}
+          onNodeDoubleClick={handleNodeDoubleClick}
+          onEdgeDoubleClick={handleEdgeDoubleClick}
+          onConnect={isEditMode ? handleConnect : undefined}
+          onNodesDelete={isEditMode ? handleNodesDelete : undefined}
+          onEdgesDelete={isEditMode ? handleEdgesDelete : undefined}
+          connectionMode={isEditMode ? ConnectionMode.Loose : ConnectionMode.Strict}
+          deleteKeyCode={isEditMode ? ["Backspace", "Delete"] : null}
+          connectionLineStyle={{
+            stroke: "var(--primary)",
+            strokeWidth: 2,
+            strokeDasharray: "5 5",
+          }}
           fitView
           minZoom={0.3}
           maxZoom={2}
@@ -316,14 +634,37 @@ function ModuleToolInner() {
         </ReactFlow>
       </div>
 
-      {/* 直接发现弹窗 */}
+      {/* 展示模式：直接发现弹窗 */}
       <DirectDiscoverDialog
         open={discoverDialog.open}
-        onOpenChange={(open) =>
-          setDiscoverDialog((prev) => ({ ...prev, open }))
-        }
+        onOpenChange={(open) => setDiscoverDialog((prev) => ({ ...prev, open }))}
         nodeLabel={discoverDialog.nodeLabel}
         onConfirm={handleDirectDiscover}
+      />
+
+      {/* 编辑模式：节点编辑弹窗 */}
+      <NodeEditDialog
+        open={nodeEditDialog.open}
+        onOpenChange={(open) => setNodeEditDialog((prev) => ({ ...prev, open }))}
+        mode={nodeEditDialog.mode}
+        initialData={nodeEditDialog.initialData}
+        onConfirm={handleNodeEditConfirm}
+      />
+
+      {/* 编辑模式：边编辑弹窗 */}
+      <EdgeEditDialog
+        open={edgeEditDialog.open}
+        onOpenChange={(open) => setEdgeEditDialog((prev) => ({ ...prev, open }))}
+        initialAction={edgeEditDialog.initialAction}
+        onConfirm={handleEdgeEditConfirm}
+      />
+
+      {/* 图片预览弹窗 */}
+      <ImagePreviewDialog
+        open={imagePreview.open}
+        onOpenChange={(open) => setImagePreview((prev) => ({ ...prev, open }))}
+        imageUrl={imagePreview.imageUrl}
+        nodeLabel={imagePreview.nodeLabel}
       />
     </motion.div>
   );

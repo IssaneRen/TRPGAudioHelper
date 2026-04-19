@@ -1,11 +1,12 @@
 import { Outlet, NavLink, useLocation } from "react-router";
 import { motion, AnimatePresence } from "framer-motion";
-import { User, Map, BookOpen } from "lucide-react";
+import { User, Map, Music, BookOpen } from "lucide-react";
 import { ModeToggle } from "@/components/mode-toggle";
 
 const tabs = [
   { to: "/", label: "个人介绍", end: true, icon: User },
   { to: "/module-tool", label: "模组工具", end: false, icon: Map },
+  { to: "/soundboard", label: "音效键盘", end: false, icon: Music },
   { to: "/blog", label: "博客杂谈", end: false, icon: BookOpen },
 ];
 

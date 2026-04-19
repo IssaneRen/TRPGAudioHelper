@@ -274,3 +274,147 @@ body::after {
 .blog-card:hover::after {
   transform: scaleX(1);
 }
+
+/* === 3D 键盘样式 === */
+.keyboard-3d-container {
+  perspective: 1000px;
+  perspective-origin: 50% 60%;
+  padding: 1rem;
+}
+
+.keyboard-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  transform-style: preserve-3d;
+  transform: rotateX(12deg);
+  transition: transform 0.3s ease;
+}
+
+.keyboard-body:hover {
+  transform: rotateX(8deg);
+}
+
+.keyboard-row {
+  display: flex;
+  gap: 6px;
+}
+
+.keyboard-special-row {
+  gap: 12px;
+  margin-top: 4px;
+}
+
+/* 普通按键 */
+.key-3d {
+  height: 48px;
+  border-bottom-width: 3px;
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+.key-normal {
+  width: 48px;
+}
+
+.key-space {
+  width: 220px;
+}
+
+.key-enter {
+  width: 110px;
+}
+
+/* 有音效的按键 - 深海绿主题 */
+.key-bound {
+  background: linear-gradient(180deg,
+    oklch(0.40 0.08 160 / 80%) 0%,
+    oklch(0.32 0.07 160 / 90%) 100%
+  );
+  color: oklch(0.95 0.01 85);
+  box-shadow:
+    0 4px 8px oklch(0 0 0 / 20%),
+    0 0 8px oklch(0.55 0.12 160 / 20%),
+    inset 0 1px 2px oklch(1 0 0 / 15%);
+}
+
+.dark .key-bound {
+  background: linear-gradient(180deg,
+    oklch(0.22 0.04 160 / 90%) 0%,
+    oklch(0.16 0.03 160 / 95%) 100%
+  );
+  box-shadow:
+    0 4px 8px oklch(0 0 0 / 30%),
+    0 0 12px oklch(0.55 0.12 160 / 15%),
+    inset 0 1px 2px oklch(1 0 0 / 8%);
+}
+
+/* 无音效的按键 - 置灰 */
+.key-unbound {
+  background: linear-gradient(180deg,
+    oklch(0.88 0.01 80 / 80%) 0%,
+    oklch(0.82 0.01 80 / 90%) 100%
+  );
+  color: oklch(0.50 0.02 300);
+  box-shadow: 0 3px 6px oklch(0 0 0 / 10%);
+}
+
+.dark .key-unbound {
+  background: linear-gradient(180deg,
+    oklch(0.22 0.02 280 / 80%) 0%,
+    oklch(0.16 0.02 280 / 90%) 100%
+  );
+  color: oklch(0.50 0.03 85);
+  box-shadow: 0 3px 6px oklch(0 0 0 / 20%);
+}
+
+/* Enter 特殊样式 */
+.key-enter-special {
+  background: linear-gradient(180deg,
+    oklch(0.45 0.15 25 / 80%) 0%,
+    oklch(0.38 0.13 25 / 90%) 100%
+  );
+  color: oklch(0.95 0.01 85);
+  box-shadow:
+    0 4px 8px oklch(0 0 0 / 20%),
+    0 0 8px oklch(0.50 0.20 25 / 20%);
+}
+
+.dark .key-enter-special {
+  background: linear-gradient(180deg,
+    oklch(0.30 0.12 25 / 90%) 0%,
+    oklch(0.22 0.10 25 / 95%) 100%
+  );
+}
+
+/* 响应式 */
+@media (max-width: 768px) {
+  .key-3d { height: 40px; }
+  .key-normal { width: 36px; }
+  .key-space { width: 180px; }
+  .key-enter { width: 90px; }
+  .key-label { font-size: 10px; }
+  .keyboard-row { gap: 4px; }
+  .keyboard-3d-container { perspective: 800px; }
+}
+
+@media (max-width: 480px) {
+  .key-3d { height: 34px; }
+  .key-normal { width: 28px; }
+  .key-space { width: 140px; }
+  .key-enter { width: 70px; }
+  .key-label { font-size: 8px; }
+  .keyboard-row { gap: 3px; }
+  .keyboard-body { transform: rotateX(8deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .keyboard-body {
+    transform: none !important;
+    transition: none !important;
+  }
+  .key-3d {
+    transition: none !important;
+  }
+}

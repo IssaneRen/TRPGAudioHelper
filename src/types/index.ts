@@ -31,6 +31,8 @@ export interface ClueNodeData {
   /** 直接发现时的补充说明 */
   directDiscoveryNote?: string;
   category: string;
+  /** 节点关联的图片（base64 data URL） */
+  imageData?: string;
   [key: string]: unknown;
 }
 

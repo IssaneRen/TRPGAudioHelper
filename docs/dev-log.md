@@ -67,3 +67,21 @@ Agent 角色：`团队负责人` / `实习生` / `技术专家` / `git-reviewer`
 | — | 团队负责人 | master | **修复专家A反馈**: 新增getDownstreamHidden(展开时按hidden属性恢复)、边发现自动取消隐藏节点 | ClueNode.tsx, ModuleToolTab/index.tsx |
 | — | 团队负责人 | master | **修复专家B反馈**: profile-hero改用background多层叠加、联系卡片加flex-wrap、标题text-3xl→sm:text-5xl→md:text-6xl、min-h-[50vh] sm:min-h-[70vh]、useReducedMotion全局动效降级、移除冗余font-heading内联 | index.css, ProfileTab/index.tsx |
 | — | 团队负责人 | master | **Live2D背景层**: 创建Live2DBackground组件(pixi.js v7 + pixi-live2d-display/cubism4)，lazy加载集成到ProfileTab Hero区域，支持resize自适应、hit交互、shouldReduceMotion降级 | src/pages/ProfileTab/Live2DBackground.tsx, src/pages/ProfileTab/index.tsx |
+| — | 团队负责人 | master | **修复Live2D不显示**: (1)CDN模型改为本地托管(public/live2d/Hiyori/) (2)app.destroy(true)→false防止React canvas被移除 (3)移除cleanup中delete window.PIXI (4)Cubism Core改同步加载 | Live2DBackground.tsx, ProfileTab/index.tsx, index.html, public/live2d/** |
+
+### 2026-04-19
+
+| 时间 | Agent | 分支 | 内容 | 涉及文件 |
+|------|-------|------|------|----------|
+| — | 用户 | master | **v1.2需求**: (1)TAB2自定义模组线索图创建 (2)新TAB3音效键盘(原TAB3→TAB4) | user_request.md |
+| — | 实习生 x5 | master | 并行调研：(1)React Flow编辑API (2)图片节点+拖拽连线 (3)3D键盘UI方案 (4)Web Audio API (5)免费音效资源 | — |
+| — | 技术专家 x2 | master | 评审实施计划（专家A: 65分不通过，专家B: 65分不通过）。关键反馈：合成音效不满足喜剧控场、base64导出降级、nanoid不必要、创建模式切换逻辑不清晰 | — |
+| — | 团队负责人 | master | 整合专家反馈修正方案，直接进入实施（修正点明确，不再第2轮评审） | docs/reports/2026-04-19-v1.2-implementation-plan.md |
+| — | 团队负责人 | master | **CP-1**: 路由+导航更新 — App.tsx新增/soundboard路由、TabLayout增加音效键盘Tab(4Tab)、SoundboardTab骨架页面 | App.tsx, TabLayout.tsx, SoundboardTab/index.tsx |
+| — | 团队负责人 | master | **CP-2**: 类型+Store扩展 — ClueNodeData添加imageData、Zod schema同步、use-clue-store新增CRUD方法(createNewModule/addNode/addEdge/updateNode/updateEdge/deleteNode/deleteEdge) | types/index.ts, json-io.ts, use-clue-store.ts |
+| — | 团队负责人 | master | **CP-3**: TAB2创建模式 — NodeEditDialog(新增/编辑节点)、EdgeEditDialog(编辑边)、ImagePreviewDialog(图片预览)、image-compress.ts(WebP压缩600px)、ModuleToolTab重写(view/edit模式切换、onConnect拖拽连线、双击编辑、Delete删除、新建模组) | ModuleToolTab/*, image-compress.ts |
+| — | 团队负责人 | master | **CP-4**: TAB2图片功能 — ClueNode添加图片缩略图+加载失败降级、展示模式双击图片放大预览 | ClueNode.tsx |
+| — | 团队负责人 | master | **CP-5+6+7**: TAB3音效键盘 — Keyboard3D(CSS 3D Transform)、Key3D(按键组件)、keyboard-layout.ts(QWERTY布局)、use-audio-manager.ts(AudioContext+合成音效)、use-keyboard-listener.ts(26字母+空格+回车)、use-soundboard-store.ts(localStorage映射+导入导出)、SoundSettings(侧栏面板)、index.css(3D键盘响应式样式) | SoundboardTab/*, hooks/*, stores/*, index.css |
+| — | 技术专家 | master | 代码审查(88分通过): P0反馈-handleEdgeClick依赖优化+nodesWithEditCallbacks用useMemo; P1反馈-图片上传加大小限制+localStorage溢出捕获 | — |
+| — | 团队负责人 | master | **修复专家反馈**: handleEdgeClick/handleNodeClick改用getNodes/getEdges、nodesWithEditCallbacks包裹useMemo、图片上传10MB限制、localStorage try-catch、图片onError降级 | ModuleToolTab/index.tsx, image-compress.ts, use-clue-store.ts, ClueNode.tsx |
+| — | 团队负责人 | master | 文档更新：user_request.md(v1.2需求)、dev-log.md、business.md、tech-decisions.md | docs/* |

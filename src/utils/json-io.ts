@@ -29,6 +29,7 @@ const ClueNodeDataSchema = z.object({
   discovered: z.boolean(),
   directDiscoveryNote: z.string().optional(),
   category: z.string(),
+  imageData: z.string().optional(),
 }).passthrough();
 
 const ClueNodeSchema = z.object({

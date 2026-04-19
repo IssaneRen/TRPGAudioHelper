@@ -6,6 +6,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 const ProfileTab = lazy(() => import("@/pages/ProfileTab"));
 const ModuleToolTab = lazy(() => import("@/pages/ModuleToolTab"));
+const SoundboardTab = lazy(() => import("@/pages/SoundboardTab"));
 const BlogTab = lazy(() => import("@/pages/BlogTab"));
 const NotFound = lazy(() => import("@/pages/NotFound"));
 
@@ -32,6 +33,7 @@ export default function App() {
           <Route element={<TabLayout />}>
             <Route index element={<ProfileTab />} />
             <Route path="module-tool" element={<ModuleToolTab />} />
+            <Route path="soundboard" element={<SoundboardTab />} />
             <Route path="blog" element={<BlogTab />} />
           </Route>
           <Route path="*" element={<NotFound />} />

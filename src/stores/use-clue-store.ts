@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react";
-import type { ModuleClueData } from "@/types";
+import type { ModuleClueData, ClueNode, ClueEdge } from "@/types";
 
 const STORAGE_KEY = "trpg-clue-data";
 const DATA_VERSION = "1.1"; // 递增以强制刷新旧 localStorage 数据
@@ -60,8 +60,12 @@ function loadClueData(): ModuleClueData {
 }
 
 function saveClueData(data: ModuleClueData) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-  localStorage.setItem(STORAGE_KEY + "-version", DATA_VERSION);
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    localStorage.setItem(STORAGE_KEY + "-version", DATA_VERSION);
+  } catch {
+    console.warn("localStorage 存储失败，可能超出容量限制");
+  }
 }
 
 export function useClueStore() {
@@ -170,5 +174,99 @@ export function useClueStore() {
     });
   }, []);
 
-  return { clueData, setClueData, triggerEdge, directDiscoverNode, cancelDirectDiscovery, resetAll };
+  /** 创建新的空白模组 */
+  const createNewModule = useCallback((moduleName: string) => {
+    const newData: ModuleClueData = {
+      moduleId: crypto.randomUUID(),
+      moduleName,
+      nodes: [
+        {
+          id: "start",
+          type: "clueNode",
+          position: { x: 300, y: 50 },
+          data: { label: "模组开始", description: "线索图的起点", discovered: false, category: "core" },
+        },
+      ],
+      edges: [],
+    };
+    setClueDataState(newData);
+    saveClueData(newData);
+    return newData;
+  }, []);
+
+  /** 添加节点 */
+  const addNode = useCallback((node: ClueNode) => {
+    setClueDataState((prev) => {
+      const next = { ...prev, nodes: [...prev.nodes, node] };
+      saveClueData(next);
+      return next;
+    });
+  }, []);
+
+  /** 添加边 */
+  const addEdge = useCallback((edge: ClueEdge) => {
+    setClueDataState((prev) => {
+      const next = { ...prev, edges: [...prev.edges, edge] };
+      saveClueData(next);
+      return next;
+    });
+  }, []);
+
+  /** 更新节点数据 */
+  const updateNode = useCallback((nodeId: string, data: Partial<ClueNode["data"]>) => {
+    setClueDataState((prev) => {
+      const next = {
+        ...prev,
+        nodes: prev.nodes.map((n) =>
+          n.id === nodeId ? { ...n, data: { ...n.data, ...data } } : n
+        ),
+      };
+      saveClueData(next);
+      return next;
+    });
+  }, []);
+
+  /** 更新边数据 */
+  const updateEdge = useCallback((edgeId: string, data: Partial<ClueEdge["data"]>) => {
+    setClueDataState((prev) => {
+      const next = {
+        ...prev,
+        edges: prev.edges.map((e) =>
+          e.id === edgeId ? { ...e, data: { ...e.data, ...data } } : e
+        ),
+      };
+      saveClueData(next);
+      return next;
+    });
+  }, []);
+
+  /** 删除节点及其关联的边 */
+  const deleteNode = useCallback((nodeId: string) => {
+    setClueDataState((prev) => {
+      const next = {
+        ...prev,
+        nodes: prev.nodes.filter((n) => n.id !== nodeId),
+        edges: prev.edges.filter((e) => e.source !== nodeId && e.target !== nodeId),
+      };
+      saveClueData(next);
+      return next;
+    });
+  }, []);
+
+  /** 删除边 */
+  const deleteEdge = useCallback((edgeId: string) => {
+    setClueDataState((prev) => {
+      const next = {
+        ...prev,
+        edges: prev.edges.filter((e) => e.id !== edgeId),
+      };
+      saveClueData(next);
+      return next;
+    });
+  }, []);
+
+  return {
+    clueData, setClueData, triggerEdge, directDiscoverNode, cancelDirectDiscovery, resetAll,
+    createNewModule, addNode, addEdge, updateNode, updateEdge, deleteNode, deleteEdge,
+  };
 }
