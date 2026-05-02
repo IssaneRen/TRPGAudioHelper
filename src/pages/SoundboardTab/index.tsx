@@ -1,18 +1,25 @@
 import { useState, useCallback, useEffect, useMemo, useRef } from "react";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { Settings, Volume2, FolderOpen, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { useAudioManager } from "@/hooks/use-audio-manager";
 import { useKeyboardListener } from "@/hooks/use-keyboard-listener";
 import { useSoundboardStore } from "@/stores/use-soundboard-store";
-import { ALL_KEYS, type KeyCode } from "./keyboard-layout";
+import { ALL_KEYS, KEY_LABELS, SOUND_LABELS, type KeyCode } from "./keyboard-layout";
 import { synthesizeBuffer, SOUND_SYNTH_MAP } from "./sound-synthesis";
 import { Keyboard3D } from "./Keyboard3D";
 import { SoundSettings } from "./SoundSettings";
 
 /** 分批大小 */
 const BATCH_SIZE = 5;
+
+interface ActivePlayback {
+  id: string;
+  key: string;
+  label: string;
+  duration: number;
+}
 
 export default function SoundboardTab() {
   const audioManager = useAudioManager();
@@ -21,8 +28,29 @@ export default function SoundboardTab() {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [defaultsLoaded, setDefaultsLoaded] = useState(false);
   const [loadProgress, setLoadProgress] = useState({ loaded: 0, total: 0 });
+  const [activePlaybacks, setActivePlaybacks] = useState<ActivePlayback[]>([]);
   const [importing, setImporting] = useState(false);
   const packInputRef = useRef<HTMLInputElement>(null);
+  const mountedRef = useRef(true);
+  const playbackTimersRef = useRef<Map<string, number>>(new Map());
+  const keyReleaseTimersRef = useRef<Set<number>>(new Set());
+
+  useEffect(() => {
+    mountedRef.current = true;
+    const playbackTimers = playbackTimersRef.current;
+    const keyReleaseTimers = keyReleaseTimersRef.current;
+    return () => {
+      mountedRef.current = false;
+      for (const timerId of playbackTimers.values()) {
+        window.clearTimeout(timerId);
+      }
+      playbackTimers.clear();
+      for (const timerId of keyReleaseTimers.values()) {
+        window.clearTimeout(timerId);
+      }
+      keyReleaseTimers.clear();
+    };
+  }, []);
 
   // 计算哪些按键有绑定音效
   const boundKeys = useMemo(() => {
@@ -93,6 +121,31 @@ export default function SoundboardTab() {
     };
   }, [audioManager, boundKeys, defaultsLoaded, soundStore.packMeta]);
 
+  const removePlayback = useCallback((playbackId: string) => {
+    if (!mountedRef.current) return;
+    const timerId = playbackTimersRef.current.get(playbackId);
+    if (timerId !== undefined) {
+      window.clearTimeout(timerId);
+      playbackTimersRef.current.delete(playbackId);
+    }
+    setActivePlaybacks((prev) => prev.filter((playback) => playback.id !== playbackId));
+  }, []);
+
+  const getPlaybackLabel = useCallback((key: KeyCode) => {
+    if (boundKeys.has(key)) {
+      const packLabel = soundStore.packLabels[key];
+      if (packLabel) return `${packLabel.emoji} ${packLabel.label}`;
+
+      const mapping = soundStore.getMapping(key);
+      if (mapping?.fileName) return mapping.fileName;
+    }
+
+    const soundLabel = SOUND_LABELS[key];
+    if (soundLabel) return `${soundLabel.emoji} ${soundLabel.label}`;
+
+    return KEY_LABELS[key] || key.toUpperCase();
+  }, [boundKeys, soundStore]);
+
   // 按键回调
   const handleKeyDown = useCallback(
     (key: KeyCode) => {
@@ -100,18 +153,39 @@ export default function SoundboardTab() {
 
       if (key === "Enter") {
         audioManager.stopAll();
+        for (const timerId of playbackTimersRef.current.values()) {
+          window.clearTimeout(timerId);
+        }
+        playbackTimersRef.current.clear();
+        setActivePlaybacks([]);
         toast("已停止所有音效", { duration: 1000 });
         return;
       }
 
       // 优先播放用户绑定的音效，否则播放默认音效
-      if (boundKeys.has(key)) {
-        audioManager.play(key);
-      } else {
-        audioManager.play(`default-${key}`);
+      const playback = audioManager.play(
+        boundKeys.has(key) ? key : `default-${key}`,
+        { onEnded: removePlayback }
+      );
+
+      if (playback) {
+        const fallbackTimer = window.setTimeout(
+          () => removePlayback(playback.id),
+          Math.max(playback.duration * 1000 + 250, 500)
+        );
+        playbackTimersRef.current.set(playback.id, fallbackTimer);
+        setActivePlaybacks((prev) => [
+          ...prev,
+          {
+            id: playback.id,
+            key,
+            label: getPlaybackLabel(key),
+            duration: playback.duration,
+          },
+        ]);
       }
     },
-    [audioManager, boundKeys]
+    [audioManager, boundKeys, getPlaybackLabel, removePlayback]
   );
 
   const handleKeyUp = useCallback((key: KeyCode) => {
@@ -134,7 +208,11 @@ export default function SoundboardTab() {
     (key: KeyCode) => {
       handleKeyDown(key);
       // 模拟按键释放
-      setTimeout(() => handleKeyUp(key), 150);
+      const timerId = window.setTimeout(() => {
+        keyReleaseTimersRef.current.delete(timerId);
+        handleKeyUp(key);
+      }, 150);
+      keyReleaseTimersRef.current.add(timerId);
     },
     [handleKeyDown, handleKeyUp]
   );
@@ -309,6 +387,7 @@ export default function SoundboardTab() {
             </span>
           </div>
         )}
+        <PlaybackProgressList playbacks={activePlaybacks} onPlaybackComplete={removePlayback} />
       </div>
 
       {/* 3D 键盘 */}
@@ -338,5 +417,46 @@ export default function SoundboardTab() {
         onImport={handleImport}
       />
     </motion.div>
+  );
+}
+
+function PlaybackProgressList({
+  playbacks,
+  onPlaybackComplete,
+}: {
+  playbacks: ActivePlayback[];
+  onPlaybackComplete: (playbackId: string) => void;
+}) {
+  return (
+    <div className="pointer-events-none fixed left-4 right-4 top-24 z-40 mx-auto flex max-w-sm flex-col gap-2 overflow-x-clip sm:left-auto sm:right-6 sm:mx-0 sm:w-80">
+      <AnimatePresence initial={false}>
+        {playbacks.map((playback) => (
+          <motion.div
+            key={playback.id}
+            initial={{ opacity: 0, x: 18, scale: 0.98 }}
+            animate={{ opacity: 1, x: 0, scale: 1 }}
+            exit={{ opacity: 0, x: 28, scale: 0.96 }}
+            transition={{ duration: 0.18, ease: "easeOut" }}
+            className="overflow-hidden rounded-md border bg-background/80 shadow-sm"
+          >
+            <div className="flex items-center justify-between gap-3 px-3 py-2 text-xs">
+              <span className="min-w-0 truncate font-medium">{playback.label}</span>
+              <span className="shrink-0 tabular-nums text-muted-foreground">
+                {playback.duration.toFixed(1)}s
+              </span>
+            </div>
+            <div className="h-1.5 bg-muted">
+              <motion.div
+                className="h-full bg-primary"
+                initial={{ width: "0%" }}
+                animate={{ width: "100%" }}
+                transition={{ duration: playback.duration, ease: "linear" }}
+                onAnimationComplete={() => onPlaybackComplete(playback.id)}
+              />
+            </div>
+          </motion.div>
+        ))}
+      </AnimatePresence>
+    </div>
   );
 }

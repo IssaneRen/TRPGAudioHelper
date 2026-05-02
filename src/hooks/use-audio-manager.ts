@@ -25,7 +25,7 @@ export interface AudioManager {
   /** 直接存储 AudioBuffer 到缓存（跳过编解码，用于合成音效） */
   preloadBuffer: (key: string, buffer: AudioBuffer) => void;
   /** 播放指定按键的音效 */
-  play: (key: string) => void;
+  play: (key: string, options?: PlayOptions) => AudioPlayback | null;
   /** 停止所有正在播放的音效 */
   stopAll: () => void;
   /** 移除某个按键的音频缓存 */
@@ -34,9 +34,21 @@ export interface AudioManager {
   clearAll: () => void;
 }
 
+export interface PlayOptions {
+  onEnded?: (playbackId: string) => void;
+}
+
+export interface AudioPlayback {
+  id: string;
+  key: string;
+  startedAt: number;
+  duration: number;
+}
+
 export function useAudioManager(): AudioManager {
   const bufferCache = useRef<Map<string, AudioBuffer>>(new Map());
   const activeSources = useRef<AudioBufferSourceNode[]>([]);
+  const playbackCounter = useRef(0);
 
   const preload = useCallback(async (key: string, audioData: string) => {
     const ctx = await ensureResumed();
@@ -65,24 +77,32 @@ export function useAudioManager(): AudioManager {
     bufferCache.current.set(key, buffer);
   }, []);
 
-  const play = useCallback((key: string) => {
+  const play = useCallback((key: string, options?: PlayOptions): AudioPlayback | null => {
     const ctx = getAudioContext();
     if (ctx.state === "suspended") {
       ctx.resume();
     }
 
     const buffer = bufferCache.current.get(key);
-    if (!buffer) return;
+    if (!buffer) return null;
 
     const source = ctx.createBufferSource();
     source.buffer = buffer;
     source.connect(ctx.destination);
+    const playback: AudioPlayback = {
+      id: `${key}-${Date.now()}-${playbackCounter.current++}`,
+      key,
+      startedAt: ctx.currentTime,
+      duration: buffer.duration,
+    };
     source.start(0);
 
     activeSources.current.push(source);
     source.onended = () => {
       activeSources.current = activeSources.current.filter((s) => s !== source);
+      options?.onEnded?.(playback.id);
     };
+    return playback;
   }, []);
 
   const stopAll = useCallback(() => {
