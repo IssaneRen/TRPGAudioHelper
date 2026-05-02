@@ -163,9 +163,10 @@ export default function SoundboardTab() {
       }
 
       // 优先播放用户绑定的音效，否则播放默认音效
+      const mapping = boundKeys.has(key) ? soundStore.getMapping(key) : undefined;
       const playback = audioManager.play(
-        boundKeys.has(key) ? key : `default-${key}`,
-        { onEnded: removePlayback }
+        mapping ? key : `default-${key}`,
+        { onEnded: removePlayback, volume: mapping?.volume ?? 1 }
       );
 
       if (playback) {
@@ -185,7 +186,7 @@ export default function SoundboardTab() {
         ]);
       }
     },
-    [audioManager, boundKeys, getPlaybackLabel, removePlayback]
+    [audioManager, boundKeys, getPlaybackLabel, removePlayback, soundStore]
   );
 
   const handleKeyUp = useCallback((key: KeyCode) => {

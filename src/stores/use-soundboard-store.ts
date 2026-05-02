@@ -14,12 +14,14 @@ export interface SoundMapping {
   /** Base64 data URL or public URL. Persist large data in IndexedDB, not localStorage. */
   audioData?: string;
   fileName: string;
+  volume?: number;
 }
 
 interface StoredSoundMapping {
   key: KeyCode;
   fileName: string;
   audioData?: string;
+  volume?: number;
 }
 
 export interface PackManifest {
@@ -31,6 +33,7 @@ export interface PackManifest {
     emoji: string;
     label: string;
     file: string;
+    volume?: number;
   }>;
 }
 
@@ -138,6 +141,7 @@ function loadMappings(): SoundMapping[] {
         key: m.key,
         fileName: m.fileName || m.key,
         audioData: m.audioData,
+        volume: normalizeVolume(m.volume),
       }));
   } catch {
     return [];
@@ -148,8 +152,13 @@ function saveMappings(mappings: SoundMapping[]) {
   const metadata: StoredSoundMapping[] = mappings.map((m) => ({
     key: m.key,
     fileName: m.fileName,
+    volume: normalizeVolume(m.volume),
   }));
   localStorage.setItem(STORAGE_KEY, JSON.stringify(metadata));
+}
+
+function normalizeVolume(volume: unknown): number {
+  return typeof volume === "number" && Number.isFinite(volume) && volume >= 0 ? volume : 1;
 }
 
 function loadPackMeta(): PackMeta | null {
@@ -217,11 +226,11 @@ export function useSoundboardStore() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const setMapping = useCallback((key: KeyCode, audioData: string, fileName: string) => {
+  const setMapping = useCallback((key: KeyCode, audioData: string, fileName: string, volume = 1) => {
     void saveAudioData(key, audioData);
     setMappingsState((prev) => {
       const next = prev.filter((m) => m.key !== key);
-      next.push({ key, audioData, fileName });
+      next.push({ key, audioData, fileName, volume: normalizeVolume(volume) });
       saveMappings(next);
       return next;
     });
@@ -265,6 +274,7 @@ export function useSoundboardStore() {
       key: m.key,
       fileName: m.fileName,
       audioData: m.audioData ?? "",
+      volume: normalizeVolume(m.volume),
     }));
     return JSON.stringify({ version: "1.0", mappings: config }, null, 2);
   }, [mappings]);
@@ -272,7 +282,7 @@ export function useSoundboardStore() {
   const importConfig = useCallback(async (jsonStr: string) => {
     try {
       const data = JSON.parse(jsonStr) as {
-        mappings?: Array<{ key: string; audioData?: string; fileName?: string }>;
+        mappings?: Array<{ key: string; audioData?: string; fileName?: string; volume?: number }>;
       };
       if (!data.mappings || !Array.isArray(data.mappings)) {
         throw new Error("无效的配置格式");
@@ -284,6 +294,7 @@ export function useSoundboardStore() {
           key: m.key as KeyCode,
           audioData: m.audioData,
           fileName: m.fileName || m.key,
+          volume: normalizeVolume(m.volume),
         }));
 
       await Promise.all(
@@ -338,7 +349,12 @@ export function useSoundboardStore() {
       }
 
       const audioData = await readFileAsDataUrl(audioFile);
-      const mapping: SoundMapping = { key: key as KeyCode, audioData, fileName: def.file };
+      const mapping: SoundMapping = {
+        key: key as KeyCode,
+        audioData,
+        fileName: def.file,
+        volume: normalizeVolume(def.volume),
+      };
       newMappings.push(mapping);
       newLabels[key] = { emoji: def.emoji, label: def.label };
     }

@@ -36,6 +36,7 @@ export interface AudioManager {
 
 export interface PlayOptions {
   onEnded?: (playbackId: string) => void;
+  volume?: number;
 }
 
 export interface AudioPlayback {
@@ -87,8 +88,11 @@ export function useAudioManager(): AudioManager {
     if (!buffer) return null;
 
     const source = ctx.createBufferSource();
+    const gain = ctx.createGain();
+    gain.gain.value = Math.max(0, options?.volume ?? 1);
     source.buffer = buffer;
-    source.connect(ctx.destination);
+    source.connect(gain);
+    gain.connect(ctx.destination);
     const playback: AudioPlayback = {
       id: `${key}-${Date.now()}-${playbackCounter.current++}`,
       key,
