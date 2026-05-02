@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:platform.deepseek.com)",
+      "WebFetch(domain:help.aliyun.com)",
+      "WebFetch(domain:open.bigmodel.cn)",
+      "WebFetch(domain:platform.moonshot.cn)",
+      "WebFetch(domain:platform.minimaxi.com)",
+      "WebFetch(domain:openai.com)",
+      "WebFetch(domain:docs.anthropic.com)",
+      "WebFetch(domain:ai.google.dev)",
+      "WebFetch(domain:docs.mistral.ai)",
+      "WebFetch(domain:groq.com)",
+      "WebFetch(domain:openrouter.ai)",
+      "WebFetch(domain:api-docs.deepseek.com)",
+      "WebFetch(domain:platform.kimi.com)",
+      "WebFetch(domain:docs.bigmodel.cn)",
+      "WebFetch(domain:bigmodel.cn)",
+      "WebFetch(domain:platform.baichuan-ai.com)",
+      "WebFetch(domain:together.ai)",
+      "WebFetch(domain:platform.openai.com)",
+      "WebFetch(domain:fireworks.ai)"
+    ]
+  }
+}

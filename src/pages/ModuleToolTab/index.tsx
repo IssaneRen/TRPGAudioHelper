@@ -16,10 +16,10 @@ import {
   ConnectionMode,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   RotateCcw, Download, Upload, LayoutGrid,
-  Pencil, Eye, FilePlus,
+  Pencil, Eye, FilePlus, ChevronUp, ChevronDown,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -33,6 +33,7 @@ import { DirectDiscoverDialog } from "./DirectDiscoverDialog";
 import { NodeEditDialog } from "./NodeEditDialog";
 import { EdgeEditDialog } from "./EdgeEditDialog";
 import { ImagePreviewDialog } from "./ImagePreviewDialog";
+import { TaskFlowSection } from "./TaskFlowSection";
 
 const nodeTypes = { clueNode: ClueNodeType };
 const edgeTypes = { animated: AnimatedEdge };
@@ -508,6 +509,9 @@ function ModuleToolInner() {
     setMode((prev) => (prev === "view" ? "edit" : "view"));
   };
 
+  // 线索区域折叠状态
+  const [clueExpanded, setClueExpanded] = useState(true);
+
   // 将 handleAddNodeNear 传递给节点（通过 data）
   const nodesWithEditCallbacks = useMemo(() =>
     isEditMode
@@ -535,9 +539,15 @@ function ModuleToolInner() {
       animate={{ opacity: 1 }}
       className="flex flex-col gap-4"
     >
-      {/* 工具栏 */}
-      <div className="flex flex-wrap items-center gap-2">
-        <h2 className="text-xl font-bold">{clueData.moduleName}</h2>
+      {/* 线索区域标题栏（可折叠） */}
+      <div
+        className="flex flex-wrap items-center gap-2 cursor-pointer select-none"
+        onClick={() => setClueExpanded((v) => !v)}
+      >
+        <div className="flex items-center gap-2">
+          {clueExpanded ? <ChevronUp className="h-4 w-4 text-muted-foreground" /> : <ChevronDown className="h-4 w-4 text-muted-foreground" />}
+          <h2 className="text-xl font-bold">{clueData.moduleName}</h2>
+        </div>
         {!isEditMode && (
           <>
             <Badge variant="secondary">
@@ -555,13 +565,13 @@ function ModuleToolInner() {
         )}
         <div className="flex-1" />
 
-        <Button variant="outline" size="sm" onClick={handleNewModule}>
+        <Button variant="outline" size="sm" onClick={(e) => { e.stopPropagation(); handleNewModule(); }}>
           <FilePlus className="mr-1 h-4 w-4" /> 新建模组
         </Button>
         <Button
           variant={isEditMode ? "default" : "outline"}
           size="sm"
-          onClick={handleModeToggle}
+          onClick={(e) => { e.stopPropagation(); handleModeToggle(); }}
         >
           {isEditMode ? (
             <><Eye className="mr-1 h-4 w-4" /> 展示模式</>
@@ -569,21 +579,32 @@ function ModuleToolInner() {
             <><Pencil className="mr-1 h-4 w-4" /> 编辑模式</>
           )}
         </Button>
-        <Button variant="outline" size="sm" onClick={handleAutoLayout}>
+        <Button variant="outline" size="sm" onClick={(e) => { e.stopPropagation(); handleAutoLayout(); }}>
           <LayoutGrid className="mr-1 h-4 w-4" /> 一键排版
         </Button>
         {!isEditMode && (
-          <Button variant="outline" size="sm" onClick={handleReset}>
+          <Button variant="outline" size="sm" onClick={(e) => { e.stopPropagation(); handleReset(); }}>
             <RotateCcw className="mr-1 h-4 w-4" /> 重置
           </Button>
         )}
-        <Button variant="outline" size="sm" onClick={handleExport}>
+        <Button variant="outline" size="sm" onClick={(e) => { e.stopPropagation(); handleExport(); }}>
           <Download className="mr-1 h-4 w-4" /> 导出
         </Button>
-        <Button variant="outline" size="sm" onClick={handleImport}>
+        <Button variant="outline" size="sm" onClick={(e) => { e.stopPropagation(); handleImport(); }}>
           <Upload className="mr-1 h-4 w-4" /> 导入
         </Button>
       </div>
+
+      <AnimatePresence initial={false}>
+      {clueExpanded && (
+      <motion.div
+        key="clue-content"
+        initial={{ height: 0, opacity: 0 }}
+        animate={{ height: "auto", opacity: 1 }}
+        exit={{ height: 0, opacity: 0 }}
+        transition={{ duration: 0.3, ease: "easeInOut" }}
+        className="overflow-hidden"
+      >
 
       <p className="text-sm text-muted-foreground">
         {isEditMode ? (
@@ -633,6 +654,18 @@ function ModuleToolInner() {
           <MiniMap nodeStrokeWidth={2} className="!bg-background !border-border" />
         </ReactFlow>
       </div>
+
+      </motion.div>
+      )}
+      </AnimatePresence>
+
+      {/* ===== 分割线 ===== */}
+      <div className="relative py-2">
+        <div className="absolute inset-x-0 top-1/2 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
+      </div>
+
+      {/* ===== 任务关系网 ===== */}
+      <TaskFlowSection />
 
       {/* 展示模式：直接发现弹窗 */}
       <DirectDiscoverDialog

@@ -2,7 +2,7 @@ import { memo } from "react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { Volume2 } from "lucide-react";
-import { KEY_LABELS } from "./keyboard-layout";
+import { KEY_LABELS, SOUND_LABELS } from "./keyboard-layout";
 
 interface Key3DProps {
   keyCode: string;
@@ -15,11 +15,12 @@ function Key3DComponent({ keyCode, isPressed, hasBoundSound, onClick }: Key3DPro
   const label = KEY_LABELS[keyCode] || keyCode.toUpperCase();
   const isSpace = keyCode === "Space";
   const isEnter = keyCode === "Enter";
+  const soundLabel = SOUND_LABELS[keyCode];
 
   return (
     <motion.button
       className={cn(
-        "key-3d relative inline-flex items-center justify-center rounded-lg border font-bold select-none",
+        "key-3d relative inline-flex flex-col items-center justify-center rounded-lg border font-bold select-none",
         "transition-colors duration-150",
         isSpace && "key-space",
         isEnter && "key-enter",
@@ -42,13 +43,34 @@ function Key3DComponent({ keyCode, isPressed, hasBoundSound, onClick }: Key3DPro
       onClick={onClick}
       aria-label={`Key ${label}`}
     >
-      <span className="key-label text-xs sm:text-sm">{label}</span>
+      {/* 左上角字母 */}
+      <span className="absolute top-1 left-1.5 text-[10px] sm:text-xs opacity-60 font-normal">
+        {label}
+      </span>
+
+      {/* 右上角音效图标 (非 Enter) */}
       {hasBoundSound && !isEnter && (
         <Volume2 className="absolute -top-1 -right-1 h-3 w-3 text-primary opacity-70" />
       )}
+
+      {/* Enter 右上角 STOP 标签 */}
       {isEnter && (
         <span className="absolute -top-1.5 -right-1.5 text-[10px] leading-none px-1 py-0.5 rounded bg-red-500/80 text-white font-normal">
           STOP
+        </span>
+      )}
+
+      {/* 中央 emoji */}
+      {soundLabel && (
+        <span className="text-base sm:text-lg leading-none mb-0.5">
+          {soundLabel.emoji}
+        </span>
+      )}
+
+      {/* 底部中文标签 */}
+      {soundLabel && (
+        <span className="text-[8px] sm:text-[10px] opacity-80 leading-none font-normal">
+          {soundLabel.label}
         </span>
       )}
     </motion.button>

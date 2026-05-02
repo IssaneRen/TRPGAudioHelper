@@ -66,6 +66,41 @@ export interface ClueEdge {
   data: ClueEdgeData;
 }
 
+// === TAB2: Task Network Types ===
+
+export type TaskStatus = "pending" | "in_progress" | "completed" | "failed";
+export type TaskPriority = "low" | "medium" | "high";
+
+export interface TaskNodeData {
+  label: string;
+  description: string;
+  status: TaskStatus;
+  priority: TaskPriority;
+  assignee?: string;
+  [key: string]: unknown;
+}
+
+export interface TaskNode {
+  id: string;
+  type: string;
+  position: { x: number; y: number };
+  data: TaskNodeData;
+}
+
+export interface TaskEdge {
+  id: string;
+  source: string;
+  target: string;
+  label?: string;
+  data?: { label?: string; [key: string]: unknown };
+}
+
+export interface ModuleTaskData {
+  moduleId: string;
+  nodes: TaskNode[];
+  edges: TaskEdge[];
+}
+
 // === TAB3: Blog Types ===
 
 export interface BlogPost {
