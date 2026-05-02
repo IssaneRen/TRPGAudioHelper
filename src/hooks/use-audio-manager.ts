@@ -1,4 +1,4 @@
-import { useRef, useCallback, useEffect } from "react";
+import { useRef, useCallback, useEffect, useMemo } from "react";
 
 /** 全局 AudioContext 单例 */
 let globalContext: AudioContext | null = null;
@@ -22,6 +22,8 @@ async function ensureResumed() {
 export interface AudioManager {
   /** 预加载音频（base64或URL） */
   preload: (key: string, audioData: string) => Promise<void>;
+  /** 直接存储 AudioBuffer 到缓存（跳过编解码，用于合成音效） */
+  preloadBuffer: (key: string, buffer: AudioBuffer) => void;
   /** 播放指定按键的音效 */
   play: (key: string) => void;
   /** 停止所有正在播放的音效 */
@@ -57,6 +59,10 @@ export function useAudioManager(): AudioManager {
 
     const audioBuffer = await ctx.decodeAudioData(arrayBuffer);
     bufferCache.current.set(key, audioBuffer);
+  }, []);
+
+  const preloadBuffer = useCallback((key: string, buffer: AudioBuffer) => {
+    bufferCache.current.set(key, buffer);
   }, []);
 
   const play = useCallback((key: string) => {
@@ -105,7 +111,10 @@ export function useAudioManager(): AudioManager {
     };
   }, [stopAll]);
 
-  return { preload, play, stopAll, remove, clearAll };
+  return useMemo(
+    () => ({ preload, preloadBuffer, play, stopAll, remove, clearAll }),
+    [preload, preloadBuffer, play, stopAll, remove, clearAll]
+  );
 }
 
 /** 生成简单的合成音效作为默认音效 */

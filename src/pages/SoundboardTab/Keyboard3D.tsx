@@ -1,14 +1,16 @@
 import { motion } from "framer-motion";
 import { KEYBOARD_ROWS, SPECIAL_KEYS, type KeyCode } from "./keyboard-layout";
 import { Key3D } from "./Key3D";
+import type { PackLabels } from "@/stores/use-soundboard-store";
 
 interface Keyboard3DProps {
   pressedKeys: Set<KeyCode>;
   boundKeys: Set<KeyCode>;
   onKeyClick: (key: KeyCode) => void;
+  packLabels?: PackLabels;
 }
 
-export function Keyboard3D({ pressedKeys, boundKeys, onKeyClick }: Keyboard3DProps) {
+export function Keyboard3D({ pressedKeys, boundKeys, onKeyClick, packLabels }: Keyboard3DProps) {
   return (
     <motion.div
       className="keyboard-3d-container"
@@ -31,6 +33,7 @@ export function Keyboard3D({ pressedKeys, boundKeys, onKeyClick }: Keyboard3DPro
                 isPressed={pressedKeys.has(key)}
                 hasBoundSound={boundKeys.has(key)}
                 onClick={() => onKeyClick(key)}
+                packLabel={packLabels?.[key]}
               />
             ))}
           </div>
@@ -45,6 +48,7 @@ export function Keyboard3D({ pressedKeys, boundKeys, onKeyClick }: Keyboard3DPro
               isPressed={pressedKeys.has(key)}
               hasBoundSound={key !== "Enter" && boundKeys.has(key)}
               onClick={() => onKeyClick(key)}
+              packLabel={packLabels?.[key]}
             />
           ))}
         </div>

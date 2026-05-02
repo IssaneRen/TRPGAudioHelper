@@ -49,7 +49,7 @@ const synthCreakingDoor: SynthFn = (ctx) => {
 
 /** 脚步声：低频冲击 + 高通 */
 const synthFootsteps: SynthFn = (ctx) => {
-  const dur = 0.6;
+  // 总时长 0.6s（由 SOUND_SYNTH_MAP 管理）
   // 两步
   for (const t of [0, 0.3]) {
     const noise = createNoiseSource(ctx, 0.15);
@@ -80,7 +80,6 @@ const synthFootsteps: SynthFn = (ctx) => {
     osc.start(t);
     osc.stop(t + 0.15);
   }
-  void dur;
 };
 
 /** 风声：brown噪声 + 低通 + 慢LFO调制 */
@@ -220,7 +219,7 @@ const synthGlassBreak: SynthFn = (ctx) => {
 
 /** 心跳声 */
 const synthHeartbeat: SynthFn = (ctx) => {
-  const dur = 1.0;
+  // 总时长 1.0s（由 SOUND_SYNTH_MAP 管理）
   for (const t of [0, 0.15, 0.5, 0.65]) {
     const osc = ctx.createOscillator();
     osc.type = "sine";
@@ -233,7 +232,6 @@ const synthHeartbeat: SynthFn = (ctx) => {
     osc.start(t);
     osc.stop(t + 0.15);
   }
-  void dur;
 };
 
 /** 低语声：多个柔和正弦波叠加 */
@@ -263,7 +261,7 @@ const synthWhisper: SynthFn = (ctx) => {
 
 /** 钥匙声：金属碰撞 */
 const synthKeys: SynthFn = (ctx) => {
-  const dur = 0.5;
+  // 总时长 0.5s（由 SOUND_SYNTH_MAP 管理）
   for (const [t, freq] of [[0, 3200], [0.1, 4100], [0.2, 3600]] as [number, number][]) {
     const osc = ctx.createOscillator();
     osc.type = "sine";
@@ -275,7 +273,6 @@ const synthKeys: SynthFn = (ctx) => {
     osc.start(t);
     osc.stop(t + 0.2);
   }
-  void dur;
 };
 
 /** 开锁声：咔嗒机械声 */
@@ -498,7 +495,7 @@ const synthShield: SynthFn = (ctx) => {
 
 /** 治疗声：柔和上升音阶 */
 const synthHeal: SynthFn = (ctx) => {
-  const dur = 1.0;
+  // 总时长 1.0s（由 SOUND_SYNTH_MAP 管理）
   const notes = [523, 659, 784, 1047]; // C5-E5-G5-C6
   notes.forEach((freq, i) => {
     const t = i * 0.15;
@@ -513,14 +510,13 @@ const synthHeal: SynthFn = (ctx) => {
     osc.start(t);
     osc.stop(t + 0.6);
   });
-  void dur;
 };
 
 // ===== 情境特殊音 =====
 
 /** 时钟滴答 */
 const synthClock: SynthFn = (ctx) => {
-  const dur = 1.0;
+  // 总时长 1.0s（由 SOUND_SYNTH_MAP 管理）
   for (const t of [0, 0.5]) {
     const osc = ctx.createOscillator();
     osc.type = "sine";
@@ -532,7 +528,6 @@ const synthClock: SynthFn = (ctx) => {
     osc.start(t);
     osc.stop(t + 0.08);
   }
-  void dur;
 };
 
 /** 水滴声 */
@@ -575,7 +570,7 @@ const synthWolfHowl: SynthFn = (ctx) => {
 
 /** 铁链声：金属碰撞序列 */
 const synthChains: SynthFn = (ctx) => {
-  const dur = 0.8;
+  // 总时长 0.8s（由 SOUND_SYNTH_MAP 管理）
   for (let i = 0; i < 5; i++) {
     const t = i * 0.12;
     const noise = createNoiseSource(ctx, 0.08);
@@ -590,12 +585,11 @@ const synthChains: SynthFn = (ctx) => {
     noise.start(t);
     noise.stop(t + 0.08);
   }
-  void dur;
 };
 
 /** 乌鸦叫声 */
 const synthCrow: SynthFn = (ctx) => {
-  const dur = 0.8;
+  // 总时长 0.8s（由 SOUND_SYNTH_MAP 管理）
   for (const [t, fStart, fEnd] of [[0, 600, 900], [0.25, 650, 850], [0.5, 580, 920]] as [number, number, number][]) {
     const osc = ctx.createOscillator();
     osc.type = "sawtooth";
@@ -613,12 +607,11 @@ const synthCrow: SynthFn = (ctx) => {
     osc.start(t);
     osc.stop(t + 0.2);
   }
-  void dur;
 };
 
 /** 回响声：延迟反馈 */
 const synthEcho: SynthFn = (ctx) => {
-  const dur = 1.5;
+  // 总时长 1.5s（由 SOUND_SYNTH_MAP 管理）
   const freqs = [440, 554, 659];
   for (let rep = 0; rep < 4; rep++) {
     const t = rep * 0.25;
@@ -636,7 +629,6 @@ const synthEcho: SynthFn = (ctx) => {
       osc.stop(t + 0.35);
     }
   }
-  void dur;
 };
 
 /** 掌声 */
@@ -710,7 +702,20 @@ export const SOUND_SYNTH_MAP: Record<string, SoundDef> = {
   Space: { synth: synthApplause, duration: 2.0 },    // 掌声
 };
 
-/** 合成指定按键的音效，返回 WAV data URL */
+/** 合成指定按键的音效，直接返回 AudioBuffer（跳过 WAV 编码，性能更优） */
+export async function synthesizeBuffer(key: string): Promise<AudioBuffer> {
+  const def = SOUND_SYNTH_MAP[key];
+  if (!def) throw new Error(`No synth defined for key: ${key}`);
+
+  const sampleRate = 44100;
+  const ctx = new OfflineAudioContext(1, Math.ceil(sampleRate * def.duration), sampleRate);
+
+  def.synth(ctx);
+
+  return ctx.startRendering();
+}
+
+/** 合成指定按键的音效，返回 WAV data URL（用于导出场景） */
 export async function synthesizeSound(key: string): Promise<string> {
   const def = SOUND_SYNTH_MAP[key];
   if (!def) throw new Error(`No synth defined for key: ${key}`);

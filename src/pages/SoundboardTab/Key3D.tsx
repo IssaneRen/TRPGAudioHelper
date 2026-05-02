@@ -9,13 +9,16 @@ interface Key3DProps {
   isPressed: boolean;
   hasBoundSound: boolean;
   onClick: () => void;
+  /** 音效包覆盖的标签 */
+  packLabel?: { emoji: string; label: string };
 }
 
-function Key3DComponent({ keyCode, isPressed, hasBoundSound, onClick }: Key3DProps) {
+function Key3DComponent({ keyCode, isPressed, hasBoundSound, onClick, packLabel }: Key3DProps) {
   const label = KEY_LABELS[keyCode] || keyCode.toUpperCase();
   const isSpace = keyCode === "Space";
   const isEnter = keyCode === "Enter";
-  const soundLabel = SOUND_LABELS[keyCode];
+  // 优先使用音效包标签，其次使用默认标签
+  const soundLabel = packLabel || SOUND_LABELS[keyCode];
 
   return (
     <motion.button
@@ -81,6 +84,8 @@ export const Key3D = memo(Key3DComponent, (prev, next) => {
   return (
     prev.isPressed === next.isPressed &&
     prev.hasBoundSound === next.hasBoundSound &&
-    prev.keyCode === next.keyCode
+    prev.keyCode === next.keyCode &&
+    prev.packLabel?.emoji === next.packLabel?.emoji &&
+    prev.packLabel?.label === next.packLabel?.label
   );
 });

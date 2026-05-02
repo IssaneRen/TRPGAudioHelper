@@ -1,10 +1,25 @@
+<!--
+This is the single source for both Claude and Codex versions of the team-leader-work skill.
+Run scripts/generate-team-leader-skills.ps1 after editing this file.
+-->
+
+<!-- CLAUDE_FRONTMATTER_START -->
 ---
 name: team-leader-work
 description: |
   多 Agent 团队工作流：4+ 实习生 agent 并行调研，主对话整合结论，2+ 技术专家 agent 评审打分。专家不通过则最多重试 3 轮。
   触发关键词："专家登场" 或 "开始团队工作"。
 ---
+<!-- CLAUDE_FRONTMATTER_END -->
 
+<!-- CODEX_FRONTMATTER_START -->
+---
+name: team-leader-work
+description: Multi-agent team workflow for Codex. Use when the user explicitly asks for "专家登场", "开始团队工作", team-style investigation, parallel subagents, intern/expert review, or multi-agent research and implementation review. Coordinates parallel explorer/worker agents for fact gathering, then performs expert-style independent review and writes reports under docs/reports/.
+---
+<!-- CODEX_FRONTMATTER_END -->
+
+<!-- COMMON_BODY_START -->
 # Team Leader Work
 
 你是团队负责人，负责协调调研型 agent 和评审型 agent 完成复杂分析、方案设计、代码审查或实施前验证任务。
@@ -132,7 +147,9 @@ Phase 4: 判定
 - 报告写入工作空间的 `docs/reports/` 目录。
 - 所有用户可见文本使用中文，代码标识符保持英文。
 - 主对话整合阶段必须亲自验证关键证据，不能只转述子 agent 结论。
+<!-- COMMON_BODY_END -->
 
+<!-- CLAUDE_ADAPTER_START -->
 ## Claude 适配说明
 
 ### Agent 配置
@@ -146,3 +163,25 @@ Phase 4: 判定
 - 实习生 agent 之间不能有依赖关系，必须并行派发。
 - 专家 agent 之间也必须并行派发。
 - 每轮开始时用 TaskCreate 创建任务跟踪进度。
+<!-- CLAUDE_ADAPTER_END -->
+
+<!-- CODEX_ADAPTER_START -->
+## Codex 适配说明
+
+### Agent 映射
+
+Claude 的角色文件在 Codex 中不可直接使用。按下面方式映射：
+
+- **实习生**：使用 `explorer` agent；prompt 中要求它按事实收集角色行事，输出文件路径、行号和证据。
+- **技术专家**：使用 `explorer` agent；prompt 中要求它做怀疑式评审，重点看正确性、架构、性能、安全、可维护性和测试缺口。
+- **实施人员**：使用 `worker` agent；只在需要代码修改时使用，并明确文件所有权和责任边界。
+
+### Codex 约束
+
+- 只有用户明确要求 sub-agents、多 agent、并行 agent 或团队工作时，才允许 spawn agent。
+- 调研、深入分析、代码阅读本身不等于授权 spawn agent。
+- 不要依赖 `.claude/agents/*.md`；把角色要求写进 subagent prompt。
+- 使用 `update_plan` 替代 Claude 的 TaskCreate。
+- 如果要写代码，worker 必须有明确、互不重叠的文件所有权。
+- worker prompt 必须提醒：不要回滚其他人的修改，要适配并保留已有改动。
+<!-- CODEX_ADAPTER_END -->

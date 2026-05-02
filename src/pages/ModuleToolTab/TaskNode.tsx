@@ -1,7 +1,9 @@
 import { memo } from "react";
-import { Handle, Position, type NodeProps } from "@xyflow/react";
+import { Handle, Position, type NodeProps, type Node } from "@xyflow/react";
 import { cn } from "@/lib/utils";
-import type { TaskStatus, TaskPriority } from "@/types";
+import type { TaskStatus, TaskPriority, TaskNodeData } from "@/types";
+
+type TaskFlowNode = Node<TaskNodeData, "taskNode">;
 
 const statusConfig: Record<TaskStatus, { bg: string; border: string; text: string; label: string }> = {
   pending: { bg: "bg-muted/60", border: "border-border/50", text: "text-muted-foreground", label: "待办" },
@@ -16,9 +18,9 @@ const priorityDot: Record<TaskPriority, string> = {
   high: "bg-red-500",
 };
 
-function TaskNodeComponent({ data }: NodeProps) {
-  const status = (data.status as TaskStatus) || "pending";
-  const priority = (data.priority as TaskPriority) || "medium";
+function TaskNodeComponent({ data }: NodeProps<TaskFlowNode>) {
+  const status = data.status || "pending";
+  const priority = data.priority || "medium";
   const config = statusConfig[status];
 
   return (
@@ -33,12 +35,12 @@ function TaskNodeComponent({ data }: NodeProps) {
 
       <div className="flex items-center gap-1.5 mb-1">
         <span className={cn("w-2 h-2 rounded-full shrink-0", priorityDot[priority])} />
-        <span className="text-xs font-semibold truncate">{data.label as string}</span>
+        <span className="text-xs font-semibold truncate">{data.label}</span>
       </div>
 
       {data.description ? (
         <p className="text-[10px] text-muted-foreground leading-tight line-clamp-2 mb-1">
-          {data.description as string}
+          {data.description}
         </p>
       ) : null}
 
@@ -48,7 +50,7 @@ function TaskNodeComponent({ data }: NodeProps) {
         </span>
         {data.assignee ? (
           <span className="text-[10px] text-muted-foreground truncate max-w-[60px]">
-            {data.assignee as string}
+            {data.assignee}
           </span>
         ) : null}
       </div>

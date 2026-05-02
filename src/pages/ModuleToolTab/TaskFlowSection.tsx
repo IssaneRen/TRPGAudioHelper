@@ -1,4 +1,4 @@
-import { useCallback, useState, useMemo } from "react";
+import { useCallback, useState, useMemo, useEffect } from "react";
 import {
   ReactFlow,
   Background,
@@ -8,6 +8,7 @@ import {
   type Node,
   type Edge,
   type Connection,
+  type NodeChange,
   MarkerType,
 } from "@xyflow/react";
 import { motion } from "framer-motion";
@@ -51,9 +52,25 @@ function buildEdges(store: ReturnType<typeof useTaskStore>): Edge[] {
 
 export function TaskFlowSection() {
   const store = useTaskStore();
-  const [nodes, setNodes, onNodesChange] = useNodesState(buildNodes(store));
+  const [nodes, setNodes, onNodesChangeBase] = useNodesState(buildNodes(store));
   const [edges, setEdges, onEdgesChange] = useEdgesState(buildEdges(store));
   const [editMode, setEditMode] = useState(false);
+
+  // store 数据变化时同步到 ReactFlow
+  useEffect(() => {
+    setNodes(buildNodes(store));
+    setEdges(buildEdges(store));
+  }, [store.taskData, setNodes, setEdges]);
+
+  // 包装 onNodesChange：拖拽结束时同步 position 到 store
+  const onNodesChange = useCallback((changes: NodeChange[]) => {
+    onNodesChangeBase(changes);
+    for (const change of changes) {
+      if (change.type === "position" && change.position && change.dragging === false) {
+        store.updateNodePosition(change.id, change.position);
+      }
+    }
+  }, [onNodesChangeBase, store]);
 
   const statusCounts = useMemo(() => {
     const counts: Record<TaskStatus, number> = { pending: 0, in_progress: 0, completed: 0, failed: 0 };
@@ -126,19 +143,17 @@ export function TaskFlowSection() {
 
   // 删除节点
   const handleNodesDelete = useCallback((deleted: Node[]) => {
-    if (!editMode) return;
     for (const node of deleted) {
       store.deleteNode(node.id);
     }
     toast.success(`已删除 ${deleted.length} 个任务`);
-  }, [editMode, store]);
+  }, [store]);
 
   const handleEdgesDelete = useCallback((deleted: Edge[]) => {
-    if (!editMode) return;
     for (const edge of deleted) {
       store.deleteEdge(edge.id);
     }
-  }, [editMode, store]);
+  }, [store]);
 
   return (
     <motion.div

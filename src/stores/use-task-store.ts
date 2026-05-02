@@ -1,7 +1,41 @@
-import { useState, useCallback } from "react";
+import { useSyncExternalStore } from "react";
+import { z } from "zod/v4";
 import type { ModuleTaskData, TaskNode, TaskEdge } from "@/types";
 
 const STORAGE_KEY = "trpg-task-data";
+
+// ─── Zod Schemas ───
+
+const TaskNodeDataSchema = z.object({
+  label: z.string(),
+  description: z.string(),
+  status: z.enum(["pending", "in_progress", "completed", "failed"]),
+  priority: z.enum(["low", "medium", "high"]),
+  assignee: z.string().optional(),
+});
+
+const TaskNodeSchema = z.object({
+  id: z.string(),
+  type: z.string(),
+  position: z.object({ x: z.number(), y: z.number() }),
+  data: TaskNodeDataSchema,
+});
+
+const TaskEdgeSchema = z.object({
+  id: z.string(),
+  source: z.string(),
+  target: z.string(),
+  label: z.string().optional(),
+  data: z.object({ label: z.string().optional() }).passthrough().optional(),
+});
+
+const ModuleTaskDataSchema = z.object({
+  moduleId: z.string(),
+  nodes: z.array(TaskNodeSchema),
+  edges: z.array(TaskEdgeSchema),
+});
+
+// ─── Demo Data ───
 
 const demoData: ModuleTaskData = {
   moduleId: "demo",
@@ -21,14 +55,22 @@ const demoData: ModuleTaskData = {
   ],
 };
 
+// ─── Singleton Store ───
+
+type Listener = () => void;
+
 function loadFromStorage(): ModuleTaskData {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (raw) {
       const parsed = JSON.parse(raw);
-      if (parsed.nodes && parsed.edges) return parsed;
+      const result = ModuleTaskDataSchema.safeParse(parsed);
+      if (result.success) return result.data as ModuleTaskData;
+      console.warn("[TaskStore] localStorage 数据校验失败，使用默认数据:", result.error);
     }
-  } catch { /* ignore */ }
+  } catch (err) {
+    console.warn("[TaskStore] localStorage 读取失败:", err);
+  }
   return demoData;
 }
 
@@ -40,74 +82,95 @@ function saveToStorage(data: ModuleTaskData) {
   }
 }
 
-export function useTaskStore() {
-  const [taskData, setTaskData] = useState<ModuleTaskData>(loadFromStorage);
+function createTaskStore() {
+  let state: ModuleTaskData = loadFromStorage();
+  const listeners = new Set<Listener>();
 
-  const persist = useCallback((data: ModuleTaskData) => {
-    setTaskData(data);
-    saveToStorage(data);
-  }, []);
+  function emit() {
+    for (const listener of listeners) {
+      listener();
+    }
+  }
 
-  const addNode = useCallback((node: TaskNode) => {
-    setTaskData((prev) => {
-      const next = { ...prev, nodes: [...prev.nodes, node] };
-      saveToStorage(next);
-      return next;
-    });
-  }, []);
+  function setState(next: ModuleTaskData) {
+    state = next;
+    saveToStorage(next);
+    emit();
+  }
 
-  const updateNode = useCallback((id: string, data: Partial<TaskNode["data"]>) => {
-    setTaskData((prev) => {
-      const next = {
-        ...prev,
-        nodes: prev.nodes.map((n) =>
+  return {
+    subscribe(listener: Listener) {
+      listeners.add(listener);
+      return () => {
+        listeners.delete(listener);
+      };
+    },
+
+    getSnapshot(): ModuleTaskData {
+      return state;
+    },
+
+    addNode(node: TaskNode) {
+      setState({ ...state, nodes: [...state.nodes, node] });
+    },
+
+    updateNode(id: string, data: Partial<TaskNode["data"]>) {
+      setState({
+        ...state,
+        nodes: state.nodes.map((n) =>
           n.id === id ? { ...n, data: { ...n.data, ...data } } : n
         ),
-      };
-      saveToStorage(next);
-      return next;
-    });
-  }, []);
+      });
+    },
 
-  const deleteNode = useCallback((id: string) => {
-    setTaskData((prev) => {
-      const next = {
-        ...prev,
-        nodes: prev.nodes.filter((n) => n.id !== id),
-        edges: prev.edges.filter((e) => e.source !== id && e.target !== id),
-      };
-      saveToStorage(next);
-      return next;
-    });
-  }, []);
+    updateNodePosition(id: string, position: { x: number; y: number }) {
+      setState({
+        ...state,
+        nodes: state.nodes.map((n) =>
+          n.id === id ? { ...n, position } : n
+        ),
+      });
+    },
 
-  const addEdge = useCallback((edge: TaskEdge) => {
-    setTaskData((prev) => {
-      const next = { ...prev, edges: [...prev.edges, edge] };
-      saveToStorage(next);
-      return next;
-    });
-  }, []);
+    deleteNode(id: string) {
+      setState({
+        ...state,
+        nodes: state.nodes.filter((n) => n.id !== id),
+        edges: state.edges.filter((e) => e.source !== id && e.target !== id),
+      });
+    },
 
-  const deleteEdge = useCallback((id: string) => {
-    setTaskData((prev) => {
-      const next = { ...prev, edges: prev.edges.filter((e) => e.id !== id) };
-      saveToStorage(next);
-      return next;
-    });
-  }, []);
+    addEdge(edge: TaskEdge) {
+      setState({ ...state, edges: [...state.edges, edge] });
+    },
 
-  const setTaskData_ = useCallback((data: ModuleTaskData) => {
-    persist(data);
-  }, [persist]);
+    deleteEdge(id: string) {
+      setState({ ...state, edges: state.edges.filter((e) => e.id !== id) });
+    },
+
+    setTaskData(data: ModuleTaskData) {
+      setState(data);
+    },
+  };
+}
+
+// 全局单例
+const taskStore = createTaskStore();
+
+export function useTaskStore() {
+  const taskData = useSyncExternalStore(
+    taskStore.subscribe,
+    taskStore.getSnapshot,
+  );
 
   return {
     taskData,
-    addNode,
-    updateNode,
-    deleteNode,
-    addEdge,
-    deleteEdge,
-    setTaskData: setTaskData_,
+    addNode: taskStore.addNode,
+    updateNode: taskStore.updateNode,
+    updateNodePosition: taskStore.updateNodePosition,
+    deleteNode: taskStore.deleteNode,
+    addEdge: taskStore.addEdge,
+    deleteEdge: taskStore.deleteEdge,
+    setTaskData: taskStore.setTaskData,
   };
 }

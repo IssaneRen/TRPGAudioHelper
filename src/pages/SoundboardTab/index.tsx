@@ -1,50 +1,18 @@
-import { useState, useCallback, useEffect, useMemo } from "react";
+import { useState, useCallback, useEffect, useMemo, useRef } from "react";
 import { motion } from "framer-motion";
-import { Settings, Volume2 } from "lucide-react";
+import { Settings, Volume2, FolderOpen, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { useAudioManager, generateDefaultSound } from "@/hooks/use-audio-manager";
+import { useAudioManager } from "@/hooks/use-audio-manager";
 import { useKeyboardListener } from "@/hooks/use-keyboard-listener";
 import { useSoundboardStore } from "@/stores/use-soundboard-store";
 import { ALL_KEYS, type KeyCode } from "./keyboard-layout";
+import { synthesizeBuffer, SOUND_SYNTH_MAP } from "./sound-synthesis";
 import { Keyboard3D } from "./Keyboard3D";
 import { SoundSettings } from "./SoundSettings";
 
-// 默认音效配置：每个字母对应不同的频率和波形
-const DEFAULT_SOUNDS: Record<string, { freq: number; type: OscillatorType; duration: number }> = {
-  // A-G: 鼓点/低音
-  a: { freq: 80, type: "sine", duration: 0.3 },
-  b: { freq: 100, type: "triangle", duration: 0.25 },
-  c: { freq: 120, type: "sine", duration: 0.2 },
-  d: { freq: 150, type: "square", duration: 0.15 },
-  e: { freq: 90, type: "sawtooth", duration: 0.3 },
-  f: { freq: 110, type: "triangle", duration: 0.2 },
-  g: { freq: 130, type: "sine", duration: 0.25 },
-  // H-N: 中音
-  h: { freq: 262, type: "sine", duration: 0.4 },
-  i: { freq: 294, type: "triangle", duration: 0.35 },
-  j: { freq: 330, type: "sine", duration: 0.3 },
-  k: { freq: 349, type: "square", duration: 0.25 },
-  l: { freq: 392, type: "triangle", duration: 0.3 },
-  m: { freq: 440, type: "sine", duration: 0.35 },
-  n: { freq: 494, type: "sawtooth", duration: 0.3 },
-  // O-T: 高音/游戏音效
-  o: { freq: 523, type: "square", duration: 0.2 },
-  p: { freq: 587, type: "sine", duration: 0.25 },
-  q: { freq: 659, type: "triangle", duration: 0.2 },
-  r: { freq: 698, type: "sine", duration: 0.15 },
-  s: { freq: 784, type: "square", duration: 0.2 },
-  t: { freq: 880, type: "triangle", duration: 0.25 },
-  // U-Z: 高频效果音
-  u: { freq: 988, type: "sawtooth", duration: 0.15 },
-  v: { freq: 1047, type: "sine", duration: 0.2 },
-  w: { freq: 1175, type: "triangle", duration: 0.15 },
-  x: { freq: 1319, type: "square", duration: 0.1 },
-  y: { freq: 1397, type: "sine", duration: 0.15 },
-  z: { freq: 1568, type: "sawtooth", duration: 0.1 },
-  // Space: 掌声效果（白噪声模拟）
-  Space: { freq: 200, type: "sawtooth", duration: 0.5 },
-};
+/** 分批大小 */
+const BATCH_SIZE = 5;
 
 export default function SoundboardTab() {
   const audioManager = useAudioManager();
@@ -52,6 +20,9 @@ export default function SoundboardTab() {
   const [pressedKeys, setPressedKeys] = useState<Set<KeyCode>>(new Set());
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [defaultsLoaded, setDefaultsLoaded] = useState(false);
+  const [loadProgress, setLoadProgress] = useState({ loaded: 0, total: 0 });
+  const [importing, setImporting] = useState(false);
+  const packInputRef = useRef<HTMLInputElement>(null);
 
   // 计算哪些按键有绑定音效
   const boundKeys = useMemo(() => {
@@ -66,6 +37,7 @@ export default function SoundboardTab() {
   useEffect(() => {
     const loadUserSounds = async () => {
       for (const mapping of soundStore.mappings) {
+        if (!mapping.audioData) continue;
         try {
           await audioManager.preload(mapping.key, mapping.audioData);
         } catch {
@@ -76,26 +48,50 @@ export default function SoundboardTab() {
     loadUserSounds();
   }, [soundStore.mappings, audioManager]);
 
-  // 生成并加载默认音效（仅对未绑定的按键）
+  // 使用拟真合成音效加载默认音效（分批加载，5个一批）
+  // 如果已导入音效包，跳过合成音效加载
   useEffect(() => {
-    if (defaultsLoaded) return;
+    if (defaultsLoaded || soundStore.packMeta) return;
+    let cancelled = false;
+
     const loadDefaults = async () => {
-      for (const key of ALL_KEYS) {
-        if (key === "Enter") continue;
-        if (boundKeys.has(key)) continue;
-        const config = DEFAULT_SOUNDS[key];
-        if (!config) continue;
-        try {
-          const audioData = await generateDefaultSound(config.freq, config.type, config.duration);
-          await audioManager.preload(`default-${key}`, audioData);
-        } catch {
-          // 忽略单个失败
+      // 收集需要加载的按键
+      const keysToLoad = ALL_KEYS.filter(
+        (key) => key !== "Enter" && !boundKeys.has(key) && SOUND_SYNTH_MAP[key]
+      );
+      const total = keysToLoad.length;
+      setLoadProgress({ loaded: 0, total });
+
+      // 分批加载
+      for (let i = 0; i < keysToLoad.length; i += BATCH_SIZE) {
+        if (cancelled) return;
+        const batch = keysToLoad.slice(i, i + BATCH_SIZE);
+        const results = await Promise.allSettled(
+          batch.map(async (key) => {
+            const buffer = await synthesizeBuffer(key);
+            audioManager.preloadBuffer(`default-${key}`, buffer);
+          })
+        );
+        // 统计成功数
+        const succeeded = results.filter((r) => r.status === "fulfilled").length;
+        if (!cancelled) {
+          setLoadProgress((prev) => ({
+            ...prev,
+            loaded: Math.min(prev.loaded + succeeded, total),
+          }));
         }
       }
-      setDefaultsLoaded(true);
+
+      if (!cancelled) {
+        setDefaultsLoaded(true);
+      }
     };
     loadDefaults();
-  }, [audioManager, boundKeys, defaultsLoaded]);
+
+    return () => {
+      cancelled = true;
+    };
+  }, [audioManager, boundKeys, defaultsLoaded, soundStore.packMeta]);
 
   // 按键回调
   const handleKeyDown = useCallback(
@@ -198,13 +194,39 @@ export default function SoundboardTab() {
       if (!file) return;
       try {
         const text = await file.text();
-        const count = soundStore.importConfig(text);
+        const count = await soundStore.importConfig(text);
         toast.success(`已导入 ${count} 个音效映射`);
       } catch (err) {
         toast.error(err instanceof Error ? err.message : "导入失败");
       }
     };
     input.click();
+  }, [soundStore]);
+
+  // 导入音效包（文件夹）
+  const handleImportPack = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+
+    setImporting(true);
+    try {
+      const result = await soundStore.importPack(files);
+      toast.success(`已导入音效包「${result.name}」(${result.count} 个音效)`);
+      setDefaultsLoaded(true); // 有音效包时跳过合成音效加载
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "导入失败");
+    } finally {
+      setImporting(false);
+      // 重置 input 以允许重复选择同一文件夹
+      if (packInputRef.current) packInputRef.current.value = "";
+    }
+  }, [soundStore]);
+
+  // 清除音效包
+  const handleClearPack = useCallback(() => {
+    soundStore.clearPack();
+    setDefaultsLoaded(false); // 允许重新加载合成音效
+    toast.success("已清除音效包，恢复默认合成音效");
   }, [soundStore]);
 
   return (
@@ -223,19 +245,70 @@ export default function SoundboardTab() {
             按下键盘或点击按键播放音效 · Enter 停止所有
           </p>
         </div>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => setSettingsOpen(true)}
-        >
-          <Settings className="mr-1 h-4 w-4" /> 设置
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => packInputRef.current?.click()}
+            disabled={importing}
+          >
+            <FolderOpen className="mr-1 h-4 w-4" />
+            {importing ? "导入中..." : "导入音效包"}
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setSettingsOpen(true)}
+          >
+            <Settings className="mr-1 h-4 w-4" /> 设置
+          </Button>
+        </div>
       </div>
 
-      {/* 统计信息 */}
-      <div className="flex gap-4 text-sm text-muted-foreground">
-        <span>已绑定: {boundKeys.size} / {ALL_KEYS.length - 1} 个按键</span>
-        <span>默认音效: {ALL_KEYS.length - 1 - boundKeys.size} 个</span>
+      {/* 隐藏的文件夹选择器 */}
+      <input
+        ref={packInputRef}
+        type="file"
+        className="hidden"
+        onChange={handleImportPack}
+        {...{ webkitdirectory: "", directory: "" } as React.InputHTMLAttributes<HTMLInputElement>}
+      />
+
+      {/* 音效包信息 + 统计 */}
+      <div className="flex flex-col items-center gap-1">
+        {soundStore.packMeta && (
+          <div className="flex items-center gap-2 text-sm">
+            <span className="font-medium text-primary">{soundStore.packMeta.name}</span>
+            <span className="text-muted-foreground">({soundStore.packMeta.keyCount} 个音效)</span>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="h-6 px-1.5 text-destructive hover:text-destructive"
+              onClick={handleClearPack}
+            >
+              <Trash2 className="h-3 w-3" />
+            </Button>
+          </div>
+        )}
+        <div className="flex gap-4 text-sm text-muted-foreground">
+          <span>已绑定: {boundKeys.size} / {ALL_KEYS.length - 1} 个按键</span>
+          {!soundStore.packMeta && (
+            <span>默认音效: {ALL_KEYS.length - 1 - boundKeys.size} 个</span>
+          )}
+        </div>
+        {!defaultsLoaded && !soundStore.packMeta && loadProgress.total > 0 && (
+          <div className="flex items-center gap-2 text-xs text-muted-foreground">
+            <div className="h-1.5 w-32 rounded-full bg-muted overflow-hidden">
+              <div
+                className="h-full rounded-full bg-primary/60 transition-all duration-300"
+                style={{ width: `${(loadProgress.loaded / loadProgress.total) * 100}%` }}
+              />
+            </div>
+            <span>
+              加载音效 {loadProgress.loaded}/{loadProgress.total}
+            </span>
+          </div>
+        )}
       </div>
 
       {/* 3D 键盘 */}
@@ -243,12 +316,15 @@ export default function SoundboardTab() {
         pressedKeys={pressedKeys}
         boundKeys={boundKeys}
         onKeyClick={handleKeyClick}
+        packLabels={soundStore.packLabels}
       />
 
       {/* 提示 */}
       <p className="text-xs text-muted-foreground text-center max-w-md px-4">
-        所有按键默认使用合成音效。点击右上角「设置」可为每个按键上传自定义音效。
-        支持 JSON 配置导入导出。
+        {soundStore.packMeta
+          ? "当前使用音效包。点击「导入音效包」切换其他包，或在「设置」中单独替换某个按键。"
+          : "点击「导入音效包」加载音效文件夹（需含 manifest.json）。未绑定的按键使用合成音效。"
+        }
       </p>
 
       {/* 设置面板 */}
