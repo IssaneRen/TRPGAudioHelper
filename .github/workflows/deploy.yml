@@ -66,4 +66,4 @@ jobs:
           port: 22
           script: |
             echo "Deploy done - $(date '+%Y-%m-%d %H:%M:%S')"
-            sudo systemctl reload nginx
+            sudo systemctl reload nginx 2>/dev/null || echo "Nginx not installed yet, skip reload"
