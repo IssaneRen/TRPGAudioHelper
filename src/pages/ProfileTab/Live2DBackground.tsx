@@ -59,13 +59,15 @@ interface Live2DBackgroundProps {
   className?: string;
 }
 
-/** 将模型适配到容器中心 */
+/** 将模型适配到容器中心（contain 模式，取宽高较小比例） */
 function fitModelToContainer(
   model: InstanceType<typeof Live2DModel>,
   width: number,
   height: number,
 ) {
-  const scale = (height / (model.height || 1)) * 0.8;
+  const scaleByHeight = height / (model.height || 1);
+  const scaleByWidth = width / (model.width || 1);
+  const scale = Math.min(scaleByHeight, scaleByWidth) * 0.8;
   model.scale.set(scale, scale);
   model.x = width / 2;
   model.y = height / 2;
@@ -157,10 +159,16 @@ export function Live2DBackground({
 
     window.addEventListener("resize", handleResize);
 
+    const ro = new ResizeObserver(handleResize);
+    if (canvasRef.current?.parentElement) {
+      ro.observe(canvasRef.current.parentElement);
+    }
+
     return () => {
       signal.destroyed = true;
       cancelAnimationFrame(rafRef.current);
       window.removeEventListener("resize", handleResize);
+      ro.disconnect();
 
       if (modelRef.current) {
         modelRef.current.off("hit", hitHandler);
