@@ -296,7 +296,7 @@ export default function ProfileTab() {
                       </div>
                     </CardHeader>
                     <CardContent className="space-y-2">
-                      <p className="line-clamp-2 text-sm text-muted-foreground">
+                      <p className="line-clamp-4 text-sm text-muted-foreground" title={mod.description || ""}>
                         {mod.description || "暂无描述"}
                       </p>
                       <div className="flex flex-wrap gap-1">
@@ -314,6 +314,9 @@ export default function ProfileTab() {
               ))}
             </motion.div>
           )}
+          <p className="text-center text-sm text-muted-foreground/70 mt-8 italic">
+            仅做部分演示，网页建设中，具体模组欢迎咨询~
+          </p>
         </motion.div>
       </section>
 

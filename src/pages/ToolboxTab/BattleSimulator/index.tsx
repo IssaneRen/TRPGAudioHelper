@@ -35,10 +35,20 @@ function saveState(pcs: Character[], enemies: Character[], options: CombatOption
   } catch { /* ignore */ }
 }
 
+function getDefaultPcs(): Character[] {
+  const susan = PRESET_INVESTIGATORS.find((c) => c.name === "苏珊·李");
+  return susan ? [{ ...susan, id: crypto.randomUUID() }] : [];
+}
+
+function getDefaultEnemies(): Character[] {
+  const hound = PRESET_ENEMIES.find((c) => c.name === "廷达洛斯猎犬");
+  return hound ? [{ ...hound, id: crypto.randomUUID() }] : [];
+}
+
 export default function BattleSimulator() {
   const saved = useRef(loadState());
-  const [pcs, setPcs] = useState<Character[]>(saved.current?.pcs || []);
-  const [enemies, setEnemies] = useState<Character[]>(saved.current?.enemies || []);
+  const [pcs, setPcs] = useState<Character[]>(saved.current?.pcs || getDefaultPcs());
+  const [enemies, setEnemies] = useState<Character[]>(saved.current?.enemies || getDefaultEnemies());
   const [options, setOptions] = useState<CombatOptions>(saved.current?.options || DEFAULT_COMBAT_OPTIONS);
   const [simCount, setSimCount] = useState(100);
   const [report, setReport] = useState<SimulationReport | null>(null);

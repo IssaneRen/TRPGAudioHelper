@@ -102,7 +102,7 @@ export function createCharacter(
     hp: maxHp,
     mp: Math.floor(pow / 5),
     db: calculateDamageBonus(str, siz),
-    dodge: Math.floor(dex / 2),
+    dodge: skills["闪避"] !== undefined ? skills["闪避"] : Math.floor(dex / 2),
     skills,
     weapons,
     armor,
