@@ -1,0 +1,87 @@
+# ============================================================
+# 自动部署工作流
+#
+# 触发条件：push 到 master 分支
+# 流程：安装依赖 → 构建 → SSH 上传到服务器
+# ============================================================
+
+name: Deploy to Server
+
+# ┌─────────────────────────────────────────────────────────┐
+# │ 触发条件                                                  │
+# │ 只有 push 到 master 分支才触发，其他分支/PR 不触发           │
+# └─────────────────────────────────────────────────────────┘
+on:
+  push:
+    branches: [master]
+
+# ┌─────────────────────────────────────────────────────────┐
+# │ 任务定义                                                  │
+# └─────────────────────────────────────────────────────────┘
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # ── 步骤 1：拉取代码 ──────────────────────────────────
+      # checkout 当前仓库代码到 runner 的工作目录
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # ── 步骤 2：安装 pnpm ─────────────────────────────────
+      # 必须在 setup-node 之前安装，因为 setup-node 的 cache: pnpm
+      # 需要 pnpm 已存在才能找到 lockfile 路径
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      # ── 步骤 3：安装 Node.js ──────────────────────────────
+      # cache: pnpm 会自动缓存 node_modules，加速后续构建
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      # ── 步骤 4：安装项目依赖 ──────────────────────────────
+      # --frozen-lockfile 确保使用 lockfile 中精确的版本
+      # 如果 lockfile 和 package.json 不同步会直接报错（CI 安全保障）
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # ── 步骤 5：构建项目 ──────────────────────────────────
+      # 产物在 dist/ 目录
+      - name: Build
+        run: pnpm build
+
+      # ── 步骤 6：部署到服务器 ──────────────────────────────
+      # 通过 SSH 将 dist/ 目录内容上传到服务器的网站目录
+      # strip_components: 1 表示去掉 dist/ 这一层目录前缀
+      # 即 dist/index.html → /var/www/trpg-helper/index.html
+      - name: Deploy to server via SCP
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SERVER_PORT || 22 }}
+          source: "dist/*"
+          target: "/var/www/trpg-helper"
+          strip_components: 1
+          overwrite: true
+
+      # ── 步骤 7：清理旧文件并重载 Nginx ─────────────────────
+      # 先删除目标目录中不在新构建中的旧文件
+      # 然后 reload nginx 使配置生效（如果有变更）
+      - name: Clean old files and reload Nginx
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SERVER_PORT || 22 }}
+          script: |
+            cd /var/www/trpg-helper
+            echo "✅ 部署完成 - $(date '+%Y-%m-%d %H:%M:%S')"
+            sudo systemctl reload nginx
