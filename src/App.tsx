@@ -1,12 +1,14 @@
 import { lazy, Suspense } from "react";
-import { Routes, Route } from "react-router";
+import { Routes, Route, Navigate } from "react-router";
 import { Toaster } from "@/components/ui/sonner";
 import TabLayout from "@/components/TabLayout";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const ProfileTab = lazy(() => import("@/pages/ProfileTab"));
+const ToolboxTab = lazy(() => import("@/pages/ToolboxTab"));
 const ModuleToolTab = lazy(() => import("@/pages/ModuleToolTab"));
 const SoundboardTab = lazy(() => import("@/pages/SoundboardTab"));
+const BattlePlaceholder = lazy(() => import("@/pages/ToolboxTab/BattlePlaceholder"));
 const BlogTab = lazy(() => import("@/pages/BlogTab"));
 const NotFound = lazy(() => import("@/pages/NotFound"));
 
@@ -32,10 +34,17 @@ export default function App() {
         <Routes>
           <Route element={<TabLayout />}>
             <Route index element={<ProfileTab />} />
-            <Route path="module-tool" element={<ModuleToolTab />} />
-            <Route path="soundboard" element={<SoundboardTab />} />
+            <Route path="tools" element={<ToolboxTab />}>
+              <Route index element={<Navigate to="battle" replace />} />
+              <Route path="battle" element={<BattlePlaceholder />} />
+              <Route path="soundboard" element={<SoundboardTab />} />
+              <Route path="module-clue" element={<ModuleToolTab />} />
+            </Route>
             <Route path="blog" element={<BlogTab />} />
           </Route>
+          {/* 旧路由兼容重定向 */}
+          <Route path="module-tool" element={<Navigate to="/tools/module-clue" replace />} />
+          <Route path="soundboard" element={<Navigate to="/tools/soundboard" replace />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>

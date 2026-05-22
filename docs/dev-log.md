@@ -94,3 +94,11 @@ Agent 角色：`团队负责人` / `实习生` / `技术专家` / `git-reviewer`
 | — | 实习生 | master | **接入拟真音效合成**: sound-synthesis.ts新增synthesizeBuffer直接返回AudioBuffer、修复8处void dur代码异味; use-audio-manager.ts新增preloadBuffer方法; SoundboardTab/index.tsx移除DEFAULT_SOUNDS改用synthesizeBuffer+分批加载(5个/批)+加载进度条 | sound-synthesis.ts, use-audio-manager.ts, SoundboardTab/index.tsx |
 | — | 团队负责人 | master | **修复TAB3导航阻塞bug**: useAudioManager返回对象未useMemo导致引用不稳定，useEffect依赖变化造成无限重启循环阻塞主线程。用useMemo包裹返回值修复 | src/hooks/use-audio-manager.ts |
 | — | 团队负责人 | master | **实现音效包导入系统**: (1)PackManifest格式设计(manifest.json+音频文件) (2)useSoundboardStore新增importPack/clearPack/packLabels (3)Keyboard3D/Key3D支持动态packLabel覆盖 (4)SoundboardTab添加导入音效包UI+文件夹选择器 (5)有音效包时跳过合成音效加载 | use-soundboard-store.ts, Key3D.tsx, Keyboard3D.tsx, SoundboardTab/index.tsx |
+
+### 2026-05-22
+
+| 时间 | Agent | 分支 | 内容 | 涉及文件 |
+|------|-------|------|------|----------|
+| — | 实习生 x4 | master | 并行调研：(1)导航路由结构 (2)ProfileTab实现细节 (3)ModuleToolTab实现 (4)BlogTab+音频功能 | — |
+| — | 技术专家 x2 | master | 评审UI重构方案（架构专家76分、UX专家78分通过）。关键反馈：工具箱应用嵌套路由+lazy而非组件state、DropdownMenu语义OK、博客需缓存策略 | — |
+| — | 团队负责人 | master | **UI大重构**: (1)导航从4Tab精简为3Tab(个人介绍/工具箱/博客杂谈) (2)ProfileTab改为静态配置驱动(public/config/profile.json)，移除编辑功能 (3)工具箱嵌套路由(/tools/module-clue,/tools/soundboard,/tools/battle)+DropdownMenu切换 (4)BlogTab改为fetch public/blog/下静态markdown文件 (5)新增模拟战斗占位页 (6)删除ProfileEditor/ModuleDialog/use-profile-store | App.tsx, TabLayout.tsx, ProfileTab/index.tsx, BlogTab/index.tsx, ToolboxTab/*, public/config/profile.json, public/blog/**, dropdown-menu.tsx |

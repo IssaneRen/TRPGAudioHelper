@@ -1,0 +1,29 @@
+[
+  {
+    "id": "1",
+    "title": "如何设计一个好的 TRPG 模组",
+    "file": "posts/module-design.md",
+    "category": "blog",
+    "createdAt": "2024-03-15T10:00:00Z",
+    "updatedAt": "2024-03-15T10:00:00Z",
+    "tags": ["TRPG", "模组设计", "教程"]
+  },
+  {
+    "id": "2",
+    "title": "跑团记录：迷雾之城",
+    "file": "posts/mist-city-record.md",
+    "category": "misc",
+    "createdAt": "2024-04-01T14:00:00Z",
+    "updatedAt": "2024-04-01T14:00:00Z",
+    "tags": ["跑团记录", "迷雾之城"]
+  },
+  {
+    "id": "3",
+    "title": "推荐：五个适合新手的模组",
+    "file": "posts/beginner-modules.md",
+    "category": "blog",
+    "createdAt": "2024-04-10T09:00:00Z",
+    "updatedAt": "2024-04-10T09:00:00Z",
+    "tags": ["推荐", "新手", "模组"]
+  }
+]
