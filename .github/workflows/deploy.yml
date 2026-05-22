@@ -40,8 +40,9 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
-            rm -rf /var/www/trpg-helper
-            mkdir -p /var/www/trpg-helper
+            sudo rm -rf /var/www/trpg-helper
+            sudo mkdir -p /var/www/trpg-helper
+            sudo chown ubuntu:ubuntu /var/www/trpg-helper
             chmod 755 /var/www/trpg-helper
 
       - name: Deploy to server via SCP
@@ -65,4 +66,4 @@ jobs:
           port: 22
           script: |
             echo "Deploy done - $(date '+%Y-%m-%d %H:%M:%S')"
-            sudo systemctl reload nginx 2>/dev/null || true
+            sudo systemctl reload nginx
