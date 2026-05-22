@@ -8,7 +8,7 @@ const ProfileTab = lazy(() => import("@/pages/ProfileTab"));
 const ToolboxTab = lazy(() => import("@/pages/ToolboxTab"));
 const ModuleToolTab = lazy(() => import("@/pages/ModuleToolTab"));
 const SoundboardTab = lazy(() => import("@/pages/SoundboardTab"));
-const BattlePlaceholder = lazy(() => import("@/pages/ToolboxTab/BattlePlaceholder"));
+const BattleSimulator = lazy(() => import("@/pages/ToolboxTab/BattleSimulator"));
 const BlogTab = lazy(() => import("@/pages/BlogTab"));
 const NotFound = lazy(() => import("@/pages/NotFound"));
 
@@ -36,7 +36,7 @@ export default function App() {
             <Route index element={<ProfileTab />} />
             <Route path="tools" element={<ToolboxTab />}>
               <Route index element={<Navigate to="battle" replace />} />
-              <Route path="battle" element={<BattlePlaceholder />} />
+              <Route path="battle" element={<BattleSimulator />} />
               <Route path="soundboard" element={<SoundboardTab />} />
               <Route path="module-clue" element={<ModuleToolTab />} />
             </Route>

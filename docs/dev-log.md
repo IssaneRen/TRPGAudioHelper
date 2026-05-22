@@ -102,3 +102,6 @@ Agent 角色：`团队负责人` / `实习生` / `技术专家` / `git-reviewer`
 | — | 实习生 x4 | master | 并行调研：(1)导航路由结构 (2)ProfileTab实现细节 (3)ModuleToolTab实现 (4)BlogTab+音频功能 | — |
 | — | 技术专家 x2 | master | 评审UI重构方案（架构专家76分、UX专家78分通过）。关键反馈：工具箱应用嵌套路由+lazy而非组件state、DropdownMenu语义OK、博客需缓存策略 | — |
 | — | 团队负责人 | master | **UI大重构**: (1)导航从4Tab精简为3Tab(个人介绍/工具箱/博客杂谈) (2)ProfileTab改为静态配置驱动(public/config/profile.json)，移除编辑功能 (3)工具箱嵌套路由(/tools/module-clue,/tools/soundboard,/tools/battle)+DropdownMenu切换 (4)BlogTab改为fetch public/blog/下静态markdown文件 (5)新增模拟战斗占位页 (6)删除ProfileEditor/ModuleDialog/use-profile-store | App.tsx, TabLayout.tsx, ProfileTab/index.tsx, BlogTab/index.tsx, ToolboxTab/*, public/config/profile.json, public/blog/**, dropdown-menu.tsx |
+| — | 实习生 x4 | master | 并行调研Java客户端(LuciusTrpgStroyTeller/java-client)：核心功能、UI交互、网络数据、当前项目上下文 | — |
+| — | 技术专家 x2 | master | 评审战斗模拟器移植方案（架构82分通过、引擎62分不通过→修正后实施）。关键修正：MAX_ROUNDS=100、大失败条件性判定、DB特殊分支、6个可选规则完整实现 | — |
+| — | 团队负责人 | master | **战斗模拟器完整实现**: 从Java Swing移植CoC 7版战斗模拟器到React。包含：(1)骰子系统(D100检定6级判定) (2)完整战斗引擎(先攻/攻击/闪避/DB/重伤/8种可选规则) (3)批量模拟器(深拷贝+统计+难度评级) (4)14怪物+4调查员预设 (5)响应式UI(桌面双列/手机单列) (6)角色编辑弹窗 (7)彩色战斗日志+标签筛选+导出 (8)localStorage持久化 | BattleSimulator/*, App.tsx |
