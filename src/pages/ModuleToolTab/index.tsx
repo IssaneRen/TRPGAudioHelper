@@ -1,4 +1,5 @@
 import { useCallback, useState, useMemo } from "react";
+import { generateUUID } from "@/utils/uuid";
 import {
   ReactFlow,
   Background,
@@ -256,7 +257,7 @@ function ModuleToolInner() {
         const sourceNode = nodes.find((n) => n.id === nodeEditDialog.sourceNodeId);
         if (!sourceNode) return;
 
-        const newNodeId = crypto.randomUUID();
+        const newNodeId = generateUUID();
         const newNode: Node = {
           id: newNodeId,
           type: "clueNode",
@@ -272,7 +273,7 @@ function ModuleToolInner() {
         };
 
         const newEdge: Edge = {
-          id: `e-${crypto.randomUUID()}`,
+          id: `e-${generateUUID()}`,
           source: nodeEditDialog.sourceNodeId,
           target: newNodeId,
           type: "animated",
@@ -350,7 +351,7 @@ function ModuleToolInner() {
       if (!connection.source || !connection.target) return;
       if (connection.source === connection.target) return;
 
-      const newEdgeId = `e-${crypto.randomUUID()}`;
+      const newEdgeId = `e-${generateUUID()}`;
       const newEdge: Edge = {
         id: newEdgeId,
         source: connection.source,

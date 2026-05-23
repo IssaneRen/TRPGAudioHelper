@@ -1,4 +1,5 @@
 import { useCallback, useState, useMemo, useEffect } from "react";
+import { generateUUID } from "@/utils/uuid";
 import {
   ReactFlow,
   Background,
@@ -83,7 +84,7 @@ export function TaskFlowSection() {
 
   // 添加新任务节点
   const handleAddTask = useCallback(() => {
-    const id = `t-${crypto.randomUUID().slice(0, 8)}`;
+    const id = `t-${generateUUID().slice(0, 8)}`;
     const newNode: Node = {
       id,
       type: "taskNode",
@@ -109,7 +110,7 @@ export function TaskFlowSection() {
   const handleConnect = useCallback((connection: Connection) => {
     if (!connection.source || !connection.target) return;
     if (connection.source === connection.target) return;
-    const newEdgeId = `te-${crypto.randomUUID().slice(0, 8)}`;
+    const newEdgeId = `te-${generateUUID().slice(0, 8)}`;
     const newEdge: Edge = {
       id: newEdgeId,
       source: connection.source,

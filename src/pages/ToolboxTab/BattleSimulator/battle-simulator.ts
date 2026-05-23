@@ -1,6 +1,7 @@
 import type { Character, CombatOptions, SimulationReport, TaggedLog, Weapon } from "./types";
 import { runSingleBattle } from "./combat-engine";
 import { calculateDamageBonus } from "./dice";
+import { generateUUID } from "@/utils/uuid";
 
 function cloneCharacter(template: Character): Character {
   return {
@@ -88,7 +89,7 @@ export function createCharacter(
 ): Character {
   const maxHp = Math.floor((con + siz) / 10);
   return {
-    id: crypto.randomUUID(),
+    id: generateUUID(),
     name,
     str,
     con,

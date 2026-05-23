@@ -1,4 +1,5 @@
 import { useState, useRef } from "react";
+import { generateUUID } from "@/utils/uuid";
 import { motion, AnimatePresence } from "framer-motion";
 import { Plus, Dices, Trash2, Edit3, ChevronDown, ChevronRight, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -37,12 +38,12 @@ function saveState(pcs: Character[], enemies: Character[], options: CombatOption
 
 function getDefaultPcs(): Character[] {
   const susan = PRESET_INVESTIGATORS.find((c) => c.name === "苏珊·李");
-  return susan ? [{ ...susan, id: crypto.randomUUID() }] : [];
+  return susan ? [{ ...susan, id: generateUUID() }] : [];
 }
 
 function getDefaultEnemies(): Character[] {
   const hound = PRESET_ENEMIES.find((c) => c.name === "廷达洛斯猎犬");
-  return hound ? [{ ...hound, id: crypto.randomUUID() }] : [];
+  return hound ? [{ ...hound, id: generateUUID() }] : [];
 }
 
 export default function BattleSimulator() {
@@ -69,7 +70,7 @@ export default function BattleSimulator() {
   };
 
   const addPreset = (char: Character, isEnemy: boolean) => {
-    const clone: Character = { ...char, id: crypto.randomUUID() };
+    const clone: Character = { ...char, id: generateUUID() };
     if (isEnemy) {
       const next = [...enemies, clone];
       setEnemies(next);
