@@ -1,3 +1,12 @@
+---
+title: "CoC 守秘人进阶技巧"
+cover:
+  - "https://images.unsplash.com/photo-1606567595334-d39972c85dbe?w=400&h=350&fit=crop"
+tags: ["博客", "教程", "守秘人"]
+createdAt: "2024-05-20T08:00:00Z"
+updatedAt: "2024-05-20T08:00:00Z"
+---
+
 # CoC 守秘人进阶技巧
 
 作为一名 CoC（克苏鲁的呼唤）守秘人，掌握一些进阶技巧可以让你的跑团体验更上一层楼。

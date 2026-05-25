@@ -1,3 +1,10 @@
+---
+title: "Session Zero 完全指南"
+tags: ["博客", "教程", "新手"]
+createdAt: "2024-06-18T09:00:00Z"
+updatedAt: "2024-06-18T09:00:00Z"
+---
+
 # Session Zero 完全指南
 
 Session Zero 是正式跑团前的准备会议，是一次成功 Campaign 的基石。

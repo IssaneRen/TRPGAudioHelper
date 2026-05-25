@@ -1,3 +1,12 @@
+---
+title: "TRPG 骰子概率速查"
+cover:
+  - "https://images.unsplash.com/photo-1522069169874-c58ec4b76be5?w=400&h=400&fit=crop"
+tags: ["博客", "教程", "规则"]
+createdAt: "2024-06-05T10:00:00Z"
+updatedAt: "2024-06-05T10:00:00Z"
+---
+
 # TRPG 骰子概率速查
 
 在 TRPG 中，理解骰子概率能帮助守秘人更好地设计难度和玩家做出明智的决策。

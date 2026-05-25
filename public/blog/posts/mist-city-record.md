@@ -1,3 +1,13 @@
+---
+title: "跑团记录：永恒恶意"
+cover:
+  - "/blog/images/img_recruit_coc7_eve_fight.png"
+  - "/blog/images/img_recruit_coc7_eve_fight_2.png"
+tags: ["杂谈", "跑团记录"]
+createdAt: "2024-04-01T14:00:00Z"
+updatedAt: "2024-04-01T14:00:00Z"
+---
+
 
 | 金斯波特·迷雾之城
 

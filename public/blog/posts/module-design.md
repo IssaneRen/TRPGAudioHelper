@@ -1,3 +1,12 @@
+---
+title: "如何设计一个好的 TRPG 模组"
+cover:
+  - "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=300&fit=crop"
+tags: ["博客", "模组设计", "教程"]
+createdAt: "2024-03-15T10:00:00Z"
+updatedAt: "2024-03-15T10:00:00Z"
+---
+
 ## 核心要素
 
 一个好的模组需要具备以下要素：

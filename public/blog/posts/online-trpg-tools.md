@@ -1,3 +1,12 @@
+---
+title: "线上跑团工具测评"
+cover:
+  - "https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=400&h=320&fit=crop"
+tags: ["杂谈", "工具", "测评"]
+createdAt: "2024-07-15T10:00:00Z"
+updatedAt: "2024-07-15T10:00:00Z"
+---
+
 # 线上跑团工具测评
 
 疫情后线上跑团成为常态。本文测评几款主流工具的优缺点。
