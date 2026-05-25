@@ -3,6 +3,8 @@ name: Deploy to Server
 on:
   push:
     branches: [master]
+    paths-ignore:
+      - 'public/blog/**'
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
