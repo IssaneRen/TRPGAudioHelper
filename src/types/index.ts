@@ -106,11 +106,12 @@ export interface ModuleTaskData {
 export interface BlogPost {
   id: string;
   title: string;
-  content: string;
-  category: "blog" | "misc";
+  file?: string;
+  cover?: string[];
+  content?: string;
+  tags: string[];
   createdAt: string;
   updatedAt: string;
-  tags: string[];
 }
 
 // === Export/Import ===

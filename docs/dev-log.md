@@ -105,3 +105,30 @@ Agent 角色：`团队负责人` / `实习生` / `技术专家` / `git-reviewer`
 | — | 实习生 x4 | master | 并行调研Java客户端(LuciusTrpgStroyTeller/java-client)：核心功能、UI交互、网络数据、当前项目上下文 | — |
 | — | 技术专家 x2 | master | 评审战斗模拟器移植方案（架构82分通过、引擎62分不通过→修正后实施）。关键修正：MAX_ROUNDS=100、大失败条件性判定、DB特殊分支、6个可选规则完整实现 | — |
 | — | 团队负责人 | master | **战斗模拟器完整实现**: 从Java Swing移植CoC 7版战斗模拟器到React。包含：(1)骰子系统(D100检定6级判定) (2)完整战斗引擎(先攻/攻击/闪避/DB/重伤/8种可选规则) (3)批量模拟器(深拷贝+统计+难度评级) (4)14怪物+4调查员预设 (5)响应式UI(桌面双列/手机单列) (6)角色编辑弹窗 (7)彩色战斗日志+标签筛选+导出 (8)localStorage持久化 | BattleSimulator/*, App.tsx |
+
+## 2026-05
+
+### 2026-05-25
+
+| 时间 | Agent | 分支 | 内容 | 涉及文件 |
+|------|-------|------|------|----------|
+| — | 实习生 x4 | master | 并行调研：(1)React瀑布流布局库对比 (2)CSS/JS通用瀑布流方案 (3)图片详情页交互模式 (4)Markdown渲染与瀑布流集成 | — |
+| — | 团队负责人 | master | 整合4份实习生调研→撰写2份技术文档：瀑布流布局方案对比+Markdown渲染集成方案 | docs/reports/masonry-layout-research.md, docs/reports/markdown-rendering-research.md |
+| — | 技术专家 x2 | master | 评审技术调研报告（CC专家87分通过、Codex专家87分通过）。关键修正：layoutId+Portal兼容性风险、时间数据纠正、@types包建议修正 | — |
+| — | 团队负责人 | master | 根据专家反馈修订两份报告：补充Portal兼容风险第7条、修正时间/React19兼容性表述、移除多余@types建议、补充体积数据来源 | docs/reports/masonry-layout-research.md, docs/reports/markdown-rendering-research.md |
+| — | 团队负责人 | master | **修复P0 Bug**: 安装@tailwindcss/typography + 添加@plugin导入，构建验证通过 | package.json, src/index.css |
+| — | 实习生 x4 | master | 并行调研第2轮：(1)小红书双列瀑布流具体实现 (2)layoutId+Portal兼容性深度调研 (3)Radix Dialog动画集成方案 (4)瀑布流图片高度限制策略 | — |
+| — | 团队负责人 | master | 整合第2轮调研→大幅更新瀑布流报告：新增第三章(小红书双列实现)、第四章(无Portal详情页方案)、第五章(8个兼容性坑完整清单) | docs/reports/masonry-layout-research.md |
+| — | 技术专家 x2 | master | 评审第2轮报告（CC专家88分通过、Codex专家88分通过）。修正：layoutId结构需对齐、推荐模式vs现有模式措辞 | — |
+| — | 团队负责人 | master | 根据第2轮专家反馈修订：澄清推荐模式出处、对齐列表/详情的layoutId结构、补充注意事项 | docs/reports/masonry-layout-research.md |
+| — | 实习生 x4 | master | 并行分析BlogTab代码：组件结构、数据模型、路由/依赖、UI组件库 | — |
+| — | 团队负责人 | master | **BlogTab全面改造**: (1)移除博客/杂谈双Tab改为tag多选筛选 (2)安装react-responsive-masonry实现瀑布流 (3)framer-motion layoutId+AnimatePresence实现列表→详情丝滑过渡 (4)无Portal+flexbox居中方案 (5)新增5篇示例Markdown文章(含表格/代码块/引用) (6)移除category字段统一用tags (7)ESC关闭+body scroll lock+ARIA无障碍 | src/pages/BlogTab/index.tsx, public/blog/index.json, public/blog/posts/*.md, src/types/index.ts, package.json |
+| — | 技术专家 x2 | master | 代码审查（CC专家82分→修复ESC/scroll lock后通过、Codex专家82分→修复span/h2一致性后通过）。核心功能正确，修复后达到90+标准 | — |
+| — | 团队负责人 | master | **UI优化**: (1)移除react-responsive-masonry改为CSS columns等宽双列 (2)max-w-2xl mx-auto大屏居中 (3)ImageCard图片+渐变遮罩+白色标题 (4)TitleCard方形+文字居中+径向渐变装饰 (5)图片onError降级为TitleCard (6)layoutId移到面板层 (7)标题text-shadow增强可读性 | src/pages/BlogTab/index.tsx, public/blog/index.json, package.json |
+| — | 技术专家 x2 | master | UI审查（CC专家87分通过、Codex专家88分通过）。建议修正layoutId目标+文字shadow已采纳 | — |
+| — | 团队负责人 | master | **UI修复4项**: (1)手机端始终双列columns-2 (2)图片w-full h-auto保持比例 (3)顶部栏去sticky随内容滚 (4)详情页pb-16底部安全区+固定浮动关闭按钮 | src/pages/BlogTab/index.tsx |
+| — | 技术专家 x2 | master | UI修复审查（CC专家82分→修复关闭按钮后通过、Codex专家88分通过）。核心修复正确 | — |
+| — | 团队负责人 | master | **图片PageViewer功能**: (1)horror-sound-design.md添加3张示例图片 (2)ArticleContent组件提取MD图片 (3)ImagePageViewer组件CSS scroll-snap水平滑动+指示器+scrollend事件 (4)WebKit滚动条隐藏 (5)代码块内图片跳过 | src/pages/BlogTab/index.tsx, public/blog/posts/horror-sound-design.md |
+| — | 技术专家 x2 | master | PageViewer审查（CC专家88分通过、Codex专家72分→修复正则+scrollend后重新通过）。修复：extractImages跳过代码块、scrollend+fallback防抖、WebKit scrollbar隐藏 | — |
+| — | 团队负责人 | master | **Cover滑动重构**: (1)移除ArticleContent/ImagePageViewer旧逻辑 (2)cover改为string[] (3)CoverSlider组件:单张直接显示/多张scroll-snap+指示器 (4)第一张h-auto保持比例+onLoad设容器高度/后续object-cover (5)Markdown正文正常渲染含图片 (6)mist-city-record.md添加本地图片演示 (7)指示器加drop-shadow (8)移除无效aspectRatio | src/pages/BlogTab/index.tsx, public/blog/index.json, public/blog/posts/mist-city-record.md, src/types/index.ts |
+| — | 技术专家 x2 | master | Cover滑动审查（CC专家88分通过、Codex专家72分→修复高度稳定性+指示器后通过） | — |
