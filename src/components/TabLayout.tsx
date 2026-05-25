@@ -21,7 +21,9 @@ export default function TabLayout() {
   const navigate = useNavigate();
   const animationKey = location.pathname.startsWith("/tools")
     ? "/tools"
-    : location.pathname;
+    : location.pathname.startsWith("/blog")
+      ? "/blog"
+      : location.pathname;
 
   const isToolsActive = location.pathname.startsWith("/tools");
 
@@ -151,7 +153,6 @@ export default function TabLayout() {
               {/* TAB3: 博客杂谈 */}
               <NavLink
                 to="/blog"
-                end
                 className={({ isActive }) =>
                   `relative rounded-md px-4 py-2 text-sm font-medium transition-colors duration-200 ${
                     isActive
@@ -227,7 +228,6 @@ export default function TabLayout() {
           <MobileToolsMenu />
           <NavLink
             to="/blog"
-            end
             className={({ isActive }) =>
               `relative flex flex-1 flex-col items-center gap-0.5 py-3 text-xs transition-colors duration-200 ${
                 isActive ? "text-primary font-semibold" : "text-muted-foreground"

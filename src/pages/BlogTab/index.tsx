@@ -15,6 +15,7 @@ import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkFrontmatter from "remark-frontmatter";
 import { TAG_CATEGORIES } from "@/constants/tag-categories";
+import { useNavigate, useParams } from "react-router";
 
 interface BlogPostMeta {
   id: string;
@@ -34,25 +35,46 @@ let indexCache: BlogPostMeta[] | null = null;
 const contentCache = new Map<string, string>();
 
 export default function BlogTab() {
+  const navigate = useNavigate();
+  const { postId } = useParams<{ postId?: string }>();
   const [posts, setPosts] = useState<BlogPostMeta[]>(indexCache || []);
   const [loading, setLoading] = useState(!indexCache);
+  const [loadError, setLoadError] = useState(false);
   const [selectedPost, setSelectedPost] = useState<BlogPostMeta | null>(null);
   const [postContent, setPostContent] = useState<string>("");
   const [contentLoading, setContentLoading] = useState(false);
+  const [contentError, setContentError] = useState(false);
+  const contentRequestRef = useRef(0);
   const [selectedTags, setSelectedTags] = useState<Set<string>>(new Set());
   const [plName, setPlName] = useState(() => localStorage.getItem(PL_STORAGE_KEY) || "");
   const [showPlDialog, setShowPlDialog] = useState(false);
   const [isMyPlayedMode, setIsMyPlayedMode] = useState(false);
 
   useEffect(() => {
-    if (indexCache) return;
-    fetch("/blog/index.json")
-      .then((r) => r.json())
+    let cancelled = false;
+
+    if (!indexCache) setLoading(true);
+    setLoadError(false);
+    fetch("/blog/index.json", { cache: "no-store" })
+      .then((r) => {
+        if (!r.ok) throw new Error(`Failed to load blog index: ${r.status}`);
+        return r.json();
+      })
       .then((data: BlogPostMeta[]) => {
+        if (cancelled) return;
         indexCache = data;
         setPosts(data);
       })
-      .finally(() => setLoading(false));
+      .catch(() => {
+        if (!cancelled && !indexCache) setLoadError(true);
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   const allTags = useMemo(() => {
@@ -82,28 +104,57 @@ export default function BlogTab() {
     });
   };
 
-  const handleSelectPost = async (post: BlogPostMeta) => {
+  const loadPost = useCallback(async (post: BlogPostMeta) => {
+    const requestId = ++contentRequestRef.current;
     setSelectedPost(post);
+    setContentError(false);
     const cached = contentCache.get(post.file);
     if (cached) {
       setPostContent(cached);
+      setContentLoading(false);
       return;
     }
+    setPostContent("");
     setContentLoading(true);
     try {
       const res = await fetch(`/blog/${post.file}`);
+      if (!res.ok) throw new Error(`Failed to load blog post: ${res.status}`);
       const text = await res.text();
       contentCache.set(post.file, text);
-      setPostContent(text);
+      if (requestId === contentRequestRef.current) setPostContent(text);
+    } catch {
+      if (requestId === contentRequestRef.current) setContentError(true);
     } finally {
-      setContentLoading(false);
+      if (requestId === contentRequestRef.current) setContentLoading(false);
     }
+  }, []);
+
+  useEffect(() => {
+    if (!postId) {
+      contentRequestRef.current += 1;
+      setSelectedPost(null);
+      setPostContent("");
+      setContentLoading(false);
+      setContentError(false);
+      return;
+    }
+    if (loading) return;
+
+    const post = posts.find((item) => item.id === postId);
+    if (!post) {
+      navigate("/blog", { replace: true });
+      return;
+    }
+    void loadPost(post);
+  }, [loadPost, loading, navigate, postId, posts]);
+
+  const handleSelectPost = (post: BlogPostMeta) => {
+    navigate(`/blog/${encodeURIComponent(post.id)}`);
   };
 
   const closeDetail = useCallback(() => {
-    setSelectedPost(null);
-    setPostContent("");
-  }, []);
+    navigate("/blog", { replace: true });
+  }, [navigate]);
 
   useEffect(() => {
     if (!showPlDialog) return;
@@ -127,7 +178,7 @@ export default function BlogTab() {
     };
   }, [selectedPost, closeDetail]);
 
-  if (loading) {
+  if (loading && posts.length === 0) {
     return (
       <div className="mx-auto max-w-2xl space-y-4">
         <div className="flex gap-2">
@@ -141,6 +192,14 @@ export default function BlogTab() {
           <Skeleton className="mb-3 aspect-[4/5] rounded-xl break-inside-avoid" />
           <Skeleton className="mb-3 aspect-[3/4] rounded-xl break-inside-avoid" />
         </div>
+      </div>
+    );
+  }
+
+  if (loadError && posts.length === 0) {
+    return (
+      <div className="py-16 text-center text-sm text-muted-foreground">
+        博客内容加载失败，请刷新后重试。
       </div>
     );
   }
@@ -261,9 +320,6 @@ export default function BlogTab() {
                 <div className="flex min-h-full items-start justify-center p-4 pb-16 pt-10 sm:p-8 sm:pb-20 sm:pt-14">
                   <motion.div
                     layoutId={`card-${selectedPost.id}`}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
                     className="pointer-events-auto w-full max-w-3xl rounded-xl border bg-background shadow-2xl overflow-hidden"
                   >
                     {/* Cover 滑动区域 */}
@@ -302,6 +358,10 @@ export default function BlogTab() {
                           <Skeleton className="h-4 w-full" />
                           <Skeleton className="h-4 w-3/4" />
                         </div>
+                      ) : contentError ? (
+                        <p className="py-8 text-center text-sm text-muted-foreground">
+                          文章内容加载失败，请刷新后重试。
+                        </p>
                       ) : (
                         <article className="prose prose-neutral dark:prose-invert max-w-none prose-headings:font-heading prose-a:text-primary prose-blockquote:border-l-primary/50 prose-code:text-primary/80 prose-pre:bg-secondary prose-pre:border prose-img:rounded-lg">
                           <Markdown remarkPlugins={[remarkGfm, remarkFrontmatter]}>

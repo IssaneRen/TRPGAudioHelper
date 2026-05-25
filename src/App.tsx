@@ -41,6 +41,7 @@ export default function App() {
               <Route path="module-clue" element={<ModuleToolTab />} />
             </Route>
             <Route path="blog" element={<BlogTab />} />
+            <Route path="blog/:postId" element={<BlogTab />} />
           </Route>
           {/* 旧路由兼容重定向 */}
           <Route path="module-tool" element={<Navigate to="/tools/module-clue" replace />} />

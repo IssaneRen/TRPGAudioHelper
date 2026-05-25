@@ -126,9 +126,18 @@ server {
     root /var/www/trpg-helper;
     index index.html;
 
+    # /blog 既是 SPA 页面路由，又是静态文章目录，不能尝试直接展示目录
+    location = /blog {
+        try_files /index.html =404;
+    }
+
+    location = /blog/ {
+        try_files /index.html =404;
+    }
+
     # SPA 路由 fallback（React Router history 模式必须）
     location / {
-        try_files $uri $uri/ /index.html;
+        try_files $uri /index.html;
     }
 
     # 静态资源缓存
