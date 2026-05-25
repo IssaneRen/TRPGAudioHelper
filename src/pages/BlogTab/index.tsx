@@ -1,9 +1,20 @@
 import { useState, useEffect, useMemo, useCallback, useRef } from "react";
 import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
+import { ChevronDown } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuCheckboxItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+} from "@/components/ui/dropdown-menu";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import remarkFrontmatter from "remark-frontmatter";
+import { TAG_CATEGORIES } from "@/constants/tag-categories";
 
 interface BlogPostMeta {
   id: string;
@@ -114,31 +125,18 @@ export default function BlogTab() {
   return (
     <LayoutGroup id="blog">
       <div className="mx-auto max-w-2xl space-y-5">
-        {/* Tag 筛选栏 */}
+        {/* Tag 分级筛选栏 */}
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="flex flex-wrap gap-2"
+          className="flex flex-wrap items-center gap-2"
         >
-          {allTags.map((tag) => (
-            <Badge
-              key={tag}
-              variant={selectedTags.has(tag) ? "default" : "outline"}
-              className="cursor-pointer select-none transition-all hover:scale-105"
-              onClick={() => toggleTag(tag)}
-            >
-              {tag}
-            </Badge>
-          ))}
-          {selectedTags.size > 0 && (
-            <Badge
-              variant="ghost"
-              className="cursor-pointer text-muted-foreground hover:text-foreground"
-              onClick={() => setSelectedTags(new Set())}
-            >
-              清除筛选
-            </Badge>
-          )}
+          <TagFilterBar
+            allTags={allTags}
+            selectedTags={selectedTags}
+            toggleTag={toggleTag}
+            clearTags={() => setSelectedTags(new Set())}
+          />
         </motion.div>
 
         {/* 等宽双列瀑布流 */}
@@ -239,7 +237,7 @@ export default function BlogTab() {
                         </div>
                       ) : (
                         <article className="prose prose-neutral dark:prose-invert max-w-none prose-headings:font-heading prose-a:text-primary prose-blockquote:border-l-primary/50 prose-code:text-primary/80 prose-pre:bg-secondary prose-pre:border prose-img:rounded-lg">
-                          <Markdown remarkPlugins={[remarkGfm]}>
+                          <Markdown remarkPlugins={[remarkGfm, remarkFrontmatter]}>
                             {postContent}
                           </Markdown>
                         </article>
@@ -397,5 +395,114 @@ function TitleCard({ post }: { post: BlogPostMeta }) {
         </time>
       </div>
     </div>
+  );
+}
+
+/** Tag 分级筛选栏 — 一级为 DropdownMenu 触发器（不可选），二级为 CheckboxItem */
+function TagFilterBar({
+  allTags,
+  selectedTags,
+  toggleTag,
+  clearTags,
+}: {
+  allTags: string[];
+  selectedTags: Set<string>;
+  toggleTag: (tag: string) => void;
+  clearTags: () => void;
+}) {
+  const categorizedTags = new Set<string>();
+  TAG_CATEGORIES.forEach((cat) => cat.tags.forEach((t) => categorizedTags.add(t)));
+  const otherTags = allTags.filter((t) => !categorizedTags.has(t));
+
+  const hasSelection = (tags: readonly string[]) =>
+    tags.some((t) => selectedTags.has(t));
+
+  return (
+    <>
+      {TAG_CATEGORIES.map((cat) => (
+        <DropdownMenu key={cat.name}>
+          <DropdownMenuTrigger asChild>
+            <button
+              className={`inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-xs font-medium transition-colors ${
+                hasSelection(cat.tags)
+                  ? "border-primary bg-primary/10 text-primary"
+                  : "border-border text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              {cat.name}
+              <ChevronDown className="h-3 w-3" />
+            </button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="start">
+            <DropdownMenuLabel className="text-xs">{cat.name}</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            {cat.tags.map((tag) => (
+              <DropdownMenuCheckboxItem
+                key={tag}
+                checked={selectedTags.has(tag)}
+                onCheckedChange={() => toggleTag(tag)}
+                onSelect={(e) => e.preventDefault()}
+              >
+                {tag}
+              </DropdownMenuCheckboxItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      ))}
+
+      {otherTags.length > 0 && (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <button
+              className={`inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-xs font-medium transition-colors ${
+                otherTags.some((t) => selectedTags.has(t))
+                  ? "border-primary bg-primary/10 text-primary"
+                  : "border-border text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              其他
+              <ChevronDown className="h-3 w-3" />
+            </button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="start">
+            <DropdownMenuLabel className="text-xs">其他</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            {otherTags.map((tag) => (
+              <DropdownMenuCheckboxItem
+                key={tag}
+                checked={selectedTags.has(tag)}
+                onCheckedChange={() => toggleTag(tag)}
+                onSelect={(e) => e.preventDefault()}
+              >
+                {tag}
+              </DropdownMenuCheckboxItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      )}
+
+      {selectedTags.size > 0 && (
+        <>
+          <div className="flex flex-wrap gap-1">
+            {Array.from(selectedTags).map((tag) => (
+              <Badge
+                key={tag}
+                variant="default"
+                className="cursor-pointer text-xs"
+                onClick={() => toggleTag(tag)}
+              >
+                {tag} ×
+              </Badge>
+            ))}
+          </div>
+          <button
+            onClick={clearTags}
+            className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+          >
+            清除
+          </button>
+        </>
+      )}
+    </>
   );
 }
