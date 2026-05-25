@@ -2,7 +2,7 @@ import { Outlet, NavLink, useLocation, useNavigate } from "react-router";
 import { motion, AnimatePresence } from "framer-motion";
 import { User, Wrench, BookOpen, Swords, Music, Map } from "lucide-react";
 import { ModeToggle } from "@/components/mode-toggle";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 
 const toolItems = [
   { to: "/tools/battle", label: "模拟战斗", icon: Swords },
@@ -224,28 +224,7 @@ export default function TabLayout() {
               </>
             )}
           </NavLink>
-          <NavLink
-            to="/tools"
-            className={({ isActive }) =>
-              `relative flex flex-1 flex-col items-center gap-0.5 py-3 text-xs transition-colors duration-200 ${
-                isActive ? "text-primary font-semibold" : "text-muted-foreground"
-              }`
-            }
-          >
-            {({ isActive }) => (
-              <>
-                {isActive && (
-                  <motion.span
-                    layoutId="activeMobileTab"
-                    className="absolute -top-px left-2 right-2 h-0.5 rounded-full bg-primary"
-                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                  />
-                )}
-                <Wrench className="h-5 w-5" />
-                工具箱
-              </>
-            )}
-          </NavLink>
+          <MobileToolsMenu />
           <NavLink
             to="/blog"
             end
@@ -271,6 +250,66 @@ export default function TabLayout() {
           </NavLink>
         </div>
       </nav>
+    </div>
+  );
+}
+
+function MobileToolsMenu() {
+  const [open, setOpen] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const isActive = location.pathname.startsWith("/tools");
+
+  useEffect(() => {
+    setOpen(false);
+  }, [location.pathname]);
+
+  return (
+    <div className="relative flex flex-1 flex-col items-center">
+      <button
+        onClick={() => setOpen((v) => !v)}
+        className={`relative flex flex-col items-center gap-0.5 py-3 text-xs transition-colors duration-200 ${
+          isActive ? "text-primary font-semibold" : "text-muted-foreground"
+        }`}
+      >
+        {isActive && (
+          <motion.span
+            layoutId="activeMobileTab"
+            className="absolute -top-px left-2 right-2 h-0.5 rounded-full bg-primary"
+            transition={{ type: "spring", stiffness: 380, damping: 30 }}
+          />
+        )}
+        <Wrench className="h-5 w-5" />
+        工具箱
+      </button>
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 8 }}
+            transition={{ duration: 0.15 }}
+            className="absolute bottom-full mb-2 z-50 min-w-[8rem] rounded-lg border bg-popover p-1 shadow-lg"
+          >
+            {toolItems.map((item) => {
+              const Icon = item.icon;
+              const active = location.pathname === item.to;
+              return (
+                <button
+                  key={item.to}
+                  onClick={() => { navigate(item.to); setOpen(false); }}
+                  className={`flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm transition-colors ${
+                    active ? "bg-primary/10 text-primary" : "hover:bg-accent"
+                  }`}
+                >
+                  <Icon className="h-4 w-4" />
+                  {item.label}
+                </button>
+              );
+            })}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

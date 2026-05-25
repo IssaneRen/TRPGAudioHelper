@@ -16,6 +16,7 @@ interface BlogPostMeta {
   file: string;
   cover?: string[];
   tags: string[];
+  players?: string[];
   createdAt: string;
   updatedAt: string;
 }
@@ -37,6 +38,7 @@ for (const file of files) {
     file: `posts/${basename(file)}`,
     cover: data.cover || undefined,
     tags: data.tags || [],
+    players: data.players || undefined,
     createdAt: data.createdAt || new Date().toISOString(),
     updatedAt: data.updatedAt || data.createdAt || new Date().toISOString(),
   });

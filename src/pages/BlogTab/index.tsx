@@ -22,9 +22,13 @@ interface BlogPostMeta {
   file: string;
   cover?: string[];
   tags: string[];
+  players?: string[];
   createdAt: string;
   updatedAt: string;
 }
+
+const PL_STORAGE_KEY = "blog-pl-name";
+const SPECIAL_TAG_MY_PLAYED = "我跑过的";
 
 let indexCache: BlogPostMeta[] | null = null;
 const contentCache = new Map<string, string>();
@@ -36,6 +40,9 @@ export default function BlogTab() {
   const [postContent, setPostContent] = useState<string>("");
   const [contentLoading, setContentLoading] = useState(false);
   const [selectedTags, setSelectedTags] = useState<Set<string>>(new Set());
+  const [plName, setPlName] = useState(() => localStorage.getItem(PL_STORAGE_KEY) || "");
+  const [showPlDialog, setShowPlDialog] = useState(false);
+  const [isMyPlayedMode, setIsMyPlayedMode] = useState(false);
 
   useEffect(() => {
     if (indexCache) return;
@@ -55,9 +62,16 @@ export default function BlogTab() {
   }, [posts]);
 
   const filteredPosts = useMemo(() => {
+    if (isMyPlayedMode) {
+      if (!plName) return [];
+      const normalizedPl = plName.trim().toLowerCase();
+      return posts.filter((p) =>
+        p.players?.some((pl) => pl.trim().toLowerCase() === normalizedPl)
+      );
+    }
     if (selectedTags.size === 0) return posts;
     return posts.filter((p) => p.tags.some((t) => selectedTags.has(t)));
-  }, [posts, selectedTags]);
+  }, [posts, selectedTags, isMyPlayedMode, plName]);
 
   const toggleTag = (tag: string) => {
     setSelectedTags((prev) => {
@@ -90,6 +104,15 @@ export default function BlogTab() {
     setSelectedPost(null);
     setPostContent("");
   }, []);
+
+  useEffect(() => {
+    if (!showPlDialog) return;
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setShowPlDialog(false);
+    };
+    document.addEventListener("keydown", handler);
+    return () => document.removeEventListener("keydown", handler);
+  }, [showPlDialog]);
 
   useEffect(() => {
     if (!selectedPost) return;
@@ -125,18 +148,47 @@ export default function BlogTab() {
   return (
     <LayoutGroup id="blog">
       <div className="mx-auto max-w-2xl space-y-5">
-        {/* Tag 分级筛选栏 */}
+        {/* 顶部栏：筛选 + PL 名称 */}
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           className="flex flex-wrap items-center gap-2"
         >
-          <TagFilterBar
-            allTags={allTags}
-            selectedTags={selectedTags}
-            toggleTag={toggleTag}
-            clearTags={() => setSelectedTags(new Set())}
-          />
+          {/* 特殊 tag：我跑过的 */}
+          <Badge
+            variant={isMyPlayedMode ? "default" : "outline"}
+            className={`cursor-pointer select-none transition-all hover:scale-105 ${
+              isMyPlayedMode ? "ring-2 ring-primary/30" : ""
+            }`}
+            onClick={() => {
+              if (!isMyPlayedMode && !plName) {
+                setShowPlDialog(true);
+                return;
+              }
+              setIsMyPlayedMode((v) => !v);
+              if (!isMyPlayedMode) setSelectedTags(new Set());
+            }}
+          >
+            {SPECIAL_TAG_MY_PLAYED}
+          </Badge>
+
+          {/* 分级 tag 筛选（我跑过的模式下置灰） */}
+          <div className={`contents ${isMyPlayedMode ? "opacity-40 pointer-events-none" : ""}`}>
+            <TagFilterBar
+              allTags={allTags}
+              selectedTags={selectedTags}
+              toggleTag={toggleTag}
+              clearTags={() => setSelectedTags(new Set())}
+            />
+          </div>
+
+          {/* PL 名称（右上角） */}
+          <button
+            onClick={() => setShowPlDialog(true)}
+            className="ml-auto text-xs text-muted-foreground hover:text-foreground transition-colors"
+          >
+            {plName ? `PL: ${plName}` : "设置PL名称"}
+          </button>
         </motion.div>
 
         {/* 等宽双列瀑布流 */}
@@ -160,7 +212,22 @@ export default function BlogTab() {
 
         {filteredPosts.length === 0 && (
           <div className="py-16 text-center text-muted-foreground">
-            没有匹配的文章
+            {isMyPlayedMode ? (
+              <div className="space-y-3">
+                <p>筛选不到你跑过的模组哦</p>
+                <p className="text-sm">
+                  是否已经正确填写了PL名称：<strong className="text-foreground">{plName || "未设置"}</strong>
+                </p>
+                <button
+                  onClick={() => setShowPlDialog(true)}
+                  className="text-sm text-primary hover:underline"
+                >
+                  点击更新
+                </button>
+              </div>
+            ) : (
+              "没有匹配的文章"
+            )}
           </div>
         )}
 
@@ -249,8 +316,67 @@ export default function BlogTab() {
             </>
           )}
         </AnimatePresence>
+
+        {/* PL 名称输入弹窗 */}
+        <AnimatePresence>
+          {showPlDialog && (
+            <>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="fixed inset-0 z-[70] bg-black/50"
+                onClick={() => setShowPlDialog(false)}
+              />
+              <motion.div
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="pl-dialog-title"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                className="fixed left-1/2 top-1/3 z-[71] -translate-x-1/2 -translate-y-1/2 w-[min(90vw,320px)] rounded-xl border bg-background p-6 shadow-2xl"
+              >
+                <h3 id="pl-dialog-title" className="text-base font-heading font-semibold mb-3">设置 PL 名称</h3>
+                <p className="text-xs text-muted-foreground mb-3">输入你的玩家名称，用于筛选"我跑过的"模组</p>
+                <PlNameInput
+                  initialValue={plName}
+                  onConfirm={(name) => {
+                    setPlName(name);
+                    localStorage.setItem(PL_STORAGE_KEY, name);
+                    setShowPlDialog(false);
+                    if (name) setIsMyPlayedMode(true);
+                  }}
+                />
+              </motion.div>
+            </>
+          )}
+        </AnimatePresence>
       </div>
     </LayoutGroup>
+  );
+}
+
+function PlNameInput({ initialValue, onConfirm }: { initialValue: string; onConfirm: (name: string) => void }) {
+  const [value, setValue] = useState(initialValue);
+  return (
+    <div className="flex gap-2">
+      <input
+        type="text"
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        placeholder="输入玩家名称"
+        className="flex-1 rounded-md border bg-secondary px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-primary/50"
+        autoFocus
+        onKeyDown={(e) => { if (e.key === "Enter") onConfirm(value.trim()); }}
+      />
+      <button
+        onClick={() => onConfirm(value.trim())}
+        className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors"
+      >
+        确认
+      </button>
+    </div>
   );
 }
 
