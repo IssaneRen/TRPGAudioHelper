@@ -145,10 +145,12 @@ export default function BlogTab() {
       navigate("/blog", { replace: true });
       return;
     }
+    if (selectedPost?.id === post.id) return;
     void loadPost(post);
-  }, [loadPost, loading, navigate, postId, posts]);
+  }, [loadPost, loading, navigate, postId, posts, selectedPost?.id]);
 
   const handleSelectPost = (post: BlogPostMeta) => {
+    void loadPost(post);
     navigate(`/blog/${encodeURIComponent(post.id)}`);
   };
 
