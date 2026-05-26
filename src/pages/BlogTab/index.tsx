@@ -169,13 +169,33 @@ export default function BlogTab() {
 
   useEffect(() => {
     if (!selectedPost) return;
+    const scrollY = window.scrollY;
+    const originalOverflow = document.body.style.overflow;
+    const originalPaddingRight = document.body.style.paddingRight;
+    const originalPosition = document.body.style.position;
+    const originalTop = document.body.style.top;
+    const originalWidth = document.body.style.width;
+    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+
     document.body.style.overflow = "hidden";
+    document.body.style.position = "fixed";
+    document.body.style.top = `-${scrollY}px`;
+    document.body.style.width = "100%";
+    if (scrollbarWidth > 0) {
+      document.body.style.paddingRight = `${scrollbarWidth}px`;
+    }
+
     const handler = (e: KeyboardEvent) => {
       if (e.key === "Escape") closeDetail();
     };
     document.addEventListener("keydown", handler);
     return () => {
-      document.body.style.overflow = "";
+      document.body.style.overflow = originalOverflow;
+      document.body.style.paddingRight = originalPaddingRight;
+      document.body.style.position = originalPosition;
+      document.body.style.top = originalTop;
+      document.body.style.width = originalWidth;
+      window.scrollTo(0, scrollY);
       document.removeEventListener("keydown", handler);
     };
   }, [selectedPost, closeDetail]);
@@ -303,12 +323,12 @@ export default function BlogTab() {
                 className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm"
                 onClick={closeDetail}
               />
-              <div
-                role="dialog"
-                aria-modal="true"
-                aria-labelledby="detail-title"
-                className="fixed inset-0 z-50 overflow-y-auto pointer-events-none"
-              >
+                <div
+                  role="dialog"
+                  aria-modal="true"
+                  aria-labelledby="detail-title"
+                  className="fixed inset-0 z-50 overflow-y-auto pointer-events-auto"
+                >
                 {/* 固定关闭按钮 */}
                 <button
                   onClick={closeDetail}
