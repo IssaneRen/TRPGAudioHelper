@@ -181,6 +181,7 @@ export default function BlogTab() {
     document.body.style.position = "fixed";
     document.body.style.top = `-${scrollY}px`;
     document.body.style.width = "100%";
+
     if (scrollbarWidth > 0) {
       document.body.style.paddingRight = `${scrollbarWidth}px`;
     }
@@ -196,6 +197,7 @@ export default function BlogTab() {
       document.body.style.top = originalTop;
       document.body.style.width = originalWidth;
       window.scrollTo(0, scrollY);
+
       document.removeEventListener("keydown", handler);
     };
   }, [selectedPost, closeDetail]);
