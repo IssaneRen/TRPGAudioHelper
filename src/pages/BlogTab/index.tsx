@@ -169,13 +169,22 @@ export default function BlogTab() {
 
   useEffect(() => {
     if (!selectedPost) return;
+    const originalOverflow = document.body.style.overflow;
+    const originalPaddingRight = document.body.style.paddingRight;
+    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+
     document.body.style.overflow = "hidden";
+    if (scrollbarWidth > 0) {
+      document.body.style.paddingRight = `${scrollbarWidth}px`;
+    }
+
     const handler = (e: KeyboardEvent) => {
       if (e.key === "Escape") closeDetail();
     };
     document.addEventListener("keydown", handler);
     return () => {
-      document.body.style.overflow = "";
+      document.body.style.overflow = originalOverflow;
+      document.body.style.paddingRight = originalPaddingRight;
       document.removeEventListener("keydown", handler);
     };
   }, [selectedPost, closeDetail]);
