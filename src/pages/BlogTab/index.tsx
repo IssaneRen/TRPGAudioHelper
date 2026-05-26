@@ -169,35 +169,12 @@ export default function BlogTab() {
 
   useEffect(() => {
     if (!selectedPost) return;
-    const scrollY = window.scrollY;
-    const originalOverflow = document.body.style.overflow;
-    const originalPaddingRight = document.body.style.paddingRight;
-    const originalPosition = document.body.style.position;
-    const originalTop = document.body.style.top;
-    const originalWidth = document.body.style.width;
-    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-
-    document.body.style.overflow = "hidden";
-    document.body.style.position = "fixed";
-    document.body.style.top = `-${scrollY}px`;
-    document.body.style.width = "100%";
-
-    if (scrollbarWidth > 0) {
-      document.body.style.paddingRight = `${scrollbarWidth}px`;
-    }
 
     const handler = (e: KeyboardEvent) => {
       if (e.key === "Escape") closeDetail();
     };
     document.addEventListener("keydown", handler);
     return () => {
-      document.body.style.overflow = originalOverflow;
-      document.body.style.paddingRight = originalPaddingRight;
-      document.body.style.position = originalPosition;
-      document.body.style.top = originalTop;
-      document.body.style.width = originalWidth;
-      window.scrollTo(0, scrollY);
-
       document.removeEventListener("keydown", handler);
     };
   }, [selectedPost, closeDetail]);
@@ -276,21 +253,24 @@ export default function BlogTab() {
 
         {/* 等宽双列瀑布流 */}
         <div className="columns-2 gap-3">
-          {filteredPosts.map((post) => (
+          {filteredPosts.map((post) => {
+            const hasCover = !!(post.cover && post.cover.length > 0);
+            return (
             <motion.div
               key={post.id}
-              layoutId={`card-${post.id}`}
+              layoutId={hasCover ? `card-${post.id}` : undefined}
               whileHover={{ y: -3, transition: { duration: 0.15 } }}
               onClick={() => handleSelectPost(post)}
               className="mb-3 cursor-pointer break-inside-avoid"
             >
-              {post.cover && post.cover.length > 0 ? (
+              {hasCover ? (
                 <ImageCard post={post} />
               ) : (
                 <TitleCard post={post} />
               )}
             </motion.div>
-          ))}
+          );
+          })}
         </div>
 
         {filteredPosts.length === 0 && (
@@ -329,7 +309,7 @@ export default function BlogTab() {
                   role="dialog"
                   aria-modal="true"
                   aria-labelledby="detail-title"
-                  className="fixed inset-0 z-50 overflow-y-auto pointer-events-auto"
+                  className="fixed inset-0 z-50 overflow-y-auto overscroll-contain touch-pan-y pointer-events-auto"
                 >
                 {/* 固定关闭按钮 */}
                 <button
@@ -343,7 +323,7 @@ export default function BlogTab() {
                 </button>
                 <div className="flex min-h-full items-start justify-center p-4 pb-16 pt-10 sm:p-8 sm:pb-20 sm:pt-14">
                   <motion.div
-                    layoutId={`card-${selectedPost.id}`}
+                    layoutId={selectedPost.cover && selectedPost.cover.length > 0 ? `card-${selectedPost.id}` : undefined}
                     className="pointer-events-auto w-full max-w-3xl rounded-xl border bg-background shadow-2xl overflow-hidden"
                   >
                     {/* Cover 滑动区域 */}
@@ -366,9 +346,9 @@ export default function BlogTab() {
                     {/* 标题 */}
                     <div className="px-6 pb-4">
                       <h2 id="detail-title" className="text-lg font-heading font-semibold leading-snug">
-                        <motion.span layoutId={`title-${selectedPost.id}`} className="block">
+                        <span className="block">
                           {selectedPost.title}
-                        </motion.span>
+                        </span>
                       </h2>
                     </div>
 
@@ -569,9 +549,9 @@ function ImageCard({ post }: { post: BlogPostMeta }) {
         onError={() => setImgError(true)}
       />
       <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent p-3 pt-8">
-        <motion.span layoutId={`title-${post.id}`} className="block text-sm font-medium text-white leading-snug line-clamp-2" style={{ textShadow: "0 1px 4px rgba(0,0,0,0.8)" }}>
+        <span className="block text-sm font-medium text-white leading-snug line-clamp-2" style={{ textShadow: "0 1px 4px rgba(0,0,0,0.8)" }}>
           {post.title}
-        </motion.span>
+        </span>
         <div className="mt-1.5 flex flex-wrap gap-1">
           {post.tags.slice(0, 2).map((tag) => (
             <span key={tag} className="rounded-full bg-white/20 px-2 py-0.5 text-[10px] text-white/90 backdrop-blur-sm">
@@ -590,9 +570,9 @@ function TitleCard({ post }: { post: BlogPostMeta }) {
     <div className="relative flex aspect-square items-center justify-center overflow-hidden rounded-xl border bg-gradient-to-br from-secondary via-card to-secondary p-6 text-center shadow-sm transition-shadow hover:shadow-lg">
       <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_30%_40%,oklch(0.55_0.12_160),transparent_60%),radial-gradient(circle_at_70%_70%,oklch(0.45_0.10_290),transparent_50%)]" />
       <div className="relative z-10">
-        <motion.span layoutId={`title-${post.id}`} className="block text-base font-heading font-semibold leading-snug">
+        <span className="block text-base font-heading font-semibold leading-snug">
           {post.title}
-        </motion.span>
+        </span>
         <div className="mt-3 flex flex-wrap justify-center gap-1">
           {post.tags.map((tag) => (
             <Badge key={tag} variant="outline" className="text-xs">
