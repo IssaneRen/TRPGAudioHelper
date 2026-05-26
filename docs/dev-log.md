@@ -137,3 +137,9 @@ Agent 角色：`团队负责人` / `实习生` / `技术专家` / `git-reviewer`
 | — | 团队负责人 | master | **Frontmatter+自动索引**: (1)所有md添加YAML frontmatter (2)scripts/generate-blog-index.ts自动扫描生成index.json (3)package.json添加prebuild/predev钩子 (4)remark-frontmatter隐藏正文中的frontmatter (5)新增依赖gray-matter/tsx/remark-frontmatter | scripts/generate-blog-index.ts, public/blog/posts/*.md, package.json, src/pages/BlogTab/index.tsx |
 | — | 团队负责人 | master | **移动端工具箱+PL筛选**: (1)MobileToolsMenu底部弹出子工具菜单 (2)"我跑过的"特殊tag+players字段筛选(不区分大小写) (3)PL名称输入弹窗+localStorage持久化 (4)空状态提示+点击更新 (5)PL弹窗ESC关闭+aria属性 | src/components/TabLayout.tsx, src/pages/BlogTab/index.tsx, public/blog/posts/mist-city-record.md, scripts/generate-blog-index.ts |
 | — | 技术专家 x2 | master | 功能审查（CC专家91分通过、Codex专家82分→修复大小写匹配+ESC+aria后通过） | — |
+
+### 2026-05-26
+
+| 时间 | Agent | 分支 | 内容 | 涉及文件 |
+|------|-------|------|------|----------|
+| — | 团队负责人 | master | **Safari 博客详情闪烁修复**: 禁用 iOS/Safari 上 layoutId 共享布局动画（columns+fixed 定位不准），改用淡入缩放；列表选中项 invisible 防重影；桌面 Chrome 保留 layoutId | src/pages/BlogTab/index.tsx |

@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo, useCallback, useRef } from "react";
-import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -31,6 +31,16 @@ interface BlogPostMeta {
 const PL_STORAGE_KEY = "blog-pl-name";
 const SPECIAL_TAG_MY_PLAYED = "我跑过的";
 
+/** Safari / iOS WebKit 在 CSS columns + fixed 浮层下对 layoutId 共享动画定位不准，会闪到错误位置 */
+function shouldDisableSharedLayout(): boolean {
+  if (typeof window === "undefined") return true;
+  const ua = navigator.userAgent;
+  const isIOS = /iPhone|iPad|iPod/i.test(ua);
+  const isSafari =
+    /Safari/i.test(ua) && !/Chrome|CriOS|FxiOS|EdgiOS|OPiOS|Chromium/i.test(ua);
+  return isIOS || isSafari;
+}
+
 let indexCache: BlogPostMeta[] | null = null;
 const contentCache = new Map<string, string>();
 
@@ -49,6 +59,8 @@ export default function BlogTab() {
   const [plName, setPlName] = useState(() => localStorage.getItem(PL_STORAGE_KEY) || "");
   const [showPlDialog, setShowPlDialog] = useState(false);
   const [isMyPlayedMode, setIsMyPlayedMode] = useState(false);
+  const prefersReducedMotion = useReducedMotion();
+  const useSharedLayout = !prefersReducedMotion && !shouldDisableSharedLayout();
 
   useEffect(() => {
     let cancelled = false;
@@ -206,7 +218,6 @@ export default function BlogTab() {
   }
 
   return (
-    <LayoutGroup id="blog">
       <div className="mx-auto max-w-2xl space-y-5">
         {/* 顶部栏：筛选 + PL 名称 */}
         <motion.div
@@ -258,10 +269,17 @@ export default function BlogTab() {
             return (
             <motion.div
               key={post.id}
-              layoutId={hasCover ? `card-${post.id}` : undefined}
-              whileHover={{ y: -3, transition: { duration: 0.15 } }}
+              layout={false}
+              layoutId={
+                useSharedLayout && hasCover && selectedPost?.id !== post.id
+                  ? `card-${post.id}`
+                  : undefined
+              }
+              whileHover={useSharedLayout ? { y: -3, transition: { duration: 0.15 } } : undefined}
               onClick={() => handleSelectPost(post)}
-              className="mb-3 cursor-pointer break-inside-avoid"
+              className={`mb-3 cursor-pointer break-inside-avoid ${
+                selectedPost?.id === post.id ? "invisible" : ""
+              }`}
             >
               {hasCover ? (
                 <ImageCard post={post} />
@@ -323,7 +341,22 @@ export default function BlogTab() {
                 </button>
                 <div className="flex min-h-full items-start justify-center p-4 pb-16 pt-10 sm:p-8 sm:pb-20 sm:pt-14">
                   <motion.div
-                    layoutId={selectedPost.cover && selectedPost.cover.length > 0 ? `card-${selectedPost.id}` : undefined}
+                    layout={false}
+                    layoutId={
+                      useSharedLayout && selectedPost.cover && selectedPost.cover.length > 0
+                        ? `card-${selectedPost.id}`
+                        : undefined
+                    }
+                    initial={
+                      useSharedLayout ? undefined : { opacity: 0, y: 16, scale: 0.98 }
+                    }
+                    animate={
+                      useSharedLayout ? undefined : { opacity: 1, y: 0, scale: 1 }
+                    }
+                    exit={
+                      useSharedLayout ? undefined : { opacity: 0, y: 12, scale: 0.98 }
+                    }
+                    transition={{ duration: 0.22, ease: "easeOut" }}
                     className="pointer-events-auto w-full max-w-3xl rounded-xl border bg-background shadow-2xl overflow-hidden"
                   >
                     {/* Cover 滑动区域 */}
@@ -417,7 +450,6 @@ export default function BlogTab() {
           )}
         </AnimatePresence>
       </div>
-    </LayoutGroup>
   );
 }
 
