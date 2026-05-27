@@ -13,13 +13,13 @@ import {
   MarkerType,
 } from "@xyflow/react";
 import { motion } from "framer-motion";
-import { Plus, Trash2 } from "lucide-react";
+import { Plus, Save, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 import { useTaskStore } from "@/stores/use-task-store";
 import { TaskNodeType } from "./TaskNode";
-import type { TaskStatus, TaskPriority } from "@/types";
+import type { ModuleTaskData, TaskStatus, TaskPriority } from "@/types";
 
 const nodeTypes = { taskNode: TaskNodeType };
 
@@ -34,15 +34,15 @@ const defaultEdgeOptions = {
   style: { stroke: "var(--primary)", strokeWidth: 1.5, strokeDasharray: "6 3" },
 };
 
-function buildNodes(store: ReturnType<typeof useTaskStore>): Node[] {
-  return store.taskData.nodes.map((n) => ({
+function buildNodes(taskData: ModuleTaskData): Node[] {
+  return taskData.nodes.map((n) => ({
     ...n,
     type: n.type || "taskNode",
   }));
 }
 
-function buildEdges(store: ReturnType<typeof useTaskStore>): Edge[] {
-  return store.taskData.edges.map((e) => ({
+function buildEdges(taskData: ModuleTaskData): Edge[] {
+  return taskData.edges.map((e) => ({
     ...e,
     ...defaultEdgeOptions,
     label: e.data?.label || e.label || "",
@@ -51,17 +51,24 @@ function buildEdges(store: ReturnType<typeof useTaskStore>): Edge[] {
   }));
 }
 
-export function TaskFlowSection() {
+interface TaskFlowSectionProps {
+  dirty: boolean;
+  onDirty: () => void;
+  onSave: () => void;
+}
+
+export function TaskFlowSection({ dirty, onDirty, onSave }: TaskFlowSectionProps) {
   const store = useTaskStore();
-  const [nodes, setNodes, onNodesChangeBase] = useNodesState(buildNodes(store));
-  const [edges, setEdges, onEdgesChange] = useEdgesState(buildEdges(store));
+  const { taskData } = store;
+  const [nodes, setNodes, onNodesChangeBase] = useNodesState(buildNodes(taskData));
+  const [edges, setEdges, onEdgesChange] = useEdgesState(buildEdges(taskData));
   const [editMode, setEditMode] = useState(false);
 
   // store 数据变化时同步到 ReactFlow
   useEffect(() => {
-    setNodes(buildNodes(store));
-    setEdges(buildEdges(store));
-  }, [store.taskData, setNodes, setEdges]);
+    setNodes(buildNodes(taskData));
+    setEdges(buildEdges(taskData));
+  }, [taskData, setNodes, setEdges]);
 
   // 包装 onNodesChange：拖拽结束时同步 position 到 store
   const onNodesChange = useCallback((changes: NodeChange[]) => {
@@ -69,9 +76,10 @@ export function TaskFlowSection() {
     for (const change of changes) {
       if (change.type === "position" && change.position && change.dragging === false) {
         store.updateNodePosition(change.id, change.position);
+        onDirty();
       }
     }
-  }, [onNodesChangeBase, store]);
+  }, [onDirty, onNodesChangeBase, store]);
 
   const statusCounts = useMemo(() => {
     const counts: Record<TaskStatus, number> = { pending: 0, in_progress: 0, completed: 0, failed: 0 };
@@ -103,8 +111,9 @@ export function TaskFlowSection() {
       position: newNode.position,
       data: newNode.data as { label: string; description: string; status: TaskStatus; priority: TaskPriority },
     });
+    onDirty();
     toast.success("已添加新任务");
-  }, [setNodes, store]);
+  }, [onDirty, setNodes, store]);
 
   // 连线
   const handleConnect = useCallback((connection: Connection) => {
@@ -122,7 +131,8 @@ export function TaskFlowSection() {
     };
     setEdges((eds) => [...eds, newEdge]);
     store.addEdge({ id: newEdgeId, source: connection.source, target: connection.target, data: { label: "依赖" } });
-  }, [setEdges, store]);
+    onDirty();
+  }, [onDirty, setEdges, store]);
 
   // 双击节点循环切换状态
   const handleNodeDoubleClick = useCallback((_event: React.MouseEvent, node: Node) => {
@@ -137,24 +147,27 @@ export function TaskFlowSection() {
       )
     );
     store.updateNode(node.id, { status: nextStatus });
+    onDirty();
 
     const labels: Record<TaskStatus, string> = { pending: "待办", in_progress: "进行中", completed: "已完成", failed: "失败" };
     toast(`「${node.data?.label}」→ ${labels[nextStatus]}`, { duration: 1200 });
-  }, [setNodes, store]);
+  }, [onDirty, setNodes, store]);
 
   // 删除节点
   const handleNodesDelete = useCallback((deleted: Node[]) => {
     for (const node of deleted) {
       store.deleteNode(node.id);
     }
+    onDirty();
     toast.success(`已删除 ${deleted.length} 个任务`);
-  }, [store]);
+  }, [onDirty, store]);
 
   const handleEdgesDelete = useCallback((deleted: Edge[]) => {
     for (const edge of deleted) {
       store.deleteEdge(edge.id);
     }
-  }, [store]);
+    onDirty();
+  }, [onDirty, store]);
 
   return (
     <motion.div
@@ -184,6 +197,9 @@ export function TaskFlowSection() {
         >
           <Trash2 className="mr-1 h-3.5 w-3.5" />
           {editMode ? "退出编辑" : "编辑"}
+        </Button>
+        <Button variant="default" size="sm" disabled={!dirty} onClick={onSave}>
+          <Save className="mr-1 h-3.5 w-3.5" /> 保存
         </Button>
       </div>
 

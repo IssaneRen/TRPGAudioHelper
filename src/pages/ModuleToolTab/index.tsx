@@ -1,4 +1,4 @@
-import { useCallback, useState, useMemo } from "react";
+import { useCallback, useState, useMemo, useRef } from "react";
 import { generateUUID } from "@/utils/uuid";
 import {
   ReactFlow,
@@ -11,23 +11,26 @@ import {
   type Edge,
   type NodeMouseHandler,
   type Connection,
+  type NodeChange,
   useReactFlow,
   ReactFlowProvider,
   MarkerType,
   ConnectionMode,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   RotateCcw, Download, Upload, LayoutGrid,
-  Pencil, Eye, FilePlus, ChevronUp, ChevronDown,
+  Pencil, Eye, FilePlus, Save,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 import { useClueStore } from "@/stores/use-clue-store";
+import { useTaskStore } from "@/stores/use-task-store";
 import { downloadJson, importFromJson } from "@/utils/json-io";
 import { getAutoLayout } from "@/utils/auto-layout";
+import type { ModuleClueData } from "@/types";
 import { ClueNodeType } from "./ClueNode";
 import { AnimatedEdge } from "./AnimatedEdge";
 import { DirectDiscoverDialog } from "./DirectDiscoverDialog";
@@ -63,15 +66,28 @@ function buildInitialEdges(clueData: ReturnType<typeof useClueStore>["clueData"]
 
 function ModuleToolInner() {
   const store = useClueStore();
+  const taskStore = useTaskStore();
   const { clueData } = store;
   const { fitView, getNodes, getEdges } = useReactFlow();
 
-  const [nodes, setNodes, onNodesChange] = useNodesState(buildInitialNodes(clueData));
+  const [nodes, setNodes, onNodesChangeBase] = useNodesState(buildInitialNodes(clueData));
   const [edges, setEdges, onEdgesChange] = useEdgesState(buildInitialEdges(clueData));
+  const [activeFlow, setActiveFlow] = useState<"clue" | "task">("clue");
+  const [clueDirty, setClueDirty] = useState(false);
+  const [taskDirty, setTaskDirty] = useState(false);
+  const savedClueRef = useRef(clueData);
+  const savedTaskRef = useRef(taskStore.taskData);
 
   // 模式：view（展示）/ edit（创建/编辑）
   const [mode, setMode] = useState<"view" | "edit">("view");
   const isEditMode = mode === "edit";
+
+  const onNodesChange = useCallback((changes: NodeChange[]) => {
+    onNodesChangeBase(changes);
+    if (isEditMode && changes.some((change) => change.type === "position" && change.dragging === false)) {
+      setClueDirty(true);
+    }
+  }, [isEditMode, onNodesChangeBase]);
 
   // 各种对话框状态
   const [discoverDialog, setDiscoverDialog] = useState<{
@@ -311,6 +327,7 @@ function ModuleToolInner() {
           data: { action: "新关系", triggered: false },
         });
 
+        setClueDirty(true);
         toast.success(`已添加线索「${data.label}」`);
       } else if (nodeEditDialog.mode === "edit" && nodeEditDialog.editNodeId) {
         setNodes((nds) =>
@@ -321,6 +338,7 @@ function ModuleToolInner() {
           )
         );
         store.updateNode(nodeEditDialog.editNodeId, data);
+        setClueDirty(true);
         toast.success(`已更新线索「${data.label}」`);
       }
       setNodeEditDialog({ open: false, mode: "create" });
@@ -339,6 +357,7 @@ function ModuleToolInner() {
         )
       );
       store.updateEdge(edgeEditDialog.edgeId, { action });
+      setClueDirty(true);
       toast.success("关系已更新");
       setEdgeEditDialog({ open: false, edgeId: "", initialAction: "" });
     },
@@ -385,6 +404,7 @@ function ModuleToolInner() {
         )
       );
 
+      setClueDirty(true);
       toast.success("已创建新连线，双击标签可编辑");
     },
     [setEdges, setNodes, store]
@@ -403,6 +423,7 @@ function ModuleToolInner() {
         }
         store.deleteNode(node.id);
       }
+      setClueDirty(true);
       toast.success(`已删除 ${deleted.length} 个节点`);
     },
     [isEditMode, store, setNodes]
@@ -414,6 +435,7 @@ function ModuleToolInner() {
       for (const edge of deleted) {
         store.deleteEdge(edge.id);
       }
+      setClueDirty(true);
       toast.success(`已删除 ${deleted.length} 条关系`);
     },
     [isEditMode, store]
@@ -427,6 +449,7 @@ function ModuleToolInner() {
   const handleAutoLayout = useCallback(() => {
     const layoutedNodes = getAutoLayout(nodes, edges, "TB");
     setNodes(layoutedNodes);
+    setClueDirty(true);
     setTimeout(() => fitView({ duration: 600 }), 50);
     toast.success("已完成自动排版");
   }, [nodes, edges, setNodes, fitView]);
@@ -468,6 +491,7 @@ function ModuleToolInner() {
           store.setClueData(mod);
           setNodes(buildInitialNodes(mod));
           setEdges(buildInitialEdges(mod));
+          setClueDirty(true);
           toast.success("线索数据导入成功");
         } else {
           toast.error("未找到线索数据");
@@ -503,6 +527,7 @@ function ModuleToolInner() {
     setNodes(buildInitialNodes(newData));
     setEdges(buildInitialEdges(newData));
     setMode("edit");
+    setClueDirty(true);
     toast.success(`已创建新模组「${name.trim()}」`);
   };
 
@@ -510,8 +535,59 @@ function ModuleToolInner() {
     setMode((prev) => (prev === "view" ? "edit" : "view"));
   };
 
-  // 线索区域折叠状态
-  const [clueExpanded, setClueExpanded] = useState(true);
+  const handleSaveClues = useCallback(() => {
+    const savedData: ModuleClueData = {
+      ...clueData,
+      nodes: nodes.map((node) => ({
+        id: node.id,
+        type: node.type || "clueNode",
+        position: node.position,
+        data: node.data as ModuleClueData["nodes"][number]["data"],
+      })),
+      edges: edges.map((edge) => ({
+        id: edge.id,
+        source: edge.source,
+        target: edge.target,
+        animated: edge.animated ?? true,
+        data: edge.data as ModuleClueData["edges"][number]["data"],
+      })),
+    };
+    store.setClueData(savedData);
+    savedClueRef.current = savedData;
+    setClueDirty(false);
+    toast.success("线索关系已保存");
+  }, [clueData, edges, nodes, store]);
+
+  const handleSaveTasks = useCallback(() => {
+    savedTaskRef.current = taskStore.taskData;
+    setTaskDirty(false);
+    toast.success("任务关系已保存");
+  }, [taskStore.taskData]);
+
+  const handleFlowSwitch = useCallback((nextFlow: "clue" | "task") => {
+    if (nextFlow === activeFlow) return;
+
+    if (activeFlow === "clue" && clueDirty) {
+      if (!window.confirm("线索关系存在未保存的修改。切换后将舍弃这些修改，是否继续？")) return;
+      store.setClueData(savedClueRef.current);
+      setNodes(buildInitialNodes(savedClueRef.current));
+      setEdges(buildInitialEdges(savedClueRef.current));
+      setClueDirty(false);
+    }
+
+    if (activeFlow === "task" && taskDirty) {
+      if (!window.confirm("任务关系存在未保存的修改。切换后将舍弃这些修改，是否继续？")) return;
+      taskStore.setTaskData(savedTaskRef.current);
+      setTaskDirty(false);
+    }
+
+    if (nextFlow === "clue") {
+      savedClueRef.current = clueData;
+    } else {
+      savedTaskRef.current = taskStore.taskData;
+    }
+    setActiveFlow(nextFlow);
+  }, [activeFlow, clueData, clueDirty, setEdges, setNodes, store, taskDirty, taskStore]);
 
   // 将 handleAddNodeNear 传递给节点（通过 data）
   const nodesWithEditCallbacks = useMemo(() =>
@@ -540,13 +616,29 @@ function ModuleToolInner() {
       animate={{ opacity: 1 }}
       className="flex flex-col gap-4"
     >
-      {/* 线索区域标题栏（可折叠） */}
-      <div
-        className="flex flex-wrap items-center gap-2 cursor-pointer select-none"
-        onClick={() => setClueExpanded((v) => !v)}
-      >
+      <div className="flex w-fit gap-1 rounded-lg border bg-muted/30 p-1">
+        <Button
+          variant={activeFlow === "clue" ? "default" : "ghost"}
+          size="sm"
+          onClick={() => handleFlowSwitch("clue")}
+        >
+          线索关系
+          {clueDirty && <span className="ml-1 text-xs">*</span>}
+        </Button>
+        <Button
+          variant={activeFlow === "task" ? "default" : "ghost"}
+          size="sm"
+          onClick={() => handleFlowSwitch("task")}
+        >
+          任务关系
+          {taskDirty && <span className="ml-1 text-xs">*</span>}
+        </Button>
+      </div>
+
+      {activeFlow === "clue" && (
+      <>
+      <div className="flex flex-wrap items-center gap-2">
         <div className="flex items-center gap-2">
-          {clueExpanded ? <ChevronUp className="h-4 w-4 text-muted-foreground" /> : <ChevronDown className="h-4 w-4 text-muted-foreground" />}
           <h2 className="text-xl font-bold">{clueData.moduleName}</h2>
         </div>
         {!isEditMode && (
@@ -594,18 +686,10 @@ function ModuleToolInner() {
         <Button variant="outline" size="sm" onClick={(e) => { e.stopPropagation(); handleImport(); }}>
           <Upload className="mr-1 h-4 w-4" /> 导入
         </Button>
+        <Button variant="default" size="sm" disabled={!clueDirty} onClick={handleSaveClues}>
+          <Save className="mr-1 h-4 w-4" /> 保存
+        </Button>
       </div>
-
-      <AnimatePresence initial={false}>
-      {clueExpanded && (
-      <motion.div
-        key="clue-content"
-        initial={{ height: 0, opacity: 0 }}
-        animate={{ height: "auto", opacity: 1 }}
-        exit={{ height: 0, opacity: 0 }}
-        transition={{ duration: 0.3, ease: "easeInOut" }}
-        className="overflow-hidden"
-      >
 
       <p className="text-sm text-muted-foreground">
         {isEditMode ? (
@@ -655,18 +739,16 @@ function ModuleToolInner() {
           <MiniMap nodeStrokeWidth={2} className="!bg-background !border-border" />
         </ReactFlow>
       </div>
-
-      </motion.div>
+      </>
       )}
-      </AnimatePresence>
 
-      {/* ===== 分割线 ===== */}
-      <div className="relative py-2">
-        <div className="absolute inset-x-0 top-1/2 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
-      </div>
-
-      {/* ===== 任务关系网 ===== */}
-      <TaskFlowSection />
+      {activeFlow === "task" && (
+        <TaskFlowSection
+          dirty={taskDirty}
+          onDirty={() => setTaskDirty(true)}
+          onSave={handleSaveTasks}
+        />
+      )}
 
       {/* 展示模式：直接发现弹窗 */}
       <DirectDiscoverDialog

@@ -89,16 +89,22 @@
   }
 }
 
-/* Smooth scrolling + 预留滚动条槽位，避免 Tab 切换时因滚动条出现/消失导致顶栏抖动 */
+/* Smooth scrolling */
 html {
   scroll-behavior: smooth;
-  scrollbar-gutter: stable;
 }
 
 @layer utilities {
   .app-scroll-area {
-    scrollbar-gutter: stable;
     overscroll-behavior: contain;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .app-scroll-area::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
   }
 }
 
