@@ -483,6 +483,7 @@ export default function WikiAdminTab() {
         <div className="grid gap-6 2xl:grid-cols-[minmax(0,1.1fr)_minmax(360px,0.9fr)]">
           <div className="space-y-6">
             {editorMode === "advanced" && (
+              <>
             <Card className="border-border/70 bg-card/80 py-5">
               <CardHeader className="gap-2">
                 <CardTitle className="text-base">元数据</CardTitle>
@@ -725,6 +726,7 @@ export default function WikiAdminTab() {
                 )}
               </CardContent>
             </Card>
+              </>
             )}
 
             <Card className="border-border/70 bg-card/80 py-5">

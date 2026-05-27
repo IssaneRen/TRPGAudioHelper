@@ -159,3 +159,4 @@ Agent 角色：`团队负责人` / `实习生` / `技术专家` / `git-reviewer`
 | — | Cursor Agent | master | **世界 Wiki 编辑体验增强**: block/token/list item 新增复制操作，管理台支持从正文 ref 反向同步 relatedEntryIds，进一步减少手动维护成本 | src/features/wiki/WikiBlockEditor.tsx, src/pages/WikiAdminTab/index.tsx, docs/business.md, docs/tech-decisions.md, user_request.md, docs/reports/2026-05-27-wiki-split-admin-research.md, docs/dev-log.md |
 | — | Cursor Agent | master | **工具箱 Tab 顶栏抖动修复**: 根布局改为 `h-dvh` 固定视口高度，滚动下沉到 `main` 独立容器；全局与内容区启用 `scrollbar-gutter: stable`，顶栏右侧预留安全间距，避免子工具切换时滚动条出现/消失导致右上角闪烁 | src/components/TabLayout.tsx, src/index.css, docs/dev-log.md |
 | — | Cursor Agent | master | **世界 Wiki 搜索栏折叠化**: 顶部改为单行折叠头 + 展开内容；搜索框回车后自动展开，详情页进入时默认收起，并在折叠态补充 0 结果轻提示，强化百科详情页观感 | src/pages/WorldWikiTab/index.tsx, docs/dev-log.md |
+| — | Cursor Agent | master | **Wiki Admin 构建错误修复**: 修正 `advanced` 模式条件渲染的 JSX 父节点缺失问题，为并列 Card 增加 Fragment 包裹，恢复 CI / deploy 构建通过 | src/pages/WikiAdminTab/index.tsx, docs/dev-log.md |
