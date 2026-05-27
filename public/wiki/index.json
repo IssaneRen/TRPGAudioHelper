@@ -29,12 +29,112 @@
   "modules": [
     {
       "id": "module.kingsport-city-in-the-mists",
-      "displayName": "《永恒恶意 Everlasting Malice》",
+      "displayName": "《永恒恶意-Everlasting Malice》",
       "aliases": [
         "Kingsport: The City In The Mists",
         "金斯波特迷雾之城",
         "永恒恶意",
         "Everlasting Malice"
+      ],
+      "summary": "金斯波特背景的跑后回顾与战报索引模组。",
+      "tags": [
+        "1920 年代"
+      ]
+    },
+    {
+      "id": "module.library.saturnine-chalice",
+      "displayName": "死光与其他黑暗的转角",
+      "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
+      "tags": [
+        "1920 年代"
+      ]
+    },
+    {
+      "id": "module.library.a-little-knowledge",
+      "displayName": "《些许知识-A Little Knowledge》",
+      "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
+      "tags": [
+        "1920 年代"
+      ]
+    },
+    {
+      "id": "module.library.oath-of-blood",
+      "displayName": "《血之誓约-Oath of Blood》",
+      "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
+      "tags": [
+        "1920 年代"
+      ]
+    },
+    {
+      "id": "module.library.the-asylum",
+      "displayName": "《疗养院-The Asylum》",
+      "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
+      "tags": [
+        "1920 年代"
+      ]
+    },
+    {
+      "id": "module.library.engine-trouble",
+      "displayName": "《机械天启-Engine Trouble》",
+      "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
+      "tags": [
+        "1920 年代"
+      ]
+    },
+    {
+      "id": "module.library.dreaming-of-the-river-of-light",
+      "displayName": "《夜河之梦-Dreaming of the River of Light》",
+      "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
+      "tags": [
+        "1920 年代"
+      ]
+    },
+    {
+      "id": "module.library.and-some-fell-on-stony-ground",
+      "displayName": "有些人油盐不进",
+      "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
+      "tags": [
+        "1920 年代"
+      ]
+    },
+    {
+      "id": "module.library.the-darkness-beneath-the-hill",
+      "displayName": "《岭下暗影-The Darkness Beneath the Hill》",
+      "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
+      "tags": [
+        "1920 年代"
+      ]
+    },
+    {
+      "id": "module.library.turn-to-stone",
+      "displayName": "《化为磐石-Turn to Stone》",
+      "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
+      "tags": [
+        "1920 年代"
+      ]
+    },
+    {
+      "id": "module.library.edge-of-darkness",
+      "displayName": "黑暗的边缘",
+      "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
+      "tags": [
+        "1920 年代"
+      ]
+    },
+    {
+      "id": "module.library.his-pleasant-dream-was-shattered",
+      "displayName": "《黄粱梦醒-His Pleasant Dream Was Shattered》",
+      "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
+      "tags": [
+        "1920 年代"
+      ]
+    },
+    {
+      "id": "module.library.uncle-timothys-will",
+      "displayName": "蒂莫西舅舅的遗产",
+      "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
+      "tags": [
+        "1920 年代"
       ]
     }
   ],
@@ -362,17 +462,15 @@
     {
       "id": "module.kingsport-city-in-the-mists",
       "category": "module",
-      "displayName": "《永恒恶意 Everlasting Malice》",
-      "summary": "面向 PL 回顾与战报补链的世界设定条目，负责串联人物、地点、事件与唯一键映射关系。",
+      "displayName": "《永恒恶意-Everlasting Malice》",
+      "summary": "1928，金斯波特，迷雾之城。失明的人们究竟遭遇了什么？",
       "aliasNames": [
         "Kingsport: The City In The Mists",
         "金斯波特：迷雾之城",
         "金斯波特补遗"
       ],
       "playerIds": [
-        "pl.cici",
-        "pl.leina",
-        "pl.daocaoren"
+        "pl.cici"
       ],
       "moduleIds": [
         "module.kingsport-city-in-the-mists"
@@ -380,27 +478,197 @@
       "relatedEntryIds": [
         "loc.kingsport",
         "char.allen",
-        "char.leina",
-        "char.gan",
         "event.kingsport-blindness-19281106",
         "event.kingsport-nightmare-19281109"
       ],
-      "facts": [
+      "relatedEntryAccess": [
         {
-          "label": "类型",
-          "value": "补充设定 / 战报索引 / 跑后回顾入口"
-        },
-        {
-          "label": "阅读对象",
-          "value": "PL"
-        },
-        {
-          "label": "索引方式",
-          "value": "显示名中文为主，内部跳转使用唯一键"
+          "entryId": "char.allen",
+          "playerIds": [
+            "pl.cici"
+          ]
         }
       ],
-      "createdAt": "1928-11-01T08:00:00Z",
-      "updatedAt": "1928-11-09T21:00:00Z"
+      "facts": [
+        {
+          "label": "时代",
+          "value": "1920s"
+        },
+        {
+          "label": "地点",
+          "value": "美国/马萨诸塞州/金斯波特"
+        }
+      ],
+      "createdAt": "2026-05-28T00:00:00Z",
+      "updatedAt": "2026-05-28T02:23:00Z"
+    },
+    {
+      "id": "module.library.a-little-knowledge",
+      "category": "module",
+      "displayName": "《些许知识-A Little Knowledge》",
+      "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
+      "moduleIds": [
+        "module.library.a-little-knowledge"
+      ],
+      "tags": [
+        "1920 年代"
+      ],
+      "createdAt": "2026-05-28T00:00:00+08:00",
+      "updatedAt": "2026-05-28T00:00:00+08:00"
+    },
+    {
+      "id": "module.library.and-some-fell-on-stony-ground",
+      "category": "module",
+      "displayName": "有些人油盐不进",
+      "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
+      "moduleIds": [
+        "module.library.and-some-fell-on-stony-ground"
+      ],
+      "tags": [
+        "1920 年代"
+      ],
+      "createdAt": "2026-05-28T00:00:00+08:00",
+      "updatedAt": "2026-05-28T00:00:00+08:00"
+    },
+    {
+      "id": "module.library.dreaming-of-the-river-of-light",
+      "category": "module",
+      "displayName": "《夜河之梦-Dreaming of the River of Light》",
+      "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
+      "moduleIds": [
+        "module.library.dreaming-of-the-river-of-light"
+      ],
+      "tags": [
+        "1920 年代"
+      ],
+      "createdAt": "2026-05-28T00:00:00+08:00",
+      "updatedAt": "2026-05-28T00:00:00+08:00"
+    },
+    {
+      "id": "module.library.edge-of-darkness",
+      "category": "module",
+      "displayName": "黑暗的边缘",
+      "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
+      "moduleIds": [
+        "module.library.edge-of-darkness"
+      ],
+      "tags": [
+        "1920 年代"
+      ],
+      "createdAt": "2026-05-28T00:00:00+08:00",
+      "updatedAt": "2026-05-28T00:00:00+08:00"
+    },
+    {
+      "id": "module.library.engine-trouble",
+      "category": "module",
+      "displayName": "《机械天启-Engine Trouble》",
+      "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
+      "moduleIds": [
+        "module.library.engine-trouble"
+      ],
+      "tags": [
+        "1920 年代"
+      ],
+      "createdAt": "2026-05-28T00:00:00+08:00",
+      "updatedAt": "2026-05-28T00:00:00+08:00"
+    },
+    {
+      "id": "module.library.his-pleasant-dream-was-shattered",
+      "category": "module",
+      "displayName": "《黄粱梦醒-His Pleasant Dream Was Shattered》",
+      "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
+      "moduleIds": [
+        "module.library.his-pleasant-dream-was-shattered"
+      ],
+      "tags": [
+        "1920 年代"
+      ],
+      "createdAt": "2026-05-28T00:00:00+08:00",
+      "updatedAt": "2026-05-28T00:00:00+08:00"
+    },
+    {
+      "id": "module.library.oath-of-blood",
+      "category": "module",
+      "displayName": "《血之誓约-Oath of Blood》",
+      "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
+      "moduleIds": [
+        "module.library.oath-of-blood"
+      ],
+      "tags": [
+        "1920 年代"
+      ],
+      "createdAt": "2026-05-28T00:00:00+08:00",
+      "updatedAt": "2026-05-28T00:00:00+08:00"
+    },
+    {
+      "id": "module.library.saturnine-chalice",
+      "category": "module",
+      "displayName": "死光与其他黑暗的转角",
+      "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
+      "moduleIds": [
+        "module.library.saturnine-chalice"
+      ],
+      "tags": [
+        "1920 年代"
+      ],
+      "createdAt": "2026-05-28T00:00:00+08:00",
+      "updatedAt": "2026-05-28T00:00:00+08:00"
+    },
+    {
+      "id": "module.library.the-asylum",
+      "category": "module",
+      "displayName": "《疗养院-The Asylum》",
+      "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
+      "moduleIds": [
+        "module.library.the-asylum"
+      ],
+      "tags": [
+        "1920 年代"
+      ],
+      "createdAt": "2026-05-28T00:00:00+08:00",
+      "updatedAt": "2026-05-28T00:00:00+08:00"
+    },
+    {
+      "id": "module.library.the-darkness-beneath-the-hill",
+      "category": "module",
+      "displayName": "《岭下暗影-The Darkness Beneath the Hill》",
+      "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
+      "moduleIds": [
+        "module.library.the-darkness-beneath-the-hill"
+      ],
+      "tags": [
+        "1920 年代"
+      ],
+      "createdAt": "2026-05-28T00:00:00+08:00",
+      "updatedAt": "2026-05-28T00:00:00+08:00"
+    },
+    {
+      "id": "module.library.turn-to-stone",
+      "category": "module",
+      "displayName": "《化为磐石-Turn to Stone》",
+      "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
+      "moduleIds": [
+        "module.library.turn-to-stone"
+      ],
+      "tags": [
+        "1920 年代"
+      ],
+      "createdAt": "2026-05-28T00:00:00+08:00",
+      "updatedAt": "2026-05-28T00:00:00+08:00"
+    },
+    {
+      "id": "module.library.uncle-timothys-will",
+      "category": "module",
+      "displayName": "蒂莫西舅舅的遗产",
+      "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
+      "moduleIds": [
+        "module.library.uncle-timothys-will"
+      ],
+      "tags": [
+        "1920 年代"
+      ],
+      "createdAt": "2026-05-28T00:00:00+08:00",
+      "updatedAt": "2026-05-28T00:00:00+08:00"
     }
   ],
   "lookup": {
@@ -429,10 +697,22 @@
       "金斯波特 kingsport": "loc.kingsport",
       "kingsport": "loc.kingsport",
       "金斯波特": "loc.kingsport",
-      "《永恒恶意 everlasting malice》": "module.kingsport-city-in-the-mists",
+      "《永恒恶意-everlasting malice》": "module.kingsport-city-in-the-mists",
       "kingsport: the city in the mists": "module.kingsport-city-in-the-mists",
       "金斯波特：迷雾之城": "module.kingsport-city-in-the-mists",
-      "金斯波特补遗": "module.kingsport-city-in-the-mists"
+      "金斯波特补遗": "module.kingsport-city-in-the-mists",
+      "《些许知识-a little knowledge》": "module.library.a-little-knowledge",
+      "有些人油盐不进": "module.library.and-some-fell-on-stony-ground",
+      "《夜河之梦-dreaming of the river of light》": "module.library.dreaming-of-the-river-of-light",
+      "黑暗的边缘": "module.library.edge-of-darkness",
+      "《机械天启-engine trouble》": "module.library.engine-trouble",
+      "《黄粱梦醒-his pleasant dream was shattered》": "module.library.his-pleasant-dream-was-shattered",
+      "《血之誓约-oath of blood》": "module.library.oath-of-blood",
+      "死光与其他黑暗的转角": "module.library.saturnine-chalice",
+      "《疗养院-the asylum》": "module.library.the-asylum",
+      "《岭下暗影-the darkness beneath the hill》": "module.library.the-darkness-beneath-the-hill",
+      "《化为磐石-turn to stone》": "module.library.turn-to-stone",
+      "蒂莫西舅舅的遗产": "module.library.uncle-timothys-will"
     },
     "playerIdByName": {
       "cici": "pl.cici",
@@ -446,11 +726,23 @@
       "甘pl": "pl.daocaoren"
     },
     "moduleIdByName": {
-      "《永恒恶意 everlasting malice》": "module.kingsport-city-in-the-mists",
+      "《永恒恶意-everlasting malice》": "module.kingsport-city-in-the-mists",
       "kingsport: the city in the mists": "module.kingsport-city-in-the-mists",
       "金斯波特迷雾之城": "module.kingsport-city-in-the-mists",
       "永恒恶意": "module.kingsport-city-in-the-mists",
-      "everlasting malice": "module.kingsport-city-in-the-mists"
+      "everlasting malice": "module.kingsport-city-in-the-mists",
+      "死光与其他黑暗的转角": "module.library.saturnine-chalice",
+      "《些许知识-a little knowledge》": "module.library.a-little-knowledge",
+      "《血之誓约-oath of blood》": "module.library.oath-of-blood",
+      "《疗养院-the asylum》": "module.library.the-asylum",
+      "《机械天启-engine trouble》": "module.library.engine-trouble",
+      "《夜河之梦-dreaming of the river of light》": "module.library.dreaming-of-the-river-of-light",
+      "有些人油盐不进": "module.library.and-some-fell-on-stony-ground",
+      "《岭下暗影-the darkness beneath the hill》": "module.library.the-darkness-beneath-the-hill",
+      "《化为磐石-turn to stone》": "module.library.turn-to-stone",
+      "黑暗的边缘": "module.library.edge-of-darkness",
+      "《黄粱梦醒-his pleasant dream was shattered》": "module.library.his-pleasant-dream-was-shattered",
+      "蒂莫西舅舅的遗产": "module.library.uncle-timothys-will"
     }
   }
 }

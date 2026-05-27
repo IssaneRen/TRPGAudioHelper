@@ -1,15 +1,28 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link, useParams } from "react-router";
+import { Link } from "react-router";
 import { ArrowLeft } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { WikiIndexPayload } from "@/types/wiki";
 
+function ModuleTag({ tag, variant = "secondary" }: { tag: string; variant?: "default" | "outline" | "secondary" }) {
+  return (
+    <Badge
+      variant={variant}
+      title={tag}
+      className="inline-block max-w-48 truncate align-bottom"
+    >
+      {tag}
+    </Badge>
+  );
+}
+
 export default function WorldWikiModulesTab() {
-  const { moduleId } = useParams<{ moduleId?: string }>();
   const [indexData, setIndexData] = useState<WikiIndexPayload | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [selectedTag, setSelectedTag] = useState<string | null>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -36,13 +49,13 @@ export default function WorldWikiModulesTab() {
     };
   }, []);
 
-  const module = useMemo(
-    () => indexData?.modules.find((m) => m.id === moduleId) ?? null,
-    [indexData, moduleId]
+  const tags = useMemo(
+    () => Array.from(new Set((indexData?.modules || []).flatMap((module) => module.tags || []))).sort(),
+    [indexData]
   );
-  const moduleEntries = useMemo(
-    () => (indexData?.entries || []).filter((e) => (moduleId ? e.moduleIds?.includes(moduleId) : false)),
-    [indexData, moduleId]
+  const modules = useMemo(
+    () => (indexData?.modules || []).filter((module) => !selectedTag || module.tags?.includes(selectedTag)),
+    [indexData, selectedTag]
   );
 
   return (
@@ -52,7 +65,10 @@ export default function WorldWikiModulesTab() {
         返回Wiki
       </Link>
 
-      <h2 className="text-2xl font-bold">{moduleId ? `${module?.displayName || "未知模组"} - 模组详情` : "模组总览"}</h2>
+      <div>
+        <h2 className="text-2xl font-bold">模组总览</h2>
+        <p className="mt-1 text-sm text-muted-foreground">按背景标签浏览已有初始模组条目。</p>
+      </div>
 
       {loading ? (
         <div className="grid gap-3 md:grid-cols-2">
@@ -65,44 +81,47 @@ export default function WorldWikiModulesTab() {
         </div>
       ) : !indexData ? (
         <p className="text-sm text-muted-foreground">暂无模组数据。</p>
-      ) : !moduleId ? (
-        indexData.modules.length === 0 ? (
+      ) : indexData.modules.length === 0 ? (
           <p className="text-sm text-muted-foreground">暂无可展示的模组。</p>
         ) : (
-          <div className="grid gap-3 md:grid-cols-2">
-            {indexData.modules.map((item) => (
-              <Link key={item.id} to={`/tools/world-wiki/modules/${item.id}`}>
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="text-base">{item.displayName}</CardTitle>
-                  </CardHeader>
-                  <CardContent className="text-sm text-muted-foreground">
-                    唯一键：{item.id}
-                    {item.aliases?.length ? ` · 别名：${item.aliases.join(" / ")}` : ""}
-                  </CardContent>
-                </Card>
-              </Link>
-            ))}
+          <div className="space-y-4">
+            <div className="flex flex-wrap gap-2">
+              <button onClick={() => setSelectedTag(null)}>
+                <Badge variant={selectedTag === null ? "default" : "outline"}>全部</Badge>
+              </button>
+              {tags.map((tag) => (
+                <button key={tag} onClick={() => setSelectedTag(tag)}>
+                  <ModuleTag tag={tag} variant={selectedTag === tag ? "default" : "outline"} />
+                </button>
+              ))}
+            </div>
+            {modules.length === 0 ? (
+              <p className="text-sm text-muted-foreground">该标签下暂无模组。</p>
+            ) : (
+              <div className="grid gap-3 md:grid-cols-2">
+                {modules.map((item) => (
+                  <Link key={item.id} to={`/tools/world-wiki/${item.id}`}>
+                    <Card className="h-full">
+                      <CardHeader>
+                        <CardTitle className="text-base">{item.displayName}</CardTitle>
+                      </CardHeader>
+                      <CardContent className="space-y-3 text-sm text-muted-foreground">
+                        {item.summary && <p>{item.summary}</p>}
+                        {item.tags && item.tags.length > 0 && (
+                          <div className="flex flex-wrap gap-1.5">
+                            {item.tags.map((tag) => (
+                              <ModuleTag key={tag} tag={tag} />
+                            ))}
+                          </div>
+                        )}
+                      </CardContent>
+                    </Card>
+                  </Link>
+                ))}
+              </div>
+            )}
           </div>
-        )
-      ) : !module ? (
-        <p className="text-sm text-muted-foreground">该模组不存在或已删除。</p>
-      ) : moduleEntries.length === 0 ? (
-        <p className="text-sm text-muted-foreground">当前模组还没有关联词条。</p>
-      ) : (
-        <div className="grid gap-3 md:grid-cols-2">
-          {moduleEntries.map((entry) => (
-            <Link key={entry.id} to={`/tools/world-wiki/${entry.id}`}>
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-base">{entry.displayName}</CardTitle>
-                </CardHeader>
-                <CardContent>{entry.summary}</CardContent>
-              </Card>
-            </Link>
-          ))}
-        </div>
-      )}
+        )}
     </div>
   );
 }

@@ -46,7 +46,6 @@ export default function App() {
               <Route path="world-wiki" element={<WorldWikiTab />} />
               <Route path="world-wiki/:entryId" element={<WorldWikiTab />} />
               <Route path="world-wiki/modules" element={<WorldWikiModulesTab />} />
-              <Route path="world-wiki/modules/:moduleId" element={<WorldWikiModulesTab />} />
               <Route path="soundboard" element={<SoundboardTab />} />
               <Route path="module-clue" element={<ModuleToolTab />} />
             </Route>

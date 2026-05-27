@@ -435,10 +435,18 @@ export default function WorldWikiTab() {
 
   const relatedEntries = useMemo(() => {
     if (!selectedEntry?.relatedEntryIds) return [];
+    const accessByEntryId = new Map(
+      (selectedEntry.relatedEntryAccess || []).map((access) => [access.entryId, access.playerIds])
+    );
     return selectedEntry.relatedEntryIds
+      .filter((id) => {
+        const permittedPlayerIds = accessByEntryId.get(id);
+        if (!permittedPlayerIds) return true;
+        return currentPlayer ? permittedPlayerIds.includes(currentPlayer.id) : false;
+      })
       .map((id) => indexData?.entries.find((entry) => entry.id === id) ?? null)
       .filter((entry): entry is WikiIndexEntry => entry !== null);
-  }, [indexData, selectedEntry]);
+  }, [currentPlayer, indexData, selectedEntry]);
 
   const handleSavePlName = useCallback((name: string) => {
     localStorage.setItem(PL_STORAGE_KEY, name);
@@ -730,7 +738,6 @@ export default function WorldWikiTab() {
                 </p>
               </div>
               <CurrentPlButton plName={plName} onClick={() => setShowPlDialog(true)} />
-              <Button variant="outline" size="sm" onClick={() => navigate("/tools/world-wiki/modules")}>模组总览</Button>
             </div>
 
             <div className="mt-8">
@@ -776,38 +783,6 @@ export default function WorldWikiTab() {
                   <div className="rounded-xl border border-border/50 bg-background/65 p-3">
                     <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">别名</p>
                     <p className="mt-1 leading-6">{selectedEntry.aliasNames.join(" / ")}</p>
-                  </div>
-                )}
-                {selectedEntry.playerIds && selectedEntry.playerIds.length > 0 && (
-                  <div className="rounded-xl border border-border/50 bg-background/65 p-3">
-                    <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">关联 PL</p>
-                    <div className="mt-2 flex flex-wrap gap-1.5">
-                      {selectedEntry.playerIds.map((playerId) => {
-                        const player = playersById.get(playerId);
-                        if (!player) return null;
-                        return (
-                          <Badge key={player.id} variant="secondary" className="text-[11px]">
-                            {player.displayName}
-                          </Badge>
-                        );
-                      })}
-                    </div>
-                  </div>
-                )}
-                {selectedEntry.moduleIds && selectedEntry.moduleIds.length > 0 && (
-                  <div className="rounded-xl border border-border/50 bg-background/65 p-3">
-                    <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">所属模组</p>
-                    <div className="mt-2 flex flex-wrap gap-1.5">
-                      {selectedEntry.moduleIds.map((moduleId) => {
-                        const module = modulesById.get(moduleId);
-                        if (!module) return null;
-                        return (
-                          <Badge key={module.id} variant="outline" className="text-[11px]">
-                            <Link to={`/tools/world-wiki/modules/${module.id}`}>{module.displayName}</Link>
-                          </Badge>
-                        );
-                      })}
-                    </div>
                   </div>
                 )}
               </CardContent>

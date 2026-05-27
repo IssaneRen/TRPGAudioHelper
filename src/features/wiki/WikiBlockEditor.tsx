@@ -235,13 +235,52 @@ function TokenEditor({
       </div>
 
       {token.type === "text" && (
-        <div className="space-y-2">
-          <Label>公开文本</Label>
-          <Textarea
-            value={token.text || ""}
-            onChange={(event) => patchToken({ text: event.target.value })}
-            className="min-h-20"
-          />
+        <div className="space-y-3">
+          <div className="space-y-2">
+            <Label>公开文本</Label>
+            <Textarea
+              value={token.text || ""}
+              onChange={(event) => patchToken({ text: event.target.value })}
+              className="min-h-20"
+            />
+          </div>
+          <div className="flex flex-wrap items-end gap-4 rounded-lg border border-border/50 bg-background/60 p-3">
+            <label className="flex items-center gap-2 text-sm">
+              <input
+                type="checkbox"
+                checked={token.bold || false}
+                onChange={(event) => patchToken({ bold: event.target.checked || undefined })}
+              />
+              加粗
+            </label>
+            <label className="flex items-center gap-2 text-sm">
+              <input
+                type="checkbox"
+                checked={token.strikethrough || false}
+                onChange={(event) => patchToken({ strikethrough: event.target.checked || undefined })}
+              />
+              删除线
+            </label>
+            <label className="space-y-1 text-sm">
+              <span className="block text-xs text-muted-foreground">文字颜色</span>
+              <input
+                type="color"
+                value={token.color || "#6b4fbb"}
+                onChange={(event) => patchToken({ color: event.target.value })}
+                className="h-9 w-14 cursor-pointer rounded border border-input bg-transparent p-1"
+              />
+            </label>
+            {token.color && (
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={() => patchToken({ color: undefined })}
+              >
+                清除颜色
+              </Button>
+            )}
+          </div>
         </div>
       )}
 

@@ -24,6 +24,7 @@ import type {
   WikiIndexEntry,
   WikiIndexPayload,
   WikiInlineToken,
+  WikiRelatedEntryAccess,
 } from "@/types/wiki";
 
 const WIKI_HOME_ROUTE = "/tools/world-wiki";
@@ -49,6 +50,7 @@ function createBlankEntryRecord(): WikiEntryRecord {
     playerIds: [],
     moduleIds: [],
     relatedEntryIds: [],
+    relatedEntryAccess: [],
     facts: [],
     content: [],
     createdAt: now,
@@ -100,6 +102,22 @@ function collectReferencedEntryIds(blocks: WikiBlock[]): string[] {
 
 function normalizeRelatedEntryIds(ids: string[], selfId?: string): string[] {
   return Array.from(new Set(ids.filter((id) => id && id !== selfId)));
+}
+
+function normalizeRelatedEntryAccess(
+  access: WikiRelatedEntryAccess[] | undefined,
+  relatedEntryIds: string[]
+): WikiRelatedEntryAccess[] {
+  const permittedEntryIds = new Set(relatedEntryIds);
+  const accessByEntryId = new Map<string, WikiRelatedEntryAccess>();
+  for (const item of access || []) {
+    if (!permittedEntryIds.has(item.entryId)) continue;
+    accessByEntryId.set(item.entryId, {
+      entryId: item.entryId,
+      playerIds: Array.from(new Set(item.playerIds || [])),
+    });
+  }
+  return Array.from(accessByEntryId.values());
 }
 
 /** 内容编辑区以 JSON 文本为准，保存前统一在这里做解析与报错。 */
@@ -328,6 +346,36 @@ export default function WikiAdminTab() {
     setDraft((current) => (current ? { ...current, ...patch } : current));
   }, []);
 
+  const setRelatedEntryRestricted = useCallback((entryId: string, restricted: boolean) => {
+    setDraft((current) => {
+      if (!current) return current;
+      const access = (current.relatedEntryAccess || []).filter((item) => item.entryId !== entryId);
+      return {
+        ...current,
+        relatedEntryAccess: restricted ? [...access, { entryId, playerIds: [] }] : access,
+      };
+    });
+  }, []);
+
+  const toggleRelatedEntryPlayer = useCallback((entryId: string, playerId: string) => {
+    setDraft((current) => {
+      if (!current) return current;
+      const access = current.relatedEntryAccess || [];
+      const currentRule = access.find((item) => item.entryId === entryId) || { entryId, playerIds: [] };
+      const nextRule = {
+        ...currentRule,
+        playerIds: toggleArrayValue(currentRule.playerIds, playerId),
+      };
+      return {
+        ...current,
+        relatedEntryAccess: [
+          ...access.filter((item) => item.entryId !== entryId),
+          nextRule,
+        ],
+      };
+    });
+  }, []);
+
   const applyContentText = useCallback((nextText: string) => {
     setContentText(nextText);
     const parsed = parseContentText(nextText);
@@ -345,12 +393,14 @@ export default function WikiAdminTab() {
 
   const handleSave = useCallback(async () => {
     if (!draft) return;
+    const relatedEntryIds = normalizeRelatedEntryIds(draft.relatedEntryIds || [], draft.id);
     const payload: WikiEntryRecord = {
       ...draft,
       aliasNames: draft.aliasNames || [],
       playerIds: draft.playerIds || [],
       moduleIds: draft.moduleIds || [],
-      relatedEntryIds: normalizeRelatedEntryIds(draft.relatedEntryIds || [], draft.id),
+      relatedEntryIds,
+      relatedEntryAccess: normalizeRelatedEntryAccess(draft.relatedEntryAccess, relatedEntryIds),
       facts: draft.facts || [],
       content: contentBlocks,
       createdAt: draft.createdAt || new Date().toISOString(),
@@ -580,6 +630,45 @@ export default function WikiAdminTab() {
                         })
                       }
                     />
+
+                    {(draft.relatedEntryIds || []).length > 0 && (
+                      <div className="space-y-3 rounded-xl border border-border/60 bg-background/40 p-4">
+                        <div className="space-y-1">
+                          <Label>关联词条二级隐藏</Label>
+                          <p className="text-sm leading-6 text-muted-foreground">
+                            启用后，只有匹配到所选 PL 的访问者才会看到对应关联词条；未匹配时直接隐藏。
+                          </p>
+                        </div>
+                        {(draft.relatedEntryIds || []).map((entryId) => {
+                          const entry = indexData?.entries.find((item) => item.id === entryId);
+                          const access = (draft.relatedEntryAccess || []).find(
+                            (item) => item.entryId === entryId
+                          );
+                          return (
+                            <div key={entryId} className="space-y-3 rounded-lg border border-border/50 p-3">
+                              <label className="flex items-center gap-2 text-sm">
+                                <input
+                                  type="checkbox"
+                                  checked={Boolean(access)}
+                                  onChange={(event) =>
+                                    setRelatedEntryRestricted(entryId, event.target.checked)
+                                  }
+                                />
+                                {entry?.displayName || entryId}：启用二级隐藏
+                              </label>
+                              {access && (
+                                <SelectionGroup
+                                  title="允许查看的 PL（不选择则对所有访问者隐藏）"
+                                  values={access.playerIds}
+                                  options={playerOptions}
+                                  onToggle={(playerId) => toggleRelatedEntryPlayer(entryId, playerId)}
+                                />
+                              )}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
 
                     <div className="space-y-3 rounded-xl border border-border/60 bg-background/40 p-4">
                       <div className="space-y-1">

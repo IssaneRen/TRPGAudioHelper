@@ -153,6 +153,23 @@ export function validateWikiEntities({ players, modules, entries }: WikiEntities
       }
     }
 
+    const relatedEntryIds = new Set(entry.relatedEntryIds || []);
+    const accessEntryIds = new Set<string>();
+    for (const access of entry.relatedEntryAccess || []) {
+      if (!relatedEntryIds.has(access.entryId)) {
+        throw new Error(`词条 ${entry.id} 为非关联词条配置了二级隐藏: ${access.entryId}`);
+      }
+      if (accessEntryIds.has(access.entryId)) {
+        throw new Error(`词条 ${entry.id} 对关联词条重复配置了二级隐藏: ${access.entryId}`);
+      }
+      accessEntryIds.add(access.entryId);
+      for (const playerId of access.playerIds || []) {
+        if (!playerIds.has(playerId)) {
+          throw new Error(`词条 ${entry.id} 的关联词条二级隐藏引用了不存在的 playerId: ${playerId}`);
+        }
+      }
+    }
+
     for (const block of entry.content) {
       validateBlock(block, entryIds, playerIds, entry.id);
     }
@@ -176,7 +193,9 @@ export function buildWikiIndexPayload({
       playerIds: entry.playerIds,
       moduleIds: entry.moduleIds,
       relatedEntryIds: entry.relatedEntryIds,
+      relatedEntryAccess: entry.relatedEntryAccess,
       facts: entry.facts,
+      tags: entry.tags,
       createdAt: entry.createdAt,
       updatedAt: entry.updatedAt,
     })),

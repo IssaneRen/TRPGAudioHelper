@@ -100,7 +100,18 @@ function InlineTokens({
     <>
       {tokens.map((token, index) => {
         if (token.type === "text") {
-          return <span key={`text-${index}`}>{token.text}</span>;
+          return (
+            <span
+              key={`text-${index}`}
+              className={[
+                token.bold ? "font-semibold" : "",
+                token.strikethrough ? "line-through" : "",
+              ].filter(Boolean).join(" ") || undefined}
+              style={token.color ? { color: token.color } : undefined}
+            >
+              {token.text}
+            </span>
+          );
         }
 
         if (token.type === "ref" && token.entryId) {

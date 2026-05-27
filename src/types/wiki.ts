@@ -10,6 +10,8 @@ export interface WikiModule {
   id: string;
   displayName: string;
   aliases?: string[];
+  summary?: string;
+  tags?: string[];
 }
 
 export interface WikiFact {
@@ -17,9 +19,17 @@ export interface WikiFact {
   value: string;
 }
 
+export interface WikiRelatedEntryAccess {
+  entryId: string;
+  playerIds: string[];
+}
+
 export interface WikiInlineToken {
   type: "text" | "ref" | "secret-inline";
   text?: string;
+  bold?: boolean;
+  strikethrough?: boolean;
+  color?: string;
   entryId?: string;
   label?: string;
   playerIds?: string[];
@@ -53,7 +63,9 @@ export interface WikiIndexEntry {
   playerIds?: string[];
   moduleIds?: string[];
   relatedEntryIds?: string[];
+  relatedEntryAccess?: WikiRelatedEntryAccess[];
   facts?: WikiFact[];
+  tags?: string[];
   createdAt: string;
   updatedAt: string;
 }

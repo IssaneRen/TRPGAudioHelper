@@ -1,0 +1,25 @@
+{
+  "id": "module.library.a-little-knowledge",
+  "category": "module",
+  "displayName": "《些许知识-A Little Knowledge》",
+  "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
+  "tags": [
+    "1920 年代"
+  ],
+  "moduleIds": [
+    "module.library.a-little-knowledge"
+  ],
+  "content": [
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。"
+        }
+      ]
+    }
+  ],
+  "createdAt": "2026-05-28T00:00:00+08:00",
+  "updatedAt": "2026-05-28T00:00:00+08:00"
+}

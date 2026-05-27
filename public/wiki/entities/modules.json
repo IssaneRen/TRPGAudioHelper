@@ -1,12 +1,112 @@
 [
   {
     "id": "module.kingsport-city-in-the-mists",
-    "displayName": "《永恒恶意 Everlasting Malice》",
+    "displayName": "《永恒恶意-Everlasting Malice》",
     "aliases": [
       "Kingsport: The City In The Mists",
       "金斯波特迷雾之城",
       "永恒恶意",
       "Everlasting Malice"
+    ],
+    "summary": "金斯波特背景的跑后回顾与战报索引模组。",
+    "tags": [
+      "1920 年代"
+    ]
+  },
+  {
+    "id": "module.library.saturnine-chalice",
+    "displayName": "死光与其他黑暗的转角",
+    "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
+    "tags": [
+      "1920 年代"
+    ]
+  },
+  {
+    "id": "module.library.a-little-knowledge",
+    "displayName": "《些许知识-A Little Knowledge》",
+    "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
+    "tags": [
+      "1920 年代"
+    ]
+  },
+  {
+    "id": "module.library.oath-of-blood",
+    "displayName": "《血之誓约-Oath of Blood》",
+    "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
+    "tags": [
+      "1920 年代"
+    ]
+  },
+  {
+    "id": "module.library.the-asylum",
+    "displayName": "《疗养院-The Asylum》",
+    "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
+    "tags": [
+      "1920 年代"
+    ]
+  },
+  {
+    "id": "module.library.engine-trouble",
+    "displayName": "《机械天启-Engine Trouble》",
+    "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
+    "tags": [
+      "1920 年代"
+    ]
+  },
+  {
+    "id": "module.library.dreaming-of-the-river-of-light",
+    "displayName": "《夜河之梦-Dreaming of the River of Light》",
+    "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
+    "tags": [
+      "1920 年代"
+    ]
+  },
+  {
+    "id": "module.library.and-some-fell-on-stony-ground",
+    "displayName": "有些人油盐不进",
+    "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
+    "tags": [
+      "1920 年代"
+    ]
+  },
+  {
+    "id": "module.library.the-darkness-beneath-the-hill",
+    "displayName": "《岭下暗影-The Darkness Beneath the Hill》",
+    "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
+    "tags": [
+      "1920 年代"
+    ]
+  },
+  {
+    "id": "module.library.turn-to-stone",
+    "displayName": "《化为磐石-Turn to Stone》",
+    "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
+    "tags": [
+      "1920 年代"
+    ]
+  },
+  {
+    "id": "module.library.edge-of-darkness",
+    "displayName": "黑暗的边缘",
+    "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
+    "tags": [
+      "1920 年代"
+    ]
+  },
+  {
+    "id": "module.library.his-pleasant-dream-was-shattered",
+    "displayName": "《黄粱梦醒-His Pleasant Dream Was Shattered》",
+    "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
+    "tags": [
+      "1920 年代"
+    ]
+  },
+  {
+    "id": "module.library.uncle-timothys-will",
+    "displayName": "蒂莫西舅舅的遗产",
+    "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
+    "tags": [
+      "1920 年代"
     ]
   }
 ]

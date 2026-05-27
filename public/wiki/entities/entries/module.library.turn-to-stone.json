@@ -1,0 +1,25 @@
+{
+  "id": "module.library.turn-to-stone",
+  "category": "module",
+  "displayName": "《化为磐石-Turn to Stone》",
+  "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
+  "tags": [
+    "1920 年代"
+  ],
+  "moduleIds": [
+    "module.library.turn-to-stone"
+  ],
+  "content": [
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。"
+        }
+      ]
+    }
+  ],
+  "createdAt": "2026-05-28T00:00:00+08:00",
+  "updatedAt": "2026-05-28T00:00:00+08:00"
+}
