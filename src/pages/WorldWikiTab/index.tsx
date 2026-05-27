@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useCallback, type AnchorHTMLAttributes } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { Link, useNavigate, useParams } from "react-router";
 import {
   Search,
@@ -12,11 +12,10 @@ import {
   LockKeyhole,
   Sparkles,
   BookCopy,
+  Database,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
-import Markdown from "react-markdown";
-import remarkGfm from "remark-gfm";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -31,35 +30,72 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 type WikiCategory = "character" | "location" | "event" | "module";
 
+interface WikiPlayer {
+  id: string;
+  displayName: string;
+  aliases?: string[];
+}
+
+interface WikiModule {
+  id: string;
+  displayName: string;
+  aliases?: string[];
+}
+
 interface WikiFact {
   label: string;
   value: string;
 }
 
-interface WikiEntryMeta {
+interface WikiInlineToken {
+  type: "text" | "ref" | "secret-inline";
+  text?: string;
+  entryId?: string;
+  label?: string;
+  playerIds?: string[];
+}
+
+interface WikiBlock {
+  type: "heading" | "paragraph" | "list" | "quote" | "secret-panel";
+  text?: string;
+  tokens?: WikiInlineToken[];
+  items?: WikiInlineToken[][];
+  playerIds?: string[];
+  title?: string;
+  blocks?: WikiBlock[];
+}
+
+interface WikiIndexEntry {
   id: string;
-  title: string;
-  file: string;
   category: WikiCategory;
+  displayName: string;
   summary: string;
-  tags: string[];
-  aliases?: string[];
-  players?: string[];
-  relatedIds?: string[];
+  aliasNames?: string[];
+  playerIds?: string[];
+  moduleIds?: string[];
+  relatedEntryIds?: string[];
   facts?: WikiFact[];
   createdAt: string;
   updatedAt: string;
 }
 
-interface WikiContentSegment {
-  type: "markdown" | "secret";
-  content: string;
-  players?: string[];
+interface WikiEntryRecord extends WikiIndexEntry {
+  content: WikiBlock[];
+}
+
+interface WikiIndexPayload {
+  players: WikiPlayer[];
+  modules: WikiModule[];
+  entries: WikiIndexEntry[];
+  lookup: {
+    entryIdByName: Record<string, string>;
+    playerIdByName: Record<string, string>;
+    moduleIdByName: Record<string, string>;
+  };
 }
 
 const PL_STORAGE_KEY = "blog-pl-name";
 const WIKI_HOME_ROUTE = "/tools/world-wiki";
-const SECRET_BLOCK_REGEX = /\[secret players="([^"]*)"\]([\s\S]*?)\[\/secret\]/g;
 
 const CATEGORY_META: Record<
   WikiCategory,
@@ -72,25 +108,25 @@ const CATEGORY_META: Record<
 > = {
   character: {
     label: "人物",
-    description: "调查员、关键 NPC 与关系网",
+    description: "调查员、NPC 与人物视角回看",
     icon: Users,
     chipClassName: "border-primary/30 bg-primary/10 text-primary",
   },
   location: {
     label: "地点",
-    description: "小镇、医院、街区与重要据点",
+    description: "小镇、医院、街区与事件舞台",
     icon: MapPin,
     chipClassName: "border-accent/30 bg-accent/10 text-accent",
   },
   event: {
     label: "事件",
-    description: "按时间线整理的大事件与余波",
+    description: "跑后回看时的关键时间线节点",
     icon: ScrollText,
     chipClassName: "border-destructive/30 bg-destructive/10 text-destructive",
   },
   module: {
     label: "模组",
-    description: "补充资料、场景与可复用设定",
+    description: "给 PL 用的设定总索引与战报跳转入口",
     icon: LibraryBig,
     chipClassName: "border-foreground/15 bg-foreground/5 text-foreground",
   },
@@ -98,71 +134,35 @@ const CATEGORY_META: Record<
 
 const CATEGORY_ORDER: WikiCategory[] = ["character", "location", "event", "module"];
 
-let wikiIndexCache: WikiEntryMeta[] | null = null;
-const wikiContentCache = new Map<string, string>();
+let wikiIndexCache: WikiIndexPayload | null = null;
+let wikiEntriesCache: WikiEntryRecord[] | null = null;
 
-/** 统一做文本归一化，避免搜索与 PL 比对时受大小写和空格影响。 */
+/** 文本统一归一化，确保 PL / 名称 / 别名匹配规则保持一致。 */
 function normalizeText(value: string): string {
   return value.trim().toLowerCase();
 }
 
-/** 将未解锁文本替换成黑块字符，保留空白结构以模拟档案遮罩效果。 */
+/** 未解锁内容以黑块遮罩显示，保留长度感知，方便做“知道有内容但还没解锁”的体验。 */
 function maskSecretText(value: string): string {
   return value.replace(/[^\s]/g, "█");
 }
 
-/** 按约定语法切分普通 markdown 与受 PL 控制的隐藏档案块。 */
-function buildWikiContentSegments(content: string): WikiContentSegment[] {
-  const segments: WikiContentSegment[] = [];
-  let lastIndex = 0;
-
-  for (const match of content.matchAll(SECRET_BLOCK_REGEX)) {
-    const matchIndex = match.index ?? 0;
-    if (matchIndex > lastIndex) {
-      segments.push({
-        type: "markdown",
-        content: content.slice(lastIndex, matchIndex),
-      });
-    }
-
-    segments.push({
-      type: "secret",
-      players: match[1]
-        .split(",")
-        .map((item) => item.trim())
-        .filter(Boolean),
-      content: match[2].trim(),
-    });
-
-    lastIndex = matchIndex + match[0].length;
-  }
-
-  if (lastIndex < content.length) {
-    segments.push({
-      type: "markdown",
-      content: content.slice(lastIndex),
-    });
-  }
-
-  return segments.filter((segment) => segment.content.trim().length > 0);
-}
-
-/** 只有当前 PL 名称命中词条允许名单时，才显示隐藏档案正文。 */
-function canUnlockSecret(players: string[] | undefined, plName: string): boolean {
-  if (!players || players.length === 0) return false;
-  if (!plName.trim()) return false;
-  const currentPl = normalizeText(plName);
-  return players.some((player) => normalizeText(player) === currentPl);
+/** secret-panel 与 secret-inline 都基于 playerIds 做唯一键权限判断。 */
+function canRevealSecret(playerIds: string[] | undefined, currentPlayerId: string | null): boolean {
+  if (!playerIds || playerIds.length === 0) return false;
+  if (!currentPlayerId) return false;
+  return playerIds.includes(currentPlayerId);
 }
 
 function formatDate(date: string): string {
   return new Date(date).toLocaleDateString("zh-CN");
 }
 
-function matchesCurrentPl(entry: WikiEntryMeta, plName: string): boolean {
-  if (!plName.trim()) return false;
-  const currentPl = normalizeText(plName);
-  return entry.players?.some((player) => normalizeText(player) === currentPl) ?? false;
+/** 复用 blog-pl-name，但在 wiki 内解析成玩家唯一键，避免名字改动导致权限失效。 */
+function resolveCurrentPlayer(index: WikiIndexPayload | null, plName: string): WikiPlayer | null {
+  if (!index || !plName.trim()) return null;
+  const matchedId = index.lookup.playerIdByName[normalizeText(plName)];
+  return index.players.find((player) => player.id === matchedId) ?? null;
 }
 
 function CurrentPlButton({ plName, onClick }: { plName: string; onClick: () => void }) {
@@ -223,7 +223,7 @@ function PlNameDialog({
           设置当前 PL
         </h3>
         <p className="mt-2 text-sm text-muted-foreground">
-          用于解锁部分人物视角档案，也会在首页高亮你的相关词条。
+          用于解锁你的个人视角补遗，并高亮与你相关的词条入口。
         </p>
         <div className="mt-4 flex gap-2">
           <Input
@@ -239,7 +239,13 @@ function PlNameDialog({
   );
 }
 
-function LockedSecretBlock({ content }: { content: string }) {
+function LockedSecretBlock({
+  title,
+  previewText,
+}: {
+  title: string;
+  previewText: string;
+}) {
   return (
     <button
       type="button"
@@ -249,104 +255,207 @@ function LockedSecretBlock({ content }: { content: string }) {
       <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.02),transparent_40%,rgba(255,255,255,0.04))]" />
       <div className="relative z-10 flex items-center gap-2 text-xs uppercase tracking-[0.24em] text-primary-foreground/70">
         <LockKeyhole className="h-3.5 w-3.5" />
-        档案未解锁
+        {title}
       </div>
       <pre className="relative z-10 mt-3 whitespace-pre-wrap break-words text-sm leading-7 text-neutral-700">
-        {maskSecretText(content)}
+        {maskSecretText(previewText)}
       </pre>
     </button>
   );
 }
 
-function WikiMarkdown({
-  content,
-  plName,
-}: {
-  content: string;
-  plName: string;
-}) {
-  const segments = useMemo(() => buildWikiContentSegments(content), [content]);
-
+function LockedInlineSecret({ text }: { text: string }) {
   return (
-    <div className="space-y-2">
-      {segments.map((segment, index) => {
-        if (segment.type === "secret") {
-          const unlocked = canUnlockSecret(segment.players, plName);
-          return unlocked ? (
-            <div
-              key={`secret-${index}`}
-              className="rounded-xl border border-primary/20 bg-primary/5 p-4"
+    <button
+      type="button"
+      onClick={() => toast("请探索更多故事解锁~", { duration: 1800 })}
+      className="inline-block rounded-sm bg-black px-1.5 py-0.5 align-baseline text-neutral-700"
+    >
+      {maskSecretText(text)}
+    </button>
+  );
+}
+
+/** 为未解锁整段生成预览遮罩文本，避免整块空黑框影响阅读判断。 */
+function collectPreviewText(blocks: WikiBlock[]): string {
+  const fragments: string[] = [];
+
+  const appendTokens = (tokens: WikiInlineToken[] | undefined) => {
+    for (const token of tokens || []) {
+      if (token.type === "text" || token.type === "secret-inline") {
+        fragments.push(token.text || "");
+      }
+      if (token.type === "ref") {
+        fragments.push(token.label || "");
+      }
+    }
+  };
+
+  for (const block of blocks) {
+    if (block.text) fragments.push(block.text);
+    appendTokens(block.tokens);
+    for (const item of block.items || []) appendTokens(item);
+    if (block.blocks) fragments.push(collectPreviewText(block.blocks));
+  }
+
+  return fragments.join(" ").trim();
+}
+
+function resolveEntryName(entryId: string, entriesById: Map<string, WikiIndexEntry>): string {
+  return entriesById.get(entryId)?.displayName || entryId;
+}
+
+function InlineTokens({
+  tokens,
+  currentPlayerId,
+  entriesById,
+}: {
+  tokens: WikiInlineToken[];
+  currentPlayerId: string | null;
+  entriesById: Map<string, WikiIndexEntry>;
+}) {
+  return (
+    <>
+      {tokens.map((token, index) => {
+        if (token.type === "text") {
+          return <span key={`text-${index}`}>{token.text}</span>;
+        }
+
+        if (token.type === "ref" && token.entryId) {
+          const label = token.label || resolveEntryName(token.entryId, entriesById);
+          return (
+            <Link
+              key={`ref-${index}`}
+              to={`${WIKI_HOME_ROUTE}/${token.entryId}`}
+              className="font-medium text-primary underline decoration-primary/40 underline-offset-4 hover:decoration-primary"
             >
-              <div className="mb-3 flex items-center gap-2 text-xs uppercase tracking-[0.24em] text-primary">
-                <Sparkles className="h-3.5 w-3.5" />
-                已解锁档案
-              </div>
-              <Markdown
-                remarkPlugins={[remarkGfm]}
-                components={markdownComponents}
-              >
-                {segment.content}
-              </Markdown>
-            </div>
-          ) : (
-            <LockedSecretBlock key={`secret-${index}`} content={segment.content} />
+              {label}
+            </Link>
           );
         }
 
-        return (
-          <Markdown
-            key={`markdown-${index}`}
-            remarkPlugins={[remarkGfm]}
-            components={markdownComponents}
-          >
-            {segment.content}
-          </Markdown>
-        );
+        if (token.type === "secret-inline") {
+          const text = token.text || "";
+          return canRevealSecret(token.playerIds, currentPlayerId) ? (
+            <span
+              key={`secret-inline-${index}`}
+              className="rounded-sm bg-primary/10 px-1 py-0.5 text-primary"
+            >
+              {text}
+            </span>
+          ) : (
+            <LockedInlineSecret key={`secret-inline-${index}`} text={text} />
+          );
+        }
+
+        return null;
+      })}
+    </>
+  );
+}
+
+function WikiContentRenderer({
+  blocks,
+  currentPlayerId,
+  entriesById,
+}: {
+  blocks: WikiBlock[];
+  currentPlayerId: string | null;
+  entriesById: Map<string, WikiIndexEntry>;
+}) {
+  return (
+    <div className="space-y-5">
+      {blocks.map((block, index) => {
+        if (block.type === "heading") {
+          return (
+            <h3 key={`heading-${index}`} className="font-heading text-2xl font-semibold">
+              {block.text}
+            </h3>
+          );
+        }
+
+        if (block.type === "paragraph") {
+          return (
+            <p key={`paragraph-${index}`} className="leading-8 text-foreground/95">
+              <InlineTokens
+                tokens={block.tokens || []}
+                currentPlayerId={currentPlayerId}
+                entriesById={entriesById}
+              />
+            </p>
+          );
+        }
+
+        if (block.type === "quote") {
+          return (
+            <blockquote
+              key={`quote-${index}`}
+              className="border-l-2 border-primary/40 bg-primary/5 px-4 py-3 italic text-muted-foreground"
+            >
+              <InlineTokens
+                tokens={block.tokens || []}
+                currentPlayerId={currentPlayerId}
+                entriesById={entriesById}
+              />
+            </blockquote>
+          );
+        }
+
+        if (block.type === "list") {
+          return (
+            <ul key={`list-${index}`} className="list-disc space-y-2 pl-6">
+              {(block.items || []).map((item, itemIndex) => (
+                <li key={`item-${itemIndex}`} className="leading-7">
+                  <InlineTokens
+                    tokens={item}
+                    currentPlayerId={currentPlayerId}
+                    entriesById={entriesById}
+                  />
+                </li>
+              ))}
+            </ul>
+          );
+        }
+
+        if (block.type === "secret-panel") {
+          return canRevealSecret(block.playerIds, currentPlayerId) ? (
+            <div
+              key={`secret-panel-${index}`}
+              className="rounded-2xl border border-primary/20 bg-primary/5 p-4"
+            >
+              <div className="mb-3 flex items-center gap-2 text-xs uppercase tracking-[0.24em] text-primary">
+                <Sparkles className="h-3.5 w-3.5" />
+                {block.title || "已解锁档案"}
+              </div>
+              <WikiContentRenderer
+                blocks={block.blocks || []}
+                currentPlayerId={currentPlayerId}
+                entriesById={entriesById}
+              />
+            </div>
+          ) : (
+            <LockedSecretBlock
+              key={`secret-panel-${index}`}
+              title={block.title || "档案未解锁"}
+              previewText={collectPreviewText(block.blocks || [])}
+            />
+          );
+        }
+
+        return null;
       })}
     </div>
   );
 }
 
-const markdownComponents = {
-  a: ({ href, children, ...props }: AnchorHTMLAttributes<HTMLAnchorElement>) => {
-    if (!href) return <span>{children}</span>;
-
-    if (href.startsWith("/tools/world-wiki/")) {
-      return (
-        <Link
-          to={href}
-          className="font-medium text-primary underline decoration-primary/40 underline-offset-4 hover:decoration-primary"
-        >
-          {children}
-        </Link>
-      );
-    }
-
-    return (
-      <a
-        href={href}
-        target="_blank"
-        rel="noreferrer"
-        className="font-medium text-primary underline decoration-primary/40 underline-offset-4 hover:decoration-primary"
-        {...props}
-      >
-        {children}
-      </a>
-    );
-  },
-  blockquote: ({ children }: { children?: React.ReactNode }) => (
-    <blockquote className="border-l-2 border-primary/40 bg-primary/5 px-4 py-2 italic text-muted-foreground">
-      {children}
-    </blockquote>
-  ),
-};
-
 function WikiEntryCard({
   entry,
-  currentPl,
+  currentPlayerId,
+  playersById,
 }: {
-  entry: WikiEntryMeta;
-  currentPl: string;
+  entry: WikiIndexEntry;
+  currentPlayerId: string | null;
+  playersById: Map<string, WikiPlayer>;
 }) {
   const categoryMeta = CATEGORY_META[entry.category];
   const Icon = categoryMeta.icon;
@@ -366,32 +475,32 @@ function WikiEntryCard({
             <ArrowUpRight className="h-4 w-4 text-muted-foreground" />
           </div>
           <div className="space-y-2">
-            <CardTitle className="text-lg leading-snug">{entry.title}</CardTitle>
+            <CardTitle className="text-lg leading-snug">{entry.displayName}</CardTitle>
             <CardDescription className="text-sm leading-6">
               {entry.summary}
             </CardDescription>
           </div>
         </CardHeader>
         <CardContent className="space-y-3">
-          {entry.players && entry.players.length > 0 && (
+          {entry.playerIds && entry.playerIds.length > 0 && (
             <div className="flex flex-wrap gap-1.5">
-              {entry.players.map((player) => (
-                <Badge
-                  key={player}
-                  variant={matchesCurrentPl(entry, currentPl) && normalizeText(player) === normalizeText(currentPl) ? "default" : "secondary"}
-                  className="text-[11px]"
-                >
-                  {player}
-                </Badge>
-              ))}
+              {entry.playerIds.map((playerId) => {
+                const player = playersById.get(playerId);
+                if (!player) return null;
+                return (
+                  <Badge
+                    key={player.id}
+                    variant={currentPlayerId === player.id ? "default" : "secondary"}
+                    className="text-[11px]"
+                  >
+                    {player.displayName}
+                  </Badge>
+                );
+              })}
             </div>
           )}
-          <div className="flex flex-wrap gap-1.5">
-            {entry.tags.map((tag) => (
-              <Badge key={tag} variant="outline" className="text-[11px]">
-                {tag}
-              </Badge>
-            ))}
+          <div className="flex flex-wrap gap-1.5 text-xs text-muted-foreground">
+            <span>唯一键：{entry.id}</span>
           </div>
         </CardContent>
       </Card>
@@ -402,14 +511,14 @@ function WikiEntryCard({
 export default function WorldWikiTab() {
   const navigate = useNavigate();
   const { entryId } = useParams<{ entryId?: string }>();
-  const [entries, setEntries] = useState<WikiEntryMeta[]>(wikiIndexCache || []);
+  const [indexData, setIndexData] = useState<WikiIndexPayload | null>(wikiIndexCache);
+  const [entryRecords, setEntryRecords] = useState<WikiEntryRecord[] | null>(wikiEntriesCache);
   const [indexLoading, setIndexLoading] = useState(!wikiIndexCache);
   const [indexError, setIndexError] = useState(false);
   const [query, setQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<WikiCategory | "all">("all");
   const [plName, setPlName] = useState(() => localStorage.getItem(PL_STORAGE_KEY) || "");
   const [showPlDialog, setShowPlDialog] = useState(false);
-  const [detailContent, setDetailContent] = useState("");
   const [detailLoading, setDetailLoading] = useState(false);
   const [detailError, setDetailError] = useState(false);
 
@@ -424,10 +533,10 @@ export default function WorldWikiTab() {
         if (!response.ok) throw new Error(`Failed to load wiki index: ${response.status}`);
         return response.json();
       })
-      .then((data: WikiEntryMeta[]) => {
+      .then((data: WikiIndexPayload) => {
         if (cancelled) return;
         wikiIndexCache = data;
-        setEntries(data);
+        setIndexData(data);
       })
       .catch(() => {
         if (!cancelled && !wikiIndexCache) setIndexError(true);
@@ -441,47 +550,26 @@ export default function WorldWikiTab() {
     };
   }, []);
 
-  const selectedEntry = useMemo(
-    () => entries.find((entry) => entry.id === entryId) ?? null,
-    [entries, entryId]
-  );
-
   useEffect(() => {
-    if (!entryId) {
-      setDetailContent("");
-      setDetailLoading(false);
-      setDetailError(false);
-      return;
-    }
-
-    if (indexLoading) return;
-    if (!selectedEntry) {
-      navigate(WIKI_HOME_ROUTE, { replace: true });
-      return;
-    }
-
-    const cached = wikiContentCache.get(selectedEntry.file);
-    if (cached) {
-      setDetailContent(cached);
-      setDetailLoading(false);
-      setDetailError(false);
+    if (!entryId) return;
+    if (wikiEntriesCache) {
+      setEntryRecords(wikiEntriesCache);
       return;
     }
 
     let cancelled = false;
     setDetailLoading(true);
     setDetailError(false);
-    setDetailContent("");
 
-    fetch(`/wiki/${selectedEntry.file}`)
+    fetch("/wiki/entities/entries.json", { cache: "no-store" })
       .then((response) => {
-        if (!response.ok) throw new Error(`Failed to load wiki entry: ${response.status}`);
-        return response.text();
+        if (!response.ok) throw new Error(`Failed to load wiki entities: ${response.status}`);
+        return response.json();
       })
-      .then((content) => {
+      .then((data: WikiEntryRecord[]) => {
         if (cancelled) return;
-        wikiContentCache.set(selectedEntry.file, content);
-        setDetailContent(content);
+        wikiEntriesCache = data;
+        setEntryRecords(data);
       })
       .catch(() => {
         if (!cancelled) setDetailError(true);
@@ -493,29 +581,76 @@ export default function WorldWikiTab() {
     return () => {
       cancelled = true;
     };
-  }, [entryId, indexLoading, navigate, selectedEntry]);
+  }, [entryId]);
+
+  const playersById = useMemo(
+    () => new Map((indexData?.players || []).map((player) => [player.id, player])),
+    [indexData]
+  );
+
+  const modulesById = useMemo(
+    () => new Map((indexData?.modules || []).map((module) => [module.id, module])),
+    [indexData]
+  );
+
+  const entriesById = useMemo(
+    () => new Map((indexData?.entries || []).map((entry) => [entry.id, entry])),
+    [indexData]
+  );
+
+  const currentPlayer = useMemo(
+    () => resolveCurrentPlayer(indexData, plName),
+    [indexData, plName]
+  );
+
+  const selectedEntry = useMemo(
+    () => (indexData?.entries || []).find((entry) => entry.id === entryId) ?? null,
+    [indexData, entryId]
+  );
+
+  const selectedEntryDetail = useMemo(
+    () => entryRecords?.find((entry) => entry.id === entryId) ?? null,
+    [entryId, entryRecords]
+  );
+
+  useEffect(() => {
+    if (!entryId) {
+      setDetailLoading(false);
+      setDetailError(false);
+      return;
+    }
+
+    if (indexLoading) return;
+    if (!selectedEntry) {
+      navigate(WIKI_HOME_ROUTE, { replace: true });
+      return;
+    }
+    if (entryRecords && !selectedEntryDetail) {
+      navigate(WIKI_HOME_ROUTE, { replace: true });
+    }
+  }, [entryId, entryRecords, indexLoading, navigate, selectedEntry, selectedEntryDetail]);
 
   const filteredEntries = useMemo(() => {
     const normalizedQuery = normalizeText(query);
-    return entries.filter((entry) => {
+    return (indexData?.entries || []).filter((entry) => {
       const matchesCategory =
         selectedCategory === "all" ? true : entry.category === selectedCategory;
       if (!matchesCategory) return false;
       if (!normalizedQuery) return true;
 
       const searchTarget = [
-        entry.title,
+        entry.displayName,
         entry.summary,
-        entry.aliases?.join(" "),
-        entry.tags.join(" "),
-        entry.players?.join(" "),
+        entry.aliasNames?.join(" "),
+        entry.playerIds?.map((playerId) => playersById.get(playerId)?.displayName || "").join(" "),
+        entry.moduleIds?.map((moduleId) => modulesById.get(moduleId)?.displayName || "").join(" "),
       ]
         .filter(Boolean)
         .join(" ");
 
       return normalizeText(searchTarget).includes(normalizedQuery);
     });
-  }, [entries, query, selectedCategory]);
+  }, [indexData, modulesById, playersById, query, selectedCategory]);
 
   const groupedEntries = useMemo(() => {
     return CATEGORY_ORDER.map((category) => ({
@@ -524,17 +659,34 @@ export default function WorldWikiTab() {
     })).filter((group) => group.entries.length > 0);
   }, [filteredEntries]);
 
+  /** 检索结果按分类计数，供搜索框下方状态文案使用。 */
+  const searchResultStats = useMemo(() => {
+    const counts: Record<WikiCategory, number> = {
+      character: 0,
+      location: 0,
+      event: 0,
+      module: 0,
+    };
+    for (const entry of filteredEntries) {
+      counts[entry.category] += 1;
+    }
+    return { total: filteredEntries.length, counts };
+  }, [filteredEntries]);
+
   const currentPlEntries = useMemo(
-    () => entries.filter((entry) => matchesCurrentPl(entry, plName)),
-    [entries, plName]
+    () =>
+      (indexData?.entries || []).filter((entry) =>
+        currentPlayer ? entry.playerIds?.includes(currentPlayer.id) : false
+      ),
+    [currentPlayer, indexData]
   );
 
   const relatedEntries = useMemo(() => {
-    if (!selectedEntry?.relatedIds) return [];
-    return selectedEntry.relatedIds
-      .map((id) => entries.find((entry) => entry.id === id) ?? null)
-      .filter((entry): entry is WikiEntryMeta => entry !== null);
-  }, [entries, selectedEntry]);
+    if (!selectedEntry?.relatedEntryIds) return [];
+    return selectedEntry.relatedEntryIds
+      .map((id) => indexData?.entries.find((entry) => entry.id === id) ?? null)
+      .filter((entry): entry is WikiIndexEntry => entry !== null);
+  }, [indexData, selectedEntry]);
 
   const handleSavePlName = useCallback((name: string) => {
     localStorage.setItem(PL_STORAGE_KEY, name);
@@ -542,7 +694,7 @@ export default function WorldWikiTab() {
     setShowPlDialog(false);
   }, []);
 
-  if (indexLoading && entries.length === 0) {
+  if (indexLoading && !indexData) {
     return (
       <div className="mx-auto max-w-6xl space-y-4">
         <Skeleton className="h-44 rounded-3xl" />
@@ -555,7 +707,7 @@ export default function WorldWikiTab() {
     );
   }
 
-  if (indexError && entries.length === 0) {
+  if (indexError && !indexData) {
     return (
       <div className="py-20 text-center text-sm text-muted-foreground">
         世界 wiki 数据加载失败，请刷新后重试。
@@ -574,11 +726,10 @@ export default function WorldWikiTab() {
             </Badge>
             <div className="space-y-2">
               <h1 className="text-3xl font-heading font-semibold tracking-wide md:text-4xl">
-                金斯波特档案总览
+                金斯波特档案回顾库
               </h1>
               <p className="max-w-2xl text-sm leading-7 text-muted-foreground md:text-base">
-                参考百科全书式的信息架构，整理人物、地点、事件与模组之间的关系。
-                词条正文来自静态文件，适合持续补完与快速部署。
+                这里不是主持人备团后台，而是给 PL 在跑完以后做回顾、补读战报超链接、重新拼起人物与事件关系时使用的世界档案页。
               </p>
             </div>
           </div>
@@ -586,13 +737,13 @@ export default function WorldWikiTab() {
         </div>
 
         <div className="mt-6 grid gap-4 lg:grid-cols-[1.35fr_0.65fr]">
-          <div className="rounded-2xl border border-border/60 bg-background/65 p-4">
+          <div className="flex h-full flex-col rounded-2xl border border-border/60 bg-background/65 p-4">
             <div className="relative">
               <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <Input
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
-                placeholder="检索人物、地点、事件、别名或 PL 名称"
+                placeholder="检索人物、地点、事件、中文名、英文名或 PL 名称"
                 className="pl-9"
               />
             </div>
@@ -607,23 +758,69 @@ export default function WorldWikiTab() {
               >
                 全部
               </button>
-              {CATEGORY_ORDER.map((category) => {
-                const meta = CATEGORY_META[category];
-                return (
-                  <button
-                    key={category}
-                    onClick={() => setSelectedCategory(category)}
-                    className={`rounded-full border px-3 py-1 text-xs transition-colors ${
-                      selectedCategory === category
-                        ? "border-primary bg-primary/10 text-primary"
-                        : "text-muted-foreground hover:text-foreground"
-                    }`}
-                  >
-                    {meta.label}
-                  </button>
-                );
-              })}
+              {CATEGORY_ORDER.map((category) => (
+                <button
+                  key={category}
+                  onClick={() => setSelectedCategory(category)}
+                  className={`rounded-full border px-3 py-1 text-xs transition-colors ${
+                    selectedCategory === category
+                      ? "border-primary bg-primary/10 text-primary"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  {CATEGORY_META[category].label}
+                </button>
+              ))}
             </div>
+            {!selectedEntry && (
+              <div className="mt-4 flex flex-1 flex-col items-center justify-center px-2 py-4">
+                <div className="w-full rounded-xl border border-border/45 bg-card/35 px-5 py-6 text-center md:px-6 md:py-7">
+                  {!query.trim() ? (
+                    <p className="font-heading text-base leading-8 tracking-wide text-foreground/90 md:text-lg">
+                      还没有搜任何内容呢~
+                      <br />
+                      <span className="text-muted-foreground">我展示所有结果</span>
+                    </p>
+                  ) : searchResultStats.total === 0 ? (
+                    <p className="text-base leading-8 text-foreground/90 md:text-lg">
+                      搜索
+                      <span className="mx-1 font-heading font-semibold text-primary">
+                        「{query.trim()}」
+                      </span>
+                      什么都没有呢，结果为空，请你换个词试试吧
+                    </p>
+                  ) : (
+                    <p className="text-base leading-8 text-foreground/90 md:text-lg">
+                      你搜索的
+                      <span className="mx-1 font-heading font-semibold text-primary">
+                        「{query.trim()}」
+                      </span>
+                      关键词已经找完啦，一共有
+                      <span className="mx-1 font-heading text-xl font-semibold text-primary">
+                        {searchResultStats.total}
+                      </span>
+                      条结果，其中人物
+                      <span className="mx-0.5 font-medium text-foreground">
+                        {searchResultStats.counts.character}
+                      </span>
+                      条，地点
+                      <span className="mx-0.5 font-medium text-foreground">
+                        {searchResultStats.counts.location}
+                      </span>
+                      条，事件
+                      <span className="mx-0.5 font-medium text-foreground">
+                        {searchResultStats.counts.event}
+                      </span>
+                      条，模组
+                      <span className="mx-0.5 font-medium text-foreground">
+                        {searchResultStats.counts.module}
+                      </span>
+                      条
+                    </p>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
 
           <div className="rounded-2xl border border-border/60 bg-background/65 p-4">
@@ -632,14 +829,16 @@ export default function WorldWikiTab() {
               当前视角摘要
             </div>
             <p className="mt-2 text-sm leading-6 text-muted-foreground">
-              {plName
-                ? `当前已锁定为「${plName}」。系统会高亮与你相关的词条，并决定隐藏档案是否解锁。`
-                : "尚未设置当前 PL。你仍可浏览公开词条，但部分人物视角档案会保持遮罩状态。"}
+              {currentPlayer
+                ? `当前已匹配为「${currentPlayer.displayName}」。系统会根据玩家唯一键高亮相关词条，并判断段落级 / 句子级隐藏内容是否解锁。`
+                : plName
+                  ? `当前填写了「${plName}」，但尚未匹配到已有 PL 档案。你仍可浏览公开词条。`
+                  : "尚未设置当前 PL。你仍可浏览公开词条，但个人视角补遗会保持黑框遮罩。"}
             </p>
             <div className="mt-4 grid grid-cols-2 gap-3">
               {CATEGORY_ORDER.map((category) => {
                 const Icon = CATEGORY_META[category].icon;
-                const count = entries.filter((entry) => entry.category === category).length;
+                const count = (indexData?.entries || []).filter((entry) => entry.category === category).length;
                 return (
                   <div key={category} className="rounded-xl border border-border/50 bg-card/70 p-3">
                     <div className="flex items-center gap-2 text-sm font-medium">
@@ -653,6 +852,15 @@ export default function WorldWikiTab() {
                   </div>
                 );
               })}
+            </div>
+            <div className="mt-3 rounded-xl border border-border/50 bg-card/70 p-3">
+              <div className="flex items-center gap-2 text-sm font-medium">
+                <Database className="h-4 w-4 text-primary" />
+                唯一键映射
+              </div>
+              <p className="mt-2 text-xs leading-6 text-muted-foreground">
+                页面展示名以中文为主，内部跳转与权限控制全部基于唯一键；即使词条改名，历史战报链接仍然稳定。
+              </p>
             </div>
           </div>
         </div>
@@ -674,9 +882,10 @@ export default function WorldWikiTab() {
                     {CATEGORY_META[selectedEntry.category].label}
                   </Badge>
                   <Badge variant="outline">更新于 {formatDate(selectedEntry.updatedAt)}</Badge>
+                  <Badge variant="outline">唯一键：{selectedEntry.id}</Badge>
                 </div>
                 <h2 className="text-3xl font-heading font-semibold leading-tight">
-                  {selectedEntry.title}
+                  {selectedEntry.displayName}
                 </h2>
                 <p className="max-w-3xl text-sm leading-7 text-muted-foreground md:text-base">
                   {selectedEntry.summary}
@@ -685,7 +894,7 @@ export default function WorldWikiTab() {
               <CurrentPlButton plName={plName} onClick={() => setShowPlDialog(true)} />
             </div>
 
-            <div className="prose prose-neutral mt-8 max-w-none dark:prose-invert prose-headings:font-heading prose-a:text-primary prose-code:text-primary/80 prose-pre:bg-secondary prose-pre:border prose-li:my-1">
+            <div className="mt-8">
               {detailLoading ? (
                 <div className="space-y-3">
                   <Skeleton className="h-4 w-full" />
@@ -698,7 +907,13 @@ export default function WorldWikiTab() {
                   词条内容加载失败，请刷新后重试。
                 </p>
               ) : (
-                <WikiMarkdown content={detailContent} plName={plName} />
+                selectedEntryDetail && (
+                  <WikiContentRenderer
+                    blocks={selectedEntryDetail.content}
+                    currentPlayerId={currentPlayer?.id || null}
+                    entriesById={entriesById}
+                  />
+                )
               )}
             </div>
           </article>
@@ -718,34 +933,44 @@ export default function WorldWikiTab() {
                     <p className="mt-1 leading-6">{fact.value}</p>
                   </div>
                 ))}
-                {selectedEntry.aliases && selectedEntry.aliases.length > 0 && (
+                {selectedEntry.aliasNames && selectedEntry.aliasNames.length > 0 && (
                   <div className="rounded-xl border border-border/50 bg-background/65 p-3">
                     <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">别名</p>
-                    <p className="mt-1 leading-6">{selectedEntry.aliases.join(" / ")}</p>
+                    <p className="mt-1 leading-6">{selectedEntry.aliasNames.join(" / ")}</p>
                   </div>
                 )}
-                {selectedEntry.players && selectedEntry.players.length > 0 && (
+                {selectedEntry.playerIds && selectedEntry.playerIds.length > 0 && (
                   <div className="rounded-xl border border-border/50 bg-background/65 p-3">
                     <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">关联 PL</p>
                     <div className="mt-2 flex flex-wrap gap-1.5">
-                      {selectedEntry.players.map((player) => (
-                        <Badge key={player} variant="secondary" className="text-[11px]">
-                          {player}
-                        </Badge>
-                      ))}
+                      {selectedEntry.playerIds.map((playerId) => {
+                        const player = playersById.get(playerId);
+                        if (!player) return null;
+                        return (
+                          <Badge key={player.id} variant="secondary" className="text-[11px]">
+                            {player.displayName}
+                          </Badge>
+                        );
+                      })}
                     </div>
                   </div>
                 )}
-                <div className="rounded-xl border border-border/50 bg-background/65 p-3">
-                  <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">标签</p>
-                  <div className="mt-2 flex flex-wrap gap-1.5">
-                    {selectedEntry.tags.map((tag) => (
-                      <Badge key={tag} variant="outline" className="text-[11px]">
-                        {tag}
-                      </Badge>
-                    ))}
+                {selectedEntry.moduleIds && selectedEntry.moduleIds.length > 0 && (
+                  <div className="rounded-xl border border-border/50 bg-background/65 p-3">
+                    <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">所属模组</p>
+                    <div className="mt-2 flex flex-wrap gap-1.5">
+                      {selectedEntry.moduleIds.map((moduleId) => {
+                        const module = modulesById.get(moduleId);
+                        if (!module) return null;
+                        return (
+                          <Badge key={module.id} variant="outline" className="text-[11px]">
+                            {module.displayName}
+                          </Badge>
+                        );
+                      })}
+                    </div>
                   </div>
-                </div>
+                )}
               </CardContent>
             </Card>
 
@@ -753,7 +978,7 @@ export default function WorldWikiTab() {
               <Card className="gap-4 border-border/70 bg-card/80 py-5">
                 <CardHeader className="gap-2">
                   <CardTitle className="text-base">关联词条</CardTitle>
-                  <CardDescription>从这里继续跳转调查</CardDescription>
+                  <CardDescription>从这里继续回看相邻事件与人物</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-2">
                   {relatedEntries.map((entry) => (
@@ -762,7 +987,7 @@ export default function WorldWikiTab() {
                       to={`${WIKI_HOME_ROUTE}/${entry.id}`}
                       className="flex items-center justify-between rounded-xl border border-border/50 bg-background/60 px-3 py-2 text-sm transition-colors hover:bg-accent/40"
                     >
-                      <span>{entry.title}</span>
+                      <span>{entry.displayName}</span>
                       <ArrowUpRight className="h-4 w-4 text-muted-foreground" />
                     </Link>
                   ))}
@@ -770,16 +995,16 @@ export default function WorldWikiTab() {
               </Card>
             )}
 
-            <Card className="gap-4 border-primary/25 bg-primary/5 py-5">
+            {/* <Card className="gap-4 border-primary/25 bg-primary/5 py-5">
               <CardHeader className="gap-2">
-                <CardTitle className="text-base">隐藏档案规则</CardTitle>
-                <CardDescription>未解锁时使用黑色遮罩保护剧透信息</CardDescription>
+                <CardTitle className="text-base">权限标签规则</CardTitle>
+                <CardDescription>支持整段与句子级别的黑框遮罩</CardDescription>
               </CardHeader>
               <CardContent className="space-y-3 text-sm leading-6 text-muted-foreground">
-                <p>当前页面中的黑色档案块会根据「当前 PL」自动判断是否解锁。</p>
-                <p>若尚未解锁，点击遮罩会提示：请探索更多故事解锁~</p>
+                <p>整段隐藏内容使用 `secret-panel`，句子或短语使用 `secret-inline`。</p>
+                <p>两者都会根据当前 PL 的唯一键自动判断是否解锁；未解锁时点击会提示：请探索更多故事解锁~</p>
               </CardContent>
-            </Card>
+            </Card> */}
           </aside>
         </div>
       ) : (
@@ -796,7 +1021,12 @@ export default function WorldWikiTab() {
               </div>
               <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
                 {currentPlEntries.map((entry) => (
-                  <WikiEntryCard key={entry.id} entry={entry} currentPl={plName} />
+                  <WikiEntryCard
+                    key={entry.id}
+                    entry={entry}
+                    currentPlayerId={currentPlayer?.id || null}
+                    playersById={playersById}
+                  />
                 ))}
               </div>
             </section>
@@ -820,17 +1050,17 @@ export default function WorldWikiTab() {
               </div>
               <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
                 {group.entries.map((entry) => (
-                  <WikiEntryCard key={entry.id} entry={entry} currentPl={plName} />
+                  <WikiEntryCard
+                    key={entry.id}
+                    entry={entry}
+                    currentPlayerId={currentPlayer?.id || null}
+                    playersById={playersById}
+                  />
                 ))}
               </div>
             </section>
           ))}
 
-          {filteredEntries.length === 0 && (
-            <div className="rounded-3xl border border-dashed border-border/70 px-6 py-16 text-center text-sm text-muted-foreground">
-              没有找到匹配的 wiki 词条，请尝试更换关键词或分类。
-            </div>
-          )}
         </>
       )}
 

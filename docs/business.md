@@ -74,20 +74,25 @@
 #### 世界 Wiki (WorldWikiTab)
 
 - 首页提供人物 / 地点 / 事件 / 模组四类词条的统一检索入口
-- 词条索引来自 `public/wiki/index.json`
-- 词条正文来自 `public/wiki/entries/*.md`，按需 fetch，支持静态内容快速部署
+- 面向 **PL 跑后回顾 / 战报超链接补读**，不是主持人备团后台
+- 底层数据来自 `public/wiki/entities/*.json` 模拟数据库，人物 / PL / 模组均有唯一 key
+- `scripts/generate-wiki-index.ts` 会从实体数据库生成 `public/wiki/index.json` 检索索引
 - 右上角支持“当前 PL”名称设置，复用博客同一 localStorage 键
-- Markdown 内部链接支持站内跳转到其他 wiki 词条
-- 支持 `[secret players="..."]...[/secret]` 隐藏档案块：按当前 PL 判断是否解锁；未解锁时显示黑色遮罩并点击 toast 提示
+- 前端展示名称以中文为主，内部跳转与权限判断全部走唯一 key
+- 支持两种隐藏档案标签：
+  - `secret-panel`：整段 / 整块黑框遮罩
+  - `secret-inline`：句子或短语级黑框遮罩
+- 未解锁时点击黑框统一弹出 toast：`请探索更多故事解锁~`
 
 ### 关键代码位置
 
 | 功能 | 文件路径 | 说明 |
 |------|----------|------|
 | 工具箱布局 | `src/pages/ToolboxTab/index.tsx` | DropdownMenu + Outlet |
-| 世界 Wiki 入口 | `src/pages/WorldWikiTab/index.tsx` | 检索首页 + 词条详情 + PL 解锁逻辑 |
-| Wiki 索引 | `public/wiki/index.json` | 世界词条元数据列表 |
-| Wiki 词条目录 | `public/wiki/entries/` | Markdown 词条正文 |
+| 世界 Wiki 入口 | `src/pages/WorldWikiTab/index.tsx` | 检索首页 + 词条详情 + 唯一键映射 + PL 解锁逻辑 |
+| Wiki 索引生成 | `scripts/generate-wiki-index.ts` | 校验实体引用并生成索引 / 名称映射 |
+| Wiki 索引 | `public/wiki/index.json` | 生成后的世界词条索引、玩家/模组与 lookup 映射 |
+| Wiki 实体库 | `public/wiki/entities/` | players / modules / entries 模拟数据库 |
 | 战斗占位 | `src/pages/ToolboxTab/BattlePlaceholder.tsx` | 敬请期待 |
 | 模组工具入口 | `src/pages/ModuleToolTab/index.tsx` | React Flow + 双模式 |
 | 自定义节点 | `src/pages/ModuleToolTab/ClueNode.tsx` | 分类色彩 + 图片 + 收起展开 |

@@ -7,10 +7,11 @@
     "node": ">=20.0.0"
   },
   "scripts": {
+    "generate:wiki": "tsx scripts/generate-wiki-index.ts",
     "generate:blog": "tsx scripts/generate-blog-index.ts",
-    "predev": "tsx scripts/generate-blog-index.ts",
+    "predev": "pnpm generate:wiki && tsx scripts/generate-blog-index.ts",
     "dev": "vite",
-    "prebuild": "tsx scripts/generate-blog-index.ts",
+    "prebuild": "pnpm generate:wiki && tsx scripts/generate-blog-index.ts",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
     "lint": "eslint .",
