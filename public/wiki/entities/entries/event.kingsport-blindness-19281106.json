@@ -110,7 +110,9 @@
       "type": "secret-panel",
       "title": "艾伦线补遗",
       "playerIds": [
-        "pl.cici"
+        "pl.cici",
+        "pl.leina",
+        "pl.daocaoren"
       ],
       "blocks": [
         {
@@ -126,5 +128,5 @@
     }
   ],
   "createdAt": "1928-11-06T08:00:00Z",
-  "updatedAt": "1928-11-06T23:00:00Z"
+  "updatedAt": "2026-05-27T08:53:36.492Z"
 }

@@ -93,7 +93,8 @@
 |------|----------|------|
 | 工具箱布局 | `src/pages/ToolboxTab/index.tsx` | DropdownMenu + Outlet |
 | 世界 Wiki 入口 | `src/pages/WorldWikiTab/index.tsx` | 检索首页 + 词条详情 + 唯一键映射 + PL 解锁逻辑 |
-| Wiki 管理台（dev-only） | `src/pages/WikiAdminTab/index.tsx` | 词条元数据编辑、content JSON 模板辅助、实时预览与保存 |
+| Wiki 管理台（dev-only） | `src/pages/WikiAdminTab/index.tsx` | 词条元数据编辑、正文引用同步到 relatedEntryIds、block 级可视化编辑、content JSON 兜底面板、实时预览与保存 |
+| Wiki Block 编辑器 | `src/features/wiki/WikiBlockEditor.tsx` | block / token / list / secret-panel 递归编辑器，支持复制/排序/删除 |
 | Wiki 索引生成 | `scripts/generate-wiki-index.ts` | 校验实体引用并生成索引 / 名称映射 |
 | Wiki 数据工具 | `scripts/wiki-data.ts` | 共享 JSON 读写、目录加载、引用校验、索引生成 |
 | Wiki Admin Vite 插件 | `scripts/wiki-admin-plugin.ts` | dev-only 写盘接口 `POST /__wiki-admin/save-entry` |

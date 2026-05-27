@@ -89,9 +89,17 @@
   }
 }
 
-/* Smooth scrolling */
+/* Smooth scrolling + 预留滚动条槽位，避免 Tab 切换时因滚动条出现/消失导致顶栏抖动 */
 html {
   scroll-behavior: smooth;
+  scrollbar-gutter: stable;
+}
+
+@layer utilities {
+  .app-scroll-area {
+    scrollbar-gutter: stable;
+    overscroll-behavior: contain;
+  }
 }
 
 /* 微妙的噪点纹理背景 */

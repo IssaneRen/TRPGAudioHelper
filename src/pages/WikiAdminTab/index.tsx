@@ -15,6 +15,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Textarea } from "@/components/ui/textarea";
+import { WikiBlockEditor } from "@/features/wiki/WikiBlockEditor";
 import { WikiContentRenderer } from "@/features/wiki/WikiContentRenderer";
 import type {
   WikiBlock,
@@ -22,6 +23,7 @@ import type {
   WikiEntryRecord,
   WikiIndexEntry,
   WikiIndexPayload,
+  WikiInlineToken,
 } from "@/types/wiki";
 
 const WIKI_HOME_ROUTE = "/tools/world-wiki";
@@ -68,6 +70,34 @@ function toggleArrayValue(values: string[] | undefined, target: string): string[
   if (current.has(target)) current.delete(target);
   else current.add(target);
   return Array.from(current);
+}
+
+/** 从结构化 block 中递归提取 ref 依赖，便于反向维护 relatedEntryIds。 */
+function collectReferencedEntryIds(blocks: WikiBlock[]): string[] {
+  const ids = new Set<string>();
+
+  const appendTokens = (tokens: WikiInlineToken[] | undefined) => {
+    for (const token of tokens || []) {
+      if (token.type === "ref" && token.entryId) {
+        ids.add(token.entryId);
+      }
+    }
+  };
+
+  const walk = (items: WikiBlock[]) => {
+    for (const block of items) {
+      appendTokens(block.tokens);
+      for (const item of block.items || []) appendTokens(item);
+      if (block.blocks?.length) walk(block.blocks);
+    }
+  };
+
+  walk(blocks);
+  return Array.from(ids);
+}
+
+function normalizeRelatedEntryIds(ids: string[], selfId?: string): string[] {
+  return Array.from(new Set(ids.filter((id) => id && id !== selfId)));
 }
 
 /** 内容编辑区以 JSON 文本为准，保存前统一在这里做解析与报错。 */
@@ -251,6 +281,20 @@ export default function WikiAdminTab() {
     () => indexData?.entries.find((entry) => entry.id === selectedHelperEntryId) ?? null,
     [indexData, selectedHelperEntryId]
   );
+  const referencedEntryIds = useMemo(
+    () =>
+      parsedContent.blocks
+        ? normalizeRelatedEntryIds(collectReferencedEntryIds(parsedContent.blocks), draft?.id)
+        : [],
+    [draft?.id, parsedContent.blocks]
+  );
+  const referencedEntries = useMemo(
+    () =>
+      referencedEntryIds
+        .map((id) => indexData?.entries.find((entry) => entry.id === id) ?? null)
+        .filter((entry): entry is WikiIndexEntry => entry !== null),
+    [indexData, referencedEntryIds]
+  );
 
   const patchDraft = useCallback((patch: Partial<WikiEntryRecord>) => {
     setDraft((current) => (current ? { ...current, ...patch } : current));
@@ -275,7 +319,7 @@ export default function WikiAdminTab() {
       aliasNames: draft.aliasNames || [],
       playerIds: draft.playerIds || [],
       moduleIds: draft.moduleIds || [],
-      relatedEntryIds: draft.relatedEntryIds || [],
+      relatedEntryIds: normalizeRelatedEntryIds(draft.relatedEntryIds || [], draft.id),
       facts: draft.facts || [],
       content: parsedContent.blocks,
       createdAt: draft.createdAt || new Date().toISOString(),
@@ -486,6 +530,58 @@ export default function WikiAdminTab() {
                       }
                     />
 
+                    <div className="space-y-3 rounded-xl border border-border/60 bg-background/40 p-4">
+                      <div className="space-y-1">
+                        <Label>正文引用同步</Label>
+                        <p className="text-sm leading-6 text-muted-foreground">
+                          当前 content 已识别出 {referencedEntryIds.length} 个 `ref` 目标。你可以一键把它们同步到
+                          `relatedEntryIds`，减少维护时的漏配。
+                        </p>
+                      </div>
+                      <div className="flex flex-wrap gap-2">
+                        {referencedEntries.length > 0 ? (
+                          referencedEntries.map((entry) => (
+                            <Badge key={entry.id} variant="outline">
+                              {entry.displayName}
+                            </Badge>
+                          ))
+                        ) : (
+                          <span className="text-sm text-muted-foreground">正文里暂时还没有 `ref` 引用。</span>
+                        )}
+                      </div>
+                      <div className="flex flex-wrap gap-2">
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          disabled={referencedEntryIds.length === 0}
+                          onClick={() =>
+                            patchDraft({
+                              relatedEntryIds: normalizeRelatedEntryIds(
+                                [...(draft.relatedEntryIds || []), ...referencedEntryIds],
+                                draft.id
+                              ),
+                            })
+                          }
+                        >
+                          合并正文引用到关联词条
+                        </Button>
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          disabled={referencedEntryIds.length === 0}
+                          onClick={() =>
+                            patchDraft({
+                              relatedEntryIds: normalizeRelatedEntryIds(referencedEntryIds, draft.id),
+                            })
+                          }
+                        >
+                          用正文引用覆盖关联词条
+                        </Button>
+                      </div>
+                    </div>
+
                     <div className="space-y-3">
                       <div className="flex items-center justify-between">
                         <Label>信息框 facts</Label>
@@ -556,8 +652,31 @@ export default function WikiAdminTab() {
 
             <Card className="border-border/70 bg-card/80 py-5">
               <CardHeader className="gap-2">
-                <CardTitle className="text-base">正文 content JSON</CardTitle>
-                <CardDescription>Phase 2a 先走 JSON + 模板助手，后续再补块级可视化编辑。</CardDescription>
+                <CardTitle className="text-base">正文可视化编辑</CardTitle>
+                <CardDescription>
+                  Phase 2b 已提供 block 级编辑器。你可以直接增删排序 block、编辑 token，并保留原始 JSON 作为兜底。
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {parsedContent.blocks ? (
+                  <WikiBlockEditor
+                    blocks={parsedContent.blocks}
+                    entries={indexData?.entries || []}
+                    players={indexData?.players || []}
+                    onChange={(nextBlocks) => setContentText(JSON.stringify(nextBlocks, null, 2))}
+                  />
+                ) : (
+                  <div className="rounded-xl border border-destructive/40 bg-destructive/10 px-4 py-3 text-sm text-destructive">
+                    当前 content JSON 不合法，暂时无法使用可视化编辑器。请先在下方原始 JSON 面板修复后再继续。
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+
+            <Card className="border-border/70 bg-card/80 py-5">
+              <CardHeader className="gap-2">
+                <CardTitle className="text-base">原始 content JSON（兜底）</CardTitle>
+                <CardDescription>当结构较复杂或需要批量修正时，可直接编辑底层 JSON。</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="flex flex-wrap gap-2">

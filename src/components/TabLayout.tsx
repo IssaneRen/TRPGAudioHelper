@@ -44,15 +44,15 @@ export default function TabLayout() {
   };
 
   return (
-    <div className="flex min-h-screen flex-col bg-background transition-colors duration-300">
+    <div className="flex h-dvh max-h-dvh flex-col overflow-hidden bg-background transition-colors duration-300">
       {/* 桌面端顶部导航 */}
       <motion.header
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4, ease: "easeOut" }}
-        className="sticky top-0 z-50 border-b bg-background/80 backdrop-blur-md nav-glow-line"
+        className="sticky top-0 z-50 shrink-0 border-b bg-background/80 backdrop-blur-md nav-glow-line"
       >
-        <div className="mx-auto flex max-w-screen-xl items-center justify-between px-4 py-3">
+        <div className="mx-auto flex max-w-screen-xl items-center justify-between px-4 py-3 sm:pr-5">
           <motion.h1
             className="text-lg font-bold tracking-wider"
             style={{ fontFamily: "var(--font-heading)" }}
@@ -184,8 +184,8 @@ export default function TabLayout() {
         </div>
       </motion.header>
 
-      {/* 页面内容区 - 带切换动画 */}
-      <main className="mx-auto w-full max-w-screen-xl flex-1 px-4 py-6">
+      {/* 页面内容区 - 独立滚动，避免 body 滚动条导致顶栏宽度抖动 */}
+      <main className="app-scroll-area mx-auto w-full max-w-screen-xl flex-1 overflow-y-auto px-4 py-6 sm:pr-5">
         <AnimatePresence mode="wait">
           <motion.div
             key={animationKey}
@@ -201,7 +201,7 @@ export default function TabLayout() {
       </main>
 
       {/* 移动端底部导航 */}
-      <nav className="sticky bottom-0 z-50 border-t bg-background/80 backdrop-blur-md sm:hidden">
+      <nav className="sticky bottom-0 z-50 shrink-0 border-t bg-background/80 backdrop-blur-md sm:hidden">
         <div className="flex items-center justify-around">
           <NavLink
             to="/"
