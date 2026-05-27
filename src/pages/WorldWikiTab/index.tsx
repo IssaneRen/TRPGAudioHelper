@@ -13,6 +13,8 @@ import {
   Sparkles,
   BookCopy,
   Database,
+  ChevronDown,
+  ChevronUp,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
@@ -466,6 +468,7 @@ export default function WorldWikiTab() {
   const [showPlDialog, setShowPlDialog] = useState(false);
   const [detailLoading, setDetailLoading] = useState(false);
   const [detailError, setDetailError] = useState(false);
+  const [isSearchPanelExpanded, setIsSearchPanelExpanded] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -536,6 +539,12 @@ export default function WorldWikiTab() {
     return () => {
       cancelled = true;
     };
+  }, [entryId]);
+
+  useEffect(() => {
+    if (entryId) {
+      setIsSearchPanelExpanded(false);
+    }
   }, [entryId]);
 
   const playersById = useMemo(
@@ -645,6 +654,10 @@ export default function WorldWikiTab() {
     setShowPlDialog(false);
   }, []);
 
+  const trimmedQuery = query.trim();
+  const showCollapsedZeroResultHint =
+    !selectedEntry && trimmedQuery.length > 0 && searchResultStats.total === 0;
+
   if (indexLoading && !indexData) {
     return (
       <div className="mx-auto max-w-6xl space-y-4">
@@ -669,159 +682,225 @@ export default function WorldWikiTab() {
   return (
     <div className="mx-auto max-w-6xl space-y-6">
       <section className="eldritch-card overflow-hidden rounded-[28px] border border-border/70 bg-card/75 p-6 shadow-sm md:p-8">
-        <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-          <div className="max-w-3xl space-y-3">
-            <Badge variant="outline" className="w-fit border-primary/30 bg-primary/10 text-primary">
+        <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+          <div className="flex min-w-0 flex-1 items-center gap-3">
+            <Badge
+              variant="outline"
+              className="hidden shrink-0 border-primary/30 bg-primary/10 text-primary md:inline-flex"
+            >
               <BookCopy className="h-3.5 w-3.5" />
               世界 Wiki
             </Badge>
-            <div className="space-y-2">
-              <h1 className="text-3xl font-heading font-semibold tracking-wide md:text-4xl">
-                金斯波特档案回顾库
-              </h1>
-              <p className="max-w-2xl text-sm leading-7 text-muted-foreground md:text-base">
-                这里不是主持人备团后台，而是给 PL 在跑完以后做回顾、补读战报超链接、重新拼起人物与事件关系时使用的世界档案页。
-              </p>
-            </div>
-          </div>
-          <div className="flex flex-wrap items-center justify-end gap-2">
-            {import.meta.env.DEV && (
-              <Button variant="outline" size="sm" asChild>
-                <Link to="/admin/wiki">进入管理台</Link>
-              </Button>
-            )}
-            <CurrentPlButton plName={plName} onClick={() => setShowPlDialog(true)} />
-          </div>
-        </div>
-
-        <div className="mt-6 grid gap-4 lg:grid-cols-[1.35fr_0.65fr]">
-          <div className="flex h-full flex-col rounded-2xl border border-border/60 bg-background/65 p-4">
-            <div className="relative">
+            <div className="relative min-w-0 flex-1">
               <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <Input
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
-                placeholder="检索人物、地点、事件、中文名、英文名或 PL 名称"
+                onKeyDown={(event) => {
+                  if (event.nativeEvent.isComposing) return;
+                  if (event.key === "Enter") {
+                    setIsSearchPanelExpanded(true);
+                  }
+                }}
+                placeholder="检索世界 Wiki 词条、地点、事件、中文名、英文名或 PL 名称"
                 className="pl-9"
               />
             </div>
-            <div className="mt-3 flex flex-wrap gap-2">
-              <button
-                onClick={() => setSelectedCategory("all")}
-                className={`rounded-full border px-3 py-1 text-xs transition-colors ${
-                  selectedCategory === "all"
-                    ? "border-primary bg-primary/10 text-primary"
-                    : "text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                全部
-              </button>
-              {CATEGORY_ORDER.map((category) => (
-                <button
-                  key={category}
-                  onClick={() => setSelectedCategory(category)}
-                  className={`rounded-full border px-3 py-1 text-xs transition-colors ${
-                    selectedCategory === category
-                      ? "border-primary bg-primary/10 text-primary"
-                      : "text-muted-foreground hover:text-foreground"
-                  }`}
-                >
-                  {CATEGORY_META[category].label}
-                </button>
-              ))}
-            </div>
-            {!selectedEntry && (
-              <div className="mt-4 flex flex-1 flex-col items-center justify-center px-2 py-4">
-                <div className="w-full rounded-xl border border-border/45 bg-card/35 px-5 py-6 text-center md:px-6 md:py-7">
-                  {!query.trim() ? (
-                    <p className="font-heading text-base leading-8 tracking-wide text-foreground/90 md:text-lg">
-                      还没有搜任何内容呢~
-                      <br />
-                      <span className="text-muted-foreground">我展示所有结果</span>
-                    </p>
-                  ) : searchResultStats.total === 0 ? (
-                    <p className="text-base leading-8 text-foreground/90 md:text-lg">
-                      搜索
-                      <span className="mx-1 font-heading font-semibold text-primary">
-                        「{query.trim()}」
-                      </span>
-                      什么都没有呢，结果为空，请你换个词试试吧
-                    </p>
-                  ) : (
-                    <p className="text-base leading-8 text-foreground/90 md:text-lg">
-                      你搜索的
-                      <span className="mx-1 font-heading font-semibold text-primary">
-                        「{query.trim()}」
-                      </span>
-                      关键词已经找完啦，一共有
-                      <span className="mx-1 font-heading text-xl font-semibold text-primary">
-                        {searchResultStats.total}
-                      </span>
-                      条结果，其中人物
-                      <span className="mx-0.5 font-medium text-foreground">
-                        {searchResultStats.counts.character}
-                      </span>
-                      条，地点
-                      <span className="mx-0.5 font-medium text-foreground">
-                        {searchResultStats.counts.location}
-                      </span>
-                      条，事件
-                      <span className="mx-0.5 font-medium text-foreground">
-                        {searchResultStats.counts.event}
-                      </span>
-                      条，模组
-                      <span className="mx-0.5 font-medium text-foreground">
-                        {searchResultStats.counts.module}
-                      </span>
-                      条
-                    </p>
-                  )}
-                </div>
-              </div>
-            )}
           </div>
 
-          <div className="rounded-2xl border border-border/60 bg-background/65 p-4">
+          <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between lg:justify-end">
             <div className="flex items-center gap-2 text-sm font-medium">
               <Sparkles className="h-4 w-4 text-primary" />
-              当前视角摘要
+              <span>当前视角摘要</span>
+              {showCollapsedZeroResultHint && (
+                <Badge variant="outline" className="border-destructive/30 bg-destructive/10 text-destructive">
+                  0 条结果
+                </Badge>
+              )}
             </div>
-            <p className="mt-2 text-sm leading-6 text-muted-foreground">
-              {currentPlayer
-                ? `当前已匹配为「${currentPlayer.displayName}」。系统会根据玩家唯一键高亮相关词条，并判断段落级 / 句子级隐藏内容是否解锁。`
-                : plName
-                  ? `当前填写了「${plName}」，但尚未匹配到已有 PL 档案。你仍可浏览公开词条。`
-                  : "尚未设置当前 PL。你仍可浏览公开词条，但个人视角补遗会保持黑框遮罩。"}
-            </p>
-            <div className="mt-4 grid grid-cols-2 gap-3">
-              {CATEGORY_ORDER.map((category) => {
-                const Icon = CATEGORY_META[category].icon;
-                const count = (indexData?.entries || []).filter((entry) => entry.category === category).length;
-                return (
-                  <div key={category} className="rounded-xl border border-border/50 bg-card/70 p-3">
-                    <div className="flex items-center gap-2 text-sm font-medium">
-                      <Icon className="h-4 w-4 text-primary" />
-                      {CATEGORY_META[category].label}
-                    </div>
-                    <p className="mt-2 text-2xl font-heading font-semibold">{count}</p>
-                    <p className="mt-1 text-xs text-muted-foreground">
-                      {CATEGORY_META[category].description}
-                    </p>
-                  </div>
-                );
-              })}
-            </div>
-            <div className="mt-3 rounded-xl border border-border/50 bg-card/70 p-3">
-              <div className="flex items-center gap-2 text-sm font-medium">
-                <Database className="h-4 w-4 text-primary" />
-                唯一键映射
-              </div>
-              <p className="mt-2 text-xs leading-6 text-muted-foreground">
-                页面展示名以中文为主，内部跳转与权限控制全部基于唯一键；即使词条改名，历史战报链接仍然稳定。
-              </p>
+            <div className="flex flex-wrap items-center gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setIsSearchPanelExpanded((prev) => !prev)}
+              >
+                {isSearchPanelExpanded ? (
+                  <>
+                    <ChevronUp className="h-4 w-4" />
+                    收起
+                  </>
+                ) : (
+                  <>
+                    <ChevronDown className="h-4 w-4" />
+                    展开
+                  </>
+                )}
+              </Button>
+              <CurrentPlButton plName={plName} onClick={() => setShowPlDialog(true)} />
             </div>
           </div>
         </div>
+
+        <motion.div
+          initial={false}
+          animate={{
+            height: isSearchPanelExpanded ? "auto" : 0,
+            opacity: isSearchPanelExpanded ? 1 : 0,
+            marginTop: isSearchPanelExpanded ? 24 : 0,
+          }}
+          transition={{ duration: 0.22, ease: "easeOut" }}
+          className="overflow-hidden"
+        >
+          <div className="space-y-6 border-t border-border/50 pt-6">
+            <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+              <div className="max-w-3xl space-y-3">
+                <Badge
+                  variant="outline"
+                  className="w-fit border-primary/30 bg-primary/10 text-primary md:hidden"
+                >
+                  <BookCopy className="h-3.5 w-3.5" />
+                  世界 Wiki
+                </Badge>
+                <div className="space-y-2">
+                  <h1 className="text-3xl font-heading font-semibold tracking-wide md:text-4xl">
+                    金斯波特档案回顾库
+                  </h1>
+                  <p className="max-w-2xl text-sm leading-7 text-muted-foreground md:text-base">
+                    这里不是主持人备团后台，而是给 PL 在跑完以后做回顾、补读战报超链接、重新拼起人物与事件关系时使用的世界档案页。
+                  </p>
+                </div>
+              </div>
+              {import.meta.env.DEV && (
+                <Button variant="outline" size="sm" asChild className="w-fit">
+                  <Link to="/admin/wiki">进入管理台</Link>
+                </Button>
+              )}
+            </div>
+
+            <div className="grid gap-4 lg:grid-cols-[1.35fr_0.65fr]">
+              <div className="flex h-full flex-col rounded-2xl border border-border/60 bg-background/65 p-4">
+                <div className="flex flex-wrap gap-2">
+                  <button
+                    onClick={() => setSelectedCategory("all")}
+                    className={`rounded-full border px-3 py-1 text-xs transition-colors ${
+                      selectedCategory === "all"
+                        ? "border-primary bg-primary/10 text-primary"
+                        : "text-muted-foreground hover:text-foreground"
+                    }`}
+                  >
+                    全部
+                  </button>
+                  {CATEGORY_ORDER.map((category) => (
+                    <button
+                      key={category}
+                      onClick={() => setSelectedCategory(category)}
+                      className={`rounded-full border px-3 py-1 text-xs transition-colors ${
+                        selectedCategory === category
+                          ? "border-primary bg-primary/10 text-primary"
+                          : "text-muted-foreground hover:text-foreground"
+                      }`}
+                    >
+                      {CATEGORY_META[category].label}
+                    </button>
+                  ))}
+                </div>
+
+                {!selectedEntry && (
+                  <div className="mt-4 flex flex-1 flex-col items-center justify-center px-2 py-4">
+                    <div className="w-full rounded-xl border border-border/45 bg-card/35 px-5 py-6 text-center md:px-6 md:py-7">
+                      {!trimmedQuery ? (
+                        <p className="font-heading text-base leading-8 tracking-wide text-foreground/90 md:text-lg">
+                          还没有搜任何内容呢~
+                          <br />
+                          <span className="text-muted-foreground">我展示所有结果</span>
+                        </p>
+                      ) : searchResultStats.total === 0 ? (
+                        <p className="text-base leading-8 text-foreground/90 md:text-lg">
+                          搜索
+                          <span className="mx-1 font-heading font-semibold text-primary">
+                            「{trimmedQuery}」
+                          </span>
+                          什么都没有呢，结果为空，请你换个词试试吧
+                        </p>
+                      ) : (
+                        <p className="text-base leading-8 text-foreground/90 md:text-lg">
+                          你搜索的
+                          <span className="mx-1 font-heading font-semibold text-primary">
+                            「{trimmedQuery}」
+                          </span>
+                          关键词已经找完啦，一共有
+                          <span className="mx-1 font-heading text-xl font-semibold text-primary">
+                            {searchResultStats.total}
+                          </span>
+                          条结果，其中人物
+                          <span className="mx-0.5 font-medium text-foreground">
+                            {searchResultStats.counts.character}
+                          </span>
+                          条，地点
+                          <span className="mx-0.5 font-medium text-foreground">
+                            {searchResultStats.counts.location}
+                          </span>
+                          条，事件
+                          <span className="mx-0.5 font-medium text-foreground">
+                            {searchResultStats.counts.event}
+                          </span>
+                          条，模组
+                          <span className="mx-0.5 font-medium text-foreground">
+                            {searchResultStats.counts.module}
+                          </span>
+                          条
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <div className="rounded-2xl border border-border/60 bg-background/65 p-4">
+                <div className="flex items-center gap-2 text-sm font-medium">
+                  <Sparkles className="h-4 w-4 text-primary" />
+                  当前视角摘要
+                </div>
+                <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                  {currentPlayer
+                    ? `当前已匹配为「${currentPlayer.displayName}」。系统会根据玩家唯一键高亮相关词条，并判断段落级 / 句子级隐藏内容是否解锁。`
+                    : plName
+                      ? `当前填写了「${plName}」，但尚未匹配到已有 PL 档案。你仍可浏览公开词条。`
+                      : "尚未设置当前 PL。你仍可浏览公开词条，但个人视角补遗会保持黑框遮罩。"}
+                </p>
+                <div className="mt-4 grid grid-cols-2 gap-3">
+                  {CATEGORY_ORDER.map((category) => {
+                    const Icon = CATEGORY_META[category].icon;
+                    const count = (indexData?.entries || []).filter(
+                      (entry) => entry.category === category
+                    ).length;
+                    return (
+                      <div key={category} className="rounded-xl border border-border/50 bg-card/70 p-3">
+                        <div className="flex items-center gap-2 text-sm font-medium">
+                          <Icon className="h-4 w-4 text-primary" />
+                          {CATEGORY_META[category].label}
+                        </div>
+                        <p className="mt-2 text-2xl font-heading font-semibold">{count}</p>
+                        <p className="mt-1 text-xs text-muted-foreground">
+                          {CATEGORY_META[category].description}
+                        </p>
+                      </div>
+                    );
+                  })}
+                </div>
+                <div className="mt-3 rounded-xl border border-border/50 bg-card/70 p-3">
+                  <div className="flex items-center gap-2 text-sm font-medium">
+                    <Database className="h-4 w-4 text-primary" />
+                    唯一键映射
+                  </div>
+                  <p className="mt-2 text-xs leading-6 text-muted-foreground">
+                    页面展示名以中文为主，内部跳转与权限控制全部基于唯一键；即使词条改名，历史战报链接仍然稳定。
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </motion.div>
       </section>
 
       {selectedEntry ? (
