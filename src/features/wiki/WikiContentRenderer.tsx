@@ -209,6 +209,27 @@ export function WikiContentRenderer({
           );
         }
 
+        if (block.type === "coc-sheet") {
+          const statusEntries = Object.entries(block.cocData?.status || {});
+          const skillEntries = Object.entries(block.cocData?.skill || {});
+          return (
+            <div key={`coc-sheet-${index}`} className="rounded-2xl border border-primary/20 bg-card/60 p-4">
+              <div className="mb-3 text-sm font-semibold">COC人物卡</div>
+              {block.cocData?.avatar ? <img src={block.cocData.avatar} alt="avatar" className="mb-3 h-28 w-28 rounded-md object-cover" /> : null}
+              <div className="grid gap-3 md:grid-cols-2">
+                <div>
+                  <div className="mb-1 text-xs text-muted-foreground">属性</div>
+                  <div className="space-y-1">{statusEntries.map(([k,v])=><div key={k} className="flex justify-between text-sm"><span>{k.toUpperCase()}</span><span>{v}</span></div>)}</div>
+                </div>
+                <div>
+                  <div className="mb-1 text-xs text-muted-foreground">技能</div>
+                  <div className="space-y-1">{skillEntries.map(([k,v])=><div key={k} className="flex justify-between text-sm"><span>{k}</span><span>{v}</span></div>)}</div>
+                </div>
+              </div>
+            </div>
+          );
+        }
+
         if (block.type === "secret-panel") {
           return canRevealSecret(block.playerIds, currentPlayerId, revealAllSecrets) ? (
             <div
@@ -227,7 +248,7 @@ export function WikiContentRenderer({
                 entryBaseRoute={entryBaseRoute}
               />
             </div>
-          ) : (
+          ) : block.hiddenMode === "collapse" ? null : (
             <LockedSecretBlock
               key={`secret-panel-${index}`}
               title={block.title || "档案未解锁"}
