@@ -1,0 +1,168 @@
+{
+  "id": "module.kingsport-city-in-the-mists",
+  "category": "module",
+  "displayName": "《永恒恶意 Everlasting Malice》",
+  "summary": "面向 PL 回顾与战报补链的世界设定条目，负责串联人物、地点、事件与唯一键映射关系。",
+  "aliasNames": [
+    "Kingsport: The City In The Mists",
+    "金斯波特：迷雾之城",
+    "金斯波特补遗"
+  ],
+  "playerIds": [
+    "pl.cici",
+    "pl.leina",
+    "pl.daocaoren"
+  ],
+  "moduleIds": [
+    "module.kingsport-city-in-the-mists"
+  ],
+  "relatedEntryIds": [
+    "loc.kingsport",
+    "char.allen",
+    "char.leina",
+    "char.gan",
+    "event.kingsport-blindness-19281106",
+    "event.kingsport-nightmare-19281109"
+  ],
+  "facts": [
+    {
+      "label": "类型",
+      "value": "补充设定 / 战报索引 / 跑后回顾入口"
+    },
+    {
+      "label": "阅读对象",
+      "value": "PL"
+    },
+    {
+      "label": "索引方式",
+      "value": "显示名中文为主，内部跳转使用唯一键"
+    }
+  ],
+  "content": [
+    {
+      "type": "heading",
+      "text": "词条定位"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "《金斯波特：迷雾之城 Kingsport: The City In The Mists》并不是主持人备团用的隐藏手册，而是给 PL 在跑完以后回看人物、地点与事件关系时使用的世界索引。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "如果你在战报文章中点进某个人名或地点名，通常会跳到一个唯一键对应的词条页面；前端展示的是中文为主的名称，但内部所有跳转都用稳定 key 映射，避免未来改名后断链。"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "建议阅读顺序"
+    },
+    {
+      "type": "list",
+      "items": [
+        [
+          {
+            "type": "text",
+            "text": "先看 "
+          },
+          {
+            "type": "ref",
+            "entryId": "loc.kingsport",
+            "label": "金斯波特"
+          },
+          {
+            "type": "text",
+            "text": "，建立整体空间感。"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "再看 "
+          },
+          {
+            "type": "ref",
+            "entryId": "event.kingsport-blindness-19281106",
+            "label": "失明案件"
+          },
+          {
+            "type": "text",
+            "text": " 与 "
+          },
+          {
+            "type": "ref",
+            "entryId": "event.kingsport-nightmare-19281109",
+            "label": "噩梦事件"
+          },
+          {
+            "type": "text",
+            "text": "，建立时间线。"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "最后再跳到 "
+          },
+          {
+            "type": "ref",
+            "entryId": "char.allen",
+            "label": "艾伦"
+          },
+          {
+            "type": "text",
+            "text": "、"
+          },
+          {
+            "type": "ref",
+            "entryId": "char.leina",
+            "label": "莱纳"
+          },
+          {
+            "type": "text",
+            "text": "、"
+          },
+          {
+            "type": "ref",
+            "entryId": "char.gan",
+            "label": "甘"
+          },
+          {
+            "type": "text",
+            "text": "，回看各自的个人视角。"
+          }
+        ]
+      ]
+    },
+    {
+      "type": "secret-panel",
+      "title": "对已参与 PL 开放的补充说明",
+      "playerIds": [
+        "pl.cici",
+        "pl.leina",
+        "pl.daocaoren"
+      ],
+      "blocks": [
+        {
+          "type": "paragraph",
+          "tokens": [
+            {
+              "type": "text",
+              "text": "这份 wiki 的隐藏档案只用于保护尚未跑到的细节，而不是为了向主持人暴露后台设定。它的目标是让 PL 能在安全范围内、按自己的视角重新拼回事件全貌。"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "createdAt": "1928-11-01T08:00:00Z",
+  "updatedAt": "1928-11-09T21:00:00Z"
+}

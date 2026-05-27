@@ -27,72 +27,15 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
-
-type WikiCategory = "character" | "location" | "event" | "module";
-
-interface WikiPlayer {
-  id: string;
-  displayName: string;
-  aliases?: string[];
-}
-
-interface WikiModule {
-  id: string;
-  displayName: string;
-  aliases?: string[];
-}
-
-interface WikiFact {
-  label: string;
-  value: string;
-}
-
-interface WikiInlineToken {
-  type: "text" | "ref" | "secret-inline";
-  text?: string;
-  entryId?: string;
-  label?: string;
-  playerIds?: string[];
-}
-
-interface WikiBlock {
-  type: "heading" | "paragraph" | "list" | "quote" | "secret-panel";
-  text?: string;
-  tokens?: WikiInlineToken[];
-  items?: WikiInlineToken[][];
-  playerIds?: string[];
-  title?: string;
-  blocks?: WikiBlock[];
-}
-
-interface WikiIndexEntry {
-  id: string;
-  category: WikiCategory;
-  displayName: string;
-  summary: string;
-  aliasNames?: string[];
-  playerIds?: string[];
-  moduleIds?: string[];
-  relatedEntryIds?: string[];
-  facts?: WikiFact[];
-  createdAt: string;
-  updatedAt: string;
-}
-
-interface WikiEntryRecord extends WikiIndexEntry {
-  content: WikiBlock[];
-}
-
-interface WikiIndexPayload {
-  players: WikiPlayer[];
-  modules: WikiModule[];
-  entries: WikiIndexEntry[];
-  lookup: {
-    entryIdByName: Record<string, string>;
-    playerIdByName: Record<string, string>;
-    moduleIdByName: Record<string, string>;
-  };
-}
+import type {
+  WikiBlock,
+  WikiCategory,
+  WikiEntryRecord,
+  WikiIndexEntry,
+  WikiIndexPayload,
+  WikiInlineToken,
+  WikiPlayer,
+} from "@/types/wiki";
 
 const PL_STORAGE_KEY = "blog-pl-name";
 const WIKI_HOME_ROUTE = "/tools/world-wiki";
@@ -135,7 +78,7 @@ const CATEGORY_META: Record<
 const CATEGORY_ORDER: WikiCategory[] = ["character", "location", "event", "module"];
 
 let wikiIndexCache: WikiIndexPayload | null = null;
-let wikiEntriesCache: WikiEntryRecord[] | null = null;
+let wikiEntryDetailCache: Record<string, WikiEntryRecord> = {};
 
 /** 文本统一归一化，确保 PL / 名称 / 别名匹配规则保持一致。 */
 function normalizeText(value: string): string {
@@ -512,7 +455,9 @@ export default function WorldWikiTab() {
   const navigate = useNavigate();
   const { entryId } = useParams<{ entryId?: string }>();
   const [indexData, setIndexData] = useState<WikiIndexPayload | null>(wikiIndexCache);
-  const [entryRecords, setEntryRecords] = useState<WikiEntryRecord[] | null>(wikiEntriesCache);
+  const [entryDetailsById, setEntryDetailsById] = useState<Record<string, WikiEntryRecord>>(
+    wikiEntryDetailCache
+  );
   const [indexLoading, setIndexLoading] = useState(!wikiIndexCache);
   const [indexError, setIndexError] = useState(false);
   const [query, setQuery] = useState("");
@@ -551,9 +496,16 @@ export default function WorldWikiTab() {
   }, []);
 
   useEffect(() => {
-    if (!entryId) return;
-    if (wikiEntriesCache) {
-      setEntryRecords(wikiEntriesCache);
+    if (!entryId) {
+      setDetailLoading(false);
+      setDetailError(false);
+      return;
+    }
+
+    if (wikiEntryDetailCache[entryId]) {
+      setEntryDetailsById({ ...wikiEntryDetailCache });
+      setDetailLoading(false);
+      setDetailError(false);
       return;
     }
 
@@ -561,15 +513,18 @@ export default function WorldWikiTab() {
     setDetailLoading(true);
     setDetailError(false);
 
-    fetch("/wiki/entities/entries.json", { cache: "no-store" })
+    fetch(`/wiki/entities/entries/${entryId}.json`, { cache: "no-store" })
       .then((response) => {
-        if (!response.ok) throw new Error(`Failed to load wiki entities: ${response.status}`);
+        if (!response.ok) throw new Error(`Failed to load wiki entry detail: ${response.status}`);
         return response.json();
       })
-      .then((data: WikiEntryRecord[]) => {
+      .then((data: WikiEntryRecord) => {
         if (cancelled) return;
-        wikiEntriesCache = data;
-        setEntryRecords(data);
+        wikiEntryDetailCache = {
+          ...wikiEntryDetailCache,
+          [data.id]: data,
+        };
+        setEntryDetailsById({ ...wikiEntryDetailCache });
       })
       .catch(() => {
         if (!cancelled) setDetailError(true);
@@ -609,8 +564,8 @@ export default function WorldWikiTab() {
   );
 
   const selectedEntryDetail = useMemo(
-    () => entryRecords?.find((entry) => entry.id === entryId) ?? null,
-    [entryId, entryRecords]
+    () => (entryId ? entryDetailsById[entryId] ?? null : null),
+    [entryDetailsById, entryId]
   );
 
   useEffect(() => {
@@ -623,12 +578,8 @@ export default function WorldWikiTab() {
     if (indexLoading) return;
     if (!selectedEntry) {
       navigate(WIKI_HOME_ROUTE, { replace: true });
-      return;
     }
-    if (entryRecords && !selectedEntryDetail) {
-      navigate(WIKI_HOME_ROUTE, { replace: true });
-    }
-  }, [entryId, entryRecords, indexLoading, navigate, selectedEntry, selectedEntryDetail]);
+  }, [entryId, indexLoading, navigate, selectedEntry]);
 
   const filteredEntries = useMemo(() => {
     const normalizedQuery = normalizeText(query);
@@ -733,7 +684,14 @@ export default function WorldWikiTab() {
               </p>
             </div>
           </div>
-          <CurrentPlButton plName={plName} onClick={() => setShowPlDialog(true)} />
+          <div className="flex flex-wrap items-center justify-end gap-2">
+            {import.meta.env.DEV && (
+              <Button variant="outline" size="sm" asChild>
+                <Link to="/admin/wiki">进入管理台</Link>
+              </Button>
+            )}
+            <CurrentPlButton plName={plName} onClick={() => setShowPlDialog(true)} />
+          </div>
         </div>
 
         <div className="mt-6 grid gap-4 lg:grid-cols-[1.35fr_0.65fr]">

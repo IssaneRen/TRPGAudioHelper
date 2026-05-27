@@ -83,48 +83,6 @@
       "updatedAt": "1928-11-09T20:00:00Z"
     },
     {
-      "id": "char.leina",
-      "category": "character",
-      "displayName": "莱纳 Leina",
-      "summary": "英国籍一战老兵，退伍后定居阿卡姆。因探望住院的艾伦而在 1928 年 11 月被卷入金斯波特噩梦事件。",
-      "aliasNames": [
-        "Leina",
-        "莱纳"
-      ],
-      "playerIds": [
-        "pl.leina"
-      ],
-      "moduleIds": [
-        "module.kingsport-city-in-the-mists"
-      ],
-      "relatedEntryIds": [
-        "loc.arkham",
-        "char.allen",
-        "loc.kingsport-congregational-hospital",
-        "event.kingsport-nightmare-19281109"
-      ],
-      "facts": [
-        {
-          "label": "国籍",
-          "value": "英国"
-        },
-        {
-          "label": "身份",
-          "value": "一战老兵"
-        },
-        {
-          "label": "定居地",
-          "value": "阿卡姆"
-        },
-        {
-          "label": "对应 PL",
-          "value": "莱纳"
-        }
-      ],
-      "createdAt": "1928-11-08T19:30:00Z",
-      "updatedAt": "1928-11-09T20:00:00Z"
-    },
-    {
       "id": "char.gan",
       "category": "character",
       "displayName": "甘 Gan",
@@ -167,94 +125,13 @@
       "updatedAt": "1928-11-09T20:00:00Z"
     },
     {
-      "id": "loc.kingsport",
-      "category": "location",
-      "displayName": "金斯波特 Kingsport",
-      "summary": "被海雾与流言包围的港口小镇。1928 年秋季，异常病例、梦境异变与调查员命运都在这里汇聚。",
+      "id": "char.leina",
+      "category": "character",
+      "displayName": "莱纳 Leina",
+      "summary": "英国籍一战老兵，退伍后定居阿卡姆。因探望住院的艾伦而在 1928 年 11 月被卷入金斯波特噩梦事件。",
       "aliasNames": [
-        "Kingsport",
-        "金斯波特"
-      ],
-      "playerIds": [
-        "pl.cici",
-        "pl.leina",
-        "pl.daocaoren"
-      ],
-      "moduleIds": [
-        "module.kingsport-city-in-the-mists"
-      ],
-      "relatedEntryIds": [
-        "loc.kingsport-congregational-hospital",
-        "event.kingsport-blindness-19281106",
-        "event.kingsport-nightmare-19281109",
-        "module.kingsport-city-in-the-mists"
-      ],
-      "facts": [
-        {
-          "label": "类型",
-          "value": "海港小镇"
-        },
-        {
-          "label": "氛围",
-          "value": "常年迷雾、潮湿、居民沉默"
-        },
-        {
-          "label": "观看视角",
-          "value": "跑后回顾 / 战报补充阅读 / 世界设定跳转入口"
-        }
-      ],
-      "createdAt": "1928-11-01T08:00:00Z",
-      "updatedAt": "1928-11-09T20:00:00Z"
-    },
-    {
-      "id": "loc.kingsport-congregational-hospital",
-      "category": "location",
-      "displayName": "金斯波特公理会医院 Kingsport Congregational Hospital",
-      "summary": "镇上最重要的医疗机构，也是艾伦、莱纳与甘三条行动线真正交汇的核心场景。",
-      "aliasNames": [
-        "Kingsport Congregational Hospital",
-        "金斯波特公理会医院"
-      ],
-      "playerIds": [
-        "pl.cici",
-        "pl.leina",
-        "pl.daocaoren"
-      ],
-      "moduleIds": [
-        "module.kingsport-city-in-the-mists"
-      ],
-      "relatedEntryIds": [
-        "char.allen",
-        "char.leina",
-        "char.gan",
-        "event.kingsport-nightmare-19281109",
-        "loc.kingsport"
-      ],
-      "facts": [
-        {
-          "label": "类型",
-          "value": "综合医院"
-        },
-        {
-          "label": "所在地区",
-          "value": "金斯波特"
-        },
-        {
-          "label": "叙事作用",
-          "value": "人物交汇 / 病例聚集 / 异常发酵中枢"
-        }
-      ],
-      "createdAt": "1928-11-06T10:00:00Z",
-      "updatedAt": "1928-11-09T20:00:00Z"
-    },
-    {
-      "id": "loc.arkham",
-      "category": "location",
-      "displayName": "阿卡姆 Arkham",
-      "summary": "莱纳退伍后定居的城市。它是理解“阿卡姆的怪谈”与“金斯波特的现实压迫”差异的重要参照点。",
-      "aliasNames": [
-        "Arkham",
-        "阿卡姆"
+        "Leina",
+        "莱纳"
       ],
       "playerIds": [
         "pl.leina"
@@ -263,22 +140,31 @@
         "module.kingsport-city-in-the-mists"
       ],
       "relatedEntryIds": [
-        "char.leina",
-        "loc.kingsport",
-        "module.kingsport-city-in-the-mists"
+        "loc.arkham",
+        "char.allen",
+        "loc.kingsport-congregational-hospital",
+        "event.kingsport-nightmare-19281109"
       ],
       "facts": [
         {
-          "label": "类型",
-          "value": "大学城 / 都市据点"
+          "label": "国籍",
+          "value": "英国"
         },
         {
-          "label": "关联人物",
+          "label": "身份",
+          "value": "一战老兵"
+        },
+        {
+          "label": "定居地",
+          "value": "阿卡姆"
+        },
+        {
+          "label": "对应 PL",
           "value": "莱纳"
         }
       ],
-      "createdAt": "1928-11-01T08:00:00Z",
-      "updatedAt": "1928-11-08T20:00:00Z"
+      "createdAt": "1928-11-08T19:30:00Z",
+      "updatedAt": "1928-11-09T20:00:00Z"
     },
     {
       "id": "event.kingsport-blindness-19281106",
@@ -360,6 +246,120 @@
       "updatedAt": "1928-11-09T21:00:00Z"
     },
     {
+      "id": "loc.arkham",
+      "category": "location",
+      "displayName": "阿卡姆 Arkham",
+      "summary": "莱纳退伍后定居的城市。它是理解“阿卡姆的怪谈”与“金斯波特的现实压迫”差异的重要参照点。",
+      "aliasNames": [
+        "Arkham",
+        "阿卡姆"
+      ],
+      "playerIds": [
+        "pl.leina"
+      ],
+      "moduleIds": [
+        "module.kingsport-city-in-the-mists"
+      ],
+      "relatedEntryIds": [
+        "char.leina",
+        "loc.kingsport",
+        "module.kingsport-city-in-the-mists"
+      ],
+      "facts": [
+        {
+          "label": "类型",
+          "value": "大学城 / 都市据点"
+        },
+        {
+          "label": "关联人物",
+          "value": "莱纳"
+        }
+      ],
+      "createdAt": "1928-11-01T08:00:00Z",
+      "updatedAt": "1928-11-08T20:00:00Z"
+    },
+    {
+      "id": "loc.kingsport-congregational-hospital",
+      "category": "location",
+      "displayName": "金斯波特公理会医院 Kingsport Congregational Hospital",
+      "summary": "镇上最重要的医疗机构，也是艾伦、莱纳与甘三条行动线真正交汇的核心场景。",
+      "aliasNames": [
+        "Kingsport Congregational Hospital",
+        "金斯波特公理会医院"
+      ],
+      "playerIds": [
+        "pl.cici",
+        "pl.leina",
+        "pl.daocaoren"
+      ],
+      "moduleIds": [
+        "module.kingsport-city-in-the-mists"
+      ],
+      "relatedEntryIds": [
+        "char.allen",
+        "char.leina",
+        "char.gan",
+        "event.kingsport-nightmare-19281109",
+        "loc.kingsport"
+      ],
+      "facts": [
+        {
+          "label": "类型",
+          "value": "综合医院"
+        },
+        {
+          "label": "所在地区",
+          "value": "金斯波特"
+        },
+        {
+          "label": "叙事作用",
+          "value": "人物交汇 / 病例聚集 / 异常发酵中枢"
+        }
+      ],
+      "createdAt": "1928-11-06T10:00:00Z",
+      "updatedAt": "1928-11-09T20:00:00Z"
+    },
+    {
+      "id": "loc.kingsport",
+      "category": "location",
+      "displayName": "金斯波特 Kingsport",
+      "summary": "被海雾与流言包围的港口小镇。1928 年秋季，异常病例、梦境异变与调查员命运都在这里汇聚。",
+      "aliasNames": [
+        "Kingsport",
+        "金斯波特"
+      ],
+      "playerIds": [
+        "pl.cici",
+        "pl.leina",
+        "pl.daocaoren"
+      ],
+      "moduleIds": [
+        "module.kingsport-city-in-the-mists"
+      ],
+      "relatedEntryIds": [
+        "loc.kingsport-congregational-hospital",
+        "event.kingsport-blindness-19281106",
+        "event.kingsport-nightmare-19281109",
+        "module.kingsport-city-in-the-mists"
+      ],
+      "facts": [
+        {
+          "label": "类型",
+          "value": "海港小镇"
+        },
+        {
+          "label": "氛围",
+          "value": "常年迷雾、潮湿、居民沉默"
+        },
+        {
+          "label": "观看视角",
+          "value": "跑后回顾 / 战报补充阅读 / 世界设定跳转入口"
+        }
+      ],
+      "createdAt": "1928-11-01T08:00:00Z",
+      "updatedAt": "1928-11-09T20:00:00Z"
+    },
+    {
       "id": "module.kingsport-city-in-the-mists",
       "category": "module",
       "displayName": "《永恒恶意 Everlasting Malice》",
@@ -408,27 +408,27 @@
       "艾伦 allen": "char.allen",
       "allen": "char.allen",
       "艾伦": "char.allen",
-      "莱纳 leina": "char.leina",
-      "leina": "char.leina",
-      "莱纳": "char.leina",
       "甘 gan": "char.gan",
       "gan": "char.gan",
       "甘": "char.gan",
-      "金斯波特 kingsport": "loc.kingsport",
-      "kingsport": "loc.kingsport",
-      "金斯波特": "loc.kingsport",
-      "金斯波特公理会医院 kingsport congregational hospital": "loc.kingsport-congregational-hospital",
-      "kingsport congregational hospital": "loc.kingsport-congregational-hospital",
-      "金斯波特公理会医院": "loc.kingsport-congregational-hospital",
-      "阿卡姆 arkham": "loc.arkham",
-      "arkham": "loc.arkham",
-      "阿卡姆": "loc.arkham",
+      "莱纳 leina": "char.leina",
+      "leina": "char.leina",
+      "莱纳": "char.leina",
       "1928.11.6 - 金斯波特失明案件": "event.kingsport-blindness-19281106",
       "金斯波特失明案件": "event.kingsport-blindness-19281106",
       "1928.11.6 失明案件": "event.kingsport-blindness-19281106",
       "1928.11.9 - 金斯波特噩梦事件": "event.kingsport-nightmare-19281109",
       "金斯波特噩梦事件": "event.kingsport-nightmare-19281109",
       "1928.11.9 噩梦事件": "event.kingsport-nightmare-19281109",
+      "阿卡姆 arkham": "loc.arkham",
+      "arkham": "loc.arkham",
+      "阿卡姆": "loc.arkham",
+      "金斯波特公理会医院 kingsport congregational hospital": "loc.kingsport-congregational-hospital",
+      "kingsport congregational hospital": "loc.kingsport-congregational-hospital",
+      "金斯波特公理会医院": "loc.kingsport-congregational-hospital",
+      "金斯波特 kingsport": "loc.kingsport",
+      "kingsport": "loc.kingsport",
+      "金斯波特": "loc.kingsport",
       "《永恒恶意 everlasting malice》": "module.kingsport-city-in-the-mists",
       "kingsport: the city in the mists": "module.kingsport-city-in-the-mists",
       "金斯波特：迷雾之城": "module.kingsport-city-in-the-mists",

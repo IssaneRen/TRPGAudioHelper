@@ -1,0 +1,195 @@
+{
+  "id": "char.allen",
+  "category": "character",
+  "displayName": "艾伦 Allen",
+  "summary": "美国人，一战老兵兼医疗兵。退伍后在波士顿医院工作，并于 1928 年 11 月先后卷入金斯波特失明案件与噩梦事件。",
+  "aliasNames": [
+    "Allen",
+    "艾伦"
+  ],
+  "playerIds": [
+    "pl.cici"
+  ],
+  "moduleIds": [
+    "module.kingsport-city-in-the-mists"
+  ],
+  "relatedEntryIds": [
+    "loc.kingsport",
+    "loc.kingsport-congregational-hospital",
+    "event.kingsport-blindness-19281106",
+    "event.kingsport-nightmare-19281109",
+    "module.kingsport-city-in-the-mists"
+  ],
+  "facts": [
+    {
+      "label": "国籍",
+      "value": "美国"
+    },
+    {
+      "label": "身份",
+      "value": "一战老兵 / 医疗兵 / 退伍军人"
+    },
+    {
+      "label": "常驻地",
+      "value": "波士顿医院"
+    },
+    {
+      "label": "对应 PL",
+      "value": "Cici"
+    }
+  ],
+  "content": [
+    {
+      "type": "heading",
+      "text": "人物概览"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "艾伦 Allen 是一名美国籍的一战老兵，战时担任医疗兵。退伍后，他回到波士顿，在医院体系内继续从事创伤护理与急救相关工作。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "1928 年 11 月，他因 "
+        },
+        {
+          "type": "ref",
+          "entryId": "event.kingsport-blindness-19281106",
+          "label": "1928.11.6 - 金斯波特失明案件"
+        },
+        {
+          "type": "text",
+          "text": " 前往 "
+        },
+        {
+          "type": "ref",
+          "entryId": "loc.kingsport-congregational-hospital",
+          "label": "金斯波特公理会医院"
+        },
+        {
+          "type": "text",
+          "text": "，随后又在 "
+        },
+        {
+          "type": "ref",
+          "entryId": "event.kingsport-nightmare-19281109",
+          "label": "1928.11.9 - 金斯波特噩梦事件"
+        },
+        {
+          "type": "text",
+          "text": " 中被卷入更深层的异常。"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "已知经历"
+    },
+    {
+      "type": "list",
+      "items": [
+        [
+          {
+            "type": "text",
+            "text": "有长期战地救护经验，面对伤情和混乱时判断冷静。"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "退伍后在波士顿医院任职，拥有相对扎实的医学观察能力。"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "在金斯波特遭遇异常病例后，成为最早意识到“这并非普通医疗事故”的调查员之一。"
+          }
+        ]
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "他的住院与诊疗经过，成为 "
+        },
+        {
+          "type": "ref",
+          "entryId": "char.leina",
+          "label": "莱纳"
+        },
+        {
+          "type": "text",
+          "text": " 和 "
+        },
+        {
+          "type": "ref",
+          "entryId": "char.gan",
+          "label": "甘"
+        },
+        {
+          "type": "text",
+          "text": " 被拖入事件的关键起点。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "公开记录显示，他在病房中仍保持着完整的临床思维；但 "
+        },
+        {
+          "type": "secret-inline",
+          "playerIds": [
+            "pl.cici"
+          ],
+          "text": "他曾在昏睡间反复听见根本不存在的海潮声"
+        },
+        {
+          "type": "text",
+          "text": "，这使他怀疑异变并不只发生在病理层面。"
+        }
+      ]
+    },
+    {
+      "type": "secret-panel",
+      "title": "艾伦个人视角补遗",
+      "playerIds": [
+        "pl.cici"
+      ],
+      "blocks": [
+        {
+          "type": "paragraph",
+          "tokens": [
+            {
+              "type": "text",
+              "text": "艾伦并不认为自己只是过劳或受到创伤后应激影响。他更担心的是：某种东西正透过雾与梦，反向观察病房里的每一个人。"
+            }
+          ]
+        },
+        {
+          "type": "quote",
+          "tokens": [
+            {
+              "type": "text",
+              "text": "“那不是幻听。我知道潮声和呼吸机的区别。”"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "createdAt": "1928-11-06T08:00:00Z",
+  "updatedAt": "1928-11-09T20:00:00Z"
+}

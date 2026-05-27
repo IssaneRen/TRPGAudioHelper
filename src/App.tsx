@@ -12,6 +12,7 @@ const SoundboardTab = lazy(() => import("@/pages/SoundboardTab"));
 const BattleSimulator = lazy(() => import("@/pages/ToolboxTab/BattleSimulator"));
 const BlogTab = lazy(() => import("@/pages/BlogTab"));
 const NotFound = lazy(() => import("@/pages/NotFound"));
+const WikiAdminTab = import.meta.env.DEV ? lazy(() => import("@/pages/WikiAdminTab")) : null;
 
 function PageLoader() {
   return (
@@ -35,6 +36,9 @@ export default function App() {
         <Routes>
           <Route element={<TabLayout />}>
             <Route index element={<ProfileTab />} />
+            {import.meta.env.DEV && WikiAdminTab ? (
+              <Route path="admin/wiki" element={<WikiAdminTab />} />
+            ) : null}
             <Route path="tools" element={<ToolboxTab />}>
               <Route index element={<Navigate to="battle" replace />} />
               <Route path="battle" element={<BattleSimulator />} />

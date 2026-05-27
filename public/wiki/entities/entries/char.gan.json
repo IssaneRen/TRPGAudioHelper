@@ -1,0 +1,145 @@
+{
+  "id": "char.gan",
+  "category": "character",
+  "displayName": "甘 Gan",
+  "summary": "美国人，二等兵。1928 年 11 月 8 日夜前往金斯波特公理会医院探望艾伦，次日被卷入噩梦事件。",
+  "aliasNames": [
+    "Gan",
+    "甘"
+  ],
+  "playerIds": [
+    "pl.daocaoren"
+  ],
+  "moduleIds": [
+    "module.kingsport-city-in-the-mists"
+  ],
+  "relatedEntryIds": [
+    "char.allen",
+    "loc.kingsport-congregational-hospital",
+    "event.kingsport-nightmare-19281109",
+    "loc.kingsport"
+  ],
+  "facts": [
+    {
+      "label": "国籍",
+      "value": "美国"
+    },
+    {
+      "label": "军阶",
+      "value": "二等兵"
+    },
+    {
+      "label": "关键行程",
+      "value": "1928-11-08 夜间赴医院探望艾伦"
+    },
+    {
+      "label": "对应 PL",
+      "value": "稻草人"
+    }
+  ],
+  "content": [
+    {
+      "type": "heading",
+      "text": "人物概览"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "甘 Gan 是一名美国人，曾以二等兵身份服役。1928 年 11 月 8 日夜，他因前往 "
+        },
+        {
+          "type": "ref",
+          "entryId": "loc.kingsport-congregational-hospital",
+          "label": "金斯波特公理会医院"
+        },
+        {
+          "type": "text",
+          "text": " 探望 "
+        },
+        {
+          "type": "ref",
+          "entryId": "char.allen",
+          "label": "艾伦"
+        },
+        {
+          "type": "text",
+          "text": "，而在次日卷入 "
+        },
+        {
+          "type": "ref",
+          "entryId": "event.kingsport-nightmare-19281109",
+          "label": "金斯波特噩梦事件"
+        },
+        {
+          "type": "text",
+          "text": "。"
+        }
+      ]
+    },
+    {
+      "type": "list",
+      "items": [
+        [
+          {
+            "type": "text",
+            "text": "军旅背景使他在混乱场面中更倾向于立刻行动。"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "相较于艾伦的医学判断和莱纳的观察视角，他提供了更直觉、更现实的危险感知。"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "在异常真正失控后，他快速成为行动骨干之一。"
+          }
+        ]
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "他对那一夜最清晰的记忆，不是声音，而是 "
+        },
+        {
+          "type": "secret-inline",
+          "playerIds": [
+            "pl.daocaoren"
+          ],
+          "text": "空气突然像浸满海水一样变得沉重"
+        },
+        {
+          "type": "text",
+          "text": "。"
+        }
+      ]
+    },
+    {
+      "type": "secret-panel",
+      "title": "甘个人视角补遗",
+      "playerIds": [
+        "pl.daocaoren"
+      ],
+      "blocks": [
+        {
+          "type": "paragraph",
+          "tokens": [
+            {
+              "type": "text",
+              "text": "甘后来把那种感受描述成“病房外的走廊像被水压包住”。这也是他最早判断异常已经从梦境渗入现实的重要依据。"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "createdAt": "1928-11-08T20:00:00Z",
+  "updatedAt": "1928-11-09T20:00:00Z"
+}

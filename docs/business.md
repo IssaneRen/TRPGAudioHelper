@@ -76,9 +76,12 @@
 - 首页提供人物 / 地点 / 事件 / 模组四类词条的统一检索入口
 - 面向 **PL 跑后回顾 / 战报超链接补读**，不是主持人备团后台
 - 底层数据来自 `public/wiki/entities/*.json` 模拟数据库，人物 / PL / 模组均有唯一 key
+- 词条正文已拆为 `public/wiki/entities/entries/{entryId}.json`，便于按条维护与减少冲突
 - `scripts/generate-wiki-index.ts` 会从实体数据库生成 `public/wiki/index.json` 检索索引
+- dev 环境额外提供 `/admin/wiki` 管理页，用于作者维护词条，不会进入生产构建
 - 右上角支持“当前 PL”名称设置，复用博客同一 localStorage 键
 - 前端展示名称以中文为主，内部跳转与权限判断全部走唯一 key
+- 首页仍读取 `index.json`，详情页改为按 `entryId` 懒加载单条 JSON
 - 支持两种隐藏档案标签：
   - `secret-panel`：整段 / 整块黑框遮罩
   - `secret-inline`：句子或短语级黑框遮罩
@@ -90,9 +93,13 @@
 |------|----------|------|
 | 工具箱布局 | `src/pages/ToolboxTab/index.tsx` | DropdownMenu + Outlet |
 | 世界 Wiki 入口 | `src/pages/WorldWikiTab/index.tsx` | 检索首页 + 词条详情 + 唯一键映射 + PL 解锁逻辑 |
+| Wiki 管理台（dev-only） | `src/pages/WikiAdminTab/index.tsx` | 词条元数据编辑、content JSON 模板辅助、实时预览与保存 |
 | Wiki 索引生成 | `scripts/generate-wiki-index.ts` | 校验实体引用并生成索引 / 名称映射 |
+| Wiki 数据工具 | `scripts/wiki-data.ts` | 共享 JSON 读写、目录加载、引用校验、索引生成 |
+| Wiki Admin Vite 插件 | `scripts/wiki-admin-plugin.ts` | dev-only 写盘接口 `POST /__wiki-admin/save-entry` |
 | Wiki 索引 | `public/wiki/index.json` | 生成后的世界词条索引、玩家/模组与 lookup 映射 |
-| Wiki 实体库 | `public/wiki/entities/` | players / modules / entries 模拟数据库 |
+| Wiki 词条目录 | `public/wiki/entities/entries/` | 单词条 JSON 文件，详情页按 `entryId` 懒加载 |
+| Wiki 实体库 | `public/wiki/entities/` | players / modules / entries 目录等模拟数据库 |
 | 战斗占位 | `src/pages/ToolboxTab/BattlePlaceholder.tsx` | 敬请期待 |
 | 模组工具入口 | `src/pages/ModuleToolTab/index.tsx` | React Flow + 双模式 |
 | 自定义节点 | `src/pages/ModuleToolTab/ClueNode.tsx` | 分类色彩 + 图片 + 收起展开 |

@@ -1,0 +1,84 @@
+{
+  "id": "loc.arkham",
+  "category": "location",
+  "displayName": "阿卡姆 Arkham",
+  "summary": "莱纳退伍后定居的城市。它是理解“阿卡姆的怪谈”与“金斯波特的现实压迫”差异的重要参照点。",
+  "aliasNames": [
+    "Arkham",
+    "阿卡姆"
+  ],
+  "playerIds": [
+    "pl.leina"
+  ],
+  "moduleIds": [
+    "module.kingsport-city-in-the-mists"
+  ],
+  "relatedEntryIds": [
+    "char.leina",
+    "loc.kingsport",
+    "module.kingsport-city-in-the-mists"
+  ],
+  "facts": [
+    {
+      "label": "类型",
+      "value": "大学城 / 都市据点"
+    },
+    {
+      "label": "关联人物",
+      "value": "莱纳"
+    }
+  ],
+  "content": [
+    {
+      "type": "heading",
+      "text": "地点概览"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "阿卡姆 Arkham 是 "
+        },
+        {
+          "type": "ref",
+          "entryId": "char.leina",
+          "label": "莱纳"
+        },
+        {
+          "type": "text",
+          "text": " 退伍后定居的城市。相比于 "
+        },
+        {
+          "type": "ref",
+          "entryId": "loc.kingsport",
+          "label": "金斯波特"
+        },
+        {
+          "type": "text",
+          "text": "，它更像是流言与学术怪谈混居的都市据点，而不是已经把异常浸入空气的地方。"
+        }
+      ]
+    },
+    {
+      "type": "secret-panel",
+      "title": "莱纳回望补遗",
+      "playerIds": [
+        "pl.leina"
+      ],
+      "blocks": [
+        {
+          "type": "paragraph",
+          "tokens": [
+            {
+              "type": "text",
+              "text": "莱纳后来承认，他原本以为阿卡姆已经足够怪异；直到真正走进金斯波特，才第一次意识到“有些地方并不是发生怪事，而是本身就像怪事的一部分” 。"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "createdAt": "1928-11-01T08:00:00Z",
+  "updatedAt": "1928-11-08T20:00:00Z"
+}
