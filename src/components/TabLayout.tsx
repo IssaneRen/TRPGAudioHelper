@@ -1,11 +1,12 @@
 import { Outlet, NavLink, useLocation, useNavigate } from "react-router";
 import { motion, AnimatePresence } from "framer-motion";
-import { User, Wrench, BookOpen, Swords, Music, Map } from "lucide-react";
+import { User, Wrench, BookOpen, Swords, Music, Map, LibraryBig } from "lucide-react";
 import { ModeToggle } from "@/components/mode-toggle";
 import { useState, useRef, useEffect } from "react";
 
 const toolItems = [
   { to: "/tools/battle", label: "模拟战斗", icon: Swords },
+  { to: "/tools/world-wiki", label: "世界 wiki", icon: LibraryBig },
   { to: "/tools/soundboard", label: "音效键盘", icon: Music },
   { to: "/tools/module-clue", label: "模组工具", icon: Map },
 ];

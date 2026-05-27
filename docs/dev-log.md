@@ -143,3 +143,9 @@ Agent 角色：`团队负责人` / `实习生` / `技术专家` / `git-reviewer`
 | 时间 | Agent | 分支 | 内容 | 涉及文件 |
 |------|-------|------|------|----------|
 | — | 团队负责人 | master | **Safari 博客详情闪烁修复**: 禁用 iOS/Safari 上 layoutId 共享布局动画（columns+fixed 定位不准），改用淡入缩放；列表选中项 invisible 防重影；桌面 Chrome 保留 layoutId | src/pages/BlogTab/index.tsx |
+
+### 2026-05-27
+
+| 时间 | Agent | 分支 | 内容 | 涉及文件 |
+|------|-------|------|------|----------|
+| — | 团队负责人 | master | **工具箱新增世界 Wiki**: (1) 新增 `/tools/world-wiki` 检索首页与详情页 (2) 工具浮窗插入第二项“世界 wiki” (3) 词条改为 `public/wiki/index.json + entries/*.md` 静态驱动 (4) 支持当前 PL 按钮与隐藏档案遮罩解锁 (5) 补充 Allen / 莱纳 / 甘、地点、事件、模组示例词条 (6) 扩展 deploy-content 工作流支持 wiki 内容免重建部署 (7) 同步更新业务/技术/需求文档与方案报告 | src/pages/WorldWikiTab/index.tsx, src/App.tsx, src/components/TabLayout.tsx, public/wiki/index.json, public/wiki/entries/*.md, .github/workflows/deploy-content.yml, .github/workflows/deploy.yml, docs/business.md, docs/tech-decisions.md, user_request.md, docs/reports/2026-05-27-world-wiki-plan.md |

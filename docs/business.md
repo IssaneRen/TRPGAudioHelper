@@ -44,7 +44,7 @@
 ### 业务说明
 
 - 下拉菜单切换子工具（DropdownMenu）
-- 嵌套路由：`/tools/module-clue`、`/tools/soundboard`、`/tools/battle`
+- 嵌套路由：`/tools/battle`、`/tools/world-wiki`、`/tools/soundboard`、`/tools/module-clue`
 - 各子工具 lazy 加载，独立生命周期
 
 ### 子工具
@@ -71,11 +71,23 @@
 
 - 占位页面，功能开发中
 
+#### 世界 Wiki (WorldWikiTab)
+
+- 首页提供人物 / 地点 / 事件 / 模组四类词条的统一检索入口
+- 词条索引来自 `public/wiki/index.json`
+- 词条正文来自 `public/wiki/entries/*.md`，按需 fetch，支持静态内容快速部署
+- 右上角支持“当前 PL”名称设置，复用博客同一 localStorage 键
+- Markdown 内部链接支持站内跳转到其他 wiki 词条
+- 支持 `[secret players="..."]...[/secret]` 隐藏档案块：按当前 PL 判断是否解锁；未解锁时显示黑色遮罩并点击 toast 提示
+
 ### 关键代码位置
 
 | 功能 | 文件路径 | 说明 |
 |------|----------|------|
 | 工具箱布局 | `src/pages/ToolboxTab/index.tsx` | DropdownMenu + Outlet |
+| 世界 Wiki 入口 | `src/pages/WorldWikiTab/index.tsx` | 检索首页 + 词条详情 + PL 解锁逻辑 |
+| Wiki 索引 | `public/wiki/index.json` | 世界词条元数据列表 |
+| Wiki 词条目录 | `public/wiki/entries/` | Markdown 词条正文 |
 | 战斗占位 | `src/pages/ToolboxTab/BattlePlaceholder.tsx` | 敬请期待 |
 | 模组工具入口 | `src/pages/ModuleToolTab/index.tsx` | React Flow + 双模式 |
 | 自定义节点 | `src/pages/ModuleToolTab/ClueNode.tsx` | 分类色彩 + 图片 + 收起展开 |

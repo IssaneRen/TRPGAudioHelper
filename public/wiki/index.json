@@ -1,0 +1,205 @@
+[
+  {
+    "id": "allen",
+    "title": "Allen",
+    "file": "entries/allen.md",
+    "category": "character",
+    "summary": "美国人，一战老兵与医疗兵，退伍后在波士顿医院工作。1928 年先后卷入金斯波特失明案件与噩梦事件。",
+    "tags": ["人物", "调查员", "医疗兵"],
+    "aliases": ["艾伦"],
+    "players": ["Cici"],
+    "relatedIds": [
+      "kingsport-congregational-hospital",
+      "kingsport-blindness-case",
+      "kingsport-nightmare-incident",
+      "kingsport-city-in-the-mists"
+    ],
+    "facts": [
+      { "label": "国籍", "value": "美国" },
+      { "label": "身份", "value": "一战老兵 / 医疗兵 / 退伍军人" },
+      { "label": "常驻地", "value": "波士顿" },
+      { "label": "PL 扮演者", "value": "Cici" }
+    ],
+    "createdAt": "1928-11-06T08:00:00Z",
+    "updatedAt": "1928-11-09T20:00:00Z"
+  },
+  {
+    "id": "leina",
+    "title": "莱纳",
+    "file": "entries/leina.md",
+    "category": "character",
+    "summary": "英国籍一战老兵，退伍后定居阿卡姆。因探望住院的 Allen 而卷入 1928 年 11 月 9 日的噩梦事件。",
+    "tags": ["人物", "调查员", "阿卡姆"],
+    "players": ["莱纳"],
+    "relatedIds": [
+      "arkham",
+      "allen",
+      "kingsport-congregational-hospital",
+      "kingsport-nightmare-incident"
+    ],
+    "facts": [
+      { "label": "国籍", "value": "英国" },
+      { "label": "身份", "value": "一战老兵" },
+      { "label": "定居地", "value": "阿卡姆" },
+      { "label": "PL 扮演者", "value": "莱纳" }
+    ],
+    "createdAt": "1928-11-08T19:30:00Z",
+    "updatedAt": "1928-11-09T20:00:00Z"
+  },
+  {
+    "id": "gan",
+    "title": "甘",
+    "file": "entries/gan.md",
+    "category": "character",
+    "summary": "美国人，二等兵。1928 年 11 月 8 日夜前往金斯波特公理会医院探望 Allen，次日被卷入噩梦事件。",
+    "tags": ["人物", "调查员", "士兵"],
+    "players": ["稻草人"],
+    "relatedIds": [
+      "allen",
+      "kingsport-congregational-hospital",
+      "kingsport-nightmare-incident",
+      "kingsport"
+    ],
+    "facts": [
+      { "label": "国籍", "value": "美国" },
+      { "label": "军阶", "value": "二等兵" },
+      { "label": "关键行程", "value": "1928-11-08 夜间赴医院探望 Allen" },
+      { "label": "PL 扮演者", "value": "稻草人" }
+    ],
+    "createdAt": "1928-11-08T20:00:00Z",
+    "updatedAt": "1928-11-09T20:00:00Z"
+  },
+  {
+    "id": "kingsport",
+    "title": "金斯波特",
+    "file": "entries/kingsport.md",
+    "category": "location",
+    "summary": "迷雾终日不散的海港小镇。当地流言、失明病例与群体噩梦在 1928 年秋季迅速汇聚。",
+    "tags": ["地点", "海港", "迷雾"],
+    "players": ["Cici", "莱纳", "稻草人"],
+    "relatedIds": [
+      "kingsport-congregational-hospital",
+      "kingsport-blindness-case",
+      "kingsport-nightmare-incident",
+      "kingsport-city-in-the-mists"
+    ],
+    "facts": [
+      { "label": "类型", "value": "港口小镇" },
+      { "label": "氛围", "value": "常年迷雾、海风湿冷、居民沉默" },
+      { "label": "关键时间", "value": "1928 年 11 月上旬" }
+    ],
+    "createdAt": "1928-11-01T08:00:00Z",
+    "updatedAt": "1928-11-09T20:00:00Z"
+  },
+  {
+    "id": "kingsport-congregational-hospital",
+    "title": "金斯波特公理会医院",
+    "file": "entries/kingsport-congregational-hospital.md",
+    "category": "location",
+    "summary": "镇上最重要的医疗机构。Allen 在此住院，莱纳与甘也因探访行程与后续事件产生联系。",
+    "tags": ["地点", "医院", "核心场景"],
+    "players": ["Cici", "莱纳", "稻草人"],
+    "relatedIds": [
+      "allen",
+      "leina",
+      "gan",
+      "kingsport-nightmare-incident"
+    ],
+    "facts": [
+      { "label": "类型", "value": "综合医院" },
+      { "label": "所在地区", "value": "金斯波特" },
+      { "label": "词条定位", "value": "人物交汇与事件发酵的中枢场景" }
+    ],
+    "createdAt": "1928-11-06T10:00:00Z",
+    "updatedAt": "1928-11-09T20:00:00Z"
+  },
+  {
+    "id": "arkham",
+    "title": "阿卡姆",
+    "file": "entries/arkham.md",
+    "category": "location",
+    "summary": "学术气息与怪谈传闻并存的城市。莱纳退伍后定居于此，并由此踏入金斯波特的迷雾。",
+    "tags": ["地点", "都市", "学术"],
+    "players": ["莱纳"],
+    "relatedIds": [
+      "leina",
+      "kingsport",
+      "kingsport-city-in-the-mists"
+    ],
+    "facts": [
+      { "label": "类型", "value": "大学城 / 都市据点" },
+      { "label": "关联人物", "value": "莱纳" }
+    ],
+    "createdAt": "1928-11-01T08:00:00Z",
+    "updatedAt": "1928-11-08T20:00:00Z"
+  },
+  {
+    "id": "kingsport-blindness-case",
+    "title": "1928.11.6 - 金斯波特失明案件",
+    "file": "entries/kingsport-blindness-case.md",
+    "category": "event",
+    "summary": "1928 年 11 月 6 日爆发的异常失明案件。Allen 正是在这一事件中被卷入金斯波特的异常调查。",
+    "tags": ["事件", "调查", "病例"],
+    "players": ["Cici"],
+    "relatedIds": [
+      "allen",
+      "kingsport",
+      "kingsport-congregational-hospital",
+      "kingsport-nightmare-incident"
+    ],
+    "facts": [
+      { "label": "日期", "value": "1928-11-06" },
+      { "label": "影响范围", "value": "金斯波特本地居民与就诊病例" },
+      { "label": "已知关联人", "value": "Allen" }
+    ],
+    "createdAt": "1928-11-06T08:00:00Z",
+    "updatedAt": "1928-11-06T23:00:00Z"
+  },
+  {
+    "id": "kingsport-nightmare-incident",
+    "title": "1928.11.9 - 金斯波特噩梦事件",
+    "file": "entries/kingsport-nightmare-incident.md",
+    "category": "event",
+    "summary": "1928 年 11 月 9 日的集体噩梦与精神异变事件，Allen、莱纳与甘的命运在此正式交汇。",
+    "tags": ["事件", "梦境", "核心主线"],
+    "players": ["Cici", "莱纳", "稻草人"],
+    "relatedIds": [
+      "allen",
+      "leina",
+      "gan",
+      "kingsport-congregational-hospital",
+      "kingsport"
+    ],
+    "facts": [
+      { "label": "日期", "value": "1928-11-09" },
+      { "label": "地点核心", "value": "金斯波特公理会医院及周边区域" },
+      { "label": "卷入调查员", "value": "Allen / 莱纳 / 甘" }
+    ],
+    "createdAt": "1928-11-09T06:00:00Z",
+    "updatedAt": "1928-11-09T21:00:00Z"
+  },
+  {
+    "id": "kingsport-city-in-the-mists",
+    "title": "Kingsport: The City In The Mists (Supplement)",
+    "file": "entries/kingsport-city-in-the-mists.md",
+    "category": "module",
+    "summary": "围绕金斯波特与其迷雾叙事构建的补充模组设定，适合作为人物、地点、事件词条的总索引入口。",
+    "tags": ["模组", "补充资料", "设定集"],
+    "players": ["Cici", "莱纳", "稻草人"],
+    "relatedIds": [
+      "kingsport",
+      "allen",
+      "leina",
+      "gan",
+      "kingsport-blindness-case",
+      "kingsport-nightmare-incident"
+    ],
+    "facts": [
+      { "label": "类型", "value": "补充资料 / 世界设定集" },
+      { "label": "主题", "value": "人物、地点、事件关系梳理" },
+      { "label": "适用阶段", "value": "跑团前置检索 / 过程补完 / 复盘归档" }
+    ],
+    "createdAt": "1928-11-01T08:00:00Z",
+    "updatedAt": "1928-11-09T21:00:00Z"
+  }
+]
