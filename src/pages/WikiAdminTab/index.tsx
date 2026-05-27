@@ -28,12 +28,14 @@ import type {
 
 const WIKI_HOME_ROUTE = "/tools/world-wiki";
 const WIKI_ADMIN_SAVE_ROUTE = "/__wiki-admin/save-entry";
-const CATEGORY_OPTIONS: WikiCategory[] = ["character", "location", "event", "module"];
+const CATEGORY_OPTIONS: WikiCategory[] = ["character", "location", "event", "module", "magic-book", "magic-item"];
 const CATEGORY_LABELS: Record<WikiCategory, string> = {
   character: "人物",
   location: "地点",
   event: "事件",
   module: "模组",
+  "magic-book": "魔法书籍",
+  "magic-item": "魔法物品",
 };
 
 function createBlankEntryRecord(): WikiEntryRecord {
@@ -134,6 +136,28 @@ function buildRefParagraph(entry: WikiIndexEntry): WikiBlock {
   };
 }
 
+function buildCocSheetBlock(): WikiBlock {
+  return {
+    type: "coc-sheet",
+    cocData: { status: { str: 80, con: 55 }, skill: { "侦查": 80 }, avatar: "pic/xxx.png" },
+  };
+}
+
+function buildSecretPanelBlock(playerIds: string[], hiddenMode: "mask" | "collapse"): WikiBlock {
+  return {
+    type: "secret-panel",
+    title: hiddenMode === "collapse" ? "模组专有隐藏档案" : "未命名隐藏档案",
+    hiddenMode,
+    playerIds,
+    blocks: [
+      {
+        type: "paragraph",
+        tokens: [{ type: "text", text: "这里填写整段隐藏内容。" }],
+      },
+    ],
+  };
+}
+
 function buildSecretInlineParagraph(playerIds: string[]): WikiBlock {
   return {
     type: "paragraph",
@@ -192,8 +216,10 @@ export default function WikiAdminTab() {
   const [selectedEntryId, setSelectedEntryId] = useState<string | null>(null);
   const [draft, setDraft] = useState<WikiEntryRecord | null>(null);
   const [contentText, setContentText] = useState("[]");
+  const [contentBlocks, setContentBlocks] = useState<WikiBlock[]>([]);
   const [selectedHelperEntryId, setSelectedHelperEntryId] = useState<string>("");
   const [selectedHelperPlayerId, setSelectedHelperPlayerId] = useState<string>("");
+  const [editorMode, setEditorMode] = useState<"simple" | "advanced">("simple");
   const [indexLoading, setIndexLoading] = useState(true);
   const [detailLoading, setDetailLoading] = useState(false);
   const [saveLoading, setSaveLoading] = useState(false);
@@ -230,6 +256,7 @@ export default function WikiAdminTab() {
     if (!selectedEntryId) return;
     if (detailCache[selectedEntryId]) {
       setDraft(detailCache[selectedEntryId]);
+      setContentBlocks(detailCache[selectedEntryId].content || []);
       setContentText(JSON.stringify(detailCache[selectedEntryId].content, null, 2));
       return;
     }
@@ -246,6 +273,7 @@ export default function WikiAdminTab() {
         if (cancelled) return;
         setDetailCache((current) => ({ ...current, [data.id]: data }));
         setDraft(data);
+        setContentBlocks(data.content || []);
         setContentText(JSON.stringify(data.content, null, 2));
       })
       .catch(() => {
@@ -283,10 +311,10 @@ export default function WikiAdminTab() {
   );
   const referencedEntryIds = useMemo(
     () =>
-      parsedContent.blocks
-        ? normalizeRelatedEntryIds(collectReferencedEntryIds(parsedContent.blocks), draft?.id)
+      contentBlocks.length
+        ? normalizeRelatedEntryIds(collectReferencedEntryIds(contentBlocks), draft?.id)
         : [],
-    [draft?.id, parsedContent.blocks]
+    [contentBlocks, draft?.id]
   );
   const referencedEntries = useMemo(
     () =>
@@ -300,20 +328,23 @@ export default function WikiAdminTab() {
     setDraft((current) => (current ? { ...current, ...patch } : current));
   }, []);
 
+  const applyContentText = useCallback((nextText: string) => {
+    setContentText(nextText);
+    const parsed = parseContentText(nextText);
+    if (parsed.blocks) setContentBlocks(parsed.blocks);
+  }, []);
+
   const handleCreateDraft = useCallback(() => {
     const blank = createBlankEntryRecord();
     setSelectedEntryId(null);
     setDraft(blank);
-    setContentText(JSON.stringify(blank.content, null, 2));
+    const serialized = JSON.stringify(blank.content, null, 2);
+    setContentBlocks(blank.content);
+    setContentText(serialized);
   }, []);
 
   const handleSave = useCallback(async () => {
     if (!draft) return;
-    if (parsedContent.error || !parsedContent.blocks) {
-      toast.error("请先修复 content JSON 的格式错误。");
-      return;
-    }
-
     const payload: WikiEntryRecord = {
       ...draft,
       aliasNames: draft.aliasNames || [],
@@ -321,7 +352,7 @@ export default function WikiAdminTab() {
       moduleIds: draft.moduleIds || [],
       relatedEntryIds: normalizeRelatedEntryIds(draft.relatedEntryIds || [], draft.id),
       facts: draft.facts || [],
-      content: parsedContent.blocks,
+      content: contentBlocks,
       createdAt: draft.createdAt || new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     };
@@ -356,7 +387,7 @@ export default function WikiAdminTab() {
     } finally {
       setSaveLoading(false);
     }
-  }, [draft, parsedContent.blocks, parsedContent.error]);
+  }, [contentBlocks, draft]);
 
   if (indexLoading) {
     return (
@@ -387,6 +418,24 @@ export default function WikiAdminTab() {
                 这里是仅开发环境存在的内容维护入口。你可以编辑词条元数据、点选关联对象，并通过
                 content JSON + 模板辅助快速构造正文与权限片段。
               </p>
+              <div className="flex gap-2">
+                <Button
+                  type="button"
+                  size="sm"
+                  variant={editorMode === "simple" ? "default" : "outline"}
+                  onClick={() => setEditorMode("simple")}
+                >
+                  简洁模式
+                </Button>
+                <Button
+                  type="button"
+                  size="sm"
+                  variant={editorMode === "advanced" ? "default" : "outline"}
+                  onClick={() => setEditorMode("advanced")}
+                >
+                  专业模式
+                </Button>
+              </div>
             </div>
           </div>
           <Button variant="outline" asChild>
@@ -433,6 +482,7 @@ export default function WikiAdminTab() {
 
         <div className="grid gap-6 2xl:grid-cols-[minmax(0,1.1fr)_minmax(360px,0.9fr)]">
           <div className="space-y-6">
+            {editorMode === "advanced" && (
             <Card className="border-border/70 bg-card/80 py-5">
               <CardHeader className="gap-2">
                 <CardTitle className="text-base">元数据</CardTitle>
@@ -658,12 +708,15 @@ export default function WikiAdminTab() {
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
-                {parsedContent.blocks ? (
+                {contentBlocks.length > 0 || !parsedContent.error ? (
                   <WikiBlockEditor
-                    blocks={parsedContent.blocks}
+                    blocks={contentBlocks}
                     entries={indexData?.entries || []}
                     players={indexData?.players || []}
-                    onChange={(nextBlocks) => setContentText(JSON.stringify(nextBlocks, null, 2))}
+                    onChange={(nextBlocks) => {
+                      setContentBlocks(nextBlocks);
+                      setContentText(JSON.stringify(nextBlocks, null, 2));
+                    }}
                   />
                 ) : (
                   <div className="rounded-xl border border-destructive/40 bg-destructive/10 px-4 py-3 text-sm text-destructive">
@@ -672,6 +725,7 @@ export default function WikiAdminTab() {
                 )}
               </CardContent>
             </Card>
+            )}
 
             <Card className="border-border/70 bg-card/80 py-5">
               <CardHeader className="gap-2">
@@ -685,7 +739,7 @@ export default function WikiAdminTab() {
                     variant="outline"
                     size="sm"
                     onClick={() =>
-                      setContentText(
+                      applyContentText(
                         appendSnippetToContent(contentText, { type: "heading", text: "新标题" })
                       )
                     }
@@ -697,7 +751,7 @@ export default function WikiAdminTab() {
                     variant="outline"
                     size="sm"
                     onClick={() =>
-                      setContentText(
+                      applyContentText(
                         appendSnippetToContent(contentText, {
                           type: "paragraph",
                           tokens: [{ type: "text", text: "这里填写一段公开正文。" }],
@@ -712,7 +766,7 @@ export default function WikiAdminTab() {
                     variant="outline"
                     size="sm"
                     onClick={() =>
-                      setContentText(
+                      applyContentText(
                         appendSnippetToContent(contentText, {
                           type: "list",
                           items: [[{ type: "text", text: "列表项 1" }]],
@@ -727,7 +781,7 @@ export default function WikiAdminTab() {
                     variant="outline"
                     size="sm"
                     onClick={() =>
-                      setContentText(
+                      applyContentText(
                         appendSnippetToContent(contentText, {
                           type: "quote",
                           tokens: [{ type: "text", text: "这里填写一段引用内容。" }],
@@ -742,28 +796,36 @@ export default function WikiAdminTab() {
                     variant="outline"
                     size="sm"
                     onClick={() =>
-                      setContentText(
-                        appendSnippetToContent(contentText, {
-                          type: "secret-panel",
-                          title: "未命名隐藏档案",
-                          playerIds: [],
-                          blocks: [
-                            {
-                              type: "paragraph",
-                              tokens: [{ type: "text", text: "这里填写整段隐藏内容。" }],
-                            },
-                          ],
-                        })
+                      applyContentText(
+                        appendSnippetToContent(contentText, buildSecretPanelBlock([], "mask"))
                       )
                     }
                   >
                     隐藏块模板
                   </Button>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() =>
+                      applyContentText(
+                        appendSnippetToContent(
+                          contentText,
+                          buildSecretPanelBlock(
+                            selectedHelperPlayerId ? [selectedHelperPlayerId] : [],
+                            "collapse"
+                          )
+                        )
+                      )
+                    }
+                  >
+                    PL专有隐藏模板
+                  </Button>
                 </div>
 
                 <Textarea
                   value={contentText}
-                  onChange={(event) => setContentText(event.target.value)}
+                  onChange={(event) => applyContentText(event.target.value)}
                   className="min-h-[340px] font-mono text-sm"
                 />
 
@@ -784,6 +846,12 @@ export default function WikiAdminTab() {
                     </Button>
                   )}
                 </div>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => applyContentText(appendSnippetToContent(contentText, buildCocSheetBlock()))}
+                  >插入 COC 人物卡模板</Button>
               </CardContent>
             </Card>
           </div>
@@ -816,7 +884,7 @@ export default function WikiAdminTab() {
                     disabled={!selectedHelperEntry}
                     onClick={() => {
                       if (!selectedHelperEntry) return;
-                      setContentText(
+                      applyContentText(
                         appendSnippetToContent(contentText, buildRefParagraph(selectedHelperEntry))
                       );
                     }}
@@ -845,7 +913,7 @@ export default function WikiAdminTab() {
                     size="sm"
                     disabled={!selectedHelperPlayerId}
                     onClick={() =>
-                      setContentText(
+                      applyContentText(
                         appendSnippetToContent(contentText, buildSecretInlineParagraph([selectedHelperPlayerId]))
                       )
                     }
@@ -855,7 +923,7 @@ export default function WikiAdminTab() {
                 </div>
 
                 <div className="rounded-xl border border-border/60 bg-background/60 p-4 text-sm leading-7 text-muted-foreground">
-                  建议工作流：先维护元数据，再用按钮生成合法 block 模板，最后在 JSON 区做少量微调并保存。
+                  建议工作流：公开内容可直接编辑 JSON；权限内容优先用模板生成。`mask` 为黑框遮罩，`collapse` 为未授权完全不显示。
                 </div>
               </CardContent>
             </Card>
@@ -866,10 +934,10 @@ export default function WikiAdminTab() {
                 <CardDescription>编辑态默认强制展示所有 secret 内容，方便作者检查结构。</CardDescription>
               </CardHeader>
               <CardContent>
-                {draft && parsedContent.blocks ? (
+                {draft && contentBlocks.length > 0 ? (
                   <div className="rounded-2xl border border-border/60 bg-background/50 p-4">
                     <WikiContentRenderer
-                      blocks={parsedContent.blocks}
+                      blocks={contentBlocks}
                       currentPlayerId={null}
                       entriesById={entriesById}
                       revealAllSecrets

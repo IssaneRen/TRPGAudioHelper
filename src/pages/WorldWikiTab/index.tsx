@@ -9,15 +9,15 @@ import {
   ArrowLeft,
   ArrowUpRight,
   CalendarDays,
-  LockKeyhole,
   Sparkles,
   BookCopy,
   Database,
+  WandSparkles,
+  Gem,
   ChevronDown,
   ChevronUp,
 } from "lucide-react";
 import { motion } from "framer-motion";
-import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -29,13 +29,12 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
+import { WikiContentRenderer } from "@/features/wiki/WikiContentRenderer";
 import type {
-  WikiBlock,
   WikiCategory,
   WikiEntryRecord,
   WikiIndexEntry,
   WikiIndexPayload,
-  WikiInlineToken,
   WikiPlayer,
 } from "@/types/wiki";
 
@@ -75,9 +74,21 @@ const CATEGORY_META: Record<
     icon: LibraryBig,
     chipClassName: "border-foreground/15 bg-foreground/5 text-foreground",
   },
+  "magic-book": {
+    label: "魔法书籍",
+    description: "法术来源、禁忌知识与阅读代价",
+    icon: WandSparkles,
+    chipClassName: "border-violet-300/40 bg-violet-500/10 text-violet-700",
+  },
+  "magic-item": {
+    label: "魔法物品",
+    description: "被诅咒之物、圣遗物与功能道具",
+    icon: Gem,
+    chipClassName: "border-emerald-300/40 bg-emerald-500/10 text-emerald-700",
+  },
 };
 
-const CATEGORY_ORDER: WikiCategory[] = ["character", "location", "event", "module"];
+const CATEGORY_ORDER: WikiCategory[] = ["character", "location", "event", "module", "magic-book", "magic-item"];
 
 let wikiIndexCache: WikiIndexPayload | null = null;
 let wikiEntryDetailCache: Record<string, WikiEntryRecord> = {};
@@ -85,18 +96,6 @@ let wikiEntryDetailCache: Record<string, WikiEntryRecord> = {};
 /** 文本统一归一化，确保 PL / 名称 / 别名匹配规则保持一致。 */
 function normalizeText(value: string): string {
   return value.trim().toLowerCase();
-}
-
-/** 未解锁内容以黑块遮罩显示，保留长度感知，方便做“知道有内容但还没解锁”的体验。 */
-function maskSecretText(value: string): string {
-  return value.replace(/[^\s]/g, "█");
-}
-
-/** secret-panel 与 secret-inline 都基于 playerIds 做唯一键权限判断。 */
-function canRevealSecret(playerIds: string[] | undefined, currentPlayerId: string | null): boolean {
-  if (!playerIds || playerIds.length === 0) return false;
-  if (!currentPlayerId) return false;
-  return playerIds.includes(currentPlayerId);
 }
 
 function formatDate(date: string): string {
@@ -181,215 +180,6 @@ function PlNameDialog({
         </div>
       </motion.div>
     </>
-  );
-}
-
-function LockedSecretBlock({
-  title,
-  previewText,
-}: {
-  title: string;
-  previewText: string;
-}) {
-  return (
-    <button
-      type="button"
-      onClick={() => toast("请探索更多故事解锁~", { duration: 1800 })}
-      className="relative my-6 w-full overflow-hidden rounded-xl border border-black/70 bg-black p-4 text-left shadow-inner transition-transform hover:-translate-y-0.5"
-    >
-      <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.02),transparent_40%,rgba(255,255,255,0.04))]" />
-      <div className="relative z-10 flex items-center gap-2 text-xs uppercase tracking-[0.24em] text-primary-foreground/70">
-        <LockKeyhole className="h-3.5 w-3.5" />
-        {title}
-      </div>
-      <pre className="relative z-10 mt-3 whitespace-pre-wrap break-words text-sm leading-7 text-neutral-700">
-        {maskSecretText(previewText)}
-      </pre>
-    </button>
-  );
-}
-
-function LockedInlineSecret({ text }: { text: string }) {
-  return (
-    <button
-      type="button"
-      onClick={() => toast("请探索更多故事解锁~", { duration: 1800 })}
-      className="inline-block rounded-sm bg-black px-1.5 py-0.5 align-baseline text-neutral-700"
-    >
-      {maskSecretText(text)}
-    </button>
-  );
-}
-
-/** 为未解锁整段生成预览遮罩文本，避免整块空黑框影响阅读判断。 */
-function collectPreviewText(blocks: WikiBlock[]): string {
-  const fragments: string[] = [];
-
-  const appendTokens = (tokens: WikiInlineToken[] | undefined) => {
-    for (const token of tokens || []) {
-      if (token.type === "text" || token.type === "secret-inline") {
-        fragments.push(token.text || "");
-      }
-      if (token.type === "ref") {
-        fragments.push(token.label || "");
-      }
-    }
-  };
-
-  for (const block of blocks) {
-    if (block.text) fragments.push(block.text);
-    appendTokens(block.tokens);
-    for (const item of block.items || []) appendTokens(item);
-    if (block.blocks) fragments.push(collectPreviewText(block.blocks));
-  }
-
-  return fragments.join(" ").trim();
-}
-
-function resolveEntryName(entryId: string, entriesById: Map<string, WikiIndexEntry>): string {
-  return entriesById.get(entryId)?.displayName || entryId;
-}
-
-function InlineTokens({
-  tokens,
-  currentPlayerId,
-  entriesById,
-}: {
-  tokens: WikiInlineToken[];
-  currentPlayerId: string | null;
-  entriesById: Map<string, WikiIndexEntry>;
-}) {
-  return (
-    <>
-      {tokens.map((token, index) => {
-        if (token.type === "text") {
-          return <span key={`text-${index}`}>{token.text}</span>;
-        }
-
-        if (token.type === "ref" && token.entryId) {
-          const label = token.label || resolveEntryName(token.entryId, entriesById);
-          return (
-            <Link
-              key={`ref-${index}`}
-              to={`${WIKI_HOME_ROUTE}/${token.entryId}`}
-              className="font-medium text-primary underline decoration-primary/40 underline-offset-4 hover:decoration-primary"
-            >
-              {label}
-            </Link>
-          );
-        }
-
-        if (token.type === "secret-inline") {
-          const text = token.text || "";
-          return canRevealSecret(token.playerIds, currentPlayerId) ? (
-            <span
-              key={`secret-inline-${index}`}
-              className="rounded-sm bg-primary/10 px-1 py-0.5 text-primary"
-            >
-              {text}
-            </span>
-          ) : (
-            <LockedInlineSecret key={`secret-inline-${index}`} text={text} />
-          );
-        }
-
-        return null;
-      })}
-    </>
-  );
-}
-
-function WikiContentRenderer({
-  blocks,
-  currentPlayerId,
-  entriesById,
-}: {
-  blocks: WikiBlock[];
-  currentPlayerId: string | null;
-  entriesById: Map<string, WikiIndexEntry>;
-}) {
-  return (
-    <div className="space-y-5">
-      {blocks.map((block, index) => {
-        if (block.type === "heading") {
-          return (
-            <h3 key={`heading-${index}`} className="font-heading text-2xl font-semibold">
-              {block.text}
-            </h3>
-          );
-        }
-
-        if (block.type === "paragraph") {
-          return (
-            <p key={`paragraph-${index}`} className="leading-8 text-foreground/95">
-              <InlineTokens
-                tokens={block.tokens || []}
-                currentPlayerId={currentPlayerId}
-                entriesById={entriesById}
-              />
-            </p>
-          );
-        }
-
-        if (block.type === "quote") {
-          return (
-            <blockquote
-              key={`quote-${index}`}
-              className="border-l-2 border-primary/40 bg-primary/5 px-4 py-3 italic text-muted-foreground"
-            >
-              <InlineTokens
-                tokens={block.tokens || []}
-                currentPlayerId={currentPlayerId}
-                entriesById={entriesById}
-              />
-            </blockquote>
-          );
-        }
-
-        if (block.type === "list") {
-          return (
-            <ul key={`list-${index}`} className="list-disc space-y-2 pl-6">
-              {(block.items || []).map((item, itemIndex) => (
-                <li key={`item-${itemIndex}`} className="leading-7">
-                  <InlineTokens
-                    tokens={item}
-                    currentPlayerId={currentPlayerId}
-                    entriesById={entriesById}
-                  />
-                </li>
-              ))}
-            </ul>
-          );
-        }
-
-        if (block.type === "secret-panel") {
-          return canRevealSecret(block.playerIds, currentPlayerId) ? (
-            <div
-              key={`secret-panel-${index}`}
-              className="rounded-2xl border border-primary/20 bg-primary/5 p-4"
-            >
-              <div className="mb-3 flex items-center gap-2 text-xs uppercase tracking-[0.24em] text-primary">
-                <Sparkles className="h-3.5 w-3.5" />
-                {block.title || "已解锁档案"}
-              </div>
-              <WikiContentRenderer
-                blocks={block.blocks || []}
-                currentPlayerId={currentPlayerId}
-                entriesById={entriesById}
-              />
-            </div>
-          ) : (
-            <LockedSecretBlock
-              key={`secret-panel-${index}`}
-              title={block.title || "档案未解锁"}
-              previewText={collectPreviewText(block.blocks || [])}
-            />
-          );
-        }
-
-        return null;
-      })}
-    </div>
   );
 }
 
@@ -626,6 +416,8 @@ export default function WorldWikiTab() {
       location: 0,
       event: 0,
       module: 0,
+      "magic-book": 0,
+      "magic-item": 0,
     };
     for (const entry of filteredEntries) {
       counts[entry.category] += 1;
@@ -737,6 +529,7 @@ export default function WorldWikiTab() {
                 )}
               </Button>
               <CurrentPlButton plName={plName} onClick={() => setShowPlDialog(true)} />
+              <Button variant="outline" size="sm" onClick={() => navigate("/tools/world-wiki/modules")}>模组总览</Button>
             </div>
           </div>
         </div>
@@ -848,6 +641,14 @@ export default function WorldWikiTab() {
                           <span className="mx-0.5 font-medium text-foreground">
                             {searchResultStats.counts.module}
                           </span>
+                          条，魔法书籍
+                          <span className="mx-0.5 font-medium text-foreground">
+                            {searchResultStats.counts["magic-book"]}
+                          </span>
+                          条，魔法物品
+                          <span className="mx-0.5 font-medium text-foreground">
+                            {searchResultStats.counts["magic-item"]}
+                          </span>
                           条
                         </p>
                       )}
@@ -929,6 +730,7 @@ export default function WorldWikiTab() {
                 </p>
               </div>
               <CurrentPlButton plName={plName} onClick={() => setShowPlDialog(true)} />
+              <Button variant="outline" size="sm" onClick={() => navigate("/tools/world-wiki/modules")}>模组总览</Button>
             </div>
 
             <div className="mt-8">
@@ -1001,7 +803,7 @@ export default function WorldWikiTab() {
                         if (!module) return null;
                         return (
                           <Badge key={module.id} variant="outline" className="text-[11px]">
-                            {module.displayName}
+                            <Link to={`/tools/world-wiki/modules/${module.id}`}>{module.displayName}</Link>
                           </Badge>
                         );
                       })}

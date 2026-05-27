@@ -87,6 +87,7 @@ function createDefaultBlock(type: BlockType, entries: WikiIndexEntry[], players:
     return {
       type: "secret-panel",
       title: "未命名隐藏档案",
+      hiddenMode: "mask",
       playerIds: players[0] ? [players[0].id] : [],
       blocks: [
         {
@@ -94,6 +95,17 @@ function createDefaultBlock(type: BlockType, entries: WikiIndexEntry[], players:
           tokens: [createDefaultToken("text", entries, players)],
         },
       ],
+    };
+  }
+
+  if (type === "coc-sheet") {
+    return {
+      type: "coc-sheet",
+      cocData: {
+        status: { str: 80, con: 55 },
+        skill: { 侦查: 80 },
+        avatar: "pic/xxx.png",
+      },
     };
   }
 
@@ -393,6 +405,7 @@ function BlockEditorCard({
             <option value="list">list</option>
             <option value="quote">quote</option>
             <option value="secret-panel">secret-panel</option>
+            <option value="coc-sheet">coc-sheet</option>
           </select>
           <span className="text-sm text-muted-foreground">Block {blockIndex + 1}</span>
         </div>
@@ -565,6 +578,19 @@ function BlockEditorCard({
               })
             }
           />
+          <div className="space-y-2">
+            <Label>未授权显示方式</Label>
+            <select
+              value={block.hiddenMode || "mask"}
+              onChange={(event) =>
+                patchBlock({ hiddenMode: event.target.value as "mask" | "collapse" })
+              }
+              className="flex h-10 w-full rounded-md border border-input bg-transparent px-3 text-sm shadow-xs outline-none"
+            >
+              <option value="mask">显示黑框遮罩（mask）</option>
+              <option value="collapse">完全隐藏内容（collapse）</option>
+            </select>
+          </div>
           <div className="space-y-3">
             <Label>隐藏块内部内容</Label>
             <WikiBlockEditor
@@ -572,6 +598,56 @@ function BlockEditorCard({
               entries={entries}
               players={players}
               onChange={(nextBlocks) => patchBlock({ blocks: nextBlocks })}
+            />
+          </div>
+        </div>
+      )}
+
+      {block.type === "coc-sheet" && (
+        <div className="space-y-3 rounded-xl border border-border/60 bg-background/60 p-4">
+          <div className="space-y-2">
+            <Label>头像路径（可选）</Label>
+            <Input
+              value={block.cocData?.avatar || ""}
+              onChange={(event) =>
+                patchBlock({
+                  cocData: {
+                    ...(block.cocData || {}),
+                    avatar: event.target.value,
+                  },
+                })
+              }
+              placeholder="pic/xxx.png"
+            />
+          </div>
+          <div className="space-y-2">
+            <Label>属性 JSON（status）</Label>
+            <Textarea
+              value={JSON.stringify(block.cocData?.status || {}, null, 2)}
+              onChange={(event) => {
+                try {
+                  const status = JSON.parse(event.target.value) as Record<string, number>;
+                  patchBlock({ cocData: { ...(block.cocData || {}), status } });
+                } catch {
+                  // ignore temporary invalid json while typing
+                }
+              }}
+              className="min-h-24 font-mono text-xs"
+            />
+          </div>
+          <div className="space-y-2">
+            <Label>技能 JSON（skill）</Label>
+            <Textarea
+              value={JSON.stringify(block.cocData?.skill || {}, null, 2)}
+              onChange={(event) => {
+                try {
+                  const skill = JSON.parse(event.target.value) as Record<string, number>;
+                  patchBlock({ cocData: { ...(block.cocData || {}), skill } });
+                } catch {
+                  // ignore temporary invalid json while typing
+                }
+              }}
+              className="min-h-24 font-mono text-xs"
             />
           </div>
         </div>
@@ -644,6 +720,15 @@ export function WikiBlockEditor({
         >
           <Plus className="h-4 w-4" />
           添加隐藏块
+        </Button>
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          onClick={() => onChange([...blocks, createDefaultBlock("coc-sheet", entries, players)])}
+        >
+          <Plus className="h-4 w-4" />
+          添加 COC 人物卡
         </Button>
       </div>
     </div>

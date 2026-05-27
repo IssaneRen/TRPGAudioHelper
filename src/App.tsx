@@ -7,6 +7,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 const ProfileTab = lazy(() => import("@/pages/ProfileTab"));
 const ToolboxTab = lazy(() => import("@/pages/ToolboxTab"));
 const WorldWikiTab = lazy(() => import("@/pages/WorldWikiTab"));
+const WorldWikiModulesTab = lazy(() => import("@/pages/WorldWikiModulesTab"));
 const ModuleToolTab = lazy(() => import("@/pages/ModuleToolTab"));
 const SoundboardTab = lazy(() => import("@/pages/SoundboardTab"));
 const BattleSimulator = lazy(() => import("@/pages/ToolboxTab/BattleSimulator"));
@@ -44,6 +45,8 @@ export default function App() {
               <Route path="battle" element={<BattleSimulator />} />
               <Route path="world-wiki" element={<WorldWikiTab />} />
               <Route path="world-wiki/:entryId" element={<WorldWikiTab />} />
+              <Route path="world-wiki/modules" element={<WorldWikiModulesTab />} />
+              <Route path="world-wiki/modules/:moduleId" element={<WorldWikiModulesTab />} />
               <Route path="soundboard" element={<SoundboardTab />} />
               <Route path="module-clue" element={<ModuleToolTab />} />
             </Route>
