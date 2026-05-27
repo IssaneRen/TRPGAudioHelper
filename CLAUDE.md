@@ -2,6 +2,8 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+@AGENTS.md
+
 ## Project Overview
 
 TRPGLuciusHelper - A TRPG (Tabletop RPG) assistant web application for managing modules, clue visualization, and personal blog. Runs locally or on a server, targeting macOS/Windows/Android/iOS via responsive web.
@@ -78,10 +80,25 @@ src/
 - `.claude/agents/git-reviewer.md` — 代码审查与提交助手
 - `.claude/agents/intern.md` — 实习生，熟悉项目代码，执行基础任务
 - `.claude/agents/tech-expert.md` — 技术专家，保持怀疑，审视架构与质量
+- `.claude/agents/module-analyst.md` — 模组分析师，拆解线索、节点、依赖关系
+- `.claude/agents/rules-arbiter.md` — 规则律者，严格裁定 TRPG 规则与边界情况
+- `.claude/agents/strict-story-scorer.md` — 严格的剧情打分玩家，从玩家视角压测剧情
+- `.claude/agents/module-optimizer.md` — 模组修改优化师，把分析结论转成可执行改稿
+
+## TRPG Skill Suite
+
+- `.claude/skills/trpg-document-reader.md` — 读取 PDF / Word，提取文本、表格、图片与版式
+- `.claude/skills/pdf-decomposer.md` — 将 PDF 拆成章节、节点和依赖图
+- `.claude/skills/resource-channel-curator.md` — 维护互联网资料渠道和来源分级
+- `.claude/skills/trpg-rules-analyst.md` — 研究 TRPG 规则并输出可执行裁定
+- `.claude/skills/module-clue-analyst.md` — 整理模组线索、时间线与依赖关系
+- `.claude/skills/plot-foreshadowing-architect.md` — 优化剧情、伏笔和回收节奏
+- 文档处理统一通过 `scripts/trpg-workflow.ps1`，先 `inspect` 再 `read`，最后 `decompose`
 
 ## 团队工作流
 
 当用户说 **"专家登场"** 或 **"开始团队工作"** 时，按 `.claude/skills/team-leader-work.md` 中定义的多 Agent 工作流执行：实习生并行调研 → 主对话整合 → 技术专家评审 → 不通过则重试（最多 3 轮）。
+当任务属于 TRPG 规则、模组或剧情分析时，优先组合使用上面的 skill / agent 角色，再决定是否启用团队工作流。
 
 ## Documentation
 
@@ -90,6 +107,7 @@ src/
 - `docs/business.md` — Business logic & code location index
 - `docs/tech-decisions.md` — Technical decisions record (ADR format)
 - `docs/reports/` — Team workflow reports
+- `docs/skills/trpg-suite-workflow.md` — Canonical TRPG document workflow
 - Keep documentation updated as features are implemented
 
 ## 强制规则（MUST）
