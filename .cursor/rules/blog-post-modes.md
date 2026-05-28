@@ -46,6 +46,12 @@
 - `public/blog/posts/*.md` 的 frontmatter `players` 字段必须填写 **PL 唯一 key**（例如：`["pl.cici", "pl.leina"]`）。
 - 禁止填写角色名或显示名（例如 `"Allen"`, `"阿甘"` 或 `"Cici"`），否则会导致“我跑过的”筛选与权限解锁在不同页面表现不一致。
 
+### 4.2) 战报博客的剧透确认蒙层
+
+- 对 `renderMode: "wiki"` 且 `wikiEntryId` 为 `report.*` 的博客详情页，如果当前 PL 不在该文章 frontmatter `players` 中，必须先显示剧透确认蒙层。
+- 蒙层文案需明确提示“你可能没有参与这次游戏，或者没有玩过这个模组”，并提供“确定 / 取消”两个操作。
+- 蒙层显示期间，正文内容应处于模糊遮罩状态，且详情页禁止滚动。
+
 ### 3) 图片与内容复用原则
 
 - **战报的图片与图文结构**：优先放进 Wiki 词条（`image` block + `secret-panel`），从而同时在：

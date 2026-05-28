@@ -72,6 +72,7 @@ export default function BlogTab() {
   const [plName, setPlName] = useState(() => localStorage.getItem(PL_STORAGE_KEY) || "");
   const [showPlDialog, setShowPlDialog] = useState(false);
   const [isMyPlayedMode, setIsMyPlayedMode] = useState(false);
+  const [hasConfirmedSpoiler, setHasConfirmedSpoiler] = useState(false);
   const prefersReducedMotion = useReducedMotion();
   const useSharedLayout = !prefersReducedMotion && !shouldDisableSharedLayout();
 
@@ -286,9 +287,34 @@ export default function BlogTab() {
     [plName, wikiIndex]
   );
 
+  const selectedPostIsReport = useMemo(
+    () =>
+      Boolean(
+        selectedPost &&
+          selectedPost.renderMode === "wiki" &&
+          selectedPost.wikiEntryId &&
+          selectedPost.wikiEntryId.startsWith("report.")
+      ),
+    [selectedPost]
+  );
+
+  const selectedPostPlayerMatched = useMemo(() => {
+    if (!selectedPost || !selectedPost.players || selectedPost.players.length === 0) return false;
+    const currentId = currentBlogPlayerId.trim().toLowerCase();
+    if (!currentId) return false;
+    return selectedPost.players.some((playerId) => playerId.trim().toLowerCase() === currentId);
+  }, [currentBlogPlayerId, selectedPost]);
+
+  const shouldShowReportSpoilerGate =
+    selectedPostIsReport && !selectedPostPlayerMatched && !hasConfirmedSpoiler;
+
   const closeDetail = useCallback(() => {
     navigate("/blog", { replace: true });
   }, [navigate]);
+
+  useEffect(() => {
+    setHasConfirmedSpoiler(false);
+  }, [selectedPost?.id]);
 
   useEffect(() => {
     if (!showPlDialog) return;
@@ -447,7 +473,11 @@ export default function BlogTab() {
                   role="dialog"
                   aria-modal="true"
                   aria-labelledby="detail-title"
-                  className="fixed inset-0 z-50 overflow-y-auto overscroll-contain touch-pan-y pointer-events-auto"
+                  className={`fixed inset-0 z-50 pointer-events-auto ${
+                    shouldShowReportSpoilerGate
+                      ? "overflow-hidden"
+                      : "overflow-y-auto overscroll-contain touch-pan-y"
+                  }`}
                 >
                 {/* 固定关闭按钮 */}
                 <button
@@ -459,7 +489,13 @@ export default function BlogTab() {
                     <path d="M18 6L6 18M6 6l12 12" />
                   </svg>
                 </button>
-                <div className="flex min-h-full items-start justify-center p-4 pb-16 pt-10 sm:p-8 sm:pb-20 sm:pt-14">
+                <div
+                  className={
+                    shouldShowReportSpoilerGate
+                      ? "flex h-full items-center justify-center p-4 sm:p-8"
+                      : "flex min-h-full items-start justify-center p-4 pb-16 pt-10 sm:p-8 sm:pb-20 sm:pt-14"
+                  }
+                >
                   <motion.div
                     layout={false}
                     layoutId={
@@ -477,76 +513,111 @@ export default function BlogTab() {
                       useSharedLayout ? undefined : { opacity: 0, y: 12, scale: 0.98 }
                     }
                     transition={{ duration: 0.22, ease: "easeOut" }}
-                    className="pointer-events-auto w-full max-w-3xl rounded-xl border bg-background shadow-2xl overflow-hidden"
+                    className={`pointer-events-auto relative w-full max-w-3xl rounded-xl border bg-background shadow-2xl overflow-hidden ${
+                      shouldShowReportSpoilerGate ? "max-h-[calc(100vh-3rem)]" : ""
+                    }`}
                   >
-                    {/* Cover 滑动区域 */}
-                    {selectedPost.cover && selectedPost.cover.length > 0 && (
-                      <CoverSlider covers={selectedPost.cover} />
-                    )}
+                    <div
+                      className={
+                        shouldShowReportSpoilerGate
+                          ? "pointer-events-none select-none blur-md saturate-50"
+                          : ""
+                      }
+                    >
+                      {/* Cover 滑动区域 */}
+                      {selectedPost.cover && selectedPost.cover.length > 0 && (
+                        <CoverSlider covers={selectedPost.cover} />
+                      )}
 
-                    {/* 标签 + 日期 */}
-                    <div className="px-6 pt-4 pb-2 flex flex-wrap items-center gap-2">
-                      {selectedPost.tags.map((tag) => (
-                        <Badge key={tag} variant="outline" className="text-xs">
-                          {tag}
-                        </Badge>
-                      ))}
-                      <time className="text-xs text-muted-foreground">
-                        {new Date(selectedPost.createdAt).toLocaleDateString("zh-CN")}
-                      </time>
-                    </div>
+                      {/* 标签 + 日期 */}
+                      <div className="px-6 pt-4 pb-2 flex flex-wrap items-center gap-2">
+                        {selectedPost.tags.map((tag) => (
+                          <Badge key={tag} variant="outline" className="text-xs">
+                            {tag}
+                          </Badge>
+                        ))}
+                        <time className="text-xs text-muted-foreground">
+                          {new Date(selectedPost.createdAt).toLocaleDateString("zh-CN")}
+                        </time>
+                      </div>
 
-                    {/* 标题 */}
-                    <div className="px-6 pb-4">
-                      <h2 id="detail-title" className="text-lg font-heading font-semibold leading-snug">
-                        <span className="block">
-                          {selectedPost.title}
-                        </span>
-                      </h2>
-                    </div>
+                      {/* 标题 */}
+                      <div className="px-6 pb-4">
+                        <h2 id="detail-title" className="text-lg font-heading font-semibold leading-snug">
+                          <span className="block">
+                            {selectedPost.title}
+                          </span>
+                        </h2>
+                      </div>
 
-                    {/* 正文（Markdown / Wiki 内嵌） */}
-                    <div className="border-t px-6 py-6">
-                      {selectedPost.renderMode === "wiki" && selectedPost.wikiEntryId ? (
-                        wikiLoading ? (
+                      {/* 正文（Markdown / Wiki 内嵌） */}
+                      <div className="border-t px-6 py-6">
+                        {selectedPost.renderMode === "wiki" && selectedPost.wikiEntryId ? (
+                          wikiLoading ? (
+                            <div className="space-y-3">
+                              <Skeleton className="h-4 w-full" />
+                              <Skeleton className="h-4 w-5/6" />
+                              <Skeleton className="h-4 w-4/5" />
+                            </div>
+                          ) : wikiError || !wikiIndex || !wikiEntry ? (
+                            <p className="py-8 text-center text-sm text-muted-foreground">
+                              Wiki 词条加载失败，请刷新后重试。
+                            </p>
+                          ) : (
+                            <WikiContentRenderer
+                              blocks={wikiEntry.content}
+                              currentPlayerId={currentWikiPlayerId}
+                              entriesById={new Map(wikiIndex.entries.map((e) => [e.id, e]))}
+                              revealAllSecrets={false}
+                              entryBaseRoute="/tools/world-wiki"
+                            />
+                          )
+                        ) : contentLoading ? (
                           <div className="space-y-3">
                             <Skeleton className="h-4 w-full" />
                             <Skeleton className="h-4 w-5/6" />
                             <Skeleton className="h-4 w-4/5" />
+                            <Skeleton className="h-4 w-full" />
+                            <Skeleton className="h-4 w-3/4" />
                           </div>
-                        ) : wikiError || !wikiIndex || !wikiEntry ? (
+                        ) : contentError ? (
                           <p className="py-8 text-center text-sm text-muted-foreground">
-                            Wiki 词条加载失败，请刷新后重试。
+                            文章内容加载失败，请刷新后重试。
                           </p>
                         ) : (
-                          <WikiContentRenderer
-                            blocks={wikiEntry.content}
-                            currentPlayerId={currentWikiPlayerId}
-                            entriesById={new Map(wikiIndex.entries.map((e) => [e.id, e]))}
-                            revealAllSecrets={false}
-                            entryBaseRoute="/tools/world-wiki"
-                          />
-                        )
-                      ) : contentLoading ? (
-                        <div className="space-y-3">
-                          <Skeleton className="h-4 w-full" />
-                          <Skeleton className="h-4 w-5/6" />
-                          <Skeleton className="h-4 w-4/5" />
-                          <Skeleton className="h-4 w-full" />
-                          <Skeleton className="h-4 w-3/4" />
-                        </div>
-                      ) : contentError ? (
-                        <p className="py-8 text-center text-sm text-muted-foreground">
-                          文章内容加载失败，请刷新后重试。
-                        </p>
-                      ) : (
-                        <article className="prose prose-neutral dark:prose-invert max-w-none prose-headings:font-heading prose-a:text-primary prose-blockquote:border-l-primary/50 prose-code:text-primary/80 prose-pre:bg-secondary prose-pre:border prose-img:rounded-lg">
-                          <Markdown remarkPlugins={[remarkGfm, remarkFrontmatter]}>
-                            {postContent}
-                          </Markdown>
-                        </article>
-                      )}
+                          <article className="prose prose-neutral dark:prose-invert max-w-none prose-headings:font-heading prose-a:text-primary prose-blockquote:border-l-primary/50 prose-code:text-primary/80 prose-pre:bg-secondary prose-pre:border prose-img:rounded-lg">
+                            <Markdown remarkPlugins={[remarkGfm, remarkFrontmatter]}>
+                              {postContent}
+                            </Markdown>
+                          </article>
+                        )}
+                      </div>
                     </div>
+                    {shouldShowReportSpoilerGate ? (
+                      <div className="absolute inset-0 z-10 flex items-center justify-center bg-black/40 p-6 backdrop-blur-sm">
+                        <div className="w-full max-w-md rounded-2xl border border-border/70 bg-background/95 p-6 text-center shadow-2xl">
+                          <p className="text-sm leading-7 text-foreground/90">
+                            你可能没有参与这次游戏，或者没有玩过这个模组。确定要查看战报吗？这可能带来轻微剧透
+                          </p>
+                          <div className="mt-5 flex items-center justify-center gap-3">
+                            <button
+                              type="button"
+                              onClick={() => setHasConfirmedSpoiler(true)}
+                              className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+                            >
+                              确定
+                            </button>
+                            <button
+                              type="button"
+                              onClick={closeDetail}
+                              className="rounded-md border border-border/70 bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent/40"
+                            >
+                              取消
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    ) : null}
                   </motion.div>
                 </div>
               </div>
