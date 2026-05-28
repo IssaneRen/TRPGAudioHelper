@@ -165,3 +165,5 @@ Agent 角色：`团队负责人` / `实习生` / `技术专家` / `git-reviewer`
 | — | Cursor Agent | master | **模组列表/详情/博客联动**: 改造模组列表页为预览卡+战役/模组集折叠分组，新增模组详情页路由；新手模组文章补充右上角入口并为每个模组名加可点击详情跳转 | src/pages/WorldWikiModulesTab.tsx, src/pages/WorldWikiModuleDetailTab.tsx, src/App.tsx, src/features/modules/ModulePreviewCard.tsx, public/blog/posts/beginner-modules.md, docs/dev-log.md |
 | — | Cursor Agent | master | **Profile 模组区联动**: 首页个人介绍 Tab 的模组模块改为复用模组列表预览卡并支持点击进入详情页，底部增加“更多模组”按钮跳转到模组列表页 | src/pages/ProfileTab/index.tsx, src/features/modules/ModulePreviewCard.tsx, docs/dev-log.md |
 | — | Cursor Agent | master | **模组规则与结构标签补全**: 将全部模组的规则类型统一为 COC7；并仅对可证实为非线性推进的《面具》追加“沙盒”结构标签，其余保持空缺避免误判 | public/wiki/entities/modules.json, docs/dev-log.md |
+| — | Cursor Agent | master | **密斯卡托尼克河流域新传补全**: 依据魔都（cnmods）条目补齐系列 1-4、7 的模组信息，并用魔都简介/推荐语更新系列 5（永恒恶意）、6（夜战）的展示数据，统一归入同一模组集 | public/wiki/entities/modules.json, docs/dev-log.md |
+| — | Cursor Agent | master | **构建失败修复**: 清理抓取魔都页面时落盘的外部前端 bundle 文件，避免 Tailwind 扫描到无效 url 导致 Vite 构建尝试解析不存在的图片资源 | .tmp/cnmods-index.js, .tmp/cnmods-1969.html, docs/dev-log.md |
