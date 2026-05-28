@@ -21,7 +21,7 @@ interface LibraryRow {
 }
 
 const ERA_TAGS: Record<string, string> = {
-  Classic: "1920 年代",
+  Classic: "1920s",
   Modern: "现代",
   Gaslight: "煤气灯时代",
   "Classic (Scotland)": "1920 年代 / 苏格兰",

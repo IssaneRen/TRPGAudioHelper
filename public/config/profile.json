@@ -18,7 +18,7 @@
   ],
   "modules": [
     {
-      "id": "1",
+      "id": "module.kingsport-city-in-the-mists",
       "name": "永恒恶意",
       "status": "completed",
       "description": "「三周前，报道居民西蒙·麦当劳患上神秘疾病。六天后，伯纳德·怀特亦遭同样厄运。此后类似情况接连出现，报道令镇民不安；警局与政府尽力安抚。」\n「等待你们的会是……什么呢？」",
@@ -27,7 +27,7 @@
       "tags": ["克苏鲁", "调查", "阿卡姆", "金斯波特", "密斯卡托尼克", "官方"]
     },
     {
-      "id": "2",
+      "id": "module.profile.night-battle",
       "name": "夜战",
       "status": "completed",
       "description": "1918西线战壕，步枪上膛，炮火将至。每次建卡都有人问\"KP我能点炮术吗\"，每次答案都是\"你点了也没地方用\"。这次不一样。点吧，都点吧，管够。。",
@@ -36,7 +36,7 @@
       "tags": ["克苏鲁", "枪战", "阿卡姆", "金斯波特", "密斯卡托尼克", "官方"]
     },
     {
-      "id": "3",
+      "id": "module.profile.masks-of-nyarlathotep",
       "name": "奈亚拉托提普的面具",
       "status": "prepared",
       "description": "最爱的模组！",

@@ -1,8 +1,11 @@
-import { useState, useEffect, useRef, lazy, Suspense } from "react";
+import { useState, useEffect, useMemo, useRef, lazy, Suspense } from "react";
 import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
 import { BookOpen, Users, Shield, Star, MessageCircle } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Link } from "react-router";
+import { ModulePreviewCard } from "@/features/modules/ModulePreviewCard";
+import type { WikiIndexPayload } from "@/types/wiki";
 import type { LucideIcon } from "lucide-react";
 
 const Live2DBackground = lazy(() =>
@@ -38,12 +41,6 @@ const iconMap: Record<string, LucideIcon> = {
   MessageCircle,
 };
 
-const statusConfig: Record<ModuleStatus, { label: string; variant: "default" | "secondary" | "outline" }> = {
-  prepared: { label: "已备", variant: "default" },
-  pending: { label: "待备", variant: "secondary" },
-  completed: { label: "已带", variant: "outline" },
-};
-
 const fadeInUp = {
   hidden: { opacity: 0, y: 60 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" as const } },
@@ -70,9 +67,11 @@ const staggerContainer = {
 };
 
 let profileCache: ProfileConfig | null = null;
+let wikiIndexCache: WikiIndexPayload | null = null;
 
 export default function ProfileTab() {
   const [profile, setProfile] = useState<ProfileConfig | null>(profileCache);
+  const [wikiIndex, setWikiIndex] = useState<WikiIndexPayload | null>(wikiIndexCache);
   const shouldReduceMotion = useReducedMotion();
   const heroRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
@@ -88,6 +87,28 @@ export default function ProfileTab() {
         setProfile(data);
       });
   }, []);
+
+  useEffect(() => {
+    if (wikiIndexCache) return;
+    fetch("/wiki/index.json", { cache: "no-store" })
+      .then((r) => r.json())
+      .then((data: WikiIndexPayload) => {
+        wikiIndexCache = data;
+        setWikiIndex(data);
+      })
+      .catch(() => {
+        // Profile 页不强依赖 wiki index，失败时保持仅展示 profile.json 自带内容
+      });
+  }, []);
+
+  const modulesForProfile = useMemo(() => {
+    if (!profile) return [];
+    if (!wikiIndex) return [];
+    const modulesById = new Map((wikiIndex.modules || []).map((item) => [item.id, item]));
+    return profile.modules
+      .map((mod) => modulesById.get(mod.id) ?? null)
+      .filter((item): item is NonNullable<typeof item> => item !== null);
+  }, [profile, wikiIndex]);
 
   const noMotion = { hidden: {}, visible: {} };
   const noMotionStagger = { hidden: {}, visible: {} };
@@ -280,43 +301,24 @@ export default function ProfileTab() {
               viewport={{ once: true }}
               className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
             >
-              {profile.modules.map((mod) => (
+              {(modulesForProfile.length > 0 ? modulesForProfile : []).map((module) => (
                 <motion.div
-                  key={mod.id}
+                  key={module.id}
                   variants={effectiveScaleIn}
                   whileHover={{ y: -4, transition: { duration: 0.2 } }}
                 >
-                  <Card className="group relative h-full eldritch-card">
-                    <CardHeader className="pb-2">
-                      <div className="flex items-start justify-between">
-                        <CardTitle className="text-base">{mod.name}</CardTitle>
-                        <Badge variant={statusConfig[mod.status].variant}>
-                          {statusConfig[mod.status].label}
-                        </Badge>
-                      </div>
-                    </CardHeader>
-                    <CardContent className="space-y-2">
-                      <p className="line-clamp-4 text-sm text-muted-foreground" title={mod.description || ""}>
-                        {mod.description || "暂无描述"}
-                      </p>
-                      <div className="flex flex-wrap gap-1">
-                        {mod.tags.map((tag) => (
-                          <Badge key={tag} variant="outline" className="text-xs">{tag}</Badge>
-                        ))}
-                      </div>
-                      <div className="flex items-center gap-3 text-xs text-muted-foreground">
-                        {mod.playerCount && <span>{mod.playerCount} 人</span>}
-                        {mod.duration && <span>{mod.duration}</span>}
-                      </div>
-                    </CardContent>
-                  </Card>
+                  <Link to={`/tools/world-wiki/modules/${module.id}`} className="block">
+                    <ModulePreviewCard module={module} />
+                  </Link>
                 </motion.div>
               ))}
             </motion.div>
           )}
-          <p className="text-center text-sm text-muted-foreground/70 mt-8 italic">
-            仅做部分演示，网页建设中，具体模组欢迎咨询~
-          </p>
+          <div className="mt-8 flex justify-center">
+            <Button variant="outline" asChild>
+              <Link to="/tools/world-wiki/modules">更多模组</Link>
+            </Button>
+          </div>
         </motion.div>
       </section>
 

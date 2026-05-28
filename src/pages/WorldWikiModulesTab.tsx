@@ -1,9 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, ChevronDown, ChevronUp } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Button } from "@/components/ui/button";
+import { ModulePreviewCard } from "@/features/modules/ModulePreviewCard";
 import type { WikiIndexPayload } from "@/types/wiki";
 
 function ModuleTag({ tag, variant = "secondary" }: { tag: string; variant?: "default" | "outline" | "secondary" }) {
@@ -23,6 +24,7 @@ export default function WorldWikiModulesTab() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
+  const [collapsedGroups, setCollapsedGroups] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
     let cancelled = false;
@@ -57,6 +59,36 @@ export default function WorldWikiModulesTab() {
     () => (indexData?.modules || []).filter((module) => !selectedTag || module.tags?.includes(selectedTag)),
     [indexData, selectedTag]
   );
+
+  const groupedModules = useMemo(() => {
+    const groups = new Map<string, { key: string; title: string; kind: "campaign" | "collection"; items: typeof modules }>();
+    const ungrouped: typeof modules = [];
+
+    for (const module of modules) {
+      const key = module.campaign
+        ? `campaign:${module.campaign}`
+        : module.collection
+          ? `collection:${module.collection}`
+          : null;
+      if (!key) {
+        ungrouped.push(module);
+        continue;
+      }
+
+      if (!groups.has(key)) {
+        groups.set(key, {
+          key,
+          title: module.campaign || module.collection || "",
+          kind: module.campaign ? "campaign" : "collection",
+          items: [],
+        });
+      }
+      groups.get(key)!.items.push(module);
+    }
+
+    const sortedGroups = Array.from(groups.values()).sort((a, b) => a.title.localeCompare(b.title, "zh-CN"));
+    return { groups: sortedGroups, ungrouped };
+  }, [modules]);
 
   return (
     <div className="space-y-4">
@@ -98,26 +130,55 @@ export default function WorldWikiModulesTab() {
             {modules.length === 0 ? (
               <p className="text-sm text-muted-foreground">该标签下暂无模组。</p>
             ) : (
-              <div className="grid gap-3 md:grid-cols-2">
-                {modules.map((item) => (
-                  <Link key={item.id} to={`/tools/world-wiki/${item.id}`}>
-                    <Card className="h-full">
-                      <CardHeader>
-                        <CardTitle className="text-base">{item.displayName}</CardTitle>
-                      </CardHeader>
-                      <CardContent className="space-y-3 text-sm text-muted-foreground">
-                        {item.summary && <p>{item.summary}</p>}
-                        {item.tags && item.tags.length > 0 && (
-                          <div className="flex flex-wrap gap-1.5">
-                            {item.tags.map((tag) => (
-                              <ModuleTag key={tag} tag={tag} />
-                            ))}
-                          </div>
+              <div className="space-y-4">
+                {groupedModules.groups.map((group) => {
+                  const collapsed = collapsedGroups[group.key] ?? false;
+                  return (
+                    <div key={group.key} className="space-y-3">
+                      <Button
+                        type="button"
+                        variant="outline"
+                        className="w-full justify-between rounded-2xl border-border/60 bg-background/65 px-4 py-3 text-left"
+                        onClick={() =>
+                          setCollapsedGroups((prev) => ({ ...prev, [group.key]: !(prev[group.key] ?? false) }))
+                        }
+                      >
+                        <div className="flex min-w-0 flex-1 items-center gap-2">
+                          <Badge variant="outline" className="border-primary/30 bg-primary/10 text-primary">
+                            {group.kind === "campaign" ? "战役" : "模组集"}
+                          </Badge>
+                          <span className="truncate font-heading text-base font-semibold">{group.title}</span>
+                          <span className="text-xs text-muted-foreground">{group.items.length} 个模组</span>
+                        </div>
+                        {collapsed ? (
+                          <ChevronDown className="h-4 w-4 text-muted-foreground" />
+                        ) : (
+                          <ChevronUp className="h-4 w-4 text-muted-foreground" />
                         )}
-                      </CardContent>
-                    </Card>
-                  </Link>
-                ))}
+                      </Button>
+
+                      {!collapsed && (
+                        <div className="grid gap-3 md:grid-cols-2">
+                          {group.items.map((item) => (
+                            <Link key={item.id} to={`/tools/world-wiki/modules/${item.id}`}>
+                              <ModulePreviewCard module={item} />
+                            </Link>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+
+                {groupedModules.ungrouped.length > 0 && (
+                  <div className="grid gap-3 md:grid-cols-2">
+                    {groupedModules.ungrouped.map((item) => (
+                      <Link key={item.id} to={`/tools/world-wiki/modules/${item.id}`}>
+                        <ModulePreviewCard module={item} />
+                      </Link>
+                    ))}
+                  </div>
+                )}
               </div>
             )}
           </div>

@@ -160,3 +160,8 @@ Agent 角色：`团队负责人` / `实习生` / `技术专家` / `git-reviewer`
 | — | Cursor Agent | master | **工具箱 Tab 顶栏抖动修复**: 根布局改为 `h-dvh` 固定视口高度，滚动下沉到 `main` 独立容器；全局与内容区启用 `scrollbar-gutter: stable`，顶栏右侧预留安全间距，避免子工具切换时滚动条出现/消失导致右上角闪烁 | src/components/TabLayout.tsx, src/index.css, docs/dev-log.md |
 | — | Cursor Agent | master | **世界 Wiki 搜索栏折叠化**: 顶部改为单行折叠头 + 展开内容；搜索框回车后自动展开，详情页进入时默认收起，并在折叠态补充 0 结果轻提示，强化百科详情页观感 | src/pages/WorldWikiTab/index.tsx, docs/dev-log.md |
 | — | Cursor Agent | master | **Wiki Admin 构建错误修复**: 修正 `advanced` 模式条件渲染的 JSX 父节点缺失问题，为并列 Card 增加 Fragment 包裹，恢复 CI / deploy 构建通过 | src/pages/WikiAdminTab/index.tsx, docs/dev-log.md |
+| — | Cursor Agent | master | **博客内链到工具箱**: 在文章首段新增指向 `/tools/soundboard` 的站内跳转链接，便于读者直接打开音效键盘 | public/blog/posts/horror-sound-design.md, docs/dev-log.md |
+| — | Cursor Agent | master | **模组数据统一补全**: 为模组实体补齐规则类型/人数/时长/战役/模组集/长简介字段，并新增“新手推荐”模组条目；同步把 ProfileTab 的模组引用改为稳定的 moduleId | public/wiki/entities/modules.json, public/config/profile.json, src/types/wiki.ts, docs/dev-log.md |
+| — | Cursor Agent | master | **模组列表/详情/博客联动**: 改造模组列表页为预览卡+战役/模组集折叠分组，新增模组详情页路由；新手模组文章补充右上角入口并为每个模组名加可点击详情跳转 | src/pages/WorldWikiModulesTab.tsx, src/pages/WorldWikiModuleDetailTab.tsx, src/App.tsx, src/features/modules/ModulePreviewCard.tsx, public/blog/posts/beginner-modules.md, docs/dev-log.md |
+| — | Cursor Agent | master | **Profile 模组区联动**: 首页个人介绍 Tab 的模组模块改为复用模组列表预览卡并支持点击进入详情页，底部增加“更多模组”按钮跳转到模组列表页 | src/pages/ProfileTab/index.tsx, src/features/modules/ModulePreviewCard.tsx, docs/dev-log.md |
+| — | Cursor Agent | master | **模组规则与结构标签补全**: 将全部模组的规则类型统一为 COC7；并仅对可证实为非线性推进的《面具》追加“沙盒”结构标签，其余保持空缺避免误判 | public/wiki/entities/modules.json, docs/dev-log.md |

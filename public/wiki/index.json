@@ -29,112 +29,221 @@
   "modules": [
     {
       "id": "module.kingsport-city-in-the-mists",
-      "displayName": "《永恒恶意-Everlasting Malice》",
+      "displayName": "永恒恶意",
       "aliases": [
-        "Kingsport: The City In The Mists",
         "金斯波特迷雾之城",
         "永恒恶意",
         "Everlasting Malice"
       ],
       "summary": "金斯波特背景的跑后回顾与战报索引模组。",
+      "ruleSystem": "COC7",
+      "playerCount": "4-6",
+      "duration": "6-9h",
+      "collection": "密斯卡托尼克河流域新传",
+      "description": "「三周前，报道居民西蒙·麦当劳患上神秘疾病。六天后，伯纳德·怀特亦遭同样厄运。此后类似情况接连出现，报道令镇民不安；警局与政府尽力安抚。」\n「等待你们的会是……什么呢？」",
       "tags": [
-        "1920 年代"
+        "1920s"
+      ]
+    },
+    {
+      "id": "module.profile.night-battle",
+      "displayName": "夜战",
+      "aliases": [
+        "夜战"
+      ],
+      "summary": "战壕与炮火下的硬核夜战。给想把“战斗”真正打满的车队准备的。",
+      "ruleSystem": "COC7",
+      "playerCount": "4-6",
+      "duration": "5-7h",
+      "collection": "密斯卡托尼克河流域新传",
+      "description": "1918西线战壕，步枪上膛，炮火将至。每次建卡都有人问\"KP我能点炮术吗\"，每次答案都是\"你点了也没地方用\"。这次不一样。点吧，都点吧，管够。。",
+      "tags": [
+        "1920s",
+        "战争",
+        "枪战"
+      ]
+    },
+    {
+      "id": "module.profile.masks-of-nyarlathotep",
+      "displayName": "奈亚拉托提普的面具",
+      "aliases": [
+        "面具",
+        "奈亚面具",
+        "Masks of Nyarlathotep"
+      ],
+      "summary": "跨越全球的经典长战役。城市之间的线索网像瘟疫一样蔓延。",
+      "ruleSystem": "COC7",
+      "playerCount": "4-6",
+      "duration": "240-320h",
+      "campaign": "奈亚拉托提普的面具",
+      "description": "最爱的模组！",
+      "tags": [
+        "长战役",
+        "全球",
+        "经典",
+        "沙盒"
+      ]
+    },
+    {
+      "id": "module.reco.haunted-house",
+      "displayName": "鬼屋",
+      "aliases": [
+        "鬼屋"
+      ],
+      "summary": "新手推理入门：线索密度适中、目标清晰，适合第一次跑团的车队热身。",
+      "ruleSystem": "COC7",
+      "playerCount": "3-4",
+      "duration": "6-8h",
+      "collection": "新手推荐",
+      "tags": [
+        "新手",
+        "推理"
+      ]
+    },
+    {
+      "id": "module.reco.book-hunter",
+      "displayName": "追书人",
+      "aliases": [
+        "追书人"
+      ],
+      "summary": "短时长推理模组：节奏更快，适合 1-3 人的小车或临时加跑。",
+      "ruleSystem": "COC7",
+      "playerCount": "1-3",
+      "duration": "3-5h",
+      "collection": "新手推荐",
+      "tags": [
+        "新手",
+        "推理"
+      ]
+    },
+    {
+      "id": "module.reco.crimson-dossier",
+      "displayName": "猩红文档",
+      "aliases": [
+        "猩红文档"
+      ],
+      "summary": "沙盒向入门：给喜欢探索与自由选择的队伍，信息量更大但回报也更高。",
+      "ruleSystem": "COC7",
+      "playerCount": "4-6",
+      "duration": "8-10h",
+      "collection": "新手推荐",
+      "tags": [
+        "新手",
+        "沙盒"
       ]
     },
     {
       "id": "module.library.saturnine-chalice",
       "displayName": "死光与其他黑暗的转角",
+      "aliases": [
+        "死光"
+      ],
       "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
+      "ruleSystem": "COC7",
+      "playerCount": "4-5",
+      "duration": "6-8h",
+      "collection": "新手推荐",
       "tags": [
-        "1920 年代"
+        "1920s"
       ]
     },
     {
       "id": "module.library.a-little-knowledge",
       "displayName": "《些许知识-A Little Knowledge》",
       "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
+      "ruleSystem": "COC7",
       "tags": [
-        "1920 年代"
+        "1920s"
       ]
     },
     {
       "id": "module.library.oath-of-blood",
       "displayName": "《血之誓约-Oath of Blood》",
       "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
+      "ruleSystem": "COC7",
       "tags": [
-        "1920 年代"
+        "1920s"
       ]
     },
     {
       "id": "module.library.the-asylum",
       "displayName": "《疗养院-The Asylum》",
       "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
+      "ruleSystem": "COC7",
       "tags": [
-        "1920 年代"
+        "1920s"
       ]
     },
     {
       "id": "module.library.engine-trouble",
       "displayName": "《机械天启-Engine Trouble》",
       "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
+      "ruleSystem": "COC7",
       "tags": [
-        "1920 年代"
+        "1920s"
       ]
     },
     {
       "id": "module.library.dreaming-of-the-river-of-light",
       "displayName": "《夜河之梦-Dreaming of the River of Light》",
       "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
+      "ruleSystem": "COC7",
       "tags": [
-        "1920 年代"
+        "1920s"
       ]
     },
     {
       "id": "module.library.and-some-fell-on-stony-ground",
       "displayName": "有些人油盐不进",
       "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
+      "ruleSystem": "COC7",
       "tags": [
-        "1920 年代"
+        "1920s"
       ]
     },
     {
       "id": "module.library.the-darkness-beneath-the-hill",
       "displayName": "《岭下暗影-The Darkness Beneath the Hill》",
       "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
+      "ruleSystem": "COC7",
       "tags": [
-        "1920 年代"
+        "1920s"
       ]
     },
     {
       "id": "module.library.turn-to-stone",
       "displayName": "《化为磐石-Turn to Stone》",
       "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
+      "ruleSystem": "COC7",
       "tags": [
-        "1920 年代"
+        "1920s"
       ]
     },
     {
       "id": "module.library.edge-of-darkness",
       "displayName": "黑暗的边缘",
       "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
+      "ruleSystem": "COC7",
       "tags": [
-        "1920 年代"
+        "1920s"
       ]
     },
     {
       "id": "module.library.his-pleasant-dream-was-shattered",
       "displayName": "《黄粱梦醒-His Pleasant Dream Was Shattered》",
       "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
+      "ruleSystem": "COC7",
       "tags": [
-        "1920 年代"
+        "1920s"
       ]
     },
     {
       "id": "module.library.uncle-timothys-will",
       "displayName": "蒂莫西舅舅的遗产",
       "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
+      "ruleSystem": "COC7",
       "tags": [
-        "1920 年代"
+        "1920s"
       ]
     }
   ],
@@ -462,7 +571,7 @@
     {
       "id": "module.kingsport-city-in-the-mists",
       "category": "module",
-      "displayName": "《永恒恶意-Everlasting Malice》",
+      "displayName": "永恒恶意",
       "summary": "1928，金斯波特，迷雾之城。失明的人们究竟遭遇了什么？",
       "aliasNames": [
         "Kingsport: The City In The Mists",
@@ -511,7 +620,7 @@
         "module.library.a-little-knowledge"
       ],
       "tags": [
-        "1920 年代"
+        "1920s"
       ],
       "createdAt": "2026-05-28T00:00:00+08:00",
       "updatedAt": "2026-05-28T00:00:00+08:00"
@@ -525,7 +634,7 @@
         "module.library.and-some-fell-on-stony-ground"
       ],
       "tags": [
-        "1920 年代"
+        "1920s"
       ],
       "createdAt": "2026-05-28T00:00:00+08:00",
       "updatedAt": "2026-05-28T00:00:00+08:00"
@@ -539,7 +648,7 @@
         "module.library.dreaming-of-the-river-of-light"
       ],
       "tags": [
-        "1920 年代"
+        "1920s"
       ],
       "createdAt": "2026-05-28T00:00:00+08:00",
       "updatedAt": "2026-05-28T00:00:00+08:00"
@@ -553,7 +662,7 @@
         "module.library.edge-of-darkness"
       ],
       "tags": [
-        "1920 年代"
+        "1920s"
       ],
       "createdAt": "2026-05-28T00:00:00+08:00",
       "updatedAt": "2026-05-28T00:00:00+08:00"
@@ -567,7 +676,7 @@
         "module.library.engine-trouble"
       ],
       "tags": [
-        "1920 年代"
+        "1920s"
       ],
       "createdAt": "2026-05-28T00:00:00+08:00",
       "updatedAt": "2026-05-28T00:00:00+08:00"
@@ -581,7 +690,7 @@
         "module.library.his-pleasant-dream-was-shattered"
       ],
       "tags": [
-        "1920 年代"
+        "1920s"
       ],
       "createdAt": "2026-05-28T00:00:00+08:00",
       "updatedAt": "2026-05-28T00:00:00+08:00"
@@ -595,7 +704,7 @@
         "module.library.oath-of-blood"
       ],
       "tags": [
-        "1920 年代"
+        "1920s"
       ],
       "createdAt": "2026-05-28T00:00:00+08:00",
       "updatedAt": "2026-05-28T00:00:00+08:00"
@@ -609,7 +718,7 @@
         "module.library.saturnine-chalice"
       ],
       "tags": [
-        "1920 年代"
+        "1920s"
       ],
       "createdAt": "2026-05-28T00:00:00+08:00",
       "updatedAt": "2026-05-28T00:00:00+08:00"
@@ -623,7 +732,7 @@
         "module.library.the-asylum"
       ],
       "tags": [
-        "1920 年代"
+        "1920s"
       ],
       "createdAt": "2026-05-28T00:00:00+08:00",
       "updatedAt": "2026-05-28T00:00:00+08:00"
@@ -637,7 +746,7 @@
         "module.library.the-darkness-beneath-the-hill"
       ],
       "tags": [
-        "1920 年代"
+        "1920s"
       ],
       "createdAt": "2026-05-28T00:00:00+08:00",
       "updatedAt": "2026-05-28T00:00:00+08:00"
@@ -651,7 +760,7 @@
         "module.library.turn-to-stone"
       ],
       "tags": [
-        "1920 年代"
+        "1920s"
       ],
       "createdAt": "2026-05-28T00:00:00+08:00",
       "updatedAt": "2026-05-28T00:00:00+08:00"
@@ -665,7 +774,7 @@
         "module.library.uncle-timothys-will"
       ],
       "tags": [
-        "1920 年代"
+        "1920s"
       ],
       "createdAt": "2026-05-28T00:00:00+08:00",
       "updatedAt": "2026-05-28T00:00:00+08:00"
@@ -697,7 +806,7 @@
       "金斯波特 kingsport": "loc.kingsport",
       "kingsport": "loc.kingsport",
       "金斯波特": "loc.kingsport",
-      "《永恒恶意-everlasting malice》": "module.kingsport-city-in-the-mists",
+      "永恒恶意": "module.kingsport-city-in-the-mists",
       "kingsport: the city in the mists": "module.kingsport-city-in-the-mists",
       "金斯波特：迷雾之城": "module.kingsport-city-in-the-mists",
       "金斯波特补遗": "module.kingsport-city-in-the-mists",
@@ -726,12 +835,19 @@
       "甘pl": "pl.daocaoren"
     },
     "moduleIdByName": {
-      "《永恒恶意-everlasting malice》": "module.kingsport-city-in-the-mists",
-      "kingsport: the city in the mists": "module.kingsport-city-in-the-mists",
-      "金斯波特迷雾之城": "module.kingsport-city-in-the-mists",
       "永恒恶意": "module.kingsport-city-in-the-mists",
+      "金斯波特迷雾之城": "module.kingsport-city-in-the-mists",
       "everlasting malice": "module.kingsport-city-in-the-mists",
+      "夜战": "module.profile.night-battle",
+      "奈亚拉托提普的面具": "module.profile.masks-of-nyarlathotep",
+      "面具": "module.profile.masks-of-nyarlathotep",
+      "奈亚面具": "module.profile.masks-of-nyarlathotep",
+      "masks of nyarlathotep": "module.profile.masks-of-nyarlathotep",
+      "鬼屋": "module.reco.haunted-house",
+      "追书人": "module.reco.book-hunter",
+      "猩红文档": "module.reco.crimson-dossier",
       "死光与其他黑暗的转角": "module.library.saturnine-chalice",
+      "死光": "module.library.saturnine-chalice",
       "《些许知识-a little knowledge》": "module.library.a-little-knowledge",
       "《血之誓约-oath of blood》": "module.library.oath-of-blood",
       "《疗养院-the asylum》": "module.library.the-asylum",

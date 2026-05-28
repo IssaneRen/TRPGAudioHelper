@@ -12,6 +12,12 @@ export interface WikiModule {
   aliases?: string[];
   summary?: string;
   tags?: string[];
+  ruleSystem?: string;
+  playerCount?: string;
+  duration?: string;
+  campaign?: string;
+  collection?: string;
+  description?: string;
 }
 
 export interface WikiFact {
