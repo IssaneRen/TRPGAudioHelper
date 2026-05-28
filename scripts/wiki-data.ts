@@ -41,6 +41,10 @@ function registerLookup(lookup: Record<string, string>, names: string[], id: str
   for (const name of names) {
     const normalized = name.trim().toLowerCase();
     if (!normalized) continue;
+    const existing = lookup[normalized];
+    if (existing && existing !== id) {
+      throw new Error(`lookup 冲突：名称/别名 "${name}" 同时指向 ${existing} 与 ${id}`);
+    }
     lookup[normalized] = id;
   }
 }
@@ -75,6 +79,12 @@ function validateBlock(
   playerIds: Set<string>,
   entryId: string
 ) {
+  if (block.type === "image") {
+    if (!block.src) {
+      throw new Error(`词条 ${entryId} 的 image block 缺少 src`);
+    }
+  }
+
   if (block.tokens) {
     for (const token of block.tokens) {
       validateToken(token, entryIds, playerIds, entryId);
@@ -209,7 +219,7 @@ export function buildWikiIndexPayload({
   for (const player of players) {
     registerLookup(
       payload.lookup.playerIdByName,
-      [player.displayName, ...(player.aliases || [])],
+      [player.id, player.displayName, ...(player.aliases || [])],
       player.id
     );
   }

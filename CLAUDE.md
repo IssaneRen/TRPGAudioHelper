@@ -57,7 +57,7 @@ public/
 - **Three-tab layout**: 个人介绍 / 工具箱 / 博客杂谈 as core navigation
 - **Toolbox nested routes**: `/tools/module-clue`, `/tools/soundboard`, `/tools/battle` with lazy loading and DropdownMenu switching
 - **Static config-driven Profile**: `public/config/profile.json` drives all content, no editing UI
-- **Static blog files**: `public/blog/index.json` + `public/blog/posts/*.md`, fetched and cached at runtime
+- **Static blog files**: `public/blog/index.json` + `public/blog/posts/*.md`, fetched and cached at runtime（支持 `renderMode: markdown/wiki`；wiki 模式由 `wikiEntryId` 绑定并内嵌世界 Wiki 词条渲染；战报必须绑定独立 `report` 词条，不要复用 `module` 介绍词条）
 - **DAG visualization**: React Flow handles the clue network graph — nodes are clues/items, edges are relationships (many-to-many). Discovery is triggered by clicking edges (relationships), which marks both connected nodes as discovered.
 - **Visual style**: Cthulhu/cosmic horror aesthetic — dark theme priority, eerie fonts, muted greens/purples
 - **No backend required**: All data persists in localStorage/IndexedDB; the app is a pure SPA

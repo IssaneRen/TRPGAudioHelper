@@ -18,6 +18,18 @@ function canRevealSecret(
   return playerIds.includes(currentPlayerId);
 }
 
+function normalizeText(value: string): string {
+  return value.trim().toLowerCase();
+}
+
+export function resolveCurrentPlayerIdByName(
+  lookup: Record<string, string> | undefined,
+  plName: string
+): string | null {
+  if (!lookup || !plName.trim()) return null;
+  return lookup[normalizeText(plName)] ?? null;
+}
+
 function LockedSecretBlock({
   title,
   previewText,
@@ -83,6 +95,17 @@ function resolveEntryName(entryId: string, entriesById: Map<string, WikiIndexEnt
   return entriesById.get(entryId)?.displayName || entryId;
 }
 
+function renderTextWithNewlines(value: string | undefined) {
+  if (!value) return null;
+  const parts = value.split("\n");
+  return parts.map((part, index) => (
+    <span key={`${index}-${part}`}>
+      {index > 0 ? <br /> : null}
+      {part}
+    </span>
+  ));
+}
+
 function InlineTokens({
   tokens,
   currentPlayerId,
@@ -109,7 +132,7 @@ function InlineTokens({
               ].filter(Boolean).join(" ") || undefined}
               style={token.color ? { color: token.color } : undefined}
             >
-              {token.text}
+              {renderTextWithNewlines(token.text)}
             </span>
           );
         }
@@ -134,7 +157,7 @@ function InlineTokens({
               key={`secret-inline-${index}`}
               className="rounded-sm bg-primary/10 px-1 py-0.5 text-primary"
             >
-              {text}
+              {renderTextWithNewlines(text)}
             </span>
           ) : (
             <LockedInlineSecret key={`secret-inline-${index}`} text={text} />
@@ -199,6 +222,27 @@ export function WikiContentRenderer({
                 entryBaseRoute={entryBaseRoute}
               />
             </blockquote>
+          );
+        }
+
+        if (block.type === "image") {
+          const src = block.src || "";
+          const alt = block.alt || "";
+          const caption = block.caption;
+          return (
+            <figure key={`image-${index}`} className="my-4 mx-auto w-full max-w-[560px]">
+              <img
+                src={src}
+                alt={alt}
+                loading="lazy"
+                className="max-h-[720px] w-full rounded-xl border border-border/70 bg-card/60 object-contain"
+              />
+              {caption ? (
+                <figcaption className="mt-2 text-center text-xs text-muted-foreground">
+                  {caption}
+                </figcaption>
+              ) : null}
+            </figure>
           );
         }
 

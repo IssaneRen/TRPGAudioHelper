@@ -170,15 +170,49 @@ export default function WorldWikiModulesTab() {
                   );
                 })}
 
-                {groupedModules.ungrouped.length > 0 && (
-                  <div className="grid gap-3 md:grid-cols-2">
-                    {groupedModules.ungrouped.map((item) => (
-                      <Link key={item.id} to={`/tools/world-wiki/modules/${item.id}`}>
-                        <ModulePreviewCard module={item} />
-                      </Link>
-                    ))}
-                  </div>
-                )}
+                <div className="space-y-3">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    className="w-full justify-between rounded-2xl border-border/60 bg-background/65 px-4 py-3 text-left"
+                    onClick={() =>
+                      setCollapsedGroups((prev) => ({ ...prev, ungrouped: !(prev.ungrouped ?? false) }))
+                    }
+                  >
+                    <div className="flex min-w-0 flex-1 items-center gap-2">
+                      <Badge variant="outline" className="border-foreground/15 bg-foreground/5 text-foreground">
+                        未分类
+                      </Badge>
+                      <span className="truncate font-heading text-base font-semibold">未分类</span>
+                      <span className="text-xs text-muted-foreground">
+                        {groupedModules.ungrouped.length} 个模组
+                      </span>
+                    </div>
+                    {(collapsedGroups.ungrouped ?? false) ? (
+                      <ChevronDown className="h-4 w-4 text-muted-foreground" />
+                    ) : (
+                      <ChevronUp className="h-4 w-4 text-muted-foreground" />
+                    )}
+                  </Button>
+
+                  {!(collapsedGroups.ungrouped ?? false) && (
+                    <>
+                      {groupedModules.ungrouped.length === 0 ? (
+                        <div className="rounded-2xl border border-border/60 bg-background/65 px-4 py-6 text-sm text-muted-foreground">
+                          当前没有未分类模组。
+                        </div>
+                      ) : (
+                        <div className="grid gap-3 md:grid-cols-2">
+                          {groupedModules.ungrouped.map((item) => (
+                            <Link key={item.id} to={`/tools/world-wiki/modules/${item.id}`}>
+                              <ModulePreviewCard module={item} />
+                            </Link>
+                          ))}
+                        </div>
+                      )}
+                    </>
+                  )}
+                </div>
               </div>
             )}
           </div>

@@ -1,35 +1,14 @@
 ---
-title: "跑团记录：永恒恶意"
+title: "战报：《夜战》2026.05.24"
 cover:
-  - "/blog/images/img_recruit_coc7_eve_fight.png"
-  - "/blog/images/img_recruit_coc7_eve_fight_2.png"
+  - "/blog/images/report-20260524/cover.png"
+  - "/blog/images/report-20260524/recruit.png"
 tags: ["杂谈", "跑团记录"]
-players: ["Cici", "莱纳", "稻草人", "HI", "Ry", "Pure male"]
+players: ["pl.leina", "pl.adam", "pl.kiven", "pl.cici", "pl.leo", "pl.daocaoren"]
+renderMode: "wiki"
+wikiEntryId: "report.mist-city-record-20260524"
 createdAt: "2024-04-01T14:00:00Z"
-updatedAt: "2024-04-01T14:00:00Z"
+updatedAt: "2026-05-24T12:00:00Z"
 ---
 
-
-| 金斯波特·迷雾之城
-
-## 第一幕：到达
-
-玩家们在一个雨夜抵达了小镇。镇上的人都很冷漠，只有旅馆老板勉强接待了他们。
-
-当晚，旅馆外传来了奇怪的声音...
-
-### 关键转折
-
-当调查员发现了 **神秘信件** 后，故事开始加速。信件中提到了一个被遗忘的地下室。
-
-*"如果你正在读这封信，说明我已经不在了。请找到花瓶下的钥匙。"*
-
-## 战斗记录
-
-最终的决战场景非常激烈，以下是当时的战况截图：
-
-![战斗场景](/blog/images/img_recruit_coc7_eve_fight.png)
-
-经过一番苦战，调查员们终于击退了深潜者：
-
-![战斗结算](/blog/images/img_recruit_coc7_eve_fight_2.png)
+本战报采用 Wiki 内嵌展示模式，请在正文区域查看关联词条内容。

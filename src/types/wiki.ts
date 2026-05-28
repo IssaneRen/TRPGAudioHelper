@@ -1,4 +1,11 @@
-export type WikiCategory = "character" | "location" | "event" | "module" | "magic-book" | "magic-item";
+export type WikiCategory =
+  | "character"
+  | "location"
+  | "event"
+  | "module"
+  | "report"
+  | "magic-book"
+  | "magic-item";
 
 export interface WikiPlayer {
   id: string;
@@ -49,10 +56,13 @@ export interface CocSheetData {
 }
 
 export interface WikiBlock {
-  type: "heading" | "paragraph" | "list" | "quote" | "secret-panel" | "coc-sheet";
+  type: "heading" | "paragraph" | "list" | "quote" | "image" | "secret-panel" | "coc-sheet";
   text?: string;
   tokens?: WikiInlineToken[];
   items?: WikiInlineToken[][];
+  src?: string;
+  alt?: string;
+  caption?: string;
   playerIds?: string[];
   title?: string;
   blocks?: WikiBlock[];

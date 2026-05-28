@@ -16,6 +16,11 @@ import remarkGfm from "remark-gfm";
 import remarkFrontmatter from "remark-frontmatter";
 import { TAG_CATEGORIES } from "@/constants/tag-categories";
 import { useNavigate, useParams } from "react-router";
+import type { WikiEntryRecord, WikiIndexPayload } from "@/types/wiki";
+import {
+  WikiContentRenderer,
+  resolveCurrentPlayerIdByName,
+} from "@/features/wiki/WikiContentRenderer";
 
 interface BlogPostMeta {
   id: string;
@@ -24,6 +29,8 @@ interface BlogPostMeta {
   cover?: string[];
   tags: string[];
   players?: string[];
+  renderMode?: "markdown" | "wiki";
+  wikiEntryId?: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -43,6 +50,8 @@ function shouldDisableSharedLayout(): boolean {
 
 let indexCache: BlogPostMeta[] | null = null;
 const contentCache = new Map<string, string>();
+let wikiIndexCache: WikiIndexPayload | null = null;
+const wikiEntryCache = new Map<string, WikiEntryRecord>();
 
 export default function BlogTab() {
   const navigate = useNavigate();
@@ -54,6 +63,10 @@ export default function BlogTab() {
   const [postContent, setPostContent] = useState<string>("");
   const [contentLoading, setContentLoading] = useState(false);
   const [contentError, setContentError] = useState(false);
+  const [wikiIndex, setWikiIndex] = useState<WikiIndexPayload | null>(wikiIndexCache);
+  const [wikiEntry, setWikiEntry] = useState<WikiEntryRecord | null>(null);
+  const [wikiLoading, setWikiLoading] = useState(false);
+  const [wikiError, setWikiError] = useState(false);
   const contentRequestRef = useRef(0);
   const [selectedTags, setSelectedTags] = useState<Set<string>>(new Set());
   const [plName, setPlName] = useState(() => localStorage.getItem(PL_STORAGE_KEY) || "");
@@ -61,6 +74,31 @@ export default function BlogTab() {
   const [isMyPlayedMode, setIsMyPlayedMode] = useState(false);
   const prefersReducedMotion = useReducedMotion();
   const useSharedLayout = !prefersReducedMotion && !shouldDisableSharedLayout();
+
+  useEffect(() => {
+    if (!isMyPlayedMode) return;
+    if (wikiIndexCache) {
+      setWikiIndex(wikiIndexCache);
+      return;
+    }
+    let cancelled = false;
+    const loadWikiIndex = async () => {
+      try {
+        const res = await fetch("/wiki/index.json", { cache: "no-store" });
+        if (!res.ok) return;
+        const data = (await res.json()) as WikiIndexPayload;
+        if (cancelled) return;
+        wikiIndexCache = data;
+        setWikiIndex(data);
+      } catch {
+        // ignore
+      }
+    };
+    void loadWikiIndex();
+    return () => {
+      cancelled = true;
+    };
+  }, [isMyPlayedMode]);
 
   useEffect(() => {
     let cancelled = false;
@@ -89,23 +127,56 @@ export default function BlogTab() {
     };
   }, []);
 
+  useEffect(() => {
+    if (!showPlDialog) return;
+    let cancelled = false;
+    const loadWikiIndex = async () => {
+      if (wikiIndexCache) {
+        setWikiIndex(wikiIndexCache);
+        return;
+      }
+      try {
+        const res = await fetch("/wiki/index.json", { cache: "no-store" });
+        if (!res.ok) return;
+        const data = (await res.json()) as WikiIndexPayload;
+        if (cancelled) return;
+        wikiIndexCache = data;
+        setWikiIndex(data);
+      } catch {
+        // ignore: 仅用于提示可选 key 列表，不影响主功能
+      }
+    };
+    void loadWikiIndex();
+    return () => {
+      cancelled = true;
+    };
+  }, [showPlDialog]);
+
   const allTags = useMemo(() => {
     const tagSet = new Set<string>();
     posts.forEach((p) => p.tags.forEach((t) => tagSet.add(t)));
     return Array.from(tagSet);
   }, [posts]);
 
+  const currentBlogPlayerId = useMemo(() => {
+    if (!wikiIndex) return plName.trim();
+    const normalized = plName.trim().toLowerCase();
+    const direct = wikiIndex.players.find((p) => p.id.toLowerCase() === normalized);
+    if (direct) return direct.id;
+    return wikiIndex.lookup.playerIdByName[normalized] || plName.trim();
+  }, [plName, wikiIndex]);
+
   const filteredPosts = useMemo(() => {
     if (isMyPlayedMode) {
-      if (!plName) return [];
-      const normalizedPl = plName.trim().toLowerCase();
+      if (!currentBlogPlayerId) return [];
+      const normalizedPl = currentBlogPlayerId.trim().toLowerCase();
       return posts.filter((p) =>
         p.players?.some((pl) => pl.trim().toLowerCase() === normalizedPl)
       );
     }
     if (selectedTags.size === 0) return posts;
     return posts.filter((p) => p.tags.some((t) => selectedTags.has(t)));
-  }, [posts, selectedTags, isMyPlayedMode, plName]);
+  }, [posts, selectedTags, isMyPlayedMode, currentBlogPlayerId]);
 
   const toggleTag = (tag: string) => {
     setSelectedTags((prev) => {
@@ -120,6 +191,8 @@ export default function BlogTab() {
     const requestId = ++contentRequestRef.current;
     setSelectedPost(post);
     setContentError(false);
+    setWikiEntry(null);
+    setWikiError(false);
     const cached = contentCache.get(post.file);
     if (cached) {
       setPostContent(cached);
@@ -141,6 +214,43 @@ export default function BlogTab() {
     }
   }, []);
 
+  const loadWikiForPost = useCallback(async (post: BlogPostMeta) => {
+    if (post.renderMode !== "wiki" || !post.wikiEntryId) return;
+    const requestId = ++contentRequestRef.current;
+    setWikiLoading(true);
+    setWikiError(false);
+
+    try {
+      if (!wikiIndexCache) {
+        const indexRes = await fetch("/wiki/index.json", { cache: "no-store" });
+        if (!indexRes.ok) throw new Error(`Failed to load wiki index: ${indexRes.status}`);
+        const indexData = (await indexRes.json()) as WikiIndexPayload;
+        wikiIndexCache = indexData;
+        setWikiIndex(indexData);
+      } else {
+        setWikiIndex(wikiIndexCache);
+      }
+
+      const cached = wikiEntryCache.get(post.wikiEntryId);
+      if (cached) {
+        if (requestId === contentRequestRef.current) setWikiEntry(cached);
+        return;
+      }
+
+      const entryRes = await fetch(`/wiki/entities/entries/${post.wikiEntryId}.json`, {
+        cache: "no-store",
+      });
+      if (!entryRes.ok) throw new Error(`Failed to load wiki entry: ${entryRes.status}`);
+      const entryData = (await entryRes.json()) as WikiEntryRecord;
+      wikiEntryCache.set(post.wikiEntryId, entryData);
+      if (requestId === contentRequestRef.current) setWikiEntry(entryData);
+    } catch {
+      if (requestId === contentRequestRef.current) setWikiError(true);
+    } finally {
+      if (requestId === contentRequestRef.current) setWikiLoading(false);
+    }
+  }, []);
+
   useEffect(() => {
     if (!postId) {
       contentRequestRef.current += 1;
@@ -148,6 +258,9 @@ export default function BlogTab() {
       setPostContent("");
       setContentLoading(false);
       setContentError(false);
+      setWikiEntry(null);
+      setWikiLoading(false);
+      setWikiError(false);
       return;
     }
     if (loading) return;
@@ -159,12 +272,19 @@ export default function BlogTab() {
     }
     if (selectedPost?.id === post.id) return;
     void loadPost(post);
-  }, [loadPost, loading, navigate, postId, posts, selectedPost?.id]);
+    void loadWikiForPost(post);
+  }, [loadPost, loadWikiForPost, loading, navigate, postId, posts, selectedPost?.id]);
 
   const handleSelectPost = (post: BlogPostMeta) => {
     void loadPost(post);
+    void loadWikiForPost(post);
     navigate(`/blog/${encodeURIComponent(post.id)}`);
   };
+
+  const currentWikiPlayerId = useMemo(
+    () => resolveCurrentPlayerIdByName(wikiIndex?.lookup.playerIdByName, plName),
+    [plName, wikiIndex]
+  );
 
   const closeDetail = useCallback(() => {
     navigate("/blog", { replace: true });
@@ -258,7 +378,7 @@ export default function BlogTab() {
             onClick={() => setShowPlDialog(true)}
             className="ml-auto text-xs text-muted-foreground hover:text-foreground transition-colors"
           >
-            {plName ? `PL: ${plName}` : "设置PL名称"}
+            {plName ? `PL: ${plName}` : "设置PL"}
           </button>
         </motion.div>
 
@@ -297,7 +417,7 @@ export default function BlogTab() {
               <div className="space-y-3">
                 <p>筛选不到你跑过的模组哦</p>
                 <p className="text-sm">
-                  是否已经正确填写了PL名称：<strong className="text-foreground">{plName || "未设置"}</strong>
+                  是否已经正确填写了PL：<strong className="text-foreground">{plName || "未设置"}</strong>
                 </p>
                 <button
                   onClick={() => setShowPlDialog(true)}
@@ -385,9 +505,29 @@ export default function BlogTab() {
                       </h2>
                     </div>
 
-                    {/* Markdown 正文 */}
+                    {/* 正文（Markdown / Wiki 内嵌） */}
                     <div className="border-t px-6 py-6">
-                      {contentLoading ? (
+                      {selectedPost.renderMode === "wiki" && selectedPost.wikiEntryId ? (
+                        wikiLoading ? (
+                          <div className="space-y-3">
+                            <Skeleton className="h-4 w-full" />
+                            <Skeleton className="h-4 w-5/6" />
+                            <Skeleton className="h-4 w-4/5" />
+                          </div>
+                        ) : wikiError || !wikiIndex || !wikiEntry ? (
+                          <p className="py-8 text-center text-sm text-muted-foreground">
+                            Wiki 词条加载失败，请刷新后重试。
+                          </p>
+                        ) : (
+                          <WikiContentRenderer
+                            blocks={wikiEntry.content}
+                            currentPlayerId={currentWikiPlayerId}
+                            entriesById={new Map(wikiIndex.entries.map((e) => [e.id, e]))}
+                            revealAllSecrets={false}
+                            entryBaseRoute="/tools/world-wiki"
+                          />
+                        )
+                      ) : contentLoading ? (
                         <div className="space-y-3">
                           <Skeleton className="h-4 w-full" />
                           <Skeleton className="h-4 w-5/6" />
@@ -414,7 +554,7 @@ export default function BlogTab() {
           )}
         </AnimatePresence>
 
-        {/* PL 名称输入弹窗 */}
+        {/* PL 输入弹窗（建议输入唯一 key：pl.xxx） */}
         <AnimatePresence>
           {showPlDialog && (
             <>
@@ -434,17 +574,33 @@ export default function BlogTab() {
                 exit={{ opacity: 0, scale: 0.95 }}
                 className="fixed left-1/2 top-1/3 z-[71] -translate-x-1/2 -translate-y-1/2 w-[min(90vw,320px)] rounded-xl border bg-background p-6 shadow-2xl"
               >
-                <h3 id="pl-dialog-title" className="text-base font-heading font-semibold mb-3">设置 PL 名称</h3>
-                <p className="text-xs text-muted-foreground mb-3">输入你的玩家名称，用于筛选"我跑过的"模组</p>
+                <h3 id="pl-dialog-title" className="text-base font-heading font-semibold mb-3">设置 PL</h3>
+                <p className="text-xs text-muted-foreground mb-3">
+                  建议输入玩家唯一 key（例如：pl.cici）。也可以输入显示名/别名，但必须完全匹配（不做模糊匹配）。
+                </p>
                 <PlNameInput
                   initialValue={plName}
                   onConfirm={(name) => {
-                    setPlName(name);
-                    localStorage.setItem(PL_STORAGE_KEY, name);
+                    const resolvedId =
+                      wikiIndex?.lookup.playerIdByName[name.trim().toLowerCase()] || "";
+                    const canonical =
+                      wikiIndex?.players.find((p) => p.id.toLowerCase() === name.trim().toLowerCase())?.id ||
+                      resolvedId ||
+                      name;
+                    setPlName(canonical);
+                    localStorage.setItem(PL_STORAGE_KEY, canonical);
                     setShowPlDialog(false);
-                    if (name) setIsMyPlayedMode(true);
+                    if (canonical) setIsMyPlayedMode(true);
                   }}
                 />
+                {wikiIndex?.players?.length ? (
+                  <div className="mt-4 border-t border-border/60 pt-4">
+                    <div className="text-xs font-medium text-muted-foreground">可用 PL 唯一 key（参考用）</div>
+                    <div className="mt-2 rounded-xl border border-border/60 bg-card/60 p-3 text-xs leading-6 text-muted-foreground">
+                      {wikiIndex.players.map((p) => p.id).join(" / ")}
+                    </div>
+                  </div>
+                ) : null}
               </motion.div>
             </>
           )}

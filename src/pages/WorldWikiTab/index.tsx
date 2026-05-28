@@ -74,6 +74,12 @@ const CATEGORY_META: Record<
     icon: LibraryBig,
     chipClassName: "border-foreground/15 bg-foreground/5 text-foreground",
   },
+  report: {
+    label: "战报",
+    description: "同一模组的不同场次记录与跑后回看入口",
+    icon: ScrollText,
+    chipClassName: "border-amber-300/40 bg-amber-500/10 text-amber-700",
+  },
   "magic-book": {
     label: "魔法书籍",
     description: "法术来源、禁忌知识与阅读代价",
@@ -88,7 +94,15 @@ const CATEGORY_META: Record<
   },
 };
 
-const CATEGORY_ORDER: WikiCategory[] = ["character", "location", "event", "module", "magic-book", "magic-item"];
+const CATEGORY_ORDER: WikiCategory[] = [
+  "character",
+  "location",
+  "event",
+  "module",
+  "report",
+  "magic-book",
+  "magic-item",
+];
 
 let wikiIndexCache: WikiIndexPayload | null = null;
 let wikiEntryDetailCache: Record<string, WikiEntryRecord> = {};
@@ -102,10 +116,13 @@ function formatDate(date: string): string {
   return new Date(date).toLocaleDateString("zh-CN");
 }
 
-/** 复用 blog-pl-name，但在 wiki 内解析成玩家唯一键，避免名字改动导致权限失效。 */
-function resolveCurrentPlayer(index: WikiIndexPayload | null, plName: string): WikiPlayer | null {
-  if (!index || !plName.trim()) return null;
-  const matchedId = index.lookup.playerIdByName[normalizeText(plName)];
+/** 复用 blog-pl-name：支持输入 playerId 或 displayName/alias（均为精确匹配，非模糊）。 */
+function resolveCurrentPlayer(index: WikiIndexPayload | null, plKeyOrName: string): WikiPlayer | null {
+  if (!index || !plKeyOrName.trim()) return null;
+  const normalized = normalizeText(plKeyOrName);
+  const direct = index.players.find((player) => normalizeText(player.id) === normalized);
+  if (direct) return direct;
+  const matchedId = index.lookup.playerIdByName[normalized];
   return index.players.find((player) => player.id === matchedId) ?? null;
 }
 
@@ -123,11 +140,13 @@ function CurrentPlButton({ plName, onClick }: { plName: string; onClick: () => v
 function PlNameDialog({
   open,
   initialValue,
+  players,
   onClose,
   onConfirm,
 }: {
   open: boolean;
   initialValue: string;
+  players: WikiPlayer[];
   onClose: () => void;
   onConfirm: (name: string) => void;
 }) {
@@ -167,17 +186,25 @@ function PlNameDialog({
           设置当前 PL
         </h3>
         <p className="mt-2 text-sm text-muted-foreground">
-          用于解锁你的个人视角补遗，并高亮与你相关的词条入口。
+          建议直接输入玩家唯一 key（例如：pl.cici）。也可以输入显示名/别名，但必须完全匹配（不做模糊匹配）。
         </p>
         <div className="mt-4 flex gap-2">
           <Input
             autoFocus
             value={value}
             onChange={(event) => setValue(event.target.value)}
-            placeholder="例如：Cici / 莱纳 / 稻草人"
+            placeholder="例如：pl.cici"
           />
           <Button onClick={() => onConfirm(value.trim())}>确认</Button>
         </div>
+        {players.length > 0 && (
+          <div className="mt-4 border-t border-border/60 pt-4">
+            <div className="text-xs font-medium text-muted-foreground">可用 PL 唯一 key（参考用）</div>
+            <div className="mt-2 rounded-xl border border-border/60 bg-card/60 p-3 text-xs leading-6 text-muted-foreground">
+              {players.map((player) => player.id).join(" / ")}
+            </div>
+          </div>
+        )}
       </motion.div>
     </>
   );
@@ -352,10 +379,7 @@ export default function WorldWikiTab() {
     [indexData]
   );
 
-  const currentPlayer = useMemo(
-    () => resolveCurrentPlayer(indexData, plName),
-    [indexData, plName]
-  );
+  const currentPlayer = useMemo(() => resolveCurrentPlayer(indexData, plName), [indexData, plName]);
 
   const selectedEntry = useMemo(
     () => (indexData?.entries || []).find((entry) => entry.id === entryId) ?? null,
@@ -416,6 +440,7 @@ export default function WorldWikiTab() {
       location: 0,
       event: 0,
       module: 0,
+      report: 0,
       "magic-book": 0,
       "magic-item": 0,
     };
@@ -448,11 +473,21 @@ export default function WorldWikiTab() {
       .filter((entry): entry is WikiIndexEntry => entry !== null);
   }, [currentPlayer, indexData, selectedEntry]);
 
-  const handleSavePlName = useCallback((name: string) => {
-    localStorage.setItem(PL_STORAGE_KEY, name);
-    setPlName(name);
-    setShowPlDialog(false);
-  }, []);
+  const handleSavePlName = useCallback(
+    (value: string) => {
+      const resolved = resolveCurrentPlayer(indexData, value);
+      const canonical = resolved?.id || value;
+      localStorage.setItem(PL_STORAGE_KEY, canonical);
+      setPlName(canonical);
+      // 输入的是名称/别名时，自动收敛为唯一 key，避免后续改名导致失效
+      if (resolved && canonical !== value) {
+        localStorage.setItem(PL_STORAGE_KEY, canonical);
+        setPlName(canonical);
+      }
+      setShowPlDialog(false);
+    },
+    [indexData]
+  );
 
   const trimmedQuery = query.trim();
   const showCollapsedZeroResultHint =
@@ -648,6 +683,10 @@ export default function WorldWikiTab() {
                           条，模组
                           <span className="mx-0.5 font-medium text-foreground">
                             {searchResultStats.counts.module}
+                          </span>
+                          条，战报
+                          <span className="mx-0.5 font-medium text-foreground">
+                            {searchResultStats.counts.report}
                           </span>
                           条，魔法书籍
                           <span className="mx-0.5 font-medium text-foreground">
@@ -881,6 +920,7 @@ export default function WorldWikiTab() {
       <PlNameDialog
         open={showPlDialog}
         initialValue={plName}
+        players={indexData?.players || []}
         onClose={() => setShowPlDialog(false)}
         onConfirm={handleSavePlName}
       />

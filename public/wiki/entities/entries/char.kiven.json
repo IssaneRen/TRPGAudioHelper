@@ -1,0 +1,85 @@
+{
+  "id": "char.kiven",
+  "category": "character",
+  "displayName": "Kiven",
+  "summary": "一战上尉军官，战后在军校任教。履历体面、话术漂亮，但在真正的泥泞里仍会露出“纸上谈兵”的裂缝——也因此更容易被噩梦抓住。",
+  "aliasNames": [
+    "Kiven",
+    "基文"
+  ],
+  "playerIds": [
+    "pl.kiven"
+  ],
+  "moduleIds": [
+    "module.profile.night-battle"
+  ],
+  "relatedEntryIds": [
+    "loc.kingsport",
+    "loc.arkham",
+    "char.allen",
+    "char.leina",
+    "char.adam",
+    "char.leo",
+    "char.gan",
+    "event.kingsport-nightmare-19281109"
+  ],
+  "facts": [
+    {
+      "label": "军阶",
+      "value": "上尉"
+    },
+    {
+      "label": "身份",
+      "value": "军校教授"
+    },
+    {
+      "label": "对应 PL",
+      "value": "Kiven"
+    }
+  ],
+  "content": [
+    {
+      "type": "heading",
+      "text": "人物概览"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "Kiven 曾是一战上尉军官，战后在军校任教。比起冲锋，他更擅长把混乱写成秩序——但当梦境变成战场时，秩序本身也会反过来勒住人。"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "在队伍中的作用"
+    },
+    {
+      "type": "list",
+      "items": [
+        [
+          {
+            "type": "text",
+            "text": "给行动提供“可解释的计划”：哪怕计划不完美，也能把恐慌压回去。"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "在信息推理阶段承担梳理者：把零碎线索串成能执行的路线。"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "在关键抉择时更容易犹豫：这也是他需要队友推一把的原因。"
+          }
+        ]
+      ]
+    }
+  ],
+  "createdAt": "1928-11-08T20:40:00Z",
+  "updatedAt": "1928-11-09T20:00:00Z"
+}
+

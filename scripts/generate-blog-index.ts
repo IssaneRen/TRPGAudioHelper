@@ -17,6 +17,8 @@ interface BlogPostMeta {
   cover?: string[];
   tags: string[];
   players?: string[];
+  renderMode?: "markdown" | "wiki";
+  wikiEntryId?: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -39,6 +41,8 @@ for (const file of files) {
     cover: data.cover || undefined,
     tags: data.tags || [],
     players: data.players || undefined,
+    renderMode: data.renderMode || "markdown",
+    wikiEntryId: data.wikiEntryId || undefined,
     createdAt: data.createdAt || new Date().toISOString(),
     updatedAt: data.updatedAt || data.createdAt || new Date().toISOString(),
   });

@@ -69,6 +69,15 @@ function createDefaultBlock(type: BlockType, entries: WikiIndexEntry[], players:
     return { type: "heading", text: "新标题" };
   }
 
+  if (type === "image") {
+    return {
+      type: "image",
+      src: "/wiki/images/placeholder.png",
+      alt: "图片",
+      caption: "图片说明（可选）",
+    };
+  }
+
   if (type === "list") {
     return {
       type: "list",
@@ -443,6 +452,7 @@ function BlockEditorCard({
             <option value="paragraph">paragraph</option>
             <option value="list">list</option>
             <option value="quote">quote</option>
+            <option value="image">image</option>
             <option value="secret-panel">secret-panel</option>
             <option value="coc-sheet">coc-sheet</option>
           </select>
@@ -592,6 +602,35 @@ function BlockEditorCard({
             <Plus className="h-4 w-4" />
             添加列表项
           </Button>
+        </div>
+      )}
+
+      {block.type === "image" && (
+        <div className="space-y-3 rounded-xl border border-border/60 bg-background/60 p-4">
+          <div className="space-y-2">
+            <Label>图片路径（以 public 为根的绝对路径）</Label>
+            <Input
+              value={block.src || ""}
+              onChange={(event) => patchBlock({ src: event.target.value })}
+              placeholder="/wiki/images/xxx.png 或 /blog/images/xxx.png"
+            />
+          </div>
+          <div className="space-y-2">
+            <Label>alt（可选）</Label>
+            <Input
+              value={block.alt || ""}
+              onChange={(event) => patchBlock({ alt: event.target.value })}
+              placeholder="图片替代文本"
+            />
+          </div>
+          <div className="space-y-2">
+            <Label>说明文字（caption，可选）</Label>
+            <Input
+              value={block.caption || ""}
+              onChange={(event) => patchBlock({ caption: event.target.value })}
+              placeholder="例如：金斯波特附近地图"
+            />
+          </div>
         </div>
       )}
 
@@ -750,6 +789,15 @@ export function WikiBlockEditor({
         >
           <Plus className="h-4 w-4" />
           添加引述
+        </Button>
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          onClick={() => onChange([...blocks, createDefaultBlock("image", entries, players)])}
+        >
+          <Plus className="h-4 w-4" />
+          添加图片
         </Button>
         <Button
           type="button"

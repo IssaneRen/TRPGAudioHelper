@@ -10,7 +10,10 @@
   "playerIds": [
     "pl.cici",
     "pl.leina",
-    "pl.daocaoren"
+    "pl.daocaoren",
+    "pl.adam",
+    "pl.kiven",
+    "pl.leo"
   ],
   "moduleIds": [
     "module.kingsport-city-in-the-mists"
@@ -19,7 +22,10 @@
     "loc.kingsport-congregational-hospital",
     "event.kingsport-blindness-19281106",
     "event.kingsport-nightmare-19281109",
-    "module.kingsport-city-in-the-mists"
+    "module.kingsport-city-in-the-mists",
+    "char.adam",
+    "char.kiven",
+    "char.leo"
   ],
   "facts": [
     {
@@ -106,6 +112,19 @@
             "text": "港口、街巷与医院共同构成异常扩散的空间网络。"
           }
         ]
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "地理与参考资料（跑后补遗）"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "补充：我们在跑团记录里使用过一份“金斯波特附近地图”和《混沌社官方阿卡姆扩展》的截图作为参考。相关图片已落盘到站内静态资源，路径分别为：/wiki/images/kingsport/map-nearby.jpeg、/wiki/images/kingsport/arkham-expansion-501.png、/wiki/images/kingsport/arkham-expansion-502.png、/wiki/images/kingsport/arkham-expansion-503.png。"
+        }
       ]
     },
     {

@@ -121,13 +121,25 @@
 - 文章列表从 `public/blog/index.json` 索引获取
 - 文章内容从 `public/blog/posts/*.md` 按需 fetch
 - 博客/杂谈分类切换（Tabs）
-- Markdown 渲染（react-markdown + remark-gfm）
+- **双渲染模式**：
+  - `renderMode: "markdown"`（默认）：Markdown 渲染（react-markdown + remark-gfm）
+  - `renderMode: "wiki"`：博客详情页不渲染 Markdown 正文，而是内嵌世界 Wiki 词条渲染器（复用 `WikiContentRenderer`），由 `wikiEntryId` 绑定词条
+- **语义区分**：
+  - `module` 词条：模组本体介绍、导读、关联地点/事件入口
+  - `report` 词条：某一次具体游玩的场次战报；同一模组可挂多条战报
+- **PL 匹配规则（精确）**：
+  - 建议输入 `pl.xxx` 唯一 key（例如 `pl.cici`），用于“我跑过的”筛选与 Wiki/战报隐藏内容解锁
+  - 也可输入显示名/别名，但必须完全匹配；系统会自动保存为对应的 `pl.xxx`，避免改名后失效
 - 模块级缓存（index 和 content 各自缓存）
 
 ### 添加新文章
 
 1. 在 `public/blog/posts/` 下创建 `.md` 文件
-2. 在 `public/blog/index.json` 中添加元数据条目
+2. 填写 frontmatter（可选字段由 `scripts/generate-blog-index.ts` 生成到 `public/blog/index.json`）
+   - 普通文章：不写 `renderMode` 或写 `renderMode: "markdown"`
+   - 战报/词条型文章：写 `renderMode: "wiki"` + `wikiEntryId: "<entryId>"`
+   - 若是战报，`wikiEntryId` 应指向独立 `report.*` 词条，而不是 `module.*` 词条
+   - 若需要“我跑过的”筛选：frontmatter `players` 必须使用 PL 唯一 key（如 `pl.cici`），不要写角色名/显示名
 
 ### 关键代码位置
 
@@ -136,6 +148,7 @@
 | 页面入口 | `src/pages/BlogTab/index.tsx` | 列表 + 详情 + fetch + 缓存 |
 | 文章索引 | `public/blog/index.json` | 文章元数据列表 |
 | 文章目录 | `public/blog/posts/` | Markdown 文章文件 |
+| Wiki 渲染器 | `src/features/wiki/WikiContentRenderer.tsx` | `renderMode: "wiki"` 时内嵌复用，用于战报/词条型文章 |
 
 ---
 

@@ -24,6 +24,33 @@
         "daocaoren",
         "甘PL"
       ]
+    },
+    {
+      "id": "pl.adam",
+      "displayName": "Adam",
+      "aliases": [
+        "adam",
+        "pl2",
+        "掷弹兵PL"
+      ]
+    },
+    {
+      "id": "pl.kiven",
+      "displayName": "Kiven",
+      "aliases": [
+        "kiven",
+        "pl3",
+        "上尉PL"
+      ]
+    },
+    {
+      "id": "pl.leo",
+      "displayName": "Leo",
+      "aliases": [
+        "leo",
+        "pl5",
+        "通讯兵PL"
+      ]
     }
   ],
   "modules": [
@@ -37,7 +64,7 @@
       ],
       "summary": "官方模组密斯卡托尼克河流域新传系列之五。在本篇中，调查员需要解开神秘的连环失明事件背后的恐怖真相。（反派很强）",
       "ruleSystem": "COC7",
-      "playerCount": "34-6",
+      "playerCount": "4-6",
       "duration": "6-10h",
       "collection": "密斯卡托尼克河流域新传",
       "description": "「三周前，报道居民西蒙·麦当劳患上神秘疾病。六天后，伯纳德·怀特亦遭同样厄运。此后类似情况接连出现，报道令镇民不安；警局与政府尽力安抚。」\n「等待你们的会是……什么呢？」\n\n【简介】\n官方模组密斯卡托尼克河流域新传系列之五。在本篇中，调查员需要解开神秘的连环失明事件背后的恐怖真相。（反派很强）\n\n【推荐语】\n官方模组系列之五，延续了官模的高质量。本作之中调查员们会遇到一个劲敌，作为幕后黑手十分狡猾并且会给调查员们抛出不少的烟雾弹和陷阱。如果守密人不通过某些手段放水的话，调查员很容易在途中遭到团灭。就算调查员闯过重重阻碍，甚至还可能遇见更坏的情况。总而言之，不剧透的话就只能说到这里了，是一个非常值得一跑的官模。",
@@ -239,98 +266,8 @@
       ]
     },
     {
-      "id": "module.library.a-little-knowledge",
-      "displayName": "《些许知识-A Little Knowledge》",
-      "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
-      "ruleSystem": "COC7",
-      "tags": [
-        "1920s"
-      ]
-    },
-    {
-      "id": "module.library.oath-of-blood",
-      "displayName": "《血之誓约-Oath of Blood》",
-      "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
-      "ruleSystem": "COC7",
-      "tags": [
-        "1920s"
-      ]
-    },
-    {
-      "id": "module.library.the-asylum",
-      "displayName": "《疗养院-The Asylum》",
-      "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
-      "ruleSystem": "COC7",
-      "tags": [
-        "1920s"
-      ]
-    },
-    {
-      "id": "module.library.engine-trouble",
-      "displayName": "《机械天启-Engine Trouble》",
-      "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
-      "ruleSystem": "COC7",
-      "tags": [
-        "1920s"
-      ]
-    },
-    {
-      "id": "module.library.dreaming-of-the-river-of-light",
-      "displayName": "《夜河之梦-Dreaming of the River of Light》",
-      "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
-      "ruleSystem": "COC7",
-      "tags": [
-        "1920s"
-      ]
-    },
-    {
       "id": "module.library.and-some-fell-on-stony-ground",
       "displayName": "有些人油盐不进",
-      "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
-      "ruleSystem": "COC7",
-      "tags": [
-        "1920s"
-      ]
-    },
-    {
-      "id": "module.library.the-darkness-beneath-the-hill",
-      "displayName": "《岭下暗影-The Darkness Beneath the Hill》",
-      "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
-      "ruleSystem": "COC7",
-      "tags": [
-        "1920s"
-      ]
-    },
-    {
-      "id": "module.library.turn-to-stone",
-      "displayName": "《化为磐石-Turn to Stone》",
-      "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
-      "ruleSystem": "COC7",
-      "tags": [
-        "1920s"
-      ]
-    },
-    {
-      "id": "module.library.edge-of-darkness",
-      "displayName": "黑暗的边缘",
-      "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
-      "ruleSystem": "COC7",
-      "tags": [
-        "1920s"
-      ]
-    },
-    {
-      "id": "module.library.his-pleasant-dream-was-shattered",
-      "displayName": "《黄粱梦醒-His Pleasant Dream Was Shattered》",
-      "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
-      "ruleSystem": "COC7",
-      "tags": [
-        "1920s"
-      ]
-    },
-    {
-      "id": "module.library.uncle-timothys-will",
-      "displayName": "蒂莫西舅舅的遗产",
       "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
       "ruleSystem": "COC7",
       "tags": [
@@ -340,10 +277,52 @@
   ],
   "entries": [
     {
+      "id": "char.adam",
+      "category": "character",
+      "displayName": "Adam",
+      "summary": "M 国参战的一战掷弹兵。在噩梦与现实交错的事件里，他更像一把被重新上膛的“旧武器”：干脆、直接、敢把风险当作战术。",
+      "aliasNames": [
+        "Adam",
+        "亚当"
+      ],
+      "playerIds": [
+        "pl.adam"
+      ],
+      "moduleIds": [
+        "module.profile.night-battle"
+      ],
+      "relatedEntryIds": [
+        "loc.kingsport",
+        "loc.arkham",
+        "char.allen",
+        "char.leina",
+        "char.kiven",
+        "char.leo",
+        "char.gan",
+        "event.kingsport-nightmare-19281109"
+      ],
+      "facts": [
+        {
+          "label": "身份",
+          "value": "一战掷弹兵"
+        },
+        {
+          "label": "军籍",
+          "value": "M 国"
+        },
+        {
+          "label": "对应 PL",
+          "value": "Adam"
+        }
+      ],
+      "createdAt": "1928-11-08T20:30:00Z",
+      "updatedAt": "1928-11-09T20:00:00Z"
+    },
+    {
       "id": "char.allen",
       "category": "character",
       "displayName": "艾伦 Allen",
-      "summary": "美国人，一战老兵兼医疗兵。退伍后在波士顿医院工作，并于 1928 年 11 月先后卷入金斯波特失明案件与噩梦事件。",
+      "summary": "美国人，一战老兵兼医疗兵。退伍后在波士顿医院工作。经历过金斯波特的异常后，他更确信：有些伤口不是在皮肤上，而是在梦里。",
       "aliasNames": [
         "Allen",
         "艾伦"
@@ -385,11 +364,12 @@
     {
       "id": "char.gan",
       "category": "character",
-      "displayName": "甘 Gan",
-      "summary": "美国人，二等兵。1928 年 11 月 8 日夜前往金斯波特公理会医院探望艾伦，次日被卷入噩梦事件。",
+      "displayName": "阿甘 Gan",
+      "summary": "美国人，二等兵。嘴上申请“出战”，身体却很诚实地先想撤；但真到生死关头，他往往是第一个把自己塞进危险里的人。",
       "aliasNames": [
         "Gan",
-        "甘"
+        "甘",
+        "阿甘"
       ],
       "playerIds": [
         "pl.daocaoren"
@@ -425,10 +405,52 @@
       "updatedAt": "1928-11-09T20:00:00Z"
     },
     {
+      "id": "char.kiven",
+      "category": "character",
+      "displayName": "Kiven",
+      "summary": "一战上尉军官，战后在军校任教。履历体面、话术漂亮，但在真正的泥泞里仍会露出“纸上谈兵”的裂缝——也因此更容易被噩梦抓住。",
+      "aliasNames": [
+        "Kiven",
+        "基文"
+      ],
+      "playerIds": [
+        "pl.kiven"
+      ],
+      "moduleIds": [
+        "module.profile.night-battle"
+      ],
+      "relatedEntryIds": [
+        "loc.kingsport",
+        "loc.arkham",
+        "char.allen",
+        "char.leina",
+        "char.adam",
+        "char.leo",
+        "char.gan",
+        "event.kingsport-nightmare-19281109"
+      ],
+      "facts": [
+        {
+          "label": "军阶",
+          "value": "上尉"
+        },
+        {
+          "label": "身份",
+          "value": "军校教授"
+        },
+        {
+          "label": "对应 PL",
+          "value": "Kiven"
+        }
+      ],
+      "createdAt": "1928-11-08T20:40:00Z",
+      "updatedAt": "1928-11-09T20:00:00Z"
+    },
+    {
       "id": "char.leina",
       "category": "character",
       "displayName": "莱纳 Leina",
-      "summary": "英国籍一战老兵，退伍后定居阿卡姆。因探望住院的艾伦而在 1928 年 11 月被卷入金斯波特噩梦事件。",
+      "summary": "英国籍一战老兵，退伍后定居阿卡姆。自称“铠之巨人”（不是），但确实有老兵的硬骨头：在金斯波特的雾与梦里，他更像一枚钉子，把队伍的情绪钉在现实上。",
       "aliasNames": [
         "Leina",
         "莱纳"
@@ -464,6 +486,48 @@
         }
       ],
       "createdAt": "1928-11-08T19:30:00Z",
+      "updatedAt": "1928-11-09T20:00:00Z"
+    },
+    {
+      "id": "char.leo",
+      "category": "character",
+      "displayName": "Leo",
+      "summary": "M 军通讯兵。看起来不太靠谱，读书也不努力，但偏偏靠着（抄袭来的）技巧混成了高级文凭；在噩梦里，能把“联系”这件事做对就足够救命。",
+      "aliasNames": [
+        "Leo",
+        "里奥"
+      ],
+      "playerIds": [
+        "pl.leo"
+      ],
+      "moduleIds": [
+        "module.profile.night-battle"
+      ],
+      "relatedEntryIds": [
+        "loc.kingsport",
+        "loc.arkham",
+        "char.allen",
+        "char.leina",
+        "char.adam",
+        "char.kiven",
+        "char.gan",
+        "event.kingsport-nightmare-19281109"
+      ],
+      "facts": [
+        {
+          "label": "身份",
+          "value": "通讯兵"
+        },
+        {
+          "label": "军籍",
+          "value": "M 国"
+        },
+        {
+          "label": "对应 PL",
+          "value": "Leo"
+        }
+      ],
+      "createdAt": "1928-11-08T20:50:00Z",
       "updatedAt": "1928-11-09T20:00:00Z"
     },
     {
@@ -631,7 +695,10 @@
       "playerIds": [
         "pl.cici",
         "pl.leina",
-        "pl.daocaoren"
+        "pl.daocaoren",
+        "pl.adam",
+        "pl.kiven",
+        "pl.leo"
       ],
       "moduleIds": [
         "module.kingsport-city-in-the-mists"
@@ -640,7 +707,10 @@
         "loc.kingsport-congregational-hospital",
         "event.kingsport-blindness-19281106",
         "event.kingsport-nightmare-19281109",
-        "module.kingsport-city-in-the-mists"
+        "module.kingsport-city-in-the-mists",
+        "char.adam",
+        "char.kiven",
+        "char.leo"
       ],
       "facts": [
         {
@@ -679,7 +749,8 @@
         "loc.kingsport",
         "char.allen",
         "event.kingsport-blindness-19281106",
-        "event.kingsport-nightmare-19281109"
+        "event.kingsport-nightmare-19281109",
+        "report.mist-city-record-20260524"
       ],
       "relatedEntryAccess": [
         {
@@ -703,20 +774,6 @@
       "updatedAt": "2026-05-28T02:23:00Z"
     },
     {
-      "id": "module.library.a-little-knowledge",
-      "category": "module",
-      "displayName": "《些许知识-A Little Knowledge》",
-      "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
-      "moduleIds": [
-        "module.library.a-little-knowledge"
-      ],
-      "tags": [
-        "1920s"
-      ],
-      "createdAt": "2026-05-28T00:00:00+08:00",
-      "updatedAt": "2026-05-28T00:00:00+08:00"
-    },
-    {
       "id": "module.library.and-some-fell-on-stony-ground",
       "category": "module",
       "displayName": "有些人油盐不进",
@@ -731,157 +788,74 @@
       "updatedAt": "2026-05-28T00:00:00+08:00"
     },
     {
-      "id": "module.library.dreaming-of-the-river-of-light",
-      "category": "module",
-      "displayName": "《夜河之梦-Dreaming of the River of Light》",
-      "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
+      "id": "report.mist-city-record-20260524",
+      "category": "report",
+      "displayName": "战报：《夜战》2026.05.24",
+      "summary": "一次具体场次的跑团记录页（《夜战》）。这里记录的是这一场游戏里实际发生的过程、参与玩家与跑后留存，不等同于模组本体介绍。",
+      "aliasNames": [
+        "夜战战报 2026.05.24",
+        "战报 夜战 2026.05.24",
+        "《夜战》26.05.24"
+      ],
+      "playerIds": [
+        "pl.cici",
+        "pl.leina",
+        "pl.daocaoren",
+        "pl.adam",
+        "pl.kiven",
+        "pl.leo"
+      ],
       "moduleIds": [
-        "module.library.dreaming-of-the-river-of-light"
+        "module.profile.night-battle"
       ],
-      "tags": [
-        "1920s"
+      "relatedEntryIds": [
+        "module.kingsport-city-in-the-mists",
+        "loc.kingsport",
+        "event.kingsport-blindness-19281106",
+        "event.kingsport-nightmare-19281109",
+        "char.allen",
+        "char.leina",
+        "char.gan",
+        "char.adam",
+        "char.kiven",
+        "char.leo"
       ],
-      "createdAt": "2026-05-28T00:00:00+08:00",
-      "updatedAt": "2026-05-28T00:00:00+08:00"
-    },
-    {
-      "id": "module.library.edge-of-darkness",
-      "category": "module",
-      "displayName": "黑暗的边缘",
-      "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
-      "moduleIds": [
-        "module.library.edge-of-darkness"
+      "facts": [
+        {
+          "label": "内容类型",
+          "value": "单场战报 / 跑团记录"
+        },
+        {
+          "label": "关联模组",
+          "value": "夜战"
+        },
+        {
+          "label": "说明",
+          "value": "同一模组可以对应多次不同玩家、不同过程的战报"
+        }
       ],
-      "tags": [
-        "1920s"
-      ],
-      "createdAt": "2026-05-28T00:00:00+08:00",
-      "updatedAt": "2026-05-28T00:00:00+08:00"
-    },
-    {
-      "id": "module.library.engine-trouble",
-      "category": "module",
-      "displayName": "《机械天启-Engine Trouble》",
-      "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
-      "moduleIds": [
-        "module.library.engine-trouble"
-      ],
-      "tags": [
-        "1920s"
-      ],
-      "createdAt": "2026-05-28T00:00:00+08:00",
-      "updatedAt": "2026-05-28T00:00:00+08:00"
-    },
-    {
-      "id": "module.library.his-pleasant-dream-was-shattered",
-      "category": "module",
-      "displayName": "《黄粱梦醒-His Pleasant Dream Was Shattered》",
-      "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
-      "moduleIds": [
-        "module.library.his-pleasant-dream-was-shattered"
-      ],
-      "tags": [
-        "1920s"
-      ],
-      "createdAt": "2026-05-28T00:00:00+08:00",
-      "updatedAt": "2026-05-28T00:00:00+08:00"
-    },
-    {
-      "id": "module.library.oath-of-blood",
-      "category": "module",
-      "displayName": "《血之誓约-Oath of Blood》",
-      "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
-      "moduleIds": [
-        "module.library.oath-of-blood"
-      ],
-      "tags": [
-        "1920s"
-      ],
-      "createdAt": "2026-05-28T00:00:00+08:00",
-      "updatedAt": "2026-05-28T00:00:00+08:00"
-    },
-    {
-      "id": "module.library.saturnine-chalice",
-      "category": "module",
-      "displayName": "死光",
-      "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
-      "moduleIds": [
-        "module.library.saturnine-chalice"
-      ],
-      "tags": [
-        "1920s"
-      ],
-      "createdAt": "2026-05-28T00:00:00+08:00",
-      "updatedAt": "2026-05-28T00:00:00+08:00"
-    },
-    {
-      "id": "module.library.the-asylum",
-      "category": "module",
-      "displayName": "《疗养院-The Asylum》",
-      "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
-      "moduleIds": [
-        "module.library.the-asylum"
-      ],
-      "tags": [
-        "1920s"
-      ],
-      "createdAt": "2026-05-28T00:00:00+08:00",
-      "updatedAt": "2026-05-28T00:00:00+08:00"
-    },
-    {
-      "id": "module.library.the-darkness-beneath-the-hill",
-      "category": "module",
-      "displayName": "《岭下暗影-The Darkness Beneath the Hill》",
-      "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
-      "moduleIds": [
-        "module.library.the-darkness-beneath-the-hill"
-      ],
-      "tags": [
-        "1920s"
-      ],
-      "createdAt": "2026-05-28T00:00:00+08:00",
-      "updatedAt": "2026-05-28T00:00:00+08:00"
-    },
-    {
-      "id": "module.library.turn-to-stone",
-      "category": "module",
-      "displayName": "《化为磐石-Turn to Stone》",
-      "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
-      "moduleIds": [
-        "module.library.turn-to-stone"
-      ],
-      "tags": [
-        "1920s"
-      ],
-      "createdAt": "2026-05-28T00:00:00+08:00",
-      "updatedAt": "2026-05-28T00:00:00+08:00"
-    },
-    {
-      "id": "module.library.uncle-timothys-will",
-      "category": "module",
-      "displayName": "蒂莫西舅舅的遗产",
-      "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
-      "moduleIds": [
-        "module.library.uncle-timothys-will"
-      ],
-      "tags": [
-        "1920s"
-      ],
-      "createdAt": "2026-05-28T00:00:00+08:00",
-      "updatedAt": "2026-05-28T00:00:00+08:00"
+      "createdAt": "2026-05-24T12:00:00Z",
+      "updatedAt": "2026-05-28T09:10:00Z"
     }
   ],
   "lookup": {
     "entryIdByName": {
+      "adam": "char.adam",
+      "亚当": "char.adam",
       "艾伦 allen": "char.allen",
       "allen": "char.allen",
       "艾伦": "char.allen",
-      "甘 gan": "char.gan",
+      "阿甘 gan": "char.gan",
       "gan": "char.gan",
       "甘": "char.gan",
+      "阿甘": "char.gan",
+      "kiven": "char.kiven",
+      "基文": "char.kiven",
       "莱纳 leina": "char.leina",
       "leina": "char.leina",
       "莱纳": "char.leina",
+      "leo": "char.leo",
+      "里奥": "char.leo",
       "1928.11.6 - 金斯波特失明案件": "event.kingsport-blindness-19281106",
       "金斯波特失明案件": "event.kingsport-blindness-19281106",
       "1928.11.6 失明案件": "event.kingsport-blindness-19281106",
@@ -901,29 +875,37 @@
       "kingsport: the city in the mists": "module.kingsport-city-in-the-mists",
       "金斯波特：迷雾之城": "module.kingsport-city-in-the-mists",
       "金斯波特补遗": "module.kingsport-city-in-the-mists",
-      "《些许知识-a little knowledge》": "module.library.a-little-knowledge",
       "有些人油盐不进": "module.library.and-some-fell-on-stony-ground",
-      "《夜河之梦-dreaming of the river of light》": "module.library.dreaming-of-the-river-of-light",
-      "黑暗的边缘": "module.library.edge-of-darkness",
-      "《机械天启-engine trouble》": "module.library.engine-trouble",
-      "《黄粱梦醒-his pleasant dream was shattered》": "module.library.his-pleasant-dream-was-shattered",
-      "《血之誓约-oath of blood》": "module.library.oath-of-blood",
-      "死光": "module.library.saturnine-chalice",
-      "《疗养院-the asylum》": "module.library.the-asylum",
-      "《岭下暗影-the darkness beneath the hill》": "module.library.the-darkness-beneath-the-hill",
-      "《化为磐石-turn to stone》": "module.library.turn-to-stone",
-      "蒂莫西舅舅的遗产": "module.library.uncle-timothys-will"
+      "战报：《夜战》2026.05.24": "report.mist-city-record-20260524",
+      "夜战战报 2026.05.24": "report.mist-city-record-20260524",
+      "战报 夜战 2026.05.24": "report.mist-city-record-20260524",
+      "《夜战》26.05.24": "report.mist-city-record-20260524"
     },
     "playerIdByName": {
+      "pl.cici": "pl.cici",
       "cici": "pl.cici",
       "cc": "pl.cici",
       "艾伦pl": "pl.cici",
+      "pl.leina": "pl.leina",
       "莱纳": "pl.leina",
       "leina": "pl.leina",
       "莱纳pl": "pl.leina",
+      "pl.daocaoren": "pl.daocaoren",
       "稻草人": "pl.daocaoren",
       "daocaoren": "pl.daocaoren",
-      "甘pl": "pl.daocaoren"
+      "甘pl": "pl.daocaoren",
+      "pl.adam": "pl.adam",
+      "adam": "pl.adam",
+      "pl2": "pl.adam",
+      "掷弹兵pl": "pl.adam",
+      "pl.kiven": "pl.kiven",
+      "kiven": "pl.kiven",
+      "pl3": "pl.kiven",
+      "上尉pl": "pl.kiven",
+      "pl.leo": "pl.leo",
+      "leo": "pl.leo",
+      "pl5": "pl.leo",
+      "通讯兵pl": "pl.leo"
     },
     "moduleIdByName": {
       "永恒恶意": "module.kingsport-city-in-the-mists",
@@ -942,19 +924,9 @@
       "鬼屋": "module.reco.haunted-house",
       "追书人": "module.reco.book-hunter",
       "猩红文档": "module.reco.crimson-dossier",
-      "死光与其他黑暗的转角": "module.library.saturnine-chalice",
       "死光": "module.library.saturnine-chalice",
-      "《些许知识-a little knowledge》": "module.library.a-little-knowledge",
-      "《血之誓约-oath of blood》": "module.library.oath-of-blood",
-      "《疗养院-the asylum》": "module.library.the-asylum",
-      "《机械天启-engine trouble》": "module.library.engine-trouble",
-      "《夜河之梦-dreaming of the river of light》": "module.library.dreaming-of-the-river-of-light",
-      "有些人油盐不进": "module.library.and-some-fell-on-stony-ground",
-      "《岭下暗影-the darkness beneath the hill》": "module.library.the-darkness-beneath-the-hill",
-      "《化为磐石-turn to stone》": "module.library.turn-to-stone",
-      "黑暗的边缘": "module.library.edge-of-darkness",
-      "《黄粱梦醒-his pleasant dream was shattered》": "module.library.his-pleasant-dream-was-shattered",
-      "蒂莫西舅舅的遗产": "module.library.uncle-timothys-will"
+      "死光与其他黑暗的转角": "module.library.saturnine-chalice",
+      "有些人油盐不进": "module.library.and-some-fell-on-stony-ground"
     }
   }
 }

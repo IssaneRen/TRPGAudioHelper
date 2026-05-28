@@ -29,12 +29,21 @@ import type {
 
 const WIKI_HOME_ROUTE = "/tools/world-wiki";
 const WIKI_ADMIN_SAVE_ROUTE = "/__wiki-admin/save-entry";
-const CATEGORY_OPTIONS: WikiCategory[] = ["character", "location", "event", "module", "magic-book", "magic-item"];
+const CATEGORY_OPTIONS: WikiCategory[] = [
+  "character",
+  "location",
+  "event",
+  "module",
+  "report",
+  "magic-book",
+  "magic-item",
+];
 const CATEGORY_LABELS: Record<WikiCategory, string> = {
   character: "人物",
   location: "地点",
   event: "事件",
   module: "模组",
+  report: "战报",
   "magic-book": "魔法书籍",
   "magic-item": "魔法物品",
 };
