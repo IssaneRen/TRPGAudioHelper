@@ -1,0 +1,28 @@
+{
+  "name": "克苏鲁恐怖基础包",
+  "description": "阴暗氛围、诡异生物、腐朽环境 - TRPG跑团必备",
+  "author": "Lucius",
+  "version": "1.0",
+  "mappings": {
+    "q": { "emoji": "🚪", "label": "腐朽木门", "file": "门-腐朽木门-嘎吱.mp3" },
+    "w": { "emoji": "🚪", "label": "木门嘎吱", "file": "门-木门-嘎吱.mp3" },
+    "e": { "emoji": "🔩", "label": "金属门", "file": "门-金属门-嘎吱.mp3" },
+    "r": { "emoji": "🔒", "label": "关门咔哒", "file": "门-关门-咔哒.mp3", "volume": 2.0 },
+    "t": { "emoji": "⚡", "label": "突兀闷雷", "file": "雷雨-急促-一声突兀闷雷.mp3", "volume": 10.0 },
+    "y": { "emoji": "🌧️", "label": "雷声入雨", "file": "雷雨-开始下雨-先雷声入雨.mp3" },
+    "u": { "emoji": "🐦‍⬛", "label": "乌鸦呀呀", "file": "乌鸦-短促-呀呀呀.mp3" },
+    "i": { "emoji": "🐦‍⬛", "label": "乌鸦嘎嘎", "file": "乌鸦-突然-嘎嘎.mp3" },
+    "o": { "emoji": "🐦", "label": "惊鸟尖叫", "file": "鸟-急促-惊叫.mp3" },
+    "p": { "emoji": "📞", "label": "拨号电话", "file": "电话-长时间拨电话-按键加响铃.mp3" },
+    "a": { "emoji": "👣", "label": "木地板嘎吱", "file": "脚步-腐朽木地板-小心嘎吱.mp3" },
+    "s": { "emoji": "👣", "label": "大步快走", "file": "脚步-坚实-大声哒哒哒.mp3" },
+    "d": { "emoji": "👣", "label": "急促跑步", "file": "脚步-水泥地-脚步声急促哒哒哒.mp3" },
+    "f": { "emoji": "👣", "label": "泥泞行走", "file": "脚步-泥泞地-匀速平稳.mp3" },
+    "g": { "emoji": "👠", "label": "高跟鞋", "file": "脚步-高跟鞋-匀速轻快.mp3" },
+    "h": { "emoji": "👹", "label": "巨物脚步", "file": "怪物脚步-怪物-巨物平稳.mp3" },
+    "j": { "emoji": "👹", "label": "泥泞巨物", "file": "怪物脚步-泥泞-巨物平稳.mp3" },
+    "k": { "emoji": "🔫", "label": "手枪射击", "file": "枪-实弹-手枪单发.mp3" },
+    "l": { "emoji": "💥", "label": "散弹枪", "file": "枪-实弹-散弹单发.mp3" },
+    "z": { "emoji": "🔫", "label": "空枪咔哒", "file": "枪-空枪-手枪单发.mp3" }
+  }
+}

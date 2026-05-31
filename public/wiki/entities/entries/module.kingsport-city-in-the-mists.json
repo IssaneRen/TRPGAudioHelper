@@ -1,0 +1,187 @@
+{
+  "id": "module.kingsport-city-in-the-mists",
+  "category": "module",
+  "displayName": "永恒恶意",
+  "summary": "1928，金斯波特，迷雾之城。失明的人们究竟遭遇了什么？",
+  "aliasNames": [
+    "Kingsport: The City In The Mists",
+    "金斯波特：迷雾之城",
+    "金斯波特补遗"
+  ],
+  "playerIds": [
+    "pl.cici"
+  ],
+  "moduleIds": [
+    "module.kingsport-city-in-the-mists"
+  ],
+  "relatedEntryIds": [
+    "loc.kingsport",
+    "char.allen",
+    "event.kingsport-blindness-19281106",
+    "event.kingsport-nightmare-19281109",
+    "report.mist-city-record-20260524"
+  ],
+  "relatedEntryAccess": [
+    {
+      "entryId": "char.allen",
+      "playerIds": ["pl.cici"]
+    }
+  ],
+  "facts": [
+    {
+      "label": "时代",
+      "value": "1920s"
+    },
+    {
+      "label": "地点",
+      "value": "美国/马萨诸塞州/金斯波特"
+    }
+  ],
+  "content": [
+    {
+      "type": "heading",
+      "text": "什么吸引你们到来？"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "「三周前，报道居民西蒙·麦当劳患上神秘疾病。六天后，伯纳德·怀特亦遭同样厄运。此后类似情况接连出现，报道令镇民不安；警局与政府尽力安抚。」"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "可能是警察和政府派来稳定局势调查真相，或是看到报道单纯好奇，也可能是与小城镇或城里的人有关联而来到现场。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "「等待你们的会是……什么呢？」",
+          "bold": true,
+          "color": "#6b4fbb"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "背景阅读建议"
+    },
+    {
+      "type": "list",
+      "items": [
+        [
+          {
+            "type": "text",
+            "text": "先看 "
+          },
+          {
+            "type": "ref",
+            "entryId": "loc.kingsport",
+            "label": "金斯波特"
+          },
+          {
+            "type": "text",
+            "text": "，建立整体空间感。"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "再看 "
+          },
+          {
+            "type": "ref",
+            "entryId": "event.kingsport-blindness-19281106",
+            "label": "失明案件"
+          },
+          {
+            "type": "text",
+            "text": " 与 "
+          },
+          {
+            "type": "ref",
+            "entryId": "event.kingsport-nightmare-19281109",
+            "label": "噩梦事件"
+          },
+          {
+            "type": "text",
+            "text": "，建立时间线。"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "最后再跳到 "
+          },
+          {
+            "type": "ref",
+            "entryId": "char.allen",
+            "label": "艾伦"
+          },
+          {
+            "type": "text",
+            "text": "、"
+          },
+          {
+            "type": "ref",
+            "entryId": "char.leina",
+            "label": "莱纳"
+          },
+          {
+            "type": "text",
+            "text": "、"
+          },
+          {
+            "type": "ref",
+            "entryId": "char.gan",
+            "label": "甘"
+          },
+          {
+            "type": "text",
+            "text": "，回看各自的个人视角。"
+          }
+        ]
+      ]
+    },
+    {
+      "type": "secret-panel",
+      "title": "对已参与 PL 开放的补充说明",
+      "playerIds": [
+        "pl.cici",
+        "pl.leina",
+        "pl.daocaoren"
+      ],
+      "blocks": [
+        {
+          "type": "paragraph",
+          "tokens": [
+            {
+              "type": "text",
+              "text": "这份 wiki 的隐藏档案只用于保护尚未跑到的细节，而不是为了向主持人暴露后台设定。它的目标是让 PL 能在安全范围内、按自己的视角重新拼回事件全貌。"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "createdAt": "2026-05-28T00:00:00Z",
+  "updatedAt": "2026-05-28T02:23:00Z"
+}

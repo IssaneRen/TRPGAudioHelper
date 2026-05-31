@@ -1,0 +1,53 @@
+{
+  "name": "白羽",
+  "subtitle": "TRPG Keeper / 模组设计师 / 故事编织者",
+  "bio": "一位热爱克苏鲁神话的 TRPG 主持人，致力于为每位玩家创造难忘的跑团体验。从迷雾笼罩的维多利亚时代到星际之间的虚空，每一场冒险都是一段独特的旅程。其他规则也在小圈子带，但是不太专业就先不写啦（#尴尬挠头）",
+  "disclaimer": "本人所有跑团活动均为娱乐目的。参与者需年满18岁，且了解TRPG的基本规则。所有模组内容均为虚构，与现实无关。跑团过程中如感到不适，请随时告知KP暂停或退出。我们尊重每一位玩家的感受，安全牌（X卡机制）全程有效。",
+  "live2dModelPath": "/live2d/Hiyori/Hiyori.model3.json",
+  "stats": [
+    { "label": "带团场次", "value": "100+", "icon": "BookOpen" },
+    { "label": "经手模组", "value": "47", "icon": "Star" },
+    { "label": "服务玩家", "value": "50+", "icon": "Users" },
+    { "label": "平均评分", "value": "??", "icon": "MessageCircle" }
+  ],
+  "philosophies": [
+    { "title": "沉浸至上", "desc": "每一个细节都服务于故事的沉浸感。从环境描写到NPC的微表情，让玩家忘记自己在玩游戏。" },
+    { "title": "玩家主导", "desc": "故事的走向永远掌握在玩家手中。KP只是世界的塑造者，而非故事的独裁者。" },
+    { "title": "安全第一", "desc": "恐怖与乐趣之间有一条线。我会确保每位玩家都在安全且舒适的范围内体验故事。" },
+    { "title": "精心准备", "desc": "每个模组都经过反复推敲和打磨。线索链的完整性、节奏的张弛有度，都是必不可少的。无论什么原因都不可甩锅给模组。" }
+  ],
+  "modules": [
+    {
+      "id": "module.kingsport-city-in-the-mists",
+      "name": "永恒恶意",
+      "status": "completed",
+      "description": "「三周前，报道居民西蒙·麦当劳患上神秘疾病。六天后，伯纳德·怀特亦遭同样厄运。此后类似情况接连出现，报道令镇民不安；警局与政府尽力安抚。」\n「等待你们的会是……什么呢？」",
+      "playerCount": "4-6",
+      "duration": "6-9h",
+      "tags": ["克苏鲁", "调查", "阿卡姆", "金斯波特", "密斯卡托尼克", "官方"]
+    },
+    {
+      "id": "module.profile.night-battle",
+      "name": "夜战",
+      "status": "completed",
+      "description": "1918西线战壕，步枪上膛，炮火将至。每次建卡都有人问\"KP我能点炮术吗\"，每次答案都是\"你点了也没地方用\"。这次不一样。点吧，都点吧，管够。。",
+      "playerCount": "4-6",
+      "duration": "5-7h",
+      "tags": ["克苏鲁", "枪战", "阿卡姆", "金斯波特", "密斯卡托尼克", "官方"]
+    },
+    {
+      "id": "module.profile.masks-of-nyarlathotep",
+      "name": "奈亚拉托提普的面具",
+      "status": "prepared",
+      "description": "最爱的模组！",
+      "playerCount": "4-6",
+      "duration": "240-320h",
+      "tags": ["推理", "战斗", "全球"]
+    }
+  ],
+  "contacts": [
+    { "label": "QQ", "value": "781244808" },
+    { "label": "QQ群", "value": "1002655904" },
+    { "label": "小红书", "value": "白羽朱樱 @680912590" }
+  ]
+}

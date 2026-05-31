@@ -1,0 +1,432 @@
+{
+  "id": "report.mist-city-record-20260524",
+  "category": "report",
+  "displayName": "战报：《夜战》2026.05.24",
+  "summary": "一次具体场次的跑团记录页（《夜战》）。这里记录的是这一场游戏里实际发生的过程、参与玩家与跑后留存，不等同于模组本体介绍。",
+  "aliasNames": [
+    "夜战战报 2026.05.24",
+    "战报 夜战 2026.05.24",
+    "《夜战》26.05.24"
+  ],
+  "playerIds": [
+    "pl.cici",
+    "pl.leina",
+    "pl.daocaoren",
+    "pl.adam",
+    "pl.kiven",
+    "pl.leo"
+  ],
+  "moduleIds": [
+    "module.profile.night-battle"
+  ],
+  "relatedEntryIds": [
+    "module.kingsport-city-in-the-mists",
+    "loc.kingsport",
+    "event.kingsport-blindness-19281106",
+    "event.kingsport-nightmare-19281109",
+    "char.allen",
+    "char.leina",
+    "char.gan",
+    "char.adam",
+    "char.kiven",
+    "char.leo"
+  ],
+  "facts": [
+    {
+      "label": "内容类型",
+      "value": "单场战报 / 跑团记录"
+    },
+    {
+      "label": "关联模组",
+      "value": "夜战"
+    },
+    {
+      "label": "说明",
+      "value": "同一模组可以对应多次不同玩家、不同过程的战报"
+    }
+  ],
+  "content": [
+    {
+      "type": "heading",
+      "text": "本场概览"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "快速跳转："
+        },
+        {
+          "type": "ref",
+          "entryId": "loc.kingsport",
+          "label": "地点-金斯波特"
+        },
+        {
+          "type": "text",
+          "text": " / "
+        },
+        {
+          "type": "ref",
+          "entryId": "event.kingsport-nightmare-19281109",
+          "label": "噩梦事件"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "这不是模组设定页，而是一次具体场次的跑团记录。模组负责提供背景、地点与事件骨架；战报负责记录这一场到底是谁来跑、跑成了什么样。"
+        }
+      ]
+    },
+    {
+      "type": "quote",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "六位老兵各显神通，先争做逃兵，后被迫直面危险。最终事件解决，全员存活。"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "参与调查员"
+    },
+    {
+      "type": "list",
+      "items": [
+        [
+          {
+            "type": "ref",
+            "entryId": "char.leina",
+            "label": "莱纳"
+          },
+          {
+            "type": "text",
+            "text": "：自称“铠之巨人”（不是），确实是一战老兵。"
+          }
+        ],
+        [
+          {
+            "type": "ref",
+            "entryId": "char.adam",
+            "label": "Adam"
+          },
+          {
+            "type": "text",
+            "text": "：M 国参战的掷弹兵。"
+          }
+        ],
+        [
+          {
+            "type": "ref",
+            "entryId": "char.kiven",
+            "label": "Kiven"
+          },
+          {
+            "type": "text",
+            "text": "：一战上尉军官，军校教授，但更像纸上谈兵。"
+          }
+        ],
+        [
+          {
+            "type": "ref",
+            "entryId": "char.allen",
+            "label": "Allen"
+          },
+          {
+            "type": "text",
+            "text": "：M 军医疗兵，刚从金斯波特的上一段风波里脱身。"
+          }
+        ],
+        [
+          {
+            "type": "ref",
+            "entryId": "char.leo",
+            "label": "Leo"
+          },
+          {
+            "type": "text",
+            "text": "：M 军通讯兵，脑子不太好使但总能以奇怪方式过关。"
+          }
+        ],
+        [
+          {
+            "type": "ref",
+            "entryId": "char.gan",
+            "label": "阿甘"
+          },
+          {
+            "type": "text",
+            "text": "：二等兵阿甘，嘴上申请出战，关键时刻也确实顶得上去。"
+          }
+        ]
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "跑前碎碎念"
+    },
+    {
+      "type": "quote",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "战报 tags：COC7th / 面团 / 阿卡姆 / 密斯卡托尼克",
+          "bold": true,
+          "color": "#6b4fbb"
+        }
+      ]
+    },
+    {
+      "type": "quote",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "❗️❗️❗️❗️❗️❗️❗️❗️❗️❗️❗️❗️\n四人怒搭巨人之肱骨步辇\n阿甘勇战两人一虫惧逃潜\n❗️❗️❗️❗️❗️❗️❗️❗️❗️❗️❗️❗️"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "《谷地新传》之六，夜战。故事依然发生在洛氏乡野。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "本不喜欢 coc 的战斗，但是这篇模组比较特别，战斗也是剧情的一部分。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "而我们的第一位 PL "
+        },
+        {
+          "type": "ref",
+          "entryId": "char.allen",
+          "label": "Allen"
+        },
+        {
+          "type": "text",
+          "text": "（军医）也在之前 "
+        },
+        {
+          "type": "ref",
+          "entryId": "module.kingsport-city-in-the-mists",
+          "label": "永恒恶意"
+        },
+        {
+          "type": "text",
+          "text": " 的故事中不幸入院，有了后续的故事。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "六位一战老兵齐聚一堂，战斗！爽！"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "轻度剧透提示"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "以下内容可能会有模组的略微剧透，但是不会影响整体模组体验，可以按需观看。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "ps：这是我们建设阿卡姆及密斯卡托尼克河流域企划的模组之二。海港城市金斯波特已经探索的七七八八。感兴趣的玩家可以自行查阅 coc 阿卡姆官方扩展~"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "pps：混沌社官方阿卡姆扩展介绍中，可以看出印斯茅斯和金斯波特历史远远比洛氏的马萨诸塞州中的有名地点：人杰地灵の阿卡姆 更加历史悠久一点，而后者变成了洛氏地图的核心。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "总之，作为一个痴迷于带原教旨 coc 的 KP，我是很希望能够带着 PL 们一起探索这一片密斯卡托尼克河流域的故事的 [派对R][派对R]"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "跑团过程记录"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "金斯波特。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "密斯卡托尼克河的流水潺潺，从阿卡姆一路东流，从此地入海。海滨城市的怡人景色，吸引了不少附近居民前来度假，包括此次意外染病住院的麦肯那。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "而就在他入院后不久，也许是巧合，让刚刚捣毁了钱德勒邪恶计划而受伤的 "
+        },
+        {
+          "type": "ref",
+          "entryId": "char.allen",
+          "label": "Allen"
+        },
+        {
+          "type": "text",
+          "text": " 医生，正好住在了他隔壁。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "病友见面，没能畅所欲言，老兵却相见在了梦中。来看望过艾伦的其他五位战友也一同相遇在了梦里。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "黑暗之中，战火纷飞——只到在冷汗和恐惧中醒来，大家才意识到问题出在这位年轻的麦肯那上。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "从金斯波特一路跑到阿卡姆，详尽的调查却没有能够彻底理解故事。只是哪些苟活的退伍老兵们稍微帮上了一些忙。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "几个没文化的老兵怒翻图书馆，没想到好多个极难和大成功突然开智，得到了不少超前信息。终于是顺利搞定了前置准备。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "不出意外，第二天大家再次入梦。收集证据，走访阿卡姆——大家终于在第二天的梦中彻底解决了问题。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "但遗憾的是没有能够搞死小麦克纳的老登爹（#喂！）。还有醉鬼战友也因为大家在梦中的错误操作断送了性命。令人遗憾。"
+        }
+      ]
+    },
+    {
+      "type": "secret-panel",
+      "title": "已参与 PL 开放的跑后留存",
+      "hiddenMode": "mask",
+      "playerIds": [
+        "pl.cici",
+        "pl.leina",
+        "pl.daocaoren",
+        "pl.adam",
+        "pl.kiven",
+        "pl.leo"
+      ],
+      "blocks": [
+        {
+          "type": "paragraph",
+          "tokens": [
+            {
+              "type": "text",
+              "text": "一些高光时刻"
+            }
+          ]
+        },
+        {
+          "type": "image",
+          "src": "/blog/images/report-20260524/hidden-498.png",
+          "alt": "跑后留存图 - 梦中麦克纳的恐惧",
+          "caption": "梦中麦克纳的恐惧"
+        },
+        {
+          "type": "image",
+          "src": "/blog/images/report-20260524/hidden-499.png",
+          "alt": "跑后留存图 2 - 芥子气的恐怖",
+          "caption": "芥子气的恐怖"
+        },
+        {
+          "type": "image",
+          "src": "/blog/images/report-20260524/hidden-500.png",
+          "alt": "跑后留存图 3 - 可怜的小麦肯纳在战壕",
+          "caption": "可怜的小麦肯纳在战壕"
+        },
+        {
+          "type": "image",
+          "src": "/blog/images/report-20260524/hidden-55.jpeg",
+          "alt": "跑后留存图 4 - 巨人之肱骨步辇",
+          "caption": "巨人之肱骨步辇"
+        }
+      ]
+    }
+  ],
+  "createdAt": "2026-05-24T12:00:00Z",
+  "updatedAt": "2026-05-28T09:10:00Z"
+}

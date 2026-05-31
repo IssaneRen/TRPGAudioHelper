@@ -43,9 +43,12 @@ export interface PackMeta {
   author?: string;
   keyCount: number;
   importedAt: string;
+  source?: "bundled" | "imported";
 }
 
 export type PackLabels = Record<string, { emoji: string; label: string }>;
+
+const BUNDLED_PACK_PATH = "/sound-effects/default";
 
 function openAudioDb(): Promise<IDBDatabase> {
   return new Promise((resolve, reject) => {
@@ -377,10 +380,55 @@ export function useSoundboardStore() {
       author: manifest.author,
       keyCount: newMappings.length,
       importedAt: new Date().toISOString(),
+      source: "imported",
     };
     setPackMeta(meta);
     localStorage.setItem(PACK_META_KEY, JSON.stringify(meta));
 
+    setPackLabels(newLabels);
+    localStorage.setItem(PACK_LABELS_KEY, JSON.stringify(newLabels));
+
+    return { name: manifest.name, count: newMappings.length };
+  }, []);
+
+  const loadBundledPack = useCallback(async (): Promise<{ name: string; count: number }> => {
+    const response = await fetch(`${BUNDLED_PACK_PATH}/manifest.json`);
+    if (!response.ok) {
+      throw new Error("默认音效包配置加载失败");
+    }
+
+    const manifest = await response.json() as PackManifest;
+    if (!manifest.name || !manifest.mappings) {
+      throw new Error("默认音效包配置无效");
+    }
+
+    const newMappings: SoundMapping[] = [];
+    const newLabels: PackLabels = {};
+    for (const [key, def] of Object.entries(manifest.mappings)) {
+      if (!ALL_KEYS.includes(key as KeyCode) || !def.file) continue;
+      newMappings.push({
+        key: key as KeyCode,
+        audioData: `${BUNDLED_PACK_PATH}/${encodeURIComponent(def.file)}`,
+        fileName: def.file,
+        volume: normalizeVolume(def.volume),
+      });
+      newLabels[key] = { emoji: def.emoji, label: def.label };
+    }
+
+    await clearAudioData();
+    setMappingsState(newMappings);
+    saveMappings(newMappings);
+
+    const meta: PackMeta = {
+      name: manifest.name,
+      description: manifest.description,
+      author: manifest.author,
+      keyCount: newMappings.length,
+      importedAt: new Date().toISOString(),
+      source: "bundled",
+    };
+    setPackMeta(meta);
+    localStorage.setItem(PACK_META_KEY, JSON.stringify(meta));
     setPackLabels(newLabels);
     localStorage.setItem(PACK_LABELS_KEY, JSON.stringify(newLabels));
 
@@ -409,6 +457,7 @@ export function useSoundboardStore() {
     packMeta,
     packLabels,
     importPack,
+    loadBundledPack,
     clearPack,
   }), [
     mappings,
@@ -422,6 +471,7 @@ export function useSoundboardStore() {
     packMeta,
     packLabels,
     importPack,
+    loadBundledPack,
     clearPack,
   ]);
 }

@@ -1,123 +1,157 @@
 # 业务文档
 
-> 记录四个 Tab 的核心业务逻辑、组件结构和代码位置索引。随开发进展持续更新。
+> 记录三个 Tab 的核心业务逻辑、组件结构和代码位置索引。随开发进展持续更新。
 
 ---
 
-## TAB1 - 个人介绍与模组链接 (ProfileTab)
+## TAB1 - 个人介绍 (ProfileTab)
 
 ### 业务说明
 
-- 展示个人介绍信息（昵称、简介）
-- 管理模组列表（已备、待备、已带）+ 状态筛选
-- 维护免责声明和跑团要求
-- 支持 JSON 导入导出（Zod schema 校验）
+- 静态展示个人信息，数据来自 `public/config/profile.json` 配置文件
+- 7 段长滚动页：Hero视差 + 关于我 + 数据统计 + 跑团理念 + 模组库 + 免责声明 + 联系方式
+- Live2D 角色背景（pixi.js + pixi-live2d-display）
+- 无编辑功能，修改内容直接编辑 JSON 配置文件
+
+### 配置文件字段
+
+```json
+{
+  "name": "昵称",
+  "subtitle": "副标题",
+  "bio": "个人简介",
+  "disclaimer": "免责声明",
+  "live2dModelPath": "Live2D模型路径",
+  "stats": [{ "label": "标签", "value": "数值", "icon": "图标名" }],
+  "philosophies": [{ "title": "标题", "desc": "描述" }],
+  "modules": [{ "id", "name", "status", "description", "playerCount", "duration", "tags" }],
+  "contacts": [{ "label": "平台", "value": "联系方式" }]
+}
+```
 
 ### 关键代码位置
 
 | 功能 | 文件路径 | 说明 |
 |------|----------|------|
-| 页面入口 | `src/pages/ProfileTab/index.tsx` | Apple风格7段长滚动页（Hero视差 + 关于我 + 数据统计 + 跑团理念 + 模组库 + 免责声明 + 联系方式） |
-| 资料编辑器 | `src/pages/ProfileTab/ProfileEditor.tsx` | 昵称/简介/免责声明编辑 |
-| 模组弹窗 | `src/pages/ProfileTab/ModuleDialog.tsx` | 添加/编辑模组（Framer Motion 弹性动画） |
-| 数据类型 | `src/types/index.ts` | ProfileData, Module, ModuleStatus |
-| 状态管理 | `src/stores/use-profile-store.ts` | localStorage 同步 |
-| 数据导出 | `src/utils/json-io.ts` | Zod 校验 + 5MB 限制 |
-| Live2D 背景 | `src/pages/ProfileTab/Live2DBackground.tsx` | PixiJS + pixi-live2d-display 封装，鼠标追踪 + 点击互动 |
+| 页面入口 | `src/pages/ProfileTab/index.tsx` | fetch 配置文件 + 静态渲染 + 模块级缓存 |
+| 配置文件 | `public/config/profile.json` | 所有展示数据的来源 |
+| Live2D 背景 | `src/pages/ProfileTab/Live2DBackground.tsx` | PixiJS + pixi-live2d-display 封装 |
 
 ---
 
-## TAB2 - 模组工具页面 (ModuleToolTab)
+## TAB2 - 工具箱 (ToolboxTab)
 
 ### 业务说明
+
+- 下拉菜单切换子工具（DropdownMenu）
+- 嵌套路由：`/tools/battle`、`/tools/world-wiki`、`/tools/soundboard`、`/tools/module-clue`
+- 各子工具 lazy 加载，独立生命周期
+
+### 子工具
+
+#### 模组工具 (ModuleToolTab)
 
 - 有向图可视化线索网络（React Flow），支持有环图
 - **双模式**：展示模式（边触发发现、节点收起展开）/ 编辑模式（CRUD操作）
-- **多对多关系**：一个线索可引出多个线索，也可被多个线索引用；支持越级指向和环形关系
-- **边触发发现机制**：点击边（关系）→ 标记边两端节点为已发现
-- **节点直接发现**：特殊情况，需弹窗补充说明
-- **取消特殊发现**：点击已特殊发现的节点可取消，若有已触发边则保持发现状态
-- **创建自定义模组**：新建模组（初始"模组开始"节点）、添加节点（"+"按钮+对话框）、拖拽连线、双击编辑、删除
-- **图片支持**：节点可上传图片（WebP压缩600px），展示模式双击放大查看
-- 已发现线索置灰处理
-- 支持**一键排版**（从上到下层次布局，不改变发现状态）
-- 支持拖拽、缩放、自定义模组上传
-- 支持 JSON 导入导出
+- **多对多关系**：支持越级指向和环形关系
+- **边触发发现机制**：点击边 → 标记边两端节点为已发现
+- **创建自定义模组**：新建、添加节点、拖拽连线、双击编辑、删除
+- **图片支持**：节点可上传图片（WebP压缩600px）
+- 支持一键排版、JSON 导入导出
+
+#### 音效键盘 (SoundboardTab)
+
+- 3D模拟键盘UI（CSS perspective + transform）
+- 键盘监听：26字母 + 空格 + 回车
+- Web Audio API 音效播放，28种合成TRPG氛围音效
+- 音效包导入（manifest.json + 音频文件）
+- IndexedDB 存储音频数据
+
+#### 模拟战斗 (BattlePlaceholder)
+
+- 占位页面，功能开发中
+
+#### 世界 Wiki (WorldWikiTab)
+
+- 首页提供人物 / 地点 / 事件 / 模组四类词条的统一检索入口
+- 面向 **PL 跑后回顾 / 战报超链接补读**，不是主持人备团后台
+- 底层数据来自 `public/wiki/entities/*.json` 模拟数据库，人物 / PL / 模组均有唯一 key
+- 词条正文已拆为 `public/wiki/entities/entries/{entryId}.json`，便于按条维护与减少冲突
+- `scripts/generate-wiki-index.ts` 会从实体数据库生成 `public/wiki/index.json` 检索索引
+- dev 环境额外提供 `/admin/wiki` 管理页，用于作者维护词条，不会进入生产构建
+- 右上角支持“当前 PL”名称设置，复用博客同一 localStorage 键
+- 前端展示名称以中文为主，内部跳转与权限判断全部走唯一 key
+- 首页仍读取 `index.json`，详情页改为按 `entryId` 懒加载单条 JSON
+- 支持两种隐藏档案标签：
+  - `secret-panel`：整段 / 整块黑框遮罩
+  - `secret-inline`：句子或短语级黑框遮罩
+- 未解锁时点击黑框统一弹出 toast：`请探索更多故事解锁~`
 
 ### 关键代码位置
 
 | 功能 | 文件路径 | 说明 |
 |------|----------|------|
-| 页面入口 | `src/pages/ModuleToolTab/index.tsx` | React Flow 容器 + 工具栏 + 模式切换(view/edit) |
-| 自定义节点 | `src/pages/ModuleToolTab/ClueNode.tsx` | 分类色彩 + 图片缩略图 + "+"添加按钮 + 收起/展开 |
-| 自定义边 | `src/pages/ModuleToolTab/AnimatedEdge.tsx` | SmoothStep路径 + 方向箭头 + 虚线流动 + 关系标注 |
-| 节点编辑弹窗 | `src/pages/ModuleToolTab/NodeEditDialog.tsx` | 新增/编辑节点（名称/描述/分类/图片） |
-| 边编辑弹窗 | `src/pages/ModuleToolTab/EdgeEditDialog.tsx` | 编辑关系描述 |
-| 图片预览 | `src/pages/ModuleToolTab/ImagePreviewDialog.tsx` | 全屏图片放大预览 |
-| 直接发现弹窗 | `src/pages/ModuleToolTab/DirectDiscoverDialog.tsx` | 特殊发现说明 |
-| 图片压缩 | `src/utils/image-compress.ts` | Canvas压缩 + WebP格式 + 600px限制 |
-| 数据类型 | `src/types/index.ts` | ClueNodeData(含imageData), ClueEdgeData, ModuleClueData |
-| 状态管理 | `src/stores/use-clue-store.ts` | localStorage 同步 + CRUD方法 |
-
-### 已完成功能
-
-- [x] 多对多示例模组数据（含越级指向和环形边）
-- [x] 边触发发现交互（点击边标记两端节点）
-- [x] 节点直接发现 + 补充说明弹窗
-- [x] 取消特殊发现
-- [x] 一键排版（dagre 布局，acyclicer: greedy）
-- [x] 有环图支持
-- [x] 方向箭头（MarkerType.ArrowClosed）
-- [x] 节点收起/展开（BFS + visited Set 防死循环）
-- [x] localStorage 版本控制
-- [x] 创建模式：新建模组、"+"添加节点、拖拽连线、双击编辑、Delete删除
-- [x] 图片节点：上传/压缩/缩略图/放大预览
+| 工具箱布局 | `src/pages/ToolboxTab/index.tsx` | DropdownMenu + Outlet |
+| 世界 Wiki 入口 | `src/pages/WorldWikiTab/index.tsx` | 检索首页 + 词条详情 + 唯一键映射 + PL 解锁逻辑 |
+| Wiki 管理台（dev-only） | `src/pages/WikiAdminTab/index.tsx` | 词条元数据编辑、正文引用同步到 relatedEntryIds、block 级可视化编辑、content JSON 兜底面板、实时预览与保存 |
+| Wiki Block 编辑器 | `src/features/wiki/WikiBlockEditor.tsx` | block / token / list / secret-panel 递归编辑器，支持复制/排序/删除 |
+| Wiki 索引生成 | `scripts/generate-wiki-index.ts` | 校验实体引用并生成索引 / 名称映射 |
+| Wiki 数据工具 | `scripts/wiki-data.ts` | 共享 JSON 读写、目录加载、引用校验、索引生成 |
+| Wiki Admin Vite 插件 | `scripts/wiki-admin-plugin.ts` | dev-only 写盘接口 `POST /__wiki-admin/save-entry` |
+| Wiki 索引 | `public/wiki/index.json` | 生成后的世界词条索引、玩家/模组与 lookup 映射 |
+| Wiki 词条目录 | `public/wiki/entities/entries/` | 单词条 JSON 文件，详情页按 `entryId` 懒加载 |
+| Wiki 实体库 | `public/wiki/entities/` | players / modules / entries 目录等模拟数据库 |
+| 战斗占位 | `src/pages/ToolboxTab/BattlePlaceholder.tsx` | 敬请期待 |
+| 模组工具入口 | `src/pages/ModuleToolTab/index.tsx` | React Flow + 双模式 |
+| 自定义节点 | `src/pages/ModuleToolTab/ClueNode.tsx` | 分类色彩 + 图片 + 收起展开 |
+| 自定义边 | `src/pages/ModuleToolTab/AnimatedEdge.tsx` | SmoothStep + 方向箭头 |
+| 音效键盘入口 | `src/pages/SoundboardTab/index.tsx` | 3D键盘 + 音效管理 |
+| 音效合成 | `src/pages/SoundboardTab/sound-synthesis.ts` | 28种Web Audio合成音效 |
+| 音频管理 | `src/hooks/use-audio-manager.ts` | AudioContext封装 |
+| 状态管理 | `src/stores/use-clue-store.ts` | 线索数据 localStorage |
+| 状态管理 | `src/stores/use-soundboard-store.ts` | 音效映射 + IndexedDB |
+| 状态管理 | `src/stores/use-task-store.ts` | 任务数据 localStorage |
 
 ---
 
-## TAB3 - 音效键盘 (SoundboardTab)
+## TAB3 - 博客杂谈 (BlogTab)
 
 ### 业务说明
 
-- **3D模拟键盘UI**：CSS perspective + transform 实现3D效果
-- **键盘监听**：26个字母 + 空格 + 回车，物理键盘按下对应按键高亮
-- **音效播放**：Web Audio API (AudioContext)，每个按键触发对应音效
-- **回车停止**：Enter 键停止中断所有正在播放的音效
-- **默认音效**：OscillatorNode 合成的不同频率/波形音效
-- **自定义上传**：每个按键可上传自定义音效（mp3/wav/ogg, <500KB）
-- **导入导出**：JSON 配置文件包含按键映射和 base64 音频数据
-- **视觉区分**：有绑定音效的按键深海绿发光，无绑定的置灰
-
-### 关键代码位置
-
-| 功能 | 文件路径 | 说明 |
-|------|----------|------|
-| 页面入口 | `src/pages/SoundboardTab/index.tsx` | 主页面 + 状态管理 + 音效加载 |
-| 3D键盘 | `src/pages/SoundboardTab/Keyboard3D.tsx` | 键盘容器 + QWERTY布局 |
-| 单个按键 | `src/pages/SoundboardTab/Key3D.tsx` | 3D按键组件(memo) + 按下动画 |
-| 布局配置 | `src/pages/SoundboardTab/keyboard-layout.ts` | QWERTY行配置 + key归一化 |
-| 设置面板 | `src/pages/SoundboardTab/SoundSettings.tsx` | 侧栏面板 + 逐键上传/删除 |
-| 音频管理 | `src/hooks/use-audio-manager.ts` | AudioContext封装 + 预加载 + 播放/停止 + 合成音效生成 |
-| 键盘监听 | `src/hooks/use-keyboard-listener.ts` | keydown/keyup + 修饰键过滤 + repeat过滤 |
-| 状态管理 | `src/stores/use-soundboard-store.ts` | localStorage 映射 + 导入导出 |
-| 3D样式 | `src/index.css` | keyboard-3d-container, key-bound, key-unbound, 响应式 |
-
----
-
-## TAB4 - 博客与杂谈 (BlogTab)
-
-### 业务说明
-
-- 文章展示与更新
+- 文章列表从 `public/blog/index.json` 索引获取
+- 文章内容从 `public/blog/posts/*.md` 按需 fetch
 - 博客/杂谈分类切换（Tabs）
-- Markdown 渲染（react-markdown + remark-gfm）
-- 文章详情页
+- **双渲染模式**：
+  - `renderMode: "markdown"`（默认）：Markdown 渲染（react-markdown + remark-gfm）
+  - `renderMode: "wiki"`：博客详情页不渲染 Markdown 正文，而是内嵌世界 Wiki 词条渲染器（复用 `WikiContentRenderer`），由 `wikiEntryId` 绑定词条
+- **语义区分**：
+  - `module` 词条：模组本体介绍、导读、关联地点/事件入口
+  - `report` 词条：某一次具体游玩的场次战报；同一模组可挂多条战报
+- **PL 匹配规则（精确）**：
+  - 建议输入 `pl.xxx` 唯一 key（例如 `pl.cici`），用于“我跑过的”筛选与 Wiki/战报隐藏内容解锁
+  - 也可输入显示名/别名，但必须完全匹配；系统会自动保存为对应的 `pl.xxx`，避免改名后失效
+- **战报剧透确认**：
+  - 对 `renderMode: "wiki"` 且 `wikiEntryId` 指向 `report.*` 的博客详情页，若当前 PL 不在该文章 frontmatter `players` 列表中，则先显示剧透确认蒙层
+  - 蒙层出现时正文整体模糊遮罩、详情容器禁止滚动；点击“确定”后放行查看，点击“取消”返回博客列表
+- 模块级缓存（index 和 content 各自缓存）
+
+### 添加新文章
+
+1. 在 `public/blog/posts/` 下创建 `.md` 文件
+2. 填写 frontmatter（可选字段由 `scripts/generate-blog-index.ts` 生成到 `public/blog/index.json`）
+   - 普通文章：不写 `renderMode` 或写 `renderMode: "markdown"`
+   - 战报/词条型文章：写 `renderMode: "wiki"` + `wikiEntryId: "<entryId>"`
+   - 若是战报，`wikiEntryId` 应指向独立 `report.*` 词条，而不是 `module.*` 词条
+   - 若需要“我跑过的”筛选：frontmatter `players` 必须使用 PL 唯一 key（如 `pl.cici`），不要写角色名/显示名
 
 ### 关键代码位置
 
 | 功能 | 文件路径 | 说明 |
 |------|----------|------|
-| 页面入口 | `src/pages/BlogTab/index.tsx` | 列表 + 详情 + Markdown 渲染 |
+| 页面入口 | `src/pages/BlogTab/index.tsx` | 列表 + 详情 + fetch + 缓存 |
+| 文章索引 | `public/blog/index.json` | 文章元数据列表 |
+| 文章目录 | `public/blog/posts/` | Markdown 文章文件 |
+| Wiki 渲染器 | `src/features/wiki/WikiContentRenderer.tsx` | `renderMode: "wiki"` 时内嵌复用，用于战报/词条型文章 |
 
 ---
 
@@ -125,16 +159,15 @@
 
 | 功能 | 文件路径 | 说明 |
 |------|----------|------|
-| 路由配置 | `src/App.tsx` | React Router v7 + lazy import + Suspense (4个Tab) |
-| Tab 布局 | `src/components/TabLayout.tsx` | 4Tab动画化导航 + 毛玻璃效果 + layoutId |
+| 路由配置 | `src/App.tsx` | React Router v7 + 嵌套路由 + lazy + Suspense (3 Tab + 工具子路由) |
+| Tab 布局 | `src/components/TabLayout.tsx` | 3Tab 动画化导航 + 毛玻璃效果 |
 | 暗色模式 | `src/components/theme-provider.tsx` | ThemeProvider (light/dark/system) |
 | 主题切换 | `src/components/mode-toggle.tsx` | 太阳/月亮图标循环切换 |
 | Toast 通知 | `src/components/ui/sonner.tsx` | Sonner 集成 |
 | 工具函数 (cn) | `src/lib/utils.ts` | clsx + tailwind-merge |
-| 全局样式 | `src/index.css` | Tailwind CSS 4 + Shadcn/ui 主题变量 + 动画 + 3D键盘 |
-| Shadcn/ui 组件 | `src/components/ui/` | button, card, input, textarea, label, sonner, tabs, badge, switch, separator, skeleton |
-| localStorage 状态 | `src/stores/` | use-profile-store, use-clue-store, use-soundboard-store |
-| JSON 导入导出 | `src/utils/json-io.ts` | Zod schema 校验 + 文件大小限制 |
-| 图片压缩 | `src/utils/image-compress.ts` | Canvas + WebP + 10MB上传限制 |
-| 自动排版 | `src/utils/auto-layout.ts` | dagre布局 + acyclicer |
-| 类型定义 | `src/types/index.ts` | Profile, Module, ClueNode, ClueEdge, BlogPost, ExportData |
+| 全局样式 | `src/index.css` | Tailwind CSS 4 + 主题变量 + 动画 + 3D键盘 |
+| Shadcn/ui 组件 | `src/components/ui/` | button, card, input, textarea, label, sonner, tabs, badge, switch, separator, skeleton, dropdown-menu |
+| JSON 导入导出 | `src/utils/json-io.ts` | Zod schema 校验 |
+| 图片压缩 | `src/utils/image-compress.ts` | Canvas + WebP |
+| 自动排版 | `src/utils/auto-layout.ts` | dagre布局 |
+| 类型定义 | `src/types/index.ts` | ClueNode, ClueEdge, BlogPost, ExportData 等 |

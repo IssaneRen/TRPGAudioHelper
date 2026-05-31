@@ -1,0 +1,158 @@
+{
+  "id": "char.leina",
+  "category": "character",
+  "displayName": "莱纳 Leina",
+  "summary": "英国籍一战老兵，退伍后定居阿卡姆。自称“铠之巨人”（不是），但确实有老兵的硬骨头：在金斯波特的雾与梦里，他更像一枚钉子，把队伍的情绪钉在现实上。",
+  "aliasNames": [
+    "Leina",
+    "莱纳"
+  ],
+  "playerIds": [
+    "pl.leina"
+  ],
+  "moduleIds": [
+    "module.kingsport-city-in-the-mists"
+  ],
+  "relatedEntryIds": [
+    "loc.arkham",
+    "char.allen",
+    "loc.kingsport-congregational-hospital",
+    "event.kingsport-nightmare-19281109"
+  ],
+  "facts": [
+    {
+      "label": "国籍",
+      "value": "英国"
+    },
+    {
+      "label": "身份",
+      "value": "一战老兵"
+    },
+    {
+      "label": "定居地",
+      "value": "阿卡姆"
+    },
+    {
+      "label": "对应 PL",
+      "value": "莱纳"
+    }
+  ],
+  "content": [
+    {
+      "type": "heading",
+      "text": "人物概览"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "莱纳 Leina 是英国籍的一战老兵，退伍后定居于 "
+        },
+        {
+          "type": "ref",
+          "entryId": "loc.arkham",
+          "label": "阿卡姆"
+        },
+        {
+          "type": "text",
+          "text": "。他原本只是为了探望住在 "
+        },
+        {
+          "type": "ref",
+          "entryId": "loc.kingsport-congregational-hospital",
+          "label": "金斯波特公理会医院"
+        },
+        {
+          "type": "text",
+          "text": " 的 "
+        },
+        {
+          "type": "ref",
+          "entryId": "char.allen",
+          "label": "艾伦"
+        },
+        {
+          "type": "text",
+          "text": "，却在次日被卷入更严重的异常事件。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "他经常用玩笑稀释恐惧：比如自称“铠之巨人”（当然不是）。可当雾真的开始吞人时，那些玩笑反而成了队伍还能继续说话的证据。"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "人物定位"
+    },
+    {
+      "type": "list",
+      "items": [
+        [
+          {
+            "type": "text",
+            "text": "相较于另外两名调查员，他更像从局外进入的人，因此对小镇氛围变化格外敏感。"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "阿卡姆与金斯波特的对比，帮助他更早意识到“这座镇子的异常是系统性的”。"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "在三人行动线中，他承担了观测者与记录者的作用。"
+          }
+        ]
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "在进入金斯波特后，他最先注意到的不是街景，而是镇民的目光。那种视线不像是在看陌生人，更像是在确认 "
+        },
+        {
+          "type": "secret-inline",
+          "playerIds": [
+            "pl.leina"
+          ],
+          "text": "又有谁会在雾里走失"
+        },
+        {
+          "type": "text",
+          "text": "。"
+        }
+      ]
+    },
+    {
+      "type": "secret-panel",
+      "title": "莱纳个人视角补遗",
+      "playerIds": [
+        "pl.leina"
+      ],
+      "blocks": [
+        {
+          "type": "paragraph",
+          "tokens": [
+            {
+              "type": "text",
+              "text": "莱纳在金斯波特停留的第一个夜晚就确信，这里的异常不是一场“会发生在某栋屋子里的怪事”，而是一种已经浸入街区与海雾的整体状态。"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "createdAt": "1928-11-08T19:30:00Z",
+  "updatedAt": "1928-11-09T20:00:00Z"
+}

@@ -1,0 +1,932 @@
+{
+  "players": [
+    {
+      "id": "pl.cici",
+      "displayName": "Cici",
+      "aliases": [
+        "cici",
+        "CC",
+        "艾伦PL"
+      ]
+    },
+    {
+      "id": "pl.leina",
+      "displayName": "莱纳",
+      "aliases": [
+        "leina",
+        "莱纳PL"
+      ]
+    },
+    {
+      "id": "pl.daocaoren",
+      "displayName": "稻草人",
+      "aliases": [
+        "daocaoren",
+        "甘PL"
+      ]
+    },
+    {
+      "id": "pl.adam",
+      "displayName": "Adam",
+      "aliases": [
+        "adam",
+        "pl2",
+        "掷弹兵PL"
+      ]
+    },
+    {
+      "id": "pl.kiven",
+      "displayName": "Kiven",
+      "aliases": [
+        "kiven",
+        "pl3",
+        "上尉PL"
+      ]
+    },
+    {
+      "id": "pl.leo",
+      "displayName": "Leo",
+      "aliases": [
+        "leo",
+        "pl5",
+        "通讯兵PL"
+      ]
+    }
+  ],
+  "modules": [
+    {
+      "id": "module.kingsport-city-in-the-mists",
+      "displayName": "永恒恶意",
+      "aliases": [
+        "金斯波特迷雾之城",
+        "永恒恶意",
+        "Everlasting Malice"
+      ],
+      "summary": "官方模组密斯卡托尼克河流域新传系列之五。在本篇中，调查员需要解开神秘的连环失明事件背后的恐怖真相。（反派很强）",
+      "ruleSystem": "COC7",
+      "playerCount": "4-6",
+      "duration": "6-10h",
+      "collection": "密斯卡托尼克河流域新传",
+      "description": "「三周前，报道居民西蒙·麦当劳患上神秘疾病。六天后，伯纳德·怀特亦遭同样厄运。此后类似情况接连出现，报道令镇民不安；警局与政府尽力安抚。」\n「等待你们的会是……什么呢？」\n\n【简介】\n官方模组密斯卡托尼克河流域新传系列之五。在本篇中，调查员需要解开神秘的连环失明事件背后的恐怖真相。（反派很强）\n\n【推荐语】\n官方模组系列之五，延续了官模的高质量。本作之中调查员们会遇到一个劲敌，作为幕后黑手十分狡猾并且会给调查员们抛出不少的烟雾弹和陷阱。如果守密人不通过某些手段放水的话，调查员很容易在途中遭到团灭。就算调查员闯过重重阻碍，甚至还可能遇见更坏的情况。总而言之，不剧透的话就只能说到这里了，是一个非常值得一跑的官模。",
+      "tags": [
+        "1920s",
+        "近代",
+        "美洲"
+      ]
+    },
+    {
+      "id": "module.profile.night-battle",
+      "displayName": "夜战",
+      "aliases": [
+        "夜战"
+      ],
+      "summary": "官方模组密斯卡托尼克河流域新传系列之六。在本篇中，调查员误入一名创伤老兵的噩梦世界，他们能否在阻止噩梦扩散的同时，将梦者从无尽的痛苦中拯救出来呢…（一个可以正大光明玩迫击炮的官模！）",
+      "ruleSystem": "COC7",
+      "playerCount": "4-6",
+      "duration": "5-8h",
+      "collection": "密斯卡托尼克河流域新传",
+      "description": "1918西线战壕，步枪上膛，炮火将至。每次建卡都有人问\"KP我能点炮术吗\"，每次答案都是\"你点了也没地方用\"。这次不一样。点吧，都点吧，管够。。 \n\n【简介】\n官方模组密斯卡托尼克河流域新传系列之六。在本篇中，调查员误入一名创伤老兵的噩梦世界，他们能否在阻止噩梦扩散的同时，将梦者从无尽的痛苦中拯救出来呢…（一个可以正大光明玩迫击炮的官模！）\n\n【推荐语】\n如果认为官模都是上个世纪的线性美式模组的话，《夜战》这份模组一定会带给你不一样的体验，从给玩家带来心理阴影的方面，甚至不输大部分的日系模组……当然会更硬核一些。《夜战》的主要背景故事是一战，而对于远离战争的现代人来说，通过直面战争的方式体验这份魔幻现实主义的模组，更能珍惜当下来之不易的和平年代，不至于费拉不堪。从游玩体验上来说，模组以双线并行的方式开展故事，其主线会更偏向于只给材料，需要守密人自己烹饪的沙盒，而副线则是一个完整而简短的线性调查故事，较容易把握。总而言之，模组的题材可能会劝退不少玩家，但不妨碍这是近些时间创意高分的好模组。",
+      "tags": [
+        "1920s",
+        "战争",
+        "枪战",
+        "近代",
+        "美洲"
+      ]
+    },
+    {
+      "id": "module.miskatonic.newtales.midnight-web",
+      "displayName": "午夜迷网",
+      "aliases": [
+        "午夜迷网"
+      ],
+      "summary": "官方模组密斯卡托尼克谷地新传系列之一。调查员被一封请柬带到瓦尔加伯爵夫人的派对，见证虚荣幻象下的毁灭。",
+      "ruleSystem": "COC7",
+      "playerCount": "2-5人",
+      "duration": "4-8时",
+      "collection": "密斯卡托尼克河流域新传",
+      "description": "【简介】\n官方模组密斯卡托尼克谷地新传系列之一，和旧传以及阿卡姆扩展书中的自带模组一起构成了一个庞大的阿卡姆世界观，值得尝试。\n在本篇中，调查员被一封请柬带到了瓦尔加伯爵夫人举办的派对中，并将见证一个于虚荣幻象中迷失自我的可怜女人，为了维持虚伪的人设，在精神重压下走向毁灭的故事。\n本模组对PL的角色扮演以及与NPC的交流水平有较高的要求。\n\n【推荐语】\n相当原旨风味的官模，背景仍然是比较常见的1920阿卡姆。故事以一个不寻常的酒会出发，然后发生一系列需要调查的奇妙案件……因为不是线性结构的模组，所以需要KP在备团的时候做好线索梳理，但因为模组中的材料比以前的官模要丰富不少，所以倒也不用太担心需要填补细节的问题。模组前期的酒会部分占据了将近一半的篇幅，从带团节奏来讲可能会略显冗长，所以如果有需要的话，可以把前期不太重要的信息留在后期交待。",
+      "tags": [
+        "近代",
+        "美洲"
+      ]
+    },
+    {
+      "id": "module.miskatonic.newtales.wasted-youth",
+      "displayName": "虚度青春",
+      "aliases": [
+        "虚度青春"
+      ],
+      "summary": "官方模组密斯卡托尼克河流域新传系列之二。一系列少年犯罪将调查员卷入其中，最终演变成与时间的赛跑。",
+      "ruleSystem": "COC7",
+      "playerCount": "2-6人",
+      "duration": "6-12时",
+      "collection": "密斯卡托尼克河流域新传",
+      "description": "【简介】\n官方模组密斯卡托尼克河流域新传系列之二。在本篇中，一系列莫名的少年犯罪将调查员卷入其中，最终演变成一场与时间的赛跑。调查员能否赶在扎洛索斯完成他那邪恶仪式前，挽救诸多儿童的生命？\n警告：模组中含有大量伤害儿童的情节，虽然程度不一定比早前的羊妈妈模组更重，但总归是有的。\n\n【推荐语】\n这个模组采用两段式的写法，前半主要是松散的调查，后半是一段复杂的追踪。以我有限的了解，后半段的设置是比较罕见的剧情安排方式。题材是这个模组最大的亮点和敏感方面。剧情设置可能会对玩家造成从现实SC到血压拉满等不同debuff。",
+      "tags": [
+        "近代",
+        "美洲"
+      ]
+    },
+    {
+      "id": "module.miskatonic.newtales.factory-haunt",
+      "displayName": "工厂邪灵",
+      "aliases": [
+        "工厂邪灵"
+      ],
+      "summary": "官方模组密斯卡托尼克河流域新传系列之三。调查员陪同记者前往敦威治，揭开闹鬼工厂尘封的秘密。",
+      "ruleSystem": "COC7",
+      "playerCount": "2-4人",
+      "duration": "4-8时",
+      "collection": "密斯卡托尼克河流域新传",
+      "description": "【简介】\n官方模组密斯卡托尼克河流域新传系列之三。在本篇中，调查员将陪同《阿卡姆广告人报》的兼职记者弗洛伊德·托比前往敦威治，揭开那里一座闹鬼工厂尘封的秘密。\n\n【推荐语】\n比较意外，很少见到官模用时间串联故事，而且有NPC全程陪同，玩家的调查路线基本上是固定的。为了复杂度和趣味性引入的额外势力的写法尚可，但是和核心的结合也相对松散。",
+      "tags": [
+        "近代",
+        "美洲"
+      ]
+    },
+    {
+      "id": "module.miskatonic.newtales.last-chance",
+      "displayName": "一线生机",
+      "aliases": [
+        "一线生机"
+      ],
+      "summary": "官方模组密斯卡托尼克河流域新传系列之四。林场承包协议引发小镇对立，而山林深处的恐怖迫使所有人做出抉择。",
+      "ruleSystem": "COC7",
+      "playerCount": "3-6人",
+      "duration": "6-12时",
+      "collection": "密斯卡托尼克河流域新传",
+      "description": "【简介】\n官方模组密斯卡托尼克河流域新传系列之四。在本篇中，一纸林场承包协议的去留让原本宁静和谐的福克斯菲尔德小镇暗流涌动，镇民们分成两派彼此攻讦，然而事情的真相并非仅仅如此……随着调查的深入，隐藏于山林之中的真正恐怖将迫使所有人做出最后的抉择。\n\n【推荐语】\n虽然故事的背景较为简单，但内容并不单薄，调查员有一定的调查可选余地，同时又有足够的推进点保证剧情顺利进行。这个故事或许展现了一个小社群中复杂的人际关系和政治版图在外来力量的影响下的变动，当事情变得无可挽回时，调查员们也许能成为推上最后一把的人。",
+      "tags": [
+        "近代",
+        "美洲"
+      ]
+    },
+    {
+      "id": "module.profile.masks-of-nyarlathotep",
+      "displayName": "奈亚拉托提普的面具",
+      "aliases": [
+        "面具",
+        "奈亚面具",
+        "Masks of Nyarlathotep"
+      ],
+      "summary": "跨越全球的经典长战役。城市之间的线索网像瘟疫一样蔓延。",
+      "ruleSystem": "COC7",
+      "playerCount": "4-6",
+      "duration": "240-320h",
+      "campaign": "奈亚拉托提普的面具",
+      "description": "最爱的模组！",
+      "tags": [
+        "长战役",
+        "全球",
+        "经典",
+        "沙盒"
+      ]
+    },
+    {
+      "id": "module.library.mother-love",
+      "displayName": "母爱",
+      "aliases": [
+        "母爱"
+      ],
+      "summary": "官方模组密斯卡托尼克谷地新传系列之七。印斯茅斯的黑帮劫案背后，藏着更深的神秘与恐怖。",
+      "ruleSystem": "COC7",
+      "playerCount": "3-5人",
+      "duration": "2-6时",
+      "collection": "密斯卡托尼克河流域新传",
+      "description": "【简介】\n官方模组密斯卡托尼克谷地新传系列之七。在本篇中，制造数起银行劫案的臭名昭著的“青蛙帮”越过州界，流窜到印斯茅斯。BOI出动大批干员，联合麻省警署布下天罗地网，势将西斯克及其党羽带走，不论死活。\n模组本身的故事逻辑非常简单，如果没有印斯茅斯的背景加成，则并无惊艳之处。不过在经验丰富的KP手中，想必可以带领玩家体验一番原汁原味的印斯茅斯风土人情。\n喜欢刨根问底、四处嗅探的调查员有福了，他们必不能活着走出印斯茅斯。\n\n【推荐语】\n翻译模组，背景也是很经典的1920年代的印斯茅斯。故事梗概是在铲除印斯茅斯黑帮的过程中发现一系列神秘的东西。模组的流程比较短，大概能支持一次团的剧情。",
+      "tags": [
+        "1920s",
+        "近代",
+        "美洲",
+        "印斯茅斯"
+      ]
+    },
+    {
+      "id": "module.reco.haunted-house",
+      "displayName": "鬼屋",
+      "aliases": [
+        "鬼屋"
+      ],
+      "summary": "新手推理入门：线索密度适中、目标清晰，适合第一次跑团的车队热身。",
+      "ruleSystem": "COC7",
+      "playerCount": "3-4",
+      "duration": "6-8h",
+      "collection": "新手推荐",
+      "tags": [
+        "新手",
+        "推理"
+      ]
+    },
+    {
+      "id": "module.reco.book-hunter",
+      "displayName": "追书人",
+      "aliases": [
+        "追书人"
+      ],
+      "summary": "短时长推理模组：节奏更快，适合 1-3 人的小车或临时加跑。",
+      "ruleSystem": "COC7",
+      "playerCount": "1-3",
+      "duration": "3-5h",
+      "collection": "新手推荐",
+      "tags": [
+        "新手",
+        "推理"
+      ]
+    },
+    {
+      "id": "module.reco.crimson-dossier",
+      "displayName": "猩红文档",
+      "aliases": [
+        "猩红文档"
+      ],
+      "summary": "沙盒向入门：给喜欢探索与自由选择的队伍，信息量更大但回报也更高。",
+      "ruleSystem": "COC7",
+      "playerCount": "4-6",
+      "duration": "8-10h",
+      "collection": "新手推荐",
+      "tags": [
+        "新手",
+        "沙盒"
+      ]
+    },
+    {
+      "id": "module.library.saturnine-chalice",
+      "displayName": "死光",
+      "aliases": [
+        "死光与其他黑暗的转角"
+      ],
+      "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
+      "ruleSystem": "COC7",
+      "playerCount": "4-5",
+      "duration": "6-8h",
+      "collection": "新手推荐",
+      "tags": [
+        "1920s"
+      ]
+    },
+    {
+      "id": "module.library.and-some-fell-on-stony-ground",
+      "displayName": "有些人油盐不进",
+      "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
+      "ruleSystem": "COC7",
+      "tags": [
+        "1920s"
+      ]
+    }
+  ],
+  "entries": [
+    {
+      "id": "char.adam",
+      "category": "character",
+      "displayName": "Adam",
+      "summary": "M 国参战的一战掷弹兵。在噩梦与现实交错的事件里，他更像一把被重新上膛的“旧武器”：干脆、直接、敢把风险当作战术。",
+      "aliasNames": [
+        "Adam",
+        "亚当"
+      ],
+      "playerIds": [
+        "pl.adam"
+      ],
+      "moduleIds": [
+        "module.profile.night-battle"
+      ],
+      "relatedEntryIds": [
+        "loc.kingsport",
+        "loc.arkham",
+        "char.allen",
+        "char.leina",
+        "char.kiven",
+        "char.leo",
+        "char.gan",
+        "event.kingsport-nightmare-19281109"
+      ],
+      "facts": [
+        {
+          "label": "身份",
+          "value": "一战掷弹兵"
+        },
+        {
+          "label": "军籍",
+          "value": "M 国"
+        },
+        {
+          "label": "对应 PL",
+          "value": "Adam"
+        }
+      ],
+      "createdAt": "1928-11-08T20:30:00Z",
+      "updatedAt": "1928-11-09T20:00:00Z"
+    },
+    {
+      "id": "char.allen",
+      "category": "character",
+      "displayName": "艾伦 Allen",
+      "summary": "美国人，一战老兵兼医疗兵。退伍后在波士顿医院工作。经历过金斯波特的异常后，他更确信：有些伤口不是在皮肤上，而是在梦里。",
+      "aliasNames": [
+        "Allen",
+        "艾伦"
+      ],
+      "playerIds": [
+        "pl.cici"
+      ],
+      "moduleIds": [
+        "module.kingsport-city-in-the-mists"
+      ],
+      "relatedEntryIds": [
+        "loc.kingsport",
+        "loc.kingsport-congregational-hospital",
+        "event.kingsport-blindness-19281106",
+        "event.kingsport-nightmare-19281109",
+        "module.kingsport-city-in-the-mists"
+      ],
+      "facts": [
+        {
+          "label": "国籍",
+          "value": "美国"
+        },
+        {
+          "label": "身份",
+          "value": "一战老兵 / 医疗兵 / 退伍军人"
+        },
+        {
+          "label": "常驻地",
+          "value": "波士顿医院"
+        },
+        {
+          "label": "对应 PL",
+          "value": "Cici"
+        }
+      ],
+      "createdAt": "1928-11-06T08:00:00Z",
+      "updatedAt": "1928-11-09T20:00:00Z"
+    },
+    {
+      "id": "char.gan",
+      "category": "character",
+      "displayName": "阿甘 Gan",
+      "summary": "美国人，二等兵。嘴上申请“出战”，身体却很诚实地先想撤；但真到生死关头，他往往是第一个把自己塞进危险里的人。",
+      "aliasNames": [
+        "Gan",
+        "甘",
+        "阿甘"
+      ],
+      "playerIds": [
+        "pl.daocaoren"
+      ],
+      "moduleIds": [
+        "module.kingsport-city-in-the-mists"
+      ],
+      "relatedEntryIds": [
+        "char.allen",
+        "loc.kingsport-congregational-hospital",
+        "event.kingsport-nightmare-19281109",
+        "loc.kingsport"
+      ],
+      "facts": [
+        {
+          "label": "国籍",
+          "value": "美国"
+        },
+        {
+          "label": "军阶",
+          "value": "二等兵"
+        },
+        {
+          "label": "关键行程",
+          "value": "1928-11-08 夜间赴医院探望艾伦"
+        },
+        {
+          "label": "对应 PL",
+          "value": "稻草人"
+        }
+      ],
+      "createdAt": "1928-11-08T20:00:00Z",
+      "updatedAt": "1928-11-09T20:00:00Z"
+    },
+    {
+      "id": "char.kiven",
+      "category": "character",
+      "displayName": "Kiven",
+      "summary": "一战上尉军官，战后在军校任教。履历体面、话术漂亮，但在真正的泥泞里仍会露出“纸上谈兵”的裂缝——也因此更容易被噩梦抓住。",
+      "aliasNames": [
+        "Kiven",
+        "基文"
+      ],
+      "playerIds": [
+        "pl.kiven"
+      ],
+      "moduleIds": [
+        "module.profile.night-battle"
+      ],
+      "relatedEntryIds": [
+        "loc.kingsport",
+        "loc.arkham",
+        "char.allen",
+        "char.leina",
+        "char.adam",
+        "char.leo",
+        "char.gan",
+        "event.kingsport-nightmare-19281109"
+      ],
+      "facts": [
+        {
+          "label": "军阶",
+          "value": "上尉"
+        },
+        {
+          "label": "身份",
+          "value": "军校教授"
+        },
+        {
+          "label": "对应 PL",
+          "value": "Kiven"
+        }
+      ],
+      "createdAt": "1928-11-08T20:40:00Z",
+      "updatedAt": "1928-11-09T20:00:00Z"
+    },
+    {
+      "id": "char.leina",
+      "category": "character",
+      "displayName": "莱纳 Leina",
+      "summary": "英国籍一战老兵，退伍后定居阿卡姆。自称“铠之巨人”（不是），但确实有老兵的硬骨头：在金斯波特的雾与梦里，他更像一枚钉子，把队伍的情绪钉在现实上。",
+      "aliasNames": [
+        "Leina",
+        "莱纳"
+      ],
+      "playerIds": [
+        "pl.leina"
+      ],
+      "moduleIds": [
+        "module.kingsport-city-in-the-mists"
+      ],
+      "relatedEntryIds": [
+        "loc.arkham",
+        "char.allen",
+        "loc.kingsport-congregational-hospital",
+        "event.kingsport-nightmare-19281109"
+      ],
+      "facts": [
+        {
+          "label": "国籍",
+          "value": "英国"
+        },
+        {
+          "label": "身份",
+          "value": "一战老兵"
+        },
+        {
+          "label": "定居地",
+          "value": "阿卡姆"
+        },
+        {
+          "label": "对应 PL",
+          "value": "莱纳"
+        }
+      ],
+      "createdAt": "1928-11-08T19:30:00Z",
+      "updatedAt": "1928-11-09T20:00:00Z"
+    },
+    {
+      "id": "char.leo",
+      "category": "character",
+      "displayName": "Leo",
+      "summary": "M 军通讯兵。看起来不太靠谱，读书也不努力，但偏偏靠着（抄袭来的）技巧混成了高级文凭；在噩梦里，能把“联系”这件事做对就足够救命。",
+      "aliasNames": [
+        "Leo",
+        "里奥"
+      ],
+      "playerIds": [
+        "pl.leo"
+      ],
+      "moduleIds": [
+        "module.profile.night-battle"
+      ],
+      "relatedEntryIds": [
+        "loc.kingsport",
+        "loc.arkham",
+        "char.allen",
+        "char.leina",
+        "char.adam",
+        "char.kiven",
+        "char.gan",
+        "event.kingsport-nightmare-19281109"
+      ],
+      "facts": [
+        {
+          "label": "身份",
+          "value": "通讯兵"
+        },
+        {
+          "label": "军籍",
+          "value": "M 国"
+        },
+        {
+          "label": "对应 PL",
+          "value": "Leo"
+        }
+      ],
+      "createdAt": "1928-11-08T20:50:00Z",
+      "updatedAt": "1928-11-09T20:00:00Z"
+    },
+    {
+      "id": "event.kingsport-blindness-19281106",
+      "category": "event",
+      "displayName": "1928.11.6 - 金斯波特失明案件",
+      "summary": "1928 年 11 月 6 日爆发的异常失明案件。它不是孤立病例，而是后续噩梦事件的前兆与入口。",
+      "aliasNames": [
+        "金斯波特失明案件",
+        "1928.11.6 失明案件"
+      ],
+      "playerIds": [
+        "pl.cici"
+      ],
+      "moduleIds": [
+        "module.kingsport-city-in-the-mists"
+      ],
+      "relatedEntryIds": [
+        "char.allen",
+        "loc.kingsport",
+        "loc.kingsport-congregational-hospital",
+        "event.kingsport-nightmare-19281109"
+      ],
+      "facts": [
+        {
+          "label": "日期",
+          "value": "1928-11-06"
+        },
+        {
+          "label": "影响范围",
+          "value": "金斯波特本地居民与就诊病例"
+        },
+        {
+          "label": "核心关联人",
+          "value": "艾伦 Allen"
+        }
+      ],
+      "createdAt": "1928-11-06T08:00:00Z",
+      "updatedAt": "2026-05-27T08:53:36.492Z"
+    },
+    {
+      "id": "event.kingsport-nightmare-19281109",
+      "category": "event",
+      "displayName": "1928.11.9 - 金斯波特噩梦事件",
+      "summary": "1928 年 11 月 9 日，梦境与现实边界被削弱的异常事件。艾伦、莱纳与甘的行动线在此正式交汇。",
+      "aliasNames": [
+        "金斯波特噩梦事件",
+        "1928.11.9 噩梦事件"
+      ],
+      "playerIds": [
+        "pl.cici",
+        "pl.leina",
+        "pl.daocaoren"
+      ],
+      "moduleIds": [
+        "module.kingsport-city-in-the-mists"
+      ],
+      "relatedEntryIds": [
+        "char.allen",
+        "char.leina",
+        "char.gan",
+        "loc.kingsport-congregational-hospital",
+        "loc.kingsport"
+      ],
+      "facts": [
+        {
+          "label": "日期",
+          "value": "1928-11-09"
+        },
+        {
+          "label": "地点核心",
+          "value": "金斯波特公理会医院及其周边"
+        },
+        {
+          "label": "卷入调查员",
+          "value": "艾伦 / 莱纳 / 甘"
+        }
+      ],
+      "createdAt": "1928-11-09T06:00:00Z",
+      "updatedAt": "1928-11-09T21:00:00Z"
+    },
+    {
+      "id": "loc.arkham",
+      "category": "location",
+      "displayName": "阿卡姆 Arkham",
+      "summary": "莱纳退伍后定居的城市。它是理解“阿卡姆的怪谈”与“金斯波特的现实压迫”差异的重要参照点。",
+      "aliasNames": [
+        "Arkham",
+        "阿卡姆"
+      ],
+      "playerIds": [
+        "pl.leina"
+      ],
+      "moduleIds": [
+        "module.kingsport-city-in-the-mists"
+      ],
+      "relatedEntryIds": [
+        "char.leina",
+        "loc.kingsport",
+        "module.kingsport-city-in-the-mists"
+      ],
+      "facts": [
+        {
+          "label": "类型",
+          "value": "大学城 / 都市据点"
+        },
+        {
+          "label": "关联人物",
+          "value": "莱纳"
+        }
+      ],
+      "createdAt": "1928-11-01T08:00:00Z",
+      "updatedAt": "1928-11-08T20:00:00Z"
+    },
+    {
+      "id": "loc.kingsport-congregational-hospital",
+      "category": "location",
+      "displayName": "金斯波特公理会医院 Kingsport Congregational Hospital",
+      "summary": "镇上最重要的医疗机构，也是艾伦、莱纳与甘三条行动线真正交汇的核心场景。",
+      "aliasNames": [
+        "Kingsport Congregational Hospital",
+        "金斯波特公理会医院"
+      ],
+      "playerIds": [
+        "pl.cici",
+        "pl.leina",
+        "pl.daocaoren"
+      ],
+      "moduleIds": [
+        "module.kingsport-city-in-the-mists"
+      ],
+      "relatedEntryIds": [
+        "char.allen",
+        "char.leina",
+        "char.gan",
+        "event.kingsport-nightmare-19281109",
+        "loc.kingsport"
+      ],
+      "facts": [
+        {
+          "label": "类型",
+          "value": "综合医院"
+        },
+        {
+          "label": "所在地区",
+          "value": "金斯波特"
+        },
+        {
+          "label": "叙事作用",
+          "value": "人物交汇 / 病例聚集 / 异常发酵中枢"
+        }
+      ],
+      "createdAt": "1928-11-06T10:00:00Z",
+      "updatedAt": "1928-11-09T20:00:00Z"
+    },
+    {
+      "id": "loc.kingsport",
+      "category": "location",
+      "displayName": "金斯波特 Kingsport",
+      "summary": "被海雾与流言包围的港口小镇。1928 年秋季，异常病例、梦境异变与调查员命运都在这里汇聚。",
+      "aliasNames": [
+        "Kingsport",
+        "金斯波特"
+      ],
+      "playerIds": [
+        "pl.cici",
+        "pl.leina",
+        "pl.daocaoren",
+        "pl.adam",
+        "pl.kiven",
+        "pl.leo"
+      ],
+      "moduleIds": [
+        "module.kingsport-city-in-the-mists"
+      ],
+      "relatedEntryIds": [
+        "loc.kingsport-congregational-hospital",
+        "event.kingsport-blindness-19281106",
+        "event.kingsport-nightmare-19281109",
+        "module.kingsport-city-in-the-mists",
+        "char.adam",
+        "char.kiven",
+        "char.leo"
+      ],
+      "facts": [
+        {
+          "label": "类型",
+          "value": "海港小镇"
+        },
+        {
+          "label": "氛围",
+          "value": "常年迷雾、潮湿、居民沉默"
+        },
+        {
+          "label": "观看视角",
+          "value": "跑后回顾 / 战报补充阅读 / 世界设定跳转入口"
+        }
+      ],
+      "createdAt": "1928-11-01T08:00:00Z",
+      "updatedAt": "1928-11-09T20:00:00Z"
+    },
+    {
+      "id": "module.kingsport-city-in-the-mists",
+      "category": "module",
+      "displayName": "永恒恶意",
+      "summary": "1928，金斯波特，迷雾之城。失明的人们究竟遭遇了什么？",
+      "aliasNames": [
+        "Kingsport: The City In The Mists",
+        "金斯波特：迷雾之城",
+        "金斯波特补遗"
+      ],
+      "playerIds": [
+        "pl.cici"
+      ],
+      "moduleIds": [
+        "module.kingsport-city-in-the-mists"
+      ],
+      "relatedEntryIds": [
+        "loc.kingsport",
+        "char.allen",
+        "event.kingsport-blindness-19281106",
+        "event.kingsport-nightmare-19281109",
+        "report.mist-city-record-20260524"
+      ],
+      "relatedEntryAccess": [
+        {
+          "entryId": "char.allen",
+          "playerIds": [
+            "pl.cici"
+          ]
+        }
+      ],
+      "facts": [
+        {
+          "label": "时代",
+          "value": "1920s"
+        },
+        {
+          "label": "地点",
+          "value": "美国/马萨诸塞州/金斯波特"
+        }
+      ],
+      "createdAt": "2026-05-28T00:00:00Z",
+      "updatedAt": "2026-05-28T02:23:00Z"
+    },
+    {
+      "id": "module.library.and-some-fell-on-stony-ground",
+      "category": "module",
+      "displayName": "有些人油盐不进",
+      "summary": "以1920 年代为背景的《克苏鲁的呼唤》调查模组。",
+      "moduleIds": [
+        "module.library.and-some-fell-on-stony-ground"
+      ],
+      "tags": [
+        "1920s"
+      ],
+      "createdAt": "2026-05-28T00:00:00+08:00",
+      "updatedAt": "2026-05-28T00:00:00+08:00"
+    },
+    {
+      "id": "report.mist-city-record-20260524",
+      "category": "report",
+      "displayName": "战报：《夜战》2026.05.24",
+      "summary": "一次具体场次的跑团记录页（《夜战》）。这里记录的是这一场游戏里实际发生的过程、参与玩家与跑后留存，不等同于模组本体介绍。",
+      "aliasNames": [
+        "夜战战报 2026.05.24",
+        "战报 夜战 2026.05.24",
+        "《夜战》26.05.24"
+      ],
+      "playerIds": [
+        "pl.cici",
+        "pl.leina",
+        "pl.daocaoren",
+        "pl.adam",
+        "pl.kiven",
+        "pl.leo"
+      ],
+      "moduleIds": [
+        "module.profile.night-battle"
+      ],
+      "relatedEntryIds": [
+        "module.kingsport-city-in-the-mists",
+        "loc.kingsport",
+        "event.kingsport-blindness-19281106",
+        "event.kingsport-nightmare-19281109",
+        "char.allen",
+        "char.leina",
+        "char.gan",
+        "char.adam",
+        "char.kiven",
+        "char.leo"
+      ],
+      "facts": [
+        {
+          "label": "内容类型",
+          "value": "单场战报 / 跑团记录"
+        },
+        {
+          "label": "关联模组",
+          "value": "夜战"
+        },
+        {
+          "label": "说明",
+          "value": "同一模组可以对应多次不同玩家、不同过程的战报"
+        }
+      ],
+      "createdAt": "2026-05-24T12:00:00Z",
+      "updatedAt": "2026-05-28T09:10:00Z"
+    }
+  ],
+  "lookup": {
+    "entryIdByName": {
+      "adam": "char.adam",
+      "亚当": "char.adam",
+      "艾伦 allen": "char.allen",
+      "allen": "char.allen",
+      "艾伦": "char.allen",
+      "阿甘 gan": "char.gan",
+      "gan": "char.gan",
+      "甘": "char.gan",
+      "阿甘": "char.gan",
+      "kiven": "char.kiven",
+      "基文": "char.kiven",
+      "莱纳 leina": "char.leina",
+      "leina": "char.leina",
+      "莱纳": "char.leina",
+      "leo": "char.leo",
+      "里奥": "char.leo",
+      "1928.11.6 - 金斯波特失明案件": "event.kingsport-blindness-19281106",
+      "金斯波特失明案件": "event.kingsport-blindness-19281106",
+      "1928.11.6 失明案件": "event.kingsport-blindness-19281106",
+      "1928.11.9 - 金斯波特噩梦事件": "event.kingsport-nightmare-19281109",
+      "金斯波特噩梦事件": "event.kingsport-nightmare-19281109",
+      "1928.11.9 噩梦事件": "event.kingsport-nightmare-19281109",
+      "阿卡姆 arkham": "loc.arkham",
+      "arkham": "loc.arkham",
+      "阿卡姆": "loc.arkham",
+      "金斯波特公理会医院 kingsport congregational hospital": "loc.kingsport-congregational-hospital",
+      "kingsport congregational hospital": "loc.kingsport-congregational-hospital",
+      "金斯波特公理会医院": "loc.kingsport-congregational-hospital",
+      "金斯波特 kingsport": "loc.kingsport",
+      "kingsport": "loc.kingsport",
+      "金斯波特": "loc.kingsport",
+      "永恒恶意": "module.kingsport-city-in-the-mists",
+      "kingsport: the city in the mists": "module.kingsport-city-in-the-mists",
+      "金斯波特：迷雾之城": "module.kingsport-city-in-the-mists",
+      "金斯波特补遗": "module.kingsport-city-in-the-mists",
+      "有些人油盐不进": "module.library.and-some-fell-on-stony-ground",
+      "战报：《夜战》2026.05.24": "report.mist-city-record-20260524",
+      "夜战战报 2026.05.24": "report.mist-city-record-20260524",
+      "战报 夜战 2026.05.24": "report.mist-city-record-20260524",
+      "《夜战》26.05.24": "report.mist-city-record-20260524"
+    },
+    "playerIdByName": {
+      "pl.cici": "pl.cici",
+      "cici": "pl.cici",
+      "cc": "pl.cici",
+      "艾伦pl": "pl.cici",
+      "pl.leina": "pl.leina",
+      "莱纳": "pl.leina",
+      "leina": "pl.leina",
+      "莱纳pl": "pl.leina",
+      "pl.daocaoren": "pl.daocaoren",
+      "稻草人": "pl.daocaoren",
+      "daocaoren": "pl.daocaoren",
+      "甘pl": "pl.daocaoren",
+      "pl.adam": "pl.adam",
+      "adam": "pl.adam",
+      "pl2": "pl.adam",
+      "掷弹兵pl": "pl.adam",
+      "pl.kiven": "pl.kiven",
+      "kiven": "pl.kiven",
+      "pl3": "pl.kiven",
+      "上尉pl": "pl.kiven",
+      "pl.leo": "pl.leo",
+      "leo": "pl.leo",
+      "pl5": "pl.leo",
+      "通讯兵pl": "pl.leo"
+    },
+    "moduleIdByName": {
+      "永恒恶意": "module.kingsport-city-in-the-mists",
+      "金斯波特迷雾之城": "module.kingsport-city-in-the-mists",
+      "everlasting malice": "module.kingsport-city-in-the-mists",
+      "夜战": "module.profile.night-battle",
+      "午夜迷网": "module.miskatonic.newtales.midnight-web",
+      "虚度青春": "module.miskatonic.newtales.wasted-youth",
+      "工厂邪灵": "module.miskatonic.newtales.factory-haunt",
+      "一线生机": "module.miskatonic.newtales.last-chance",
+      "奈亚拉托提普的面具": "module.profile.masks-of-nyarlathotep",
+      "面具": "module.profile.masks-of-nyarlathotep",
+      "奈亚面具": "module.profile.masks-of-nyarlathotep",
+      "masks of nyarlathotep": "module.profile.masks-of-nyarlathotep",
+      "母爱": "module.library.mother-love",
+      "鬼屋": "module.reco.haunted-house",
+      "追书人": "module.reco.book-hunter",
+      "猩红文档": "module.reco.crimson-dossier",
+      "死光": "module.library.saturnine-chalice",
+      "死光与其他黑暗的转角": "module.library.saturnine-chalice",
+      "有些人油盐不进": "module.library.and-some-fell-on-stony-ground"
+    }
+  }
+}

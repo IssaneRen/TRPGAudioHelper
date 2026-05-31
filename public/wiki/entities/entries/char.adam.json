@@ -1,0 +1,85 @@
+{
+  "id": "char.adam",
+  "category": "character",
+  "displayName": "Adam",
+  "summary": "M 国参战的一战掷弹兵。在噩梦与现实交错的事件里，他更像一把被重新上膛的“旧武器”：干脆、直接、敢把风险当作战术。",
+  "aliasNames": [
+    "Adam",
+    "亚当"
+  ],
+  "playerIds": [
+    "pl.adam"
+  ],
+  "moduleIds": [
+    "module.profile.night-battle"
+  ],
+  "relatedEntryIds": [
+    "loc.kingsport",
+    "loc.arkham",
+    "char.allen",
+    "char.leina",
+    "char.kiven",
+    "char.leo",
+    "char.gan",
+    "event.kingsport-nightmare-19281109"
+  ],
+  "facts": [
+    {
+      "label": "身份",
+      "value": "一战掷弹兵"
+    },
+    {
+      "label": "军籍",
+      "value": "M 国"
+    },
+    {
+      "label": "对应 PL",
+      "value": "Adam"
+    }
+  ],
+  "content": [
+    {
+      "type": "heading",
+      "text": "人物概览"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "Adam 是一名参加过一战的掷弹兵。比起讲道理，他更习惯用“能不能做、怎么做、做完就走”的方式推进局面。"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "在队伍中的作用"
+    },
+    {
+      "type": "list",
+      "items": [
+        [
+          {
+            "type": "text",
+            "text": "在战斗与高压场面中承担执行力：犹豫越少，活下来的概率越高。"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "在信息不足时用“战场直觉”填补空白：先做能做的，再回头解释。"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "与 Allen 的医疗判断、Leina 的观察记录互补：一个止血，一个定方向，一个把队伍往前推。"
+          }
+        ]
+      ]
+    }
+  ],
+  "createdAt": "1928-11-08T20:30:00Z",
+  "updatedAt": "1928-11-09T20:00:00Z"
+}
+

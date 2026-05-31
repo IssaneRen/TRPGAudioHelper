@@ -1,0 +1,146 @@
+{
+  "id": "event.kingsport-nightmare-19281109",
+  "category": "event",
+  "displayName": "1928.11.9 - 金斯波特噩梦事件",
+  "summary": "1928 年 11 月 9 日，梦境与现实边界被削弱的异常事件。艾伦、莱纳与甘的行动线在此正式交汇。",
+  "aliasNames": [
+    "金斯波特噩梦事件",
+    "1928.11.9 噩梦事件"
+  ],
+  "playerIds": [
+    "pl.cici",
+    "pl.leina",
+    "pl.daocaoren"
+  ],
+  "moduleIds": [
+    "module.kingsport-city-in-the-mists"
+  ],
+  "relatedEntryIds": [
+    "char.allen",
+    "char.leina",
+    "char.gan",
+    "loc.kingsport-congregational-hospital",
+    "loc.kingsport"
+  ],
+  "facts": [
+    {
+      "label": "日期",
+      "value": "1928-11-09"
+    },
+    {
+      "label": "地点核心",
+      "value": "金斯波特公理会医院及其周边"
+    },
+    {
+      "label": "卷入调查员",
+      "value": "艾伦 / 莱纳 / 甘"
+    }
+  ],
+  "content": [
+    {
+      "type": "heading",
+      "text": "事件概览"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "1928 年 11 月 9 日，金斯波特的异常从个体病例升级为群体性的梦境与精神异变。对 PL 而言，这也是许多战报和回顾文章会直接链接进来的核心节点。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "在这场事件中，"
+        },
+        {
+          "type": "ref",
+          "entryId": "char.allen",
+          "label": "艾伦"
+        },
+        {
+          "type": "text",
+          "text": "、"
+        },
+        {
+          "type": "ref",
+          "entryId": "char.leina",
+          "label": "莱纳"
+        },
+        {
+          "type": "text",
+          "text": " 与 "
+        },
+        {
+          "type": "ref",
+          "entryId": "char.gan",
+          "label": "甘"
+        },
+        {
+          "type": "text",
+          "text": " 在 "
+        },
+        {
+          "type": "ref",
+          "entryId": "loc.kingsport-congregational-hospital",
+          "label": "医院"
+        },
+        {
+          "type": "text",
+          "text": " 一线真正汇流。"
+        }
+      ]
+    },
+    {
+      "type": "list",
+      "items": [
+        [
+          {
+            "type": "text",
+            "text": "梦境与现实的边界被显著削弱。"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "声音、距离与时间感均出现偏移。"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "与 11 月 6 日的失明案件形成完整的升级链。"
+          }
+        ]
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "三人的叙述在很多细节上并不完全一致，尤其是 "
+        },
+        {
+          "type": "secret-inline",
+          "playerIds": [
+            "pl.cici",
+            "pl.leina",
+            "pl.daocaoren"
+          ],
+          "text": "异常真正开始的具体时刻"
+        },
+        {
+          "type": "text",
+          "text": "，这说明事件本身也影响了回忆的顺序。"
+        }
+      ]
+    }
+  ],
+  "createdAt": "1928-11-09T06:00:00Z",
+  "updatedAt": "1928-11-09T21:00:00Z"
+}

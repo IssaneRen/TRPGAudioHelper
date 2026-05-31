@@ -1,202 +1,957 @@
-import { useState } from "react";
-import { motion } from "framer-motion";
-import { BookOpen, MessageSquare } from "lucide-react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useState, useEffect, useMemo, useCallback, useRef } from "react";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { ChevronDown } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { Skeleton } from "@/components/ui/skeleton";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuCheckboxItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+} from "@/components/ui/dropdown-menu";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import type { BlogPost } from "@/types";
+import remarkFrontmatter from "remark-frontmatter";
+import { TAG_CATEGORIES } from "@/constants/tag-categories";
+import { useNavigate, useParams } from "react-router";
+import type { WikiEntryRecord, WikiIndexPayload } from "@/types/wiki";
+import {
+  WikiContentRenderer,
+  resolveCurrentPlayerIdByName,
+} from "@/features/wiki/WikiContentRenderer";
 
-const demoPosts: BlogPost[] = [
-  {
-    id: "1",
-    title: "如何设计一个好的 TRPG 模组",
-    content: `## 核心要素
+interface BlogPostMeta {
+  id: string;
+  title: string;
+  file: string;
+  cover?: string[];
+  tags: string[];
+  players?: string[];
+  renderMode?: "markdown" | "wiki";
+  wikiEntryId?: string;
+  createdAt: string;
+  updatedAt: string;
+}
 
-一个好的模组需要具备以下要素：
+const PL_STORAGE_KEY = "blog-pl-name";
+const SPECIAL_TAG_MY_PLAYED = "我跑过的";
 
-1. **引人入胜的开场** — 第一印象决定玩家的投入程度
-2. **清晰的线索链** — 玩家需要知道"下一步该做什么"
-3. **有意义的选择** — 每个决定都应该有后果
-4. **张弛有度的节奏** — 紧张与放松交替
+/** Safari / iOS WebKit 在 CSS columns + fixed 浮层下对 layoutId 共享动画定位不准，会闪到错误位置 */
+function shouldDisableSharedLayout(): boolean {
+  if (typeof window === "undefined") return true;
+  const ua = navigator.userAgent;
+  const isIOS = /iPhone|iPad|iPod/i.test(ua);
+  const isSafari =
+    /Safari/i.test(ua) && !/Chrome|CriOS|FxiOS|EdgiOS|OPiOS|Chromium/i.test(ua);
+  return isIOS || isSafari;
+}
 
-### 线索设计技巧
-
-> 好的线索设计就像面包屑，玩家总能找到下一个。
-
-- 主线线索不应该藏得太深
-- 支线线索可以增加深度，但不应该阻塞主线
-- 给予玩家**多条路径**到达同一个目的地`,
-    category: "blog",
-    createdAt: "2024-03-15T10:00:00Z",
-    updatedAt: "2024-03-15T10:00:00Z",
-    tags: ["TRPG", "模组设计", "教程"],
-  },
-  {
-    id: "2",
-    title: "跑团记录：迷雾之城",
-    content: `## 第一幕：到达
-
-玩家们在一个雨夜抵达了小镇。镇上的人都很冷漠，只有旅馆老板勉强接待了他们。
-
-当晚，旅馆外传来了奇怪的声音...
-
-### 关键转折
-
-当调查员发现了 **神秘信件** 后，故事开始加速。信件中提到了一个被遗忘的地下室。
-
-*"如果你正在读这封信，说明我已经不在了。请找到花瓶下的钥匙。"*`,
-    category: "misc",
-    createdAt: "2024-04-01T14:00:00Z",
-    updatedAt: "2024-04-01T14:00:00Z",
-    tags: ["跑团记录", "迷雾之城"],
-  },
-  {
-    id: "3",
-    title: "推荐：五个适合新手的模组",
-    content: `适合 TRPG 新手的入门模组推荐：
-
-| 模组名 | 类型 | 人数 | 时长 |
-|--------|------|------|------|
-| 纸上谈兵 | 推理 | 3-4 | 2-3h |
-| 雪夜密室 | 恐怖 | 4-5 | 4-5h |
-| 星际迷航 | 科幻 | 3-6 | 3-4h |
-| 花园杀人事件 | 推理 | 4-5 | 3-4h |
-| 古堡惊魂 | 恐怖 | 3-5 | 4-6h |
-
-每个模组都有完整的 KP 指引，非常适合第一次带团的新手 KP。`,
-    category: "blog",
-    createdAt: "2024-04-10T09:00:00Z",
-    updatedAt: "2024-04-10T09:00:00Z",
-    tags: ["推荐", "新手", "模组"],
-  },
-];
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: { staggerChildren: 0.1 },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 16 },
-  show: { opacity: 1, y: 0 },
-};
+let indexCache: BlogPostMeta[] | null = null;
+const contentCache = new Map<string, string>();
+let wikiIndexCache: WikiIndexPayload | null = null;
+const wikiEntryCache = new Map<string, WikiEntryRecord>();
 
 export default function BlogTab() {
-  const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null);
+  const navigate = useNavigate();
+  const { postId } = useParams<{ postId?: string }>();
+  const [posts, setPosts] = useState<BlogPostMeta[]>(indexCache || []);
+  const [loading, setLoading] = useState(!indexCache);
+  const [loadError, setLoadError] = useState(false);
+  const [selectedPost, setSelectedPost] = useState<BlogPostMeta | null>(null);
+  const [postContent, setPostContent] = useState<string>("");
+  const [contentLoading, setContentLoading] = useState(false);
+  const [contentError, setContentError] = useState(false);
+  const [wikiIndex, setWikiIndex] = useState<WikiIndexPayload | null>(wikiIndexCache);
+  const [wikiEntry, setWikiEntry] = useState<WikiEntryRecord | null>(null);
+  const [wikiLoading, setWikiLoading] = useState(false);
+  const [wikiError, setWikiError] = useState(false);
+  const contentRequestRef = useRef(0);
+  const [selectedTags, setSelectedTags] = useState<Set<string>>(new Set());
+  const [plName, setPlName] = useState(() => localStorage.getItem(PL_STORAGE_KEY) || "");
+  const [showPlDialog, setShowPlDialog] = useState(false);
+  const [isMyPlayedMode, setIsMyPlayedMode] = useState(false);
+  const [hasConfirmedSpoiler, setHasConfirmedSpoiler] = useState(false);
+  const prefersReducedMotion = useReducedMotion();
+  const useSharedLayout = !prefersReducedMotion && !shouldDisableSharedLayout();
 
-  const blogPosts = demoPosts.filter((p) => p.category === "blog");
-  const miscPosts = demoPosts.filter((p) => p.category === "misc");
+  useEffect(() => {
+    if (!isMyPlayedMode) return;
+    if (wikiIndexCache) {
+      setWikiIndex(wikiIndexCache);
+      return;
+    }
+    let cancelled = false;
+    const loadWikiIndex = async () => {
+      try {
+        const res = await fetch("/wiki/index.json", { cache: "no-store" });
+        if (!res.ok) return;
+        const data = (await res.json()) as WikiIndexPayload;
+        if (cancelled) return;
+        wikiIndexCache = data;
+        setWikiIndex(data);
+      } catch {
+        // ignore
+      }
+    };
+    void loadWikiIndex();
+    return () => {
+      cancelled = true;
+    };
+  }, [isMyPlayedMode]);
 
-  if (selectedPost) {
+  useEffect(() => {
+    let cancelled = false;
+
+    if (!indexCache) setLoading(true);
+    setLoadError(false);
+    fetch("/blog/index.json", { cache: "no-store" })
+      .then((r) => {
+        if (!r.ok) throw new Error(`Failed to load blog index: ${r.status}`);
+        return r.json();
+      })
+      .then((data: BlogPostMeta[]) => {
+        if (cancelled) return;
+        indexCache = data;
+        setPosts(data);
+      })
+      .catch(() => {
+        if (!cancelled && !indexCache) setLoadError(true);
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!showPlDialog) return;
+    let cancelled = false;
+    const loadWikiIndex = async () => {
+      if (wikiIndexCache) {
+        setWikiIndex(wikiIndexCache);
+        return;
+      }
+      try {
+        const res = await fetch("/wiki/index.json", { cache: "no-store" });
+        if (!res.ok) return;
+        const data = (await res.json()) as WikiIndexPayload;
+        if (cancelled) return;
+        wikiIndexCache = data;
+        setWikiIndex(data);
+      } catch {
+        // ignore: 仅用于提示可选 key 列表，不影响主功能
+      }
+    };
+    void loadWikiIndex();
+    return () => {
+      cancelled = true;
+    };
+  }, [showPlDialog]);
+
+  const allTags = useMemo(() => {
+    const tagSet = new Set<string>();
+    posts.forEach((p) => p.tags.forEach((t) => tagSet.add(t)));
+    return Array.from(tagSet);
+  }, [posts]);
+
+  const currentBlogPlayerId = useMemo(() => {
+    if (!wikiIndex) return plName.trim();
+    const normalized = plName.trim().toLowerCase();
+    const direct = wikiIndex.players.find((p) => p.id.toLowerCase() === normalized);
+    if (direct) return direct.id;
+    return wikiIndex.lookup.playerIdByName[normalized] || plName.trim();
+  }, [plName, wikiIndex]);
+
+  const filteredPosts = useMemo(() => {
+    if (isMyPlayedMode) {
+      if (!currentBlogPlayerId) return [];
+      const normalizedPl = currentBlogPlayerId.trim().toLowerCase();
+      return posts.filter((p) =>
+        p.players?.some((pl) => pl.trim().toLowerCase() === normalizedPl)
+      );
+    }
+    if (selectedTags.size === 0) return posts;
+    return posts.filter((p) => p.tags.some((t) => selectedTags.has(t)));
+  }, [posts, selectedTags, isMyPlayedMode, currentBlogPlayerId]);
+
+  const toggleTag = (tag: string) => {
+    setSelectedTags((prev) => {
+      const next = new Set(prev);
+      if (next.has(tag)) next.delete(tag);
+      else next.add(tag);
+      return next;
+    });
+  };
+
+  const loadPost = useCallback(async (post: BlogPostMeta) => {
+    const requestId = ++contentRequestRef.current;
+    setSelectedPost(post);
+    setContentError(false);
+    setWikiEntry(null);
+    setWikiError(false);
+    const cached = contentCache.get(post.file);
+    if (cached) {
+      setPostContent(cached);
+      setContentLoading(false);
+      return;
+    }
+    setPostContent("");
+    setContentLoading(true);
+    try {
+      const res = await fetch(`/blog/${post.file}`);
+      if (!res.ok) throw new Error(`Failed to load blog post: ${res.status}`);
+      const text = await res.text();
+      contentCache.set(post.file, text);
+      if (requestId === contentRequestRef.current) setPostContent(text);
+    } catch {
+      if (requestId === contentRequestRef.current) setContentError(true);
+    } finally {
+      if (requestId === contentRequestRef.current) setContentLoading(false);
+    }
+  }, []);
+
+  const loadWikiForPost = useCallback(async (post: BlogPostMeta) => {
+    if (post.renderMode !== "wiki" || !post.wikiEntryId) return;
+    const requestId = ++contentRequestRef.current;
+    setWikiLoading(true);
+    setWikiError(false);
+
+    try {
+      if (!wikiIndexCache) {
+        const indexRes = await fetch("/wiki/index.json", { cache: "no-store" });
+        if (!indexRes.ok) throw new Error(`Failed to load wiki index: ${indexRes.status}`);
+        const indexData = (await indexRes.json()) as WikiIndexPayload;
+        wikiIndexCache = indexData;
+        setWikiIndex(indexData);
+      } else {
+        setWikiIndex(wikiIndexCache);
+      }
+
+      const cached = wikiEntryCache.get(post.wikiEntryId);
+      if (cached) {
+        if (requestId === contentRequestRef.current) setWikiEntry(cached);
+        return;
+      }
+
+      const entryRes = await fetch(`/wiki/entities/entries/${post.wikiEntryId}.json`, {
+        cache: "no-store",
+      });
+      if (!entryRes.ok) throw new Error(`Failed to load wiki entry: ${entryRes.status}`);
+      const entryData = (await entryRes.json()) as WikiEntryRecord;
+      wikiEntryCache.set(post.wikiEntryId, entryData);
+      if (requestId === contentRequestRef.current) setWikiEntry(entryData);
+    } catch {
+      if (requestId === contentRequestRef.current) setWikiError(true);
+    } finally {
+      if (requestId === contentRequestRef.current) setWikiLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!postId) {
+      contentRequestRef.current += 1;
+      setSelectedPost(null);
+      setPostContent("");
+      setContentLoading(false);
+      setContentError(false);
+      setWikiEntry(null);
+      setWikiLoading(false);
+      setWikiError(false);
+      return;
+    }
+    if (loading) return;
+
+    const post = posts.find((item) => item.id === postId);
+    if (!post) {
+      navigate("/blog", { replace: true });
+      return;
+    }
+    if (selectedPost?.id === post.id) return;
+    void loadPost(post);
+    void loadWikiForPost(post);
+  }, [loadPost, loadWikiForPost, loading, navigate, postId, posts, selectedPost?.id]);
+
+  const handleSelectPost = (post: BlogPostMeta) => {
+    void loadPost(post);
+    void loadWikiForPost(post);
+    navigate(`/blog/${encodeURIComponent(post.id)}`);
+  };
+
+  const currentWikiPlayerId = useMemo(
+    () => resolveCurrentPlayerIdByName(wikiIndex?.lookup.playerIdByName, plName),
+    [plName, wikiIndex]
+  );
+
+  const selectedPostIsReport = useMemo(
+    () =>
+      Boolean(
+        selectedPost &&
+          selectedPost.renderMode === "wiki" &&
+          selectedPost.wikiEntryId &&
+          selectedPost.wikiEntryId.startsWith("report.")
+      ),
+    [selectedPost]
+  );
+
+  const selectedPostPlayerMatched = useMemo(() => {
+    if (!selectedPost || !selectedPost.players || selectedPost.players.length === 0) return false;
+    const currentId = currentBlogPlayerId.trim().toLowerCase();
+    if (!currentId) return false;
+    return selectedPost.players.some((playerId) => playerId.trim().toLowerCase() === currentId);
+  }, [currentBlogPlayerId, selectedPost]);
+
+  const shouldShowReportSpoilerGate =
+    selectedPostIsReport && !selectedPostPlayerMatched && !hasConfirmedSpoiler;
+
+  const closeDetail = useCallback(() => {
+    navigate("/blog", { replace: true });
+  }, [navigate]);
+
+  useEffect(() => {
+    setHasConfirmedSpoiler(false);
+  }, [selectedPost?.id]);
+
+  useEffect(() => {
+    if (!showPlDialog) return;
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setShowPlDialog(false);
+    };
+    document.addEventListener("keydown", handler);
+    return () => document.removeEventListener("keydown", handler);
+  }, [showPlDialog]);
+
+  useEffect(() => {
+    if (!selectedPost) return;
+
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeDetail();
+    };
+    document.addEventListener("keydown", handler);
+    return () => {
+      document.removeEventListener("keydown", handler);
+    };
+  }, [selectedPost, closeDetail]);
+
+  if (loading && posts.length === 0) {
     return (
-      <motion.div
-        initial={{ opacity: 0, x: 20 }}
-        animate={{ opacity: 1, x: 0 }}
-        className="space-y-4"
-      >
-        <button
-          onClick={() => setSelectedPost(null)}
-          className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-        >
-          &larr; 返回列表
-        </button>
-        <article className="prose prose-neutral dark:prose-invert max-w-none prose-headings:font-heading prose-a:text-primary prose-blockquote:border-l-primary/50">
-          <h1 className="text-2xl font-bold">{selectedPost.title}</h1>
-          <div className="flex gap-2 mb-4">
-            {selectedPost.tags.map((tag) => (
-              <Badge key={tag} variant="outline" className="text-xs">
-                {tag}
-              </Badge>
-            ))}
-          </div>
-          <time className="text-sm text-muted-foreground">
-            {new Date(selectedPost.createdAt).toLocaleDateString("zh-CN")}
-          </time>
-          <Markdown remarkPlugins={[remarkGfm]}>{selectedPost.content}</Markdown>
-        </article>
-      </motion.div>
+      <div className="mx-auto max-w-2xl space-y-4">
+        <div className="flex gap-2">
+          <Skeleton className="h-6 w-16 rounded-full" />
+          <Skeleton className="h-6 w-16 rounded-full" />
+          <Skeleton className="h-6 w-16 rounded-full" />
+        </div>
+        <div className="columns-2 gap-3">
+          <Skeleton className="mb-3 aspect-[3/4] rounded-xl break-inside-avoid" />
+          <Skeleton className="mb-3 aspect-square rounded-xl break-inside-avoid" />
+          <Skeleton className="mb-3 aspect-[4/5] rounded-xl break-inside-avoid" />
+          <Skeleton className="mb-3 aspect-[3/4] rounded-xl break-inside-avoid" />
+        </div>
+      </div>
+    );
+  }
+
+  if (loadError && posts.length === 0) {
+    return (
+      <div className="py-16 text-center text-sm text-muted-foreground">
+        博客内容加载失败，请刷新后重试。
+      </div>
     );
   }
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      className="space-y-6"
-    >
-      <Tabs defaultValue="blog">
-        <TabsList>
-          <TabsTrigger value="blog" className="gap-1.5">
-            <BookOpen className="h-4 w-4" /> 博客
-          </TabsTrigger>
-          <TabsTrigger value="misc" className="gap-1.5">
-            <MessageSquare className="h-4 w-4" /> 杂谈
-          </TabsTrigger>
-        </TabsList>
+      <div className="mx-auto max-w-2xl space-y-5">
+        {/* 顶部栏：筛选 + PL 名称 */}
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="flex flex-wrap items-center gap-2"
+        >
+          {/* 特殊 tag：我跑过的 */}
+          <Badge
+            variant={isMyPlayedMode ? "default" : "outline"}
+            className={`cursor-pointer select-none transition-all hover:scale-105 ${
+              isMyPlayedMode ? "ring-2 ring-primary/30" : ""
+            }`}
+            onClick={() => {
+              if (!isMyPlayedMode && !plName) {
+                setShowPlDialog(true);
+                return;
+              }
+              setIsMyPlayedMode((v) => !v);
+              if (!isMyPlayedMode) setSelectedTags(new Set());
+            }}
+          >
+            {SPECIAL_TAG_MY_PLAYED}
+          </Badge>
 
-        <TabsContent value="blog">
-          <PostList posts={blogPosts} onSelect={setSelectedPost} />
-        </TabsContent>
-        <TabsContent value="misc">
-          <PostList posts={miscPosts} onSelect={setSelectedPost} />
-        </TabsContent>
-      </Tabs>
-    </motion.div>
+          {/* 分级 tag 筛选（我跑过的模式下置灰） */}
+          <div className={`contents ${isMyPlayedMode ? "opacity-40 pointer-events-none" : ""}`}>
+            <TagFilterBar
+              allTags={allTags}
+              selectedTags={selectedTags}
+              toggleTag={toggleTag}
+              clearTags={() => setSelectedTags(new Set())}
+            />
+          </div>
+
+          {/* PL 名称（右上角） */}
+          <button
+            onClick={() => setShowPlDialog(true)}
+            className="ml-auto text-xs text-muted-foreground hover:text-foreground transition-colors"
+          >
+            {plName ? `PL: ${plName}` : "设置PL"}
+          </button>
+        </motion.div>
+
+        {/* 等宽双列瀑布流 */}
+        <div className="columns-2 gap-3">
+          {filteredPosts.map((post) => {
+            const hasCover = !!(post.cover && post.cover.length > 0);
+            return (
+            <motion.div
+              key={post.id}
+              layout={false}
+              layoutId={
+                useSharedLayout && hasCover && selectedPost?.id !== post.id
+                  ? `card-${post.id}`
+                  : undefined
+              }
+              whileHover={useSharedLayout ? { y: -3, transition: { duration: 0.15 } } : undefined}
+              onClick={() => handleSelectPost(post)}
+              className={`mb-3 cursor-pointer break-inside-avoid ${
+                selectedPost?.id === post.id ? "invisible" : ""
+              }`}
+            >
+              {hasCover ? (
+                <ImageCard post={post} />
+              ) : (
+                <TitleCard post={post} />
+              )}
+            </motion.div>
+          );
+          })}
+        </div>
+
+        {filteredPosts.length === 0 && (
+          <div className="py-16 text-center text-muted-foreground">
+            {isMyPlayedMode ? (
+              <div className="space-y-3">
+                <p>筛选不到你跑过的模组哦</p>
+                <p className="text-sm">
+                  是否已经正确填写了PL：<strong className="text-foreground">{plName || "未设置"}</strong>
+                </p>
+                <button
+                  onClick={() => setShowPlDialog(true)}
+                  className="text-sm text-primary hover:underline"
+                >
+                  点击更新
+                </button>
+              </div>
+            ) : (
+              "没有匹配的文章"
+            )}
+          </div>
+        )}
+
+        {/* 详情页覆盖层 */}
+        <AnimatePresence>
+          {selectedPost && (
+            <>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm"
+                onClick={closeDetail}
+              />
+                <div
+                  role="dialog"
+                  aria-modal="true"
+                  aria-labelledby="detail-title"
+                  className={`fixed inset-0 z-50 pointer-events-auto ${
+                    shouldShowReportSpoilerGate
+                      ? "overflow-hidden"
+                      : "overflow-y-auto overscroll-contain touch-pan-y"
+                  }`}
+                >
+                {/* 固定关闭按钮 */}
+                <button
+                  onClick={closeDetail}
+                  className="pointer-events-auto fixed right-4 top-4 z-[60] rounded-full bg-black/50 p-2 text-white backdrop-blur-sm transition-colors hover:bg-black/70 sm:right-6 sm:top-6"
+                  aria-label="关闭"
+                >
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M18 6L6 18M6 6l12 12" />
+                  </svg>
+                </button>
+                <div
+                  className={
+                    shouldShowReportSpoilerGate
+                      ? "flex h-full items-center justify-center p-4 sm:p-8"
+                      : "flex min-h-full items-start justify-center p-4 pb-16 pt-10 sm:p-8 sm:pb-20 sm:pt-14"
+                  }
+                >
+                  <motion.div
+                    layout={false}
+                    layoutId={
+                      useSharedLayout && selectedPost.cover && selectedPost.cover.length > 0
+                        ? `card-${selectedPost.id}`
+                        : undefined
+                    }
+                    initial={
+                      useSharedLayout ? undefined : { opacity: 0, y: 16, scale: 0.98 }
+                    }
+                    animate={
+                      useSharedLayout ? undefined : { opacity: 1, y: 0, scale: 1 }
+                    }
+                    exit={
+                      useSharedLayout ? undefined : { opacity: 0, y: 12, scale: 0.98 }
+                    }
+                    transition={{ duration: 0.22, ease: "easeOut" }}
+                    className={`pointer-events-auto relative w-full max-w-3xl rounded-xl border bg-background shadow-2xl overflow-hidden ${
+                      shouldShowReportSpoilerGate ? "max-h-[calc(100vh-3rem)]" : ""
+                    }`}
+                  >
+                    <div
+                      className={
+                        shouldShowReportSpoilerGate
+                          ? "pointer-events-none select-none blur-md saturate-50"
+                          : ""
+                      }
+                    >
+                      {/* Cover 滑动区域 */}
+                      {selectedPost.cover && selectedPost.cover.length > 0 && (
+                        <CoverSlider covers={selectedPost.cover} />
+                      )}
+
+                      {/* 标签 + 日期 */}
+                      <div className="px-6 pt-4 pb-2 flex flex-wrap items-center gap-2">
+                        {selectedPost.tags.map((tag) => (
+                          <Badge key={tag} variant="outline" className="text-xs">
+                            {tag}
+                          </Badge>
+                        ))}
+                        <time className="text-xs text-muted-foreground">
+                          {new Date(selectedPost.createdAt).toLocaleDateString("zh-CN")}
+                        </time>
+                      </div>
+
+                      {/* 标题 */}
+                      <div className="px-6 pb-4">
+                        <h2 id="detail-title" className="text-lg font-heading font-semibold leading-snug">
+                          <span className="block">
+                            {selectedPost.title}
+                          </span>
+                        </h2>
+                      </div>
+
+                      {/* 正文（Markdown / Wiki 内嵌） */}
+                      <div className="border-t px-6 py-6">
+                        {selectedPost.renderMode === "wiki" && selectedPost.wikiEntryId ? (
+                          wikiLoading ? (
+                            <div className="space-y-3">
+                              <Skeleton className="h-4 w-full" />
+                              <Skeleton className="h-4 w-5/6" />
+                              <Skeleton className="h-4 w-4/5" />
+                            </div>
+                          ) : wikiError || !wikiIndex || !wikiEntry ? (
+                            <p className="py-8 text-center text-sm text-muted-foreground">
+                              Wiki 词条加载失败，请刷新后重试。
+                            </p>
+                          ) : (
+                            <WikiContentRenderer
+                              blocks={wikiEntry.content}
+                              currentPlayerId={currentWikiPlayerId}
+                              entriesById={new Map(wikiIndex.entries.map((e) => [e.id, e]))}
+                              revealAllSecrets={false}
+                              entryBaseRoute="/tools/world-wiki"
+                            />
+                          )
+                        ) : contentLoading ? (
+                          <div className="space-y-3">
+                            <Skeleton className="h-4 w-full" />
+                            <Skeleton className="h-4 w-5/6" />
+                            <Skeleton className="h-4 w-4/5" />
+                            <Skeleton className="h-4 w-full" />
+                            <Skeleton className="h-4 w-3/4" />
+                          </div>
+                        ) : contentError ? (
+                          <p className="py-8 text-center text-sm text-muted-foreground">
+                            文章内容加载失败，请刷新后重试。
+                          </p>
+                        ) : (
+                          <article className="prose prose-neutral dark:prose-invert max-w-none prose-headings:font-heading prose-a:text-primary prose-blockquote:border-l-primary/50 prose-code:text-primary/80 prose-pre:bg-secondary prose-pre:border prose-img:rounded-lg">
+                            <Markdown remarkPlugins={[remarkGfm, remarkFrontmatter]}>
+                              {postContent}
+                            </Markdown>
+                          </article>
+                        )}
+                      </div>
+                    </div>
+                    {shouldShowReportSpoilerGate ? (
+                      <div className="absolute inset-0 z-10 flex items-center justify-center bg-black/40 p-6 backdrop-blur-sm">
+                        <div className="w-full max-w-md rounded-2xl border border-border/70 bg-background/95 p-6 text-center shadow-2xl">
+                          <p className="text-sm leading-7 text-foreground/90">
+                            你可能没有参与这次游戏，或者没有玩过这个模组。确定要查看战报吗？这可能带来轻微剧透
+                          </p>
+                          <div className="mt-5 flex items-center justify-center gap-3">
+                            <button
+                              type="button"
+                              onClick={() => setHasConfirmedSpoiler(true)}
+                              className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+                            >
+                              确定
+                            </button>
+                            <button
+                              type="button"
+                              onClick={closeDetail}
+                              className="rounded-md border border-border/70 bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent/40"
+                            >
+                              取消
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    ) : null}
+                  </motion.div>
+                </div>
+              </div>
+            </>
+          )}
+        </AnimatePresence>
+
+        {/* PL 输入弹窗（建议输入唯一 key：pl.xxx） */}
+        <AnimatePresence>
+          {showPlDialog && (
+            <>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="fixed inset-0 z-[70] bg-black/50"
+                onClick={() => setShowPlDialog(false)}
+              />
+              <motion.div
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="pl-dialog-title"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                className="fixed left-1/2 top-1/3 z-[71] -translate-x-1/2 -translate-y-1/2 w-[min(90vw,320px)] rounded-xl border bg-background p-6 shadow-2xl"
+              >
+                <h3 id="pl-dialog-title" className="text-base font-heading font-semibold mb-3">设置 PL</h3>
+                <p className="text-xs text-muted-foreground mb-3">
+                  建议输入玩家唯一 key（例如：pl.cici）。也可以输入显示名/别名，但必须完全匹配（不做模糊匹配）。
+                </p>
+                <PlNameInput
+                  initialValue={plName}
+                  onConfirm={(name) => {
+                    const resolvedId =
+                      wikiIndex?.lookup.playerIdByName[name.trim().toLowerCase()] || "";
+                    const canonical =
+                      wikiIndex?.players.find((p) => p.id.toLowerCase() === name.trim().toLowerCase())?.id ||
+                      resolvedId ||
+                      name;
+                    setPlName(canonical);
+                    localStorage.setItem(PL_STORAGE_KEY, canonical);
+                    setShowPlDialog(false);
+                    if (canonical) setIsMyPlayedMode(true);
+                  }}
+                />
+                {wikiIndex?.players?.length ? (
+                  <div className="mt-4 border-t border-border/60 pt-4">
+                    <div className="text-xs font-medium text-muted-foreground">可用 PL 唯一 key（参考用）</div>
+                    <div className="mt-2 rounded-xl border border-border/60 bg-card/60 p-3 text-xs leading-6 text-muted-foreground">
+                      {wikiIndex.players.map((p) => p.id).join(" / ")}
+                    </div>
+                  </div>
+                ) : null}
+              </motion.div>
+            </>
+          )}
+        </AnimatePresence>
+      </div>
   );
 }
 
-function PostList({
-  posts,
-  onSelect,
-}: {
-  posts: BlogPost[];
-  onSelect: (post: BlogPost) => void;
-}) {
+function PlNameInput({ initialValue, onConfirm }: { initialValue: string; onConfirm: (name: string) => void }) {
+  const [value, setValue] = useState(initialValue);
   return (
-    <motion.div
-      variants={containerVariants}
-      initial="hidden"
-      animate="show"
-      className="mt-4 grid gap-4 sm:grid-cols-2"
-    >
-      {posts.map((post) => (
-        <motion.div
-          key={post.id}
-          variants={itemVariants}
-          whileHover={{ y: -3, transition: { duration: 0.15 } }}
-        >
-          <Card
-            className="cursor-pointer blog-card eldritch-card"
-            onClick={() => onSelect(post)}
-          >
-            <CardHeader className="pb-2">
-              <CardTitle className="text-base">{post.title}</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="line-clamp-2 text-sm text-muted-foreground">
-                {post.content.slice(0, 100).replace(/[#*>\-|`]/g, "")}...
-              </p>
-              <div className="mt-3 flex items-center justify-between">
-                <div className="flex gap-1">
-                  {post.tags.slice(0, 2).map((tag) => (
-                    <Badge key={tag} variant="outline" className="text-xs">
-                      {tag}
-                    </Badge>
-                  ))}
-                </div>
-                <time className="text-xs text-muted-foreground">
-                  {new Date(post.createdAt).toLocaleDateString("zh-CN")}
-                </time>
-              </div>
-            </CardContent>
-          </Card>
-        </motion.div>
+    <div className="flex gap-2">
+      <input
+        type="text"
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        placeholder="输入玩家名称"
+        className="flex-1 rounded-md border bg-secondary px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-primary/50"
+        autoFocus
+        onKeyDown={(e) => { if (e.key === "Enter") onConfirm(value.trim()); }}
+      />
+      <button
+        onClick={() => onConfirm(value.trim())}
+        className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors"
+      >
+        确认
+      </button>
+    </div>
+  );
+}
+
+/** 封面滑动组件 — 第一张保持原比例，后续 fitXY */
+function CoverSlider({ covers }: { covers: string[] }) {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [containerHeight, setContainerHeight] = useState<number | undefined>(undefined);
+
+  const updateIndex = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el || el.clientWidth === 0) return;
+    const index = Math.round(el.scrollLeft / el.clientWidth);
+    setCurrentIndex(Math.min(index, covers.length - 1));
+  }, [covers.length]);
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const supportsScrollEnd = "onscrollend" in window;
+    let timer: ReturnType<typeof setTimeout> | null = null;
+    const onScrollEnd = () => updateIndex();
+    const onScroll = () => {
+      if (timer) clearTimeout(timer);
+      timer = setTimeout(updateIndex, 80);
+    };
+    if (supportsScrollEnd) {
+      el.addEventListener("scrollend", onScrollEnd);
+    } else {
+      el.addEventListener("scroll", onScroll);
+    }
+    return () => {
+      if (supportsScrollEnd) {
+        el.removeEventListener("scrollend", onScrollEnd);
+      } else {
+        el.removeEventListener("scroll", onScroll);
+      }
+      if (timer) clearTimeout(timer);
+    };
+  }, [updateIndex]);
+
+  if (covers.length === 1) {
+    return (
+      <img
+        src={covers[0]}
+        alt="封面"
+        className="w-full h-auto"
+      />
+    );
+  }
+
+  return (
+    <div className="relative" style={{ height: containerHeight }}>
+      <div
+        ref={scrollRef}
+        className="flex snap-x snap-mandatory overflow-x-auto [&::-webkit-scrollbar]:hidden"
+        style={{ scrollbarWidth: "none", height: containerHeight }}
+      >
+        {covers.map((src, i) => (
+          <div key={i} className="w-full flex-shrink-0 snap-center" style={{ height: containerHeight }}>
+            {i === 0 ? (
+              <img
+                src={src}
+                alt={`封面 ${i + 1}`}
+                className="w-full h-auto"
+                onLoad={(e) => {
+                  const img = e.currentTarget;
+                  setContainerHeight(img.offsetHeight);
+                }}
+              />
+            ) : (
+              <img src={src} alt={`封面 ${i + 1}`} className="w-full h-full object-cover" />
+            )}
+          </div>
+        ))}
+      </div>
+      {/* 指示器 */}
+      <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1.5 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
+        {covers.map((_, i) => (
+          <span
+            key={i}
+            className={`h-1.5 rounded-full transition-all ${
+              i === currentIndex ? "w-4 bg-white" : "w-1.5 bg-white/50"
+            }`}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/** 有封面图的卡片 — 列表只显示第一张 */
+function ImageCard({ post }: { post: BlogPostMeta }) {
+  const [imgError, setImgError] = useState(false);
+  const firstCover = post.cover![0];
+
+  if (imgError) return <TitleCard post={post} />;
+
+  return (
+    <div className="group relative overflow-hidden rounded-xl border bg-card shadow-sm transition-shadow hover:shadow-lg min-h-[120px]">
+      <img
+        src={firstCover}
+        alt={post.title}
+        className="w-full h-auto block"
+        loading="lazy"
+        onError={() => setImgError(true)}
+      />
+      <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent p-3 pt-8">
+        <span className="block text-sm font-medium text-white leading-snug line-clamp-2" style={{ textShadow: "0 1px 4px rgba(0,0,0,0.8)" }}>
+          {post.title}
+        </span>
+        <div className="mt-1.5 flex flex-wrap gap-1">
+          {post.tags.slice(0, 2).map((tag) => (
+            <span key={tag} className="rounded-full bg-white/20 px-2 py-0.5 text-[10px] text-white/90 backdrop-blur-sm">
+              {tag}
+            </span>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/** 无封面的标题卡片 */
+function TitleCard({ post }: { post: BlogPostMeta }) {
+  return (
+    <div className="relative flex aspect-square items-center justify-center overflow-hidden rounded-xl border bg-gradient-to-br from-secondary via-card to-secondary p-6 text-center shadow-sm transition-shadow hover:shadow-lg">
+      <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_30%_40%,oklch(0.55_0.12_160),transparent_60%),radial-gradient(circle_at_70%_70%,oklch(0.45_0.10_290),transparent_50%)]" />
+      <div className="relative z-10">
+        <span className="block text-base font-heading font-semibold leading-snug">
+          {post.title}
+        </span>
+        <div className="mt-3 flex flex-wrap justify-center gap-1">
+          {post.tags.map((tag) => (
+            <Badge key={tag} variant="outline" className="text-xs">
+              {tag}
+            </Badge>
+          ))}
+        </div>
+        <time className="mt-2 block text-xs text-muted-foreground">
+          {new Date(post.createdAt).toLocaleDateString("zh-CN")}
+        </time>
+      </div>
+    </div>
+  );
+}
+
+/** Tag 分级筛选栏 — 一级为 DropdownMenu 触发器（不可选），二级为 CheckboxItem */
+function TagFilterBar({
+  allTags,
+  selectedTags,
+  toggleTag,
+  clearTags,
+}: {
+  allTags: string[];
+  selectedTags: Set<string>;
+  toggleTag: (tag: string) => void;
+  clearTags: () => void;
+}) {
+  const categorizedTags = new Set<string>();
+  TAG_CATEGORIES.forEach((cat) => cat.tags.forEach((t) => categorizedTags.add(t)));
+  const otherTags = allTags.filter((t) => !categorizedTags.has(t));
+
+  const hasSelection = (tags: readonly string[]) =>
+    tags.some((t) => selectedTags.has(t));
+
+  return (
+    <>
+      {TAG_CATEGORIES.map((cat) => (
+        <DropdownMenu key={cat.name}>
+          <DropdownMenuTrigger asChild>
+            <button
+              className={`inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-xs font-medium transition-colors ${
+                hasSelection(cat.tags)
+                  ? "border-primary bg-primary/10 text-primary"
+                  : "border-border text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              {cat.name}
+              <ChevronDown className="h-3 w-3" />
+            </button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="start">
+            <DropdownMenuLabel className="text-xs">{cat.name}</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            {cat.tags.map((tag) => (
+              <DropdownMenuCheckboxItem
+                key={tag}
+                checked={selectedTags.has(tag)}
+                onCheckedChange={() => toggleTag(tag)}
+                onSelect={(e) => e.preventDefault()}
+              >
+                {tag}
+              </DropdownMenuCheckboxItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
       ))}
-    </motion.div>
+
+      {otherTags.length > 0 && (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <button
+              className={`inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-xs font-medium transition-colors ${
+                otherTags.some((t) => selectedTags.has(t))
+                  ? "border-primary bg-primary/10 text-primary"
+                  : "border-border text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              其他
+              <ChevronDown className="h-3 w-3" />
+            </button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="start">
+            <DropdownMenuLabel className="text-xs">其他</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            {otherTags.map((tag) => (
+              <DropdownMenuCheckboxItem
+                key={tag}
+                checked={selectedTags.has(tag)}
+                onCheckedChange={() => toggleTag(tag)}
+                onSelect={(e) => e.preventDefault()}
+              >
+                {tag}
+              </DropdownMenuCheckboxItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      )}
+
+      {selectedTags.size > 0 && (
+        <>
+          <div className="flex flex-wrap gap-1">
+            {Array.from(selectedTags).map((tag) => (
+              <Badge
+                key={tag}
+                variant="default"
+                className="cursor-pointer text-xs"
+                onClick={() => toggleTag(tag)}
+              >
+                {tag} ×
+              </Badge>
+            ))}
+          </div>
+          <button
+            onClick={clearTags}
+            className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+          >
+            清除
+          </button>
+        </>
+      )}
+    </>
   );
 }

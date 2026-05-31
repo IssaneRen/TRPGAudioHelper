@@ -1,0 +1,72 @@
+[
+  {
+    "id": "online-trpg-tools",
+    "title": "线上跑团工具测评",
+    "file": "posts/online-trpg-tools.md",
+    "cover": [
+      "https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=400&h=320&fit=crop"
+    ],
+    "tags": [
+      "杂谈",
+      "工具",
+      "测评"
+    ],
+    "renderMode": "markdown",
+    "createdAt": "2024-07-15T10:00:00Z",
+    "updatedAt": "2024-07-15T10:00:00Z"
+  },
+  {
+    "id": "dice-probability",
+    "title": "TRPG 骰子概率速查",
+    "file": "posts/dice-probability.md",
+    "cover": [
+      "https://images.unsplash.com/photo-1522069169874-c58ec4b76be5?w=400&h=400&fit=crop"
+    ],
+    "tags": [
+      "博客",
+      "教程",
+      "规则"
+    ],
+    "renderMode": "markdown",
+    "createdAt": "2024-06-05T10:00:00Z",
+    "updatedAt": "2024-06-05T10:00:00Z"
+  },
+  {
+    "id": "beginner-modules",
+    "title": "推荐：五个适合新手的模组",
+    "file": "posts/beginner-modules.md",
+    "tags": [
+      "博客",
+      "推荐",
+      "新手"
+    ],
+    "renderMode": "markdown",
+    "createdAt": "2024-04-10T09:00:00Z",
+    "updatedAt": "2024-04-10T09:00:00Z"
+  },
+  {
+    "id": "mist-city-record",
+    "title": "战报：《夜战》2026.05.24",
+    "file": "posts/mist-city-record.md",
+    "cover": [
+      "/blog/images/report-20260524/cover.png",
+      "/blog/images/report-20260524/recruit.png"
+    ],
+    "tags": [
+      "杂谈",
+      "跑团记录"
+    ],
+    "players": [
+      "pl.leina",
+      "pl.adam",
+      "pl.kiven",
+      "pl.cici",
+      "pl.leo",
+      "pl.daocaoren"
+    ],
+    "renderMode": "wiki",
+    "wikiEntryId": "report.mist-city-record-20260524",
+    "createdAt": "2024-04-01T14:00:00Z",
+    "updatedAt": "2026-05-24T12:00:00Z"
+  }
+]

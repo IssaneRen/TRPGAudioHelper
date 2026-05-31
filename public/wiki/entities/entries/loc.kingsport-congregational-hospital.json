@@ -1,0 +1,128 @@
+{
+  "id": "loc.kingsport-congregational-hospital",
+  "category": "location",
+  "displayName": "金斯波特公理会医院 Kingsport Congregational Hospital",
+  "summary": "镇上最重要的医疗机构，也是艾伦、莱纳与甘三条行动线真正交汇的核心场景。",
+  "aliasNames": [
+    "Kingsport Congregational Hospital",
+    "金斯波特公理会医院"
+  ],
+  "playerIds": [
+    "pl.cici",
+    "pl.leina",
+    "pl.daocaoren"
+  ],
+  "moduleIds": [
+    "module.kingsport-city-in-the-mists"
+  ],
+  "relatedEntryIds": [
+    "char.allen",
+    "char.leina",
+    "char.gan",
+    "event.kingsport-nightmare-19281109",
+    "loc.kingsport"
+  ],
+  "facts": [
+    {
+      "label": "类型",
+      "value": "综合医院"
+    },
+    {
+      "label": "所在地区",
+      "value": "金斯波特"
+    },
+    {
+      "label": "叙事作用",
+      "value": "人物交汇 / 病例聚集 / 异常发酵中枢"
+    }
+  ],
+  "content": [
+    {
+      "type": "heading",
+      "text": "地点概览"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "金斯波特公理会医院是镇内最重要的医疗机构，也是 "
+        },
+        {
+          "type": "ref",
+          "entryId": "char.allen",
+          "label": "艾伦"
+        },
+        {
+          "type": "text",
+          "text": "、"
+        },
+        {
+          "type": "ref",
+          "entryId": "char.leina",
+          "label": "莱纳"
+        },
+        {
+          "type": "text",
+          "text": " 与 "
+        },
+        {
+          "type": "ref",
+          "entryId": "char.gan",
+          "label": "甘"
+        },
+        {
+          "type": "text",
+          "text": " 三人命运真正交汇的场所。"
+        }
+      ]
+    },
+    {
+      "type": "list",
+      "items": [
+        [
+          {
+            "type": "text",
+            "text": "作为医院，它负责给最早的异常病例命名与归档。"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "作为场景，它把原本分散的角色行动线压缩进同一空间。"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "作为战报回顾节点，它往往是多个超链接重新汇流的地方。"
+          }
+        ]
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "医院的公开记录表面上保持完整，但 "
+        },
+        {
+          "type": "secret-inline",
+          "playerIds": [
+            "pl.cici",
+            "pl.leina",
+            "pl.daocaoren"
+          ],
+          "text": "夜班日志与病房照明记录之间存在明显断层"
+        },
+        {
+          "type": "text",
+          "text": "，这也是很多 PL 在回顾时会重新注意到的细节。"
+        }
+      ]
+    }
+  ],
+  "createdAt": "1928-11-06T10:00:00Z",
+  "updatedAt": "1928-11-09T20:00:00Z"
+}

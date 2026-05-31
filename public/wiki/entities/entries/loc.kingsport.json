@@ -1,0 +1,153 @@
+{
+  "id": "loc.kingsport",
+  "category": "location",
+  "displayName": "金斯波特 Kingsport",
+  "summary": "被海雾与流言包围的港口小镇。1928 年秋季，异常病例、梦境异变与调查员命运都在这里汇聚。",
+  "aliasNames": [
+    "Kingsport",
+    "金斯波特"
+  ],
+  "playerIds": [
+    "pl.cici",
+    "pl.leina",
+    "pl.daocaoren",
+    "pl.adam",
+    "pl.kiven",
+    "pl.leo"
+  ],
+  "moduleIds": [
+    "module.kingsport-city-in-the-mists"
+  ],
+  "relatedEntryIds": [
+    "loc.kingsport-congregational-hospital",
+    "event.kingsport-blindness-19281106",
+    "event.kingsport-nightmare-19281109",
+    "module.kingsport-city-in-the-mists",
+    "char.adam",
+    "char.kiven",
+    "char.leo"
+  ],
+  "facts": [
+    {
+      "label": "类型",
+      "value": "海港小镇"
+    },
+    {
+      "label": "氛围",
+      "value": "常年迷雾、潮湿、居民沉默"
+    },
+    {
+      "label": "观看视角",
+      "value": "跑后回顾 / 战报补充阅读 / 世界设定跳转入口"
+    }
+  ],
+  "content": [
+    {
+      "type": "heading",
+      "text": "地点概览"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "金斯波特 Kingsport 是一座终年笼罩在雾中的海港小镇。对 PL 来说，这里并不是主持人备团用的内部资料库，而是跑完之后回看人物、地点与事件关系时最容易进入的总入口。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "如果你在战报文章里看到某个地点或事件被提及，通常都可以从这里继续跳到 "
+        },
+        {
+          "type": "ref",
+          "entryId": "loc.kingsport-congregational-hospital",
+          "label": "金斯波特公理会医院"
+        },
+        {
+          "type": "text",
+          "text": "、"
+        },
+        {
+          "type": "ref",
+          "entryId": "event.kingsport-blindness-19281106",
+          "label": "失明案件"
+        },
+        {
+          "type": "text",
+          "text": " 或 "
+        },
+        {
+          "type": "ref",
+          "entryId": "event.kingsport-nightmare-19281109",
+          "label": "噩梦事件"
+        },
+        {
+          "type": "text",
+          "text": "。"
+        }
+      ]
+    },
+    {
+      "type": "list",
+      "items": [
+        [
+          {
+            "type": "text",
+            "text": "常年多雾，方向感和距离感都容易被削弱。"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "居民对外来者保持克制甚至冷漠，强化了“被这座城观察”的异样感。"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "港口、街巷与医院共同构成异常扩散的空间网络。"
+          }
+        ]
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "地理与参考资料（跑后补遗）"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "补充：我们在跑团记录里使用过一份“金斯波特附近地图”和《混沌社官方阿卡姆扩展》的截图作为参考。相关图片已落盘到站内静态资源，路径分别为：/wiki/images/kingsport/map-nearby.jpeg、/wiki/images/kingsport/arkham-expansion-501.png、/wiki/images/kingsport/arkham-expansion-502.png、/wiki/images/kingsport/arkham-expansion-503.png。"
+        }
+      ]
+    },
+    {
+      "type": "secret-panel",
+      "title": "调查员共通补遗",
+      "playerIds": [
+        "pl.cici",
+        "pl.leina",
+        "pl.daocaoren"
+      ],
+      "blocks": [
+        {
+          "type": "paragraph",
+          "tokens": [
+            {
+              "type": "text",
+              "text": "从高处俯瞰时，金斯波特的雾层并不总是自然流动。在某些清晨，雾像是沿着尚未发生的事件轨迹重新排列。"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "createdAt": "1928-11-01T08:00:00Z",
+  "updatedAt": "1928-11-09T20:00:00Z"
+}

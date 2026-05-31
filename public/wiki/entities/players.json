@@ -1,0 +1,32 @@
+[
+  {
+    "id": "pl.cici",
+    "displayName": "Cici",
+    "aliases": ["cici", "CC", "艾伦PL"]
+  },
+  {
+    "id": "pl.leina",
+    "displayName": "莱纳",
+    "aliases": ["leina", "莱纳PL"]
+  },
+  {
+    "id": "pl.daocaoren",
+    "displayName": "稻草人",
+    "aliases": ["daocaoren", "甘PL"]
+  },
+  {
+    "id": "pl.adam",
+    "displayName": "Adam",
+    "aliases": ["adam", "pl2", "掷弹兵PL"]
+  },
+  {
+    "id": "pl.kiven",
+    "displayName": "Kiven",
+    "aliases": ["kiven", "pl3", "上尉PL"]
+  },
+  {
+    "id": "pl.leo",
+    "displayName": "Leo",
+    "aliases": ["leo", "pl5", "通讯兵PL"]
+  }
+]

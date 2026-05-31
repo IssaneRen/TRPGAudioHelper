@@ -37,24 +37,32 @@ src/
   components/       # Shared UI components (Shadcn/ui based)
     ui/             # Shadcn/ui generated components
   pages/            # Top-level tab pages
-    ProfileTab/     # TAB1 - Personal intro & module links
-    ModuleToolTab/  # TAB2 - Module clue DAG visualization
-    BlogTab/        # TAB3 - Blog & articles
+    ProfileTab/     # TAB1 - Personal intro (static config-driven)
+    ToolboxTab/     # TAB2 - Toolbox layout (dropdown menu + nested routes)
+    ModuleToolTab/  # TAB2 sub - Module clue DAG visualization
+    SoundboardTab/  # TAB2 sub - Audio keyboard
+    BlogTab/        # TAB3 - Blog & articles (static markdown files)
   hooks/            # Custom React hooks
   lib/              # Third-party library wrappers (cn, etc.)
   stores/           # State management (local storage sync)
   types/            # TypeScript type definitions
   utils/            # Utility functions (JSON import/export, etc.)
   assets/           # Static assets
+public/
+  config/           # Static config files (profile.json)
+  blog/             # Blog posts (index.json + posts/*.md)
+  live2d/           # Live2D model resources
 ```
 
 ### Key Design Decisions
 
-- **Three-tab layout**: ProfileTab, ModuleToolTab, BlogTab as core navigation
-- **JSON import/export**: TAB1 and TAB2 data can be exported as JSON and imported on another device, enabling cross-device migration without a backend
-- **DAG visualization**: React Flow handles the clue network graph — nodes are clues/items, edges are relationships (many-to-many). Discovery is triggered by clicking edges (relationships), which marks both connected nodes as discovered. Direct node click is a special case requiring supplementary explanation.
+- **Three-tab layout**: 个人介绍 / 工具箱 / 博客杂谈 as core navigation
+- **Toolbox nested routes**: `/tools/module-clue`, `/tools/soundboard`, `/tools/battle` with lazy loading and DropdownMenu switching
+- **Static config-driven Profile**: `public/config/profile.json` drives all content, no editing UI
+- **Static blog files**: `public/blog/index.json` + `public/blog/posts/*.md`, fetched and cached at runtime（支持 `renderMode: markdown/wiki`；wiki 模式由 `wikiEntryId` 绑定并内嵌世界 Wiki 词条渲染；战报必须绑定独立 `report` 词条，不要复用 `module` 介绍词条）
+- **DAG visualization**: React Flow handles the clue network graph — nodes are clues/items, edges are relationships (many-to-many). Discovery is triggered by clicking edges (relationships), which marks both connected nodes as discovered.
 - **Visual style**: Cthulhu/cosmic horror aesthetic — dark theme priority, eerie fonts, muted greens/purples
-- **No backend required**: All data persists in localStorage; the app is a pure SPA
+- **No backend required**: All data persists in localStorage/IndexedDB; the app is a pure SPA
 
 ## Language & Communication
 

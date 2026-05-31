@@ -1,0 +1,85 @@
+{
+  "id": "char.leo",
+  "category": "character",
+  "displayName": "Leo",
+  "summary": "M 军通讯兵。看起来不太靠谱，读书也不努力，但偏偏靠着（抄袭来的）技巧混成了高级文凭；在噩梦里，能把“联系”这件事做对就足够救命。",
+  "aliasNames": [
+    "Leo",
+    "里奥"
+  ],
+  "playerIds": [
+    "pl.leo"
+  ],
+  "moduleIds": [
+    "module.profile.night-battle"
+  ],
+  "relatedEntryIds": [
+    "loc.kingsport",
+    "loc.arkham",
+    "char.allen",
+    "char.leina",
+    "char.adam",
+    "char.kiven",
+    "char.gan",
+    "event.kingsport-nightmare-19281109"
+  ],
+  "facts": [
+    {
+      "label": "身份",
+      "value": "通讯兵"
+    },
+    {
+      "label": "军籍",
+      "value": "M 国"
+    },
+    {
+      "label": "对应 PL",
+      "value": "Leo"
+    }
+  ],
+  "content": [
+    {
+      "type": "heading",
+      "text": "人物概览"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "Leo 是一名通讯兵。战场上最可怕的不是炮声，而是“失联”。他嘴碎、投机、偶尔犯蠢，但只要还连得上队友，就不会让整条线彻底断掉。"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "在队伍中的作用"
+    },
+    {
+      "type": "list",
+      "items": [
+        [
+          {
+            "type": "text",
+            "text": "负责维持队伍之间的沟通与同步：信息差越小，误操作越少。"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "在压抑段落里提供“活人的噪音”：用荒唐把恐惧挤开一点点。"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "关键时刻能把复杂事说成一句话：这在梦境场景里尤其重要。"
+          }
+        ]
+      ]
+    }
+  ],
+  "createdAt": "1928-11-08T20:50:00Z",
+  "updatedAt": "1928-11-09T20:00:00Z"
+}
+

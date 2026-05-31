@@ -1,5 +1,6 @@
 import { useState, useCallback } from "react";
 import type { ModuleClueData, ClueNode, ClueEdge } from "@/types";
+import { generateUUID } from "@/utils/uuid";
 
 const STORAGE_KEY = "trpg-clue-data";
 const DATA_VERSION = "1.1"; // 递增以强制刷新旧 localStorage 数据
@@ -177,7 +178,7 @@ export function useClueStore() {
   /** 创建新的空白模组 */
   const createNewModule = useCallback((moduleName: string) => {
     const newData: ModuleClueData = {
-      moduleId: crypto.randomUUID(),
+      moduleId: generateUUID(),
       moduleName,
       nodes: [
         {

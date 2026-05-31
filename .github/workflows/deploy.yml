@@ -1,0 +1,95 @@
+name: Deploy to Server
+
+on:
+  push:
+    branches: [master]
+    paths-ignore:
+      - 'public/blog/**'
+      - 'public/wiki/**'
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
+        run: pnpm build
+
+      - name: Prepare remote directory
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script: |
+            sudo rm -rf /var/www/trpg-helper
+            sudo mkdir -p /var/www/trpg-helper
+            sudo chown ubuntu:ubuntu /var/www/trpg-helper
+            chmod 755 /var/www/trpg-helper
+
+      - name: Deploy to server via SCP
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          source: "dist/*"
+          target: "/var/www/trpg-helper"
+          strip_components: 1
+          overwrite: true
+
+      - name: Configure and reload Nginx
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script: |
+            sudo tee /etc/nginx/sites-enabled/trpg-helper > /dev/null <<'NGINX'
+            server {
+                listen 80 default_server;
+                server_name _;
+
+                root /var/www/trpg-helper;
+                index index.html;
+
+                # /blog is both a SPA route and a deployed content directory.
+                location = /blog {
+                    try_files /index.html =404;
+                }
+
+                location = /blog/ {
+                    try_files /index.html =404;
+                }
+
+                location / {
+                    try_files $uri /index.html;
+                }
+            }
+            NGINX
+            sudo rm -f /etc/nginx/sites-enabled/default
+            sudo nginx -t && sudo systemctl reload nginx
+            echo "Deploy done - $(date '+%Y-%m-%d %H:%M:%S')"

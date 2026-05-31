@@ -7,12 +7,8 @@ import { useAudioManager } from "@/hooks/use-audio-manager";
 import { useKeyboardListener } from "@/hooks/use-keyboard-listener";
 import { useSoundboardStore } from "@/stores/use-soundboard-store";
 import { ALL_KEYS, KEY_LABELS, SOUND_LABELS, type KeyCode } from "./keyboard-layout";
-import { synthesizeBuffer, SOUND_SYNTH_MAP } from "./sound-synthesis";
 import { Keyboard3D } from "./Keyboard3D";
 import { SoundSettings } from "./SoundSettings";
-
-/** 分批大小 */
-const BATCH_SIZE = 5;
 
 interface ActivePlayback {
   id: string;
@@ -76,42 +72,24 @@ export default function SoundboardTab() {
     loadUserSounds();
   }, [soundStore.mappings, audioManager]);
 
-  // 使用拟真合成音效加载默认音效（分批加载，5个一批）
-  // 如果已导入音效包，跳过合成音效加载
+  // 首次使用时装载随应用发布的默认音效包；未定义的按键保持为空。
   useEffect(() => {
-    if (defaultsLoaded || soundStore.packMeta) return;
+    if (defaultsLoaded || soundStore.packMeta || soundStore.mappings.length > 0) return;
     let cancelled = false;
 
     const loadDefaults = async () => {
-      // 收集需要加载的按键
-      const keysToLoad = ALL_KEYS.filter(
-        (key) => key !== "Enter" && !boundKeys.has(key) && SOUND_SYNTH_MAP[key]
-      );
-      const total = keysToLoad.length;
-      setLoadProgress({ loaded: 0, total });
-
-      // 分批加载
-      for (let i = 0; i < keysToLoad.length; i += BATCH_SIZE) {
-        if (cancelled) return;
-        const batch = keysToLoad.slice(i, i + BATCH_SIZE);
-        const results = await Promise.allSettled(
-          batch.map(async (key) => {
-            const buffer = await synthesizeBuffer(key);
-            audioManager.preloadBuffer(`default-${key}`, buffer);
-          })
-        );
-        // 统计成功数
-        const succeeded = results.filter((r) => r.status === "fulfilled").length;
+      setLoadProgress({ loaded: 0, total: 1 });
+      try {
+        await soundStore.loadBundledPack();
+        if (!cancelled) setLoadProgress({ loaded: 1, total: 1 });
+      } catch (err) {
         if (!cancelled) {
-          setLoadProgress((prev) => ({
-            ...prev,
-            loaded: Math.min(prev.loaded + succeeded, total),
-          }));
+          toast.error(err instanceof Error ? err.message : "默认音效包加载失败");
         }
-      }
-
-      if (!cancelled) {
-        setDefaultsLoaded(true);
+      } finally {
+        if (!cancelled) {
+          setDefaultsLoaded(true);
+        }
       }
     };
     loadDefaults();
@@ -119,7 +97,7 @@ export default function SoundboardTab() {
     return () => {
       cancelled = true;
     };
-  }, [audioManager, boundKeys, defaultsLoaded, soundStore.packMeta]);
+  }, [defaultsLoaded, soundStore]);
 
   const removePlayback = useCallback((playbackId: string) => {
     if (!mountedRef.current) return;
@@ -162,12 +140,9 @@ export default function SoundboardTab() {
         return;
       }
 
-      // 优先播放用户绑定的音效，否则播放默认音效
-      const mapping = boundKeys.has(key) ? soundStore.getMapping(key) : undefined;
-      const playback = audioManager.play(
-        mapping ? key : `default-${key}`,
-        { onEnded: removePlayback, volume: mapping?.volume ?? 1 }
-      );
+      const mapping = soundStore.getMapping(key);
+      if (!mapping) return;
+      const playback = audioManager.play(key, { onEnded: removePlayback, volume: mapping.volume ?? 1 });
 
       if (playback) {
         const fallbackTimer = window.setTimeout(
@@ -186,7 +161,7 @@ export default function SoundboardTab() {
         ]);
       }
     },
-    [audioManager, boundKeys, getPlaybackLabel, removePlayback, soundStore]
+    [audioManager, getPlaybackLabel, removePlayback, soundStore]
   );
 
   const handleKeyUp = useCallback((key: KeyCode) => {
@@ -304,8 +279,8 @@ export default function SoundboardTab() {
   // 清除音效包
   const handleClearPack = useCallback(() => {
     soundStore.clearPack();
-    setDefaultsLoaded(false); // 允许重新加载合成音效
-    toast.success("已清除音效包，恢复默认合成音效");
+    setDefaultsLoaded(false);
+    toast.success("已清除自定义音效包，恢复默认音效包");
   }, [soundStore]);
 
   return (
@@ -359,21 +334,21 @@ export default function SoundboardTab() {
           <div className="flex items-center gap-2 text-sm">
             <span className="font-medium text-primary">{soundStore.packMeta.name}</span>
             <span className="text-muted-foreground">({soundStore.packMeta.keyCount} 个音效)</span>
-            <Button
-              variant="ghost"
-              size="sm"
-              className="h-6 px-1.5 text-destructive hover:text-destructive"
-              onClick={handleClearPack}
-            >
-              <Trash2 className="h-3 w-3" />
-            </Button>
+            {soundStore.packMeta.source !== "bundled" && (
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-6 px-1.5 text-destructive hover:text-destructive"
+                onClick={handleClearPack}
+              >
+                <Trash2 className="h-3 w-3" />
+              </Button>
+            )}
           </div>
         )}
         <div className="flex gap-4 text-sm text-muted-foreground">
           <span>已绑定: {boundKeys.size} / {ALL_KEYS.length - 1} 个按键</span>
-          {!soundStore.packMeta && (
-            <span>默认音效: {ALL_KEYS.length - 1 - boundKeys.size} 个</span>
-          )}
+          <span>空按键: {ALL_KEYS.length - 1 - boundKeys.size} 个</span>
         </div>
         {!defaultsLoaded && !soundStore.packMeta && loadProgress.total > 0 && (
           <div className="flex items-center gap-2 text-xs text-muted-foreground">
@@ -403,7 +378,7 @@ export default function SoundboardTab() {
       <p className="text-xs text-muted-foreground text-center max-w-md px-4">
         {soundStore.packMeta
           ? "当前使用音效包。点击「导入音效包」切换其他包，或在「设置」中单独替换某个按键。"
-          : "点击「导入音效包」加载音效文件夹（需含 manifest.json）。未绑定的按键使用合成音效。"
+          : "正在加载默认音效包。音效包未绑定的按键保持为空。"
         }
       </p>
 

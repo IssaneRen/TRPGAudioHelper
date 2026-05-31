@@ -1,0 +1,132 @@
+{
+  "id": "event.kingsport-blindness-19281106",
+  "category": "event",
+  "displayName": "1928.11.6 - 金斯波特失明案件",
+  "summary": "1928 年 11 月 6 日爆发的异常失明案件。它不是孤立病例，而是后续噩梦事件的前兆与入口。",
+  "aliasNames": [
+    "金斯波特失明案件",
+    "1928.11.6 失明案件"
+  ],
+  "playerIds": [
+    "pl.cici"
+  ],
+  "moduleIds": [
+    "module.kingsport-city-in-the-mists"
+  ],
+  "relatedEntryIds": [
+    "char.allen",
+    "loc.kingsport",
+    "loc.kingsport-congregational-hospital",
+    "event.kingsport-nightmare-19281109"
+  ],
+  "facts": [
+    {
+      "label": "日期",
+      "value": "1928-11-06"
+    },
+    {
+      "label": "影响范围",
+      "value": "金斯波特本地居民与就诊病例"
+    },
+    {
+      "label": "核心关联人",
+      "value": "艾伦 Allen"
+    }
+  ],
+  "content": [
+    {
+      "type": "heading",
+      "text": "事件概览"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "1928 年 11 月 6 日，金斯波特出现了最早被系统记录的异常失明案件。最初它被视为医学问题，但随着调查推进，人们逐渐意识到它更像是后续异变的前兆。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "这一事件直接把 "
+        },
+        {
+          "type": "ref",
+          "entryId": "char.allen",
+          "label": "艾伦"
+        },
+        {
+          "type": "text",
+          "text": " 引入了 "
+        },
+        {
+          "type": "ref",
+          "entryId": "loc.kingsport-congregational-hospital",
+          "label": "金斯波特公理会医院"
+        },
+        {
+          "type": "text",
+          "text": " 的调查链，也为后来的 "
+        },
+        {
+          "type": "ref",
+          "entryId": "event.kingsport-nightmare-19281109",
+          "label": "噩梦事件"
+        },
+        {
+          "type": "text",
+          "text": " 埋下了伏笔。"
+        }
+      ]
+    },
+    {
+      "type": "list",
+      "items": [
+        [
+          {
+            "type": "text",
+            "text": "病例表现与常规眼科损伤并不吻合。"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "失明与后续梦境异变之间存在明显但暂未完全解释的关联。"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "战报回顾时，这通常是理解整个事件链的第一个时间节点。"
+          }
+        ]
+      ]
+    },
+    {
+      "type": "secret-panel",
+      "title": "艾伦线补遗",
+      "playerIds": [
+        "pl.cici",
+        "pl.leina",
+        "pl.daocaoren"
+      ],
+      "blocks": [
+        {
+          "type": "paragraph",
+          "tokens": [
+            {
+              "type": "text",
+              "text": "艾伦曾怀疑，部分患者并不是“看不见”，而是“在看见了错误的东西之后，被迫拒绝继续观看”。如果这是真的，那么失明本身也许是一种保护性的崩溃反应。"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "createdAt": "1928-11-06T08:00:00Z",
+  "updatedAt": "2026-05-27T08:53:36.492Z"
+}

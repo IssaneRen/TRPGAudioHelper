@@ -1,0 +1,57 @@
+name: Deploy Static Content
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - 'public/blog/**'
+      - 'public/wiki/**'
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  deploy-static-content:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Deploy blog files to server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          source: "public/blog/*"
+          target: "/var/www/trpg-helper"
+          strip_components: 1
+          overwrite: true
+
+      - name: Deploy wiki files to server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          source: "public/wiki/*"
+          target: "/var/www/trpg-helper"
+          strip_components: 1
+          overwrite: true
+
+      - name: Verify deployment
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script: |
+            echo "Static content deployed - $(date '+%Y-%m-%d %H:%M:%S')"
+            echo "Files in /var/www/trpg-helper/blog/:"
+            ls -la /var/www/trpg-helper/blog/
+            echo "Files in /var/www/trpg-helper/wiki/:"
+            ls -la /var/www/trpg-helper/wiki/
