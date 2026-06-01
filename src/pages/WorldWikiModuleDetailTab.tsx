@@ -4,6 +4,7 @@ import { ArrowLeft } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { ModuleDescription } from "@/features/modules/ModuleDescription";
 import type { WikiIndexPayload, WikiModule } from "@/types/wiki";
 
 export default function WorldWikiModuleDetailTab() {
@@ -86,12 +87,10 @@ export default function WorldWikiModuleDetailTab() {
             </div>
 
             {module.description && (
-              <div className="mt-8 space-y-3">
-                <h2 className="text-lg font-heading font-semibold">备团导读</h2>
-                <div className="rounded-2xl border border-border/60 bg-background/65 p-4">
-                  <pre className="whitespace-pre-wrap break-words text-sm leading-7 text-foreground/90">
-                    {module.description}
-                  </pre>
+              <div className="mt-8 space-y-4">
+                <h2 className="text-lg font-heading font-semibold">模组导读</h2>
+                <div className="rounded-2xl border border-border/60 bg-background/65 p-4 md:p-5">
+                  <ModuleDescription description={module.description} />
                 </div>
               </div>
             )}

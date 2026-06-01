@@ -146,3 +146,23 @@ Phase 4: 判定
 - 实习生 agent 之间不能有依赖关系，必须并行派发。
 - 专家 agent 之间也必须并行派发。
 - 每轮开始时用 TaskCreate 创建任务跟踪进度。
+
+## 博客内容生产（专用拆分）
+
+当任务涉及**博客四类内容**（模组介绍 / 战报 / 网络模组评测 / 随笔）或 **Markdown↔Wiki 互转**时，在 Phase 1 优先采用以下 4+ 调研方向（可并行）：
+
+| 实习生方向 | 研究问题 | 搜索范围 |
+|------------|----------|----------|
+| 项目约束 | 战报 vs 模组 vs markdown 如何落盘？ | `.cursor/rules/blog-post-modes.md`、`src/types/wiki.ts` |
+| 格式互转 | Wiki block 与 Markdown 如何映射？ | `convert-md-wiki.md`、示例 `report.*.json` |
+| 外网方法论 | 战报/模组写作与 Content CI 流水线？ | WebSearch + `docs/reports/*-blog-content*.md` |
+| 架构落盘 | frontmatter、index、剧透门条件？ | `BlogTab/index.tsx`、`scripts/wiki-data.ts` |
+
+Phase 2 汇报应引用子 Skill 设计，而非重复发明流水线：
+
+- 总编排：`.claude/skills/blog-content-pipeline.md`
+- Skill 1–4：`polish-article` / `update-article-for-architecture` / `convert-md-wiki` / `research-trpg-sources`
+
+Phase 3 专家除 `tech-expert` 外，可增派 `wiki-validator` 角色做 schema 专项复核。
+
+**单篇写作**不必启动全团队；用 `blog-content-pipeline` 按阶段调用子 Skill 即可。

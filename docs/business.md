@@ -144,6 +144,17 @@
    - 若是战报，`wikiEntryId` 应指向独立 `report.*` 词条，而不是 `module.*` 词条
    - 若需要“我跑过的”筛选：frontmatter `players` 必须使用 PL 唯一 key（如 `pl.cici`），不要写角色名/显示名
 
+### 内容类型与 Agent 工作流（规划）
+
+| 内容类型 | 主存储 | 推荐 Skill 链 |
+|----------|--------|----------------|
+| 原创模组介绍 | `modules.json` + 可选 `module.*` | research → polish → update-article-for-architecture |
+| 战报 | `report.*` + 博客 wiki 绑定 | research → polish → convert-md-wiki → update-article-for-architecture |
+| 网络模组评测 | `posts/*.md` | research → polish → update-article-for-architecture |
+| 原创故事/随笔 | `posts/*.md` | polish → update-article-for-architecture |
+
+总编排见 `.claude/skills/blog-content-pipeline.md`；调研报告见 `docs/reports/2026-05-28-blog-content-workflow-research.md`。
+
 ### 关键代码位置
 
 | 功能 | 文件路径 | 说明 |

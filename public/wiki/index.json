@@ -273,6 +273,74 @@
       "tags": [
         "1920s"
       ]
+    },
+    {
+      "id": "module.campaign.sorrow.house-of-shadows",
+      "displayName": "暗影之屋",
+      "aliases": [
+        "House of Shadows",
+        "Tenebrarum",
+        "苦痛三圣母·第一篇"
+      ],
+      "summary": "现代美国鬼故事战役《苦痛三圣母》第一篇：从一场离奇车祸与公寓楼噩梦切入，几乎不涉及典型克苏鲁神话。",
+      "ruleSystem": "COC7",
+      "playerCount": "3-5",
+      "duration": "8-12h",
+      "campaign": "苦痛三圣母",
+      "description": "【简介】\nKevin Ross 官模战役《Our Ladies of Sorrow》（中译常作「苦痛三圣母/苦痛三姐妹」）的第一篇，时代为现代美国，基调是公寓闹鬼式心理恐怖与梦境压迫，而非触手神话。调查员从日常街头目睹的「只有我们看见的追车老妇」被卷入一栋名为「三姐妹」的公寓楼，住户与噩梦的纠葛逐渐浮出水面。\n\n【我怎么看】\n（以下基于公开书评与模组结构说明，非本团口述。）这篇很像欧美恐怖片里的「凶宅/合租公寓」开场：线索密、氛围足，但和经典 1920 官模完全不是一路——默认几乎没有克苏鲁神话，恐怖来自「三圣母」式的悲伤与疯狂母题。作为战役第一篇，它负责把「姐妹会盯上你们」这条线钉死，后面两篇才会在沙漠与洪水中升级。若你车队厌倦神话生物打卡，这篇会耳目一新；若你只想打旧日支配者，需要心理预期或 KP 事后叠神话层。\n\n【适合谁来玩】\n适合 3–5 人小车、能接受现代背景与鬼故事、对梦境/ SAN 小额磨损有耐心的玩家。不太适合：只想枪战推图、完全拒绝非神话恐怖、或无法接受公寓慢热调查的队伍。\n\n【跑之前需要知道什么】\n· 这是战役第一篇，无硬性前作，但后两篇会默认调查员已被「姐妹」注意。\n· 规则上按 COC 现世代（现代）处理；模组原版为 Miskatonic River Press 2009 出版。\n· 涉及自杀、精神崩溃、凶宅与谋杀等题材，请车队事先沟通底线。\n· 玩家须知：本篇重点是「你们为什么会被卷进来」，不是查克苏鲁百科全书。\n\n:::spoiler 跑后剧透 · 未跑勿读（据公开评测整理）\n反派线与 Mater Tenebrarum（黑暗圣母）相关；高潮围绕公寓内谋杀与 Mater 的人类化身身份揭露。战役后段会通过噩梦、夜魇（Night Hag）等反复削 SAN。尾声篇《The Final Cut》会回溯本篇公寓住户，提示姐妹们的记忆很长。:::",
+      "tags": [
+        "现代",
+        "战役",
+        "鬼怪",
+        "美洲",
+        "心理恐怖"
+      ]
+    },
+    {
+      "id": "module.campaign.sorrow.desert-of-sighs",
+      "displayName": "叹息沙漠",
+      "aliases": [
+        "Desert of Sighs",
+        "Suspiriorum",
+        "苦痛三圣母·第二篇"
+      ],
+      "summary": "战役第二篇：莫哈韦沙漠失踪案，超现实沙漠与「叹息」母题，情绪与失控感强于第一篇。",
+      "ruleSystem": "COC7",
+      "playerCount": "3-5",
+      "duration": "10-14h",
+      "campaign": "苦痛三圣母",
+      "description": "【简介】\n《苦痛三圣母》第二篇。调查员介入亚利桑那「叹息沙漠」一带的大学生失踪搜救：一名幸存者踉跄走出，其余人仍失联。沙漠在当地有长期失踪与怪谈纪录，科技失灵、迷路、风声与人声交织，调查往往要以「主动迷失」才能触及真相边缘。\n\n【我怎么看】\n（以下基于公开书评，非本团口述。）若第一篇是室内鬼片，这一篇更像公路片掉进六十年代迷幻恐怖：环境把你们困住，角色控制感会被剥一层——部分玩家可能不适，但情绪张力也更高。公开评论普遍认为本篇比开篇更成熟、更虐心，适合已经建立人物关系的战役车队。和典型 CoC 不同的是，恐怖仍主要来自「叹息圣母」一脉，而非深潜者打卡。\n\n【适合谁来玩】\n适合能承受开放荒野、心理压力、以及「剧情要求你们做出妥协选择」的队伍。不适合：强烈依赖现代通讯/GPS 一键解谜、或拒绝角色被动失控感的玩家。\n\n【跑之前需要知道什么】\n· 强烈建议按战役顺序：至少跑完《暗影之屋》，否则姐妹盯上你们的因果链会弱很多。\n· 时间线设定在盛夏，可与第一篇相隔数月（战役设计为一年内跑完三篇）。\n· 沙漠生存、搜救时限与家属压力会推动节奏，玩家请做好「时间不够」的心理准备。\n· 仍默认为现代美国；敏感点包括失踪、伤亡与超现实恐怖视觉。\n\n:::spoiler 跑后剧透 · 未跑勿读（据公开评测整理）\n 与 Mater Suspiriorum（叹息圣母）相关，主题指向迷路者、流浪者与「回家」的扭曲召唤。调查员可能遭遇沙漠边缘的诡异「城市」意象、以及轻度神话元素（评测提及可选项，非默认主线）。姐妹会通过梦境继续施压。:::",
+      "tags": [
+        "现代",
+        "战役",
+        "鬼怪",
+        "美洲",
+        "心理恐怖",
+        "沙漠"
+      ]
+    },
+    {
+      "id": "module.campaign.sorrow.river-of-tears",
+      "displayName": "泪之河",
+      "aliases": [
+        "River of Tears",
+        "Lachrymarum",
+        "苦痛三圣母·第三篇"
+      ],
+      "summary": "战役第三篇：伊利诺伊洪水小镇、拉约里纳（La Llorona）传说与社区撕裂，水系恐怖与系列高潮。",
+      "ruleSystem": "COC7",
+      "playerCount": "3-5",
+      "duration": "10-14h",
+      "campaign": "苦痛三圣母",
+      "description": "【简介】\n《苦痛三圣母》第三篇。调查员被点名卷入伊利诺伊 Baleford 一带：连日暴雨、堤坝告急、拉美社区中「哭泣女人」拉约里纳的目击与儿童失踪交织。警民关系、洪水与种族张力同时收紧，调查与救灾抢在同一条时间线上。\n\n【我怎么看】\n（以下基于公开书评，非本团口述。）本篇把 J-Horror 式意象（哭泣女人、水）和社会议题绑在一起，压迫感来自「水会涨、人会死、孩子等不了」——比前两篇更外部化、更灾难片。公开评论称结尾有很强「尾刺」，适合作为三篇主线的收束（之后还有短篇尾声《The Final Cut》）。若你车队在前两篇已和 NPC/彼此建立情感，本篇收益最大。\n\n【适合谁来玩】\n适合能接受社会冲突描写、灾难背景、以及儿童失踪题材（须车队 Session Zero 确认底线）的玩家。不适合：只想封闭密室、或不愿处理现代美国社区议题的队伍。\n\n【跑之前需要知道什么】\n· 建议完成前两篇；姐妹对调查员的梦境与追杀会延续。\n· 冬季时间线，洪水机制会限制移动与调查窗口。\n· 玩家须知：本篇会要求你们在「救人/查真相/站队」之间做取舍，不是纯解谜。\n· 尾声篇可选，篇幅较短，用于回收第一篇公寓线人物。\n\n:::spoiler 跑后剧透 · 未跑勿读（据公开评测整理）\n 与 Mater Lachrymarum（泪之圣母）及丧子、失物主题相连；拉约里纳作为意象与姐妹力量交汇。堤坝崩溃、洪水与儿童失踪将推向系列高潮，调查员可能面临「救命但永远留下阴影」式抉择。三圣母作为 Thomas de Quincey 式「悲伤三姐妹」与 Argento《三母亲》脉络的混合体，在附录中可叠 Hecate/奈亚等神话解释，但默认仍是鬼故事战役。:::",
+      "tags": [
+        "现代",
+        "战役",
+        "鬼怪",
+        "美洲",
+        "心理恐怖",
+        "洪水"
+      ]
     }
   ],
   "entries": [
@@ -926,7 +994,19 @@
       "猩红文档": "module.reco.crimson-dossier",
       "死光": "module.library.saturnine-chalice",
       "死光与其他黑暗的转角": "module.library.saturnine-chalice",
-      "有些人油盐不进": "module.library.and-some-fell-on-stony-ground"
+      "有些人油盐不进": "module.library.and-some-fell-on-stony-ground",
+      "暗影之屋": "module.campaign.sorrow.house-of-shadows",
+      "house of shadows": "module.campaign.sorrow.house-of-shadows",
+      "tenebrarum": "module.campaign.sorrow.house-of-shadows",
+      "苦痛三圣母·第一篇": "module.campaign.sorrow.house-of-shadows",
+      "叹息沙漠": "module.campaign.sorrow.desert-of-sighs",
+      "desert of sighs": "module.campaign.sorrow.desert-of-sighs",
+      "suspiriorum": "module.campaign.sorrow.desert-of-sighs",
+      "苦痛三圣母·第二篇": "module.campaign.sorrow.desert-of-sighs",
+      "泪之河": "module.campaign.sorrow.river-of-tears",
+      "river of tears": "module.campaign.sorrow.river-of-tears",
+      "lachrymarum": "module.campaign.sorrow.river-of-tears",
+      "苦痛三圣母·第三篇": "module.campaign.sorrow.river-of-tears"
     }
   }
 }

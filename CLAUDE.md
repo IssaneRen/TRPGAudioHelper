@@ -88,10 +88,26 @@ public/
 - `.claude/agents/git-reviewer.md` — 代码审查与提交助手
 - `.claude/agents/intern.md` — 实习生，熟悉项目代码，执行基础任务
 - `.claude/agents/tech-expert.md` — 技术专家，保持怀疑，审视架构与质量
+- `.claude/agents/content-polisher.md` — 博客/Markdown 润色（`polish-article`）
+- `.claude/agents/content-editor.md` — 内容结构审稿
+- `.claude/agents/content-architect.md` — 博客/Wiki 架构落盘（`update-article-for-architecture`）
+- `.claude/agents/wiki-format-converter.md` — Markdown ↔ Wiki JSON 互转（`convert-md-wiki`）
+- `.claude/agents/wiki-validator.md` — Wiki 生成与业务规则校验
+- `.claude/agents/trpg-researcher.md` — 外网模组/GM 资料调研（`research-trpg-sources`）
 - `.claude/agents/module-analyst.md` — 模组分析师，拆解线索、节点、依赖关系
 - `.claude/agents/rules-arbiter.md` — 规则律者，严格裁定 TRPG 规则与边界情况
 - `.claude/agents/strict-story-scorer.md` — 严格的剧情打分玩家，从玩家视角压测剧情
 - `.claude/agents/module-optimizer.md` — 模组修改优化师，把分析结论转成可执行改稿
+
+## 博客内容 Skills
+
+- `.claude/skills/trpg-content-terminology.md` — **必读**：战役/模组/战报术语与落盘规则
+- `.claude/skills/blog-content-pipeline.md` — 四类博客内容总编排
+- `.claude/skills/write-module-intro.md` — 模组介绍（玩家向 + 黑框剧透）
+- `.claude/skills/polish-article.md` — 润色
+- `.claude/skills/update-article-for-architecture.md` — 结合项目架构更新
+- `.claude/skills/convert-md-wiki.md` — Markdown 与 Wiki 格式互转
+- `.claude/skills/research-trpg-sources.md` — 互联网资料调研
 
 ## TRPG Skill Suite
 
@@ -102,11 +118,12 @@ public/
 - `.claude/skills/module-clue-analyst.md` — 整理模组线索、时间线与依赖关系
 - `.claude/skills/plot-foreshadowing-architect.md` — 优化剧情、伏笔和回收节奏
 - 文档处理统一通过 `scripts/trpg-workflow.ps1`，先 `inspect` 再 `read`，最后 `decompose`
-
 ## 团队工作流
 
 当用户说 **"专家登场"** 或 **"开始团队工作"** 时，按 `.claude/skills/team-leader-work.md` 中定义的多 Agent 工作流执行：实习生并行调研 → 主对话整合 → 技术专家评审 → 不通过则重试（最多 3 轮）。
 当任务属于 TRPG 规则、模组或剧情分析时，优先组合使用上面的 skill / agent 角色，再决定是否启用团队工作流。
+
+写博客/战报/模组文时，优先按 `.claude/skills/blog-content-pipeline.md` 串联子 Skill，不必每次启动全团队调研。
 
 ## Documentation
 
