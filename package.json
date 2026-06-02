@@ -8,6 +8,7 @@
   },
   "scripts": {
     "generate:wiki": "tsx scripts/generate-wiki-index.ts",
+    "seed:coc-sheets": "tsx scripts/seed-coc-sheets.ts",
     "import:wiki-library": "tsx scripts/import-wiki-library-modules.ts",
     "generate:blog": "tsx scripts/generate-blog-index.ts",
     "predev": "pnpm generate:wiki && tsx scripts/generate-blog-index.ts",

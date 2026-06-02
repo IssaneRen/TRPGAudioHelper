@@ -1,36 +1,52 @@
 {
   "id": "char.leina",
   "category": "character",
-  "displayName": "莱纳 Leina",
-  "summary": "英国籍一战老兵，退伍后定居阿卡姆。自称“铠之巨人”（不是），但确实有老兵的硬骨头：在金斯波特的雾与梦里，他更像一枚钉子，把队伍的情绪钉在现实上。",
+  "displayName": "莱纳·托尔拓 Leina",
+  "summary": "英国籍一战老兵，士兵出身，退伍后定居阿卡姆。枪法与急救都在战壕里练出来；在《夜战》的梦境前线里，他的聆听、机械维修与侦查又各上了一档。",
   "aliasNames": [
     "Leina",
-    "莱纳"
+    "莱纳",
+    "莱纳·托尔拓",
+    "阿尔洛德·让雷特"
   ],
   "playerIds": [
     "pl.leina"
   ],
   "moduleIds": [
-    "module.kingsport-city-in-the-mists"
+    "module.kingsport-city-in-the-mists",
+    "module.profile.night-battle"
   ],
   "relatedEntryIds": [
     "loc.arkham",
     "char.allen",
     "loc.kingsport-congregational-hospital",
-    "event.kingsport-nightmare-19281109"
+    "event.kingsport-nightmare-19281109",
+    "report.mist-city-record-20260524"
   ],
   "facts": [
+    {
+      "label": "姓名",
+      "value": "莱纳·托尔拓"
+    },
     {
       "label": "国籍",
       "value": "英国"
     },
     {
-      "label": "身份",
-      "value": "一战老兵"
+      "label": "职业",
+      "value": "士兵 / 一战老兵"
     },
     {
-      "label": "定居地",
-      "value": "阿卡姆"
+      "label": "年龄",
+      "value": "28 岁（1920s）"
+    },
+    {
+      "label": "故乡",
+      "value": "伦敦"
+    },
+    {
+      "label": "住地",
+      "value": "阿卡姆镇"
     },
     {
       "label": "对应 PL",
@@ -38,6 +54,111 @@
     }
   ],
   "content": [
+    {
+      "type": "coc-sheet",
+      "cocData": {
+        "avatar": "/wiki/characters/char.leina.png",
+        "attributes": {
+          "str": 80,
+          "con": 70,
+          "siz": 65,
+          "dex": 70,
+          "int": 50,
+          "pow": 75,
+          "app": 50,
+          "edu": 40,
+          "luck": 40,
+          "mov": 9,
+          "hp": 13,
+          "maxHp": 13,
+          "mp": 15,
+          "maxMp": 15,
+          "san": 72,
+          "maxSan": 99,
+          "physique": 1,
+          "dodge": 35,
+          "damageBonus": "+1D4",
+          "build": "+1D4"
+        },
+        "skills": {
+          "闪避": {
+            "base": 35,
+            "growth": 0
+          },
+          "斗殴": {
+            "base": 80,
+            "growth": 0
+          },
+          "步枪": {
+            "base": 80,
+            "growth": 0
+          },
+          "手枪": {
+            "base": 20,
+            "growth": 0
+          },
+          "急救": {
+            "base": 75,
+            "growth": 5,
+            "changes": [
+              {
+                "delta": 5,
+                "reason": "建卡：兴趣技能点投入",
+                "at": "1920-01"
+              }
+            ]
+          },
+          "潜行": {
+            "base": 20,
+            "growth": 0
+          },
+          "聆听": {
+            "base": 20,
+            "growth": 50,
+            "changes": [
+              {
+                "delta": 50,
+                "reason": "《夜战》：梦境战壕中的聆听与战场感知",
+                "at": "2026-05-24",
+                "reportId": "report.mist-city-record-20260524"
+              }
+            ]
+          },
+          "机械维修": {
+            "base": 10,
+            "growth": 55,
+            "changes": [
+              {
+                "delta": 55,
+                "reason": "《夜战》：维护武器与工兵装备",
+                "at": "2026-05-24",
+                "reportId": "report.mist-city-record-20260524"
+              }
+            ]
+          },
+          "侦查": {
+            "base": 25,
+            "growth": 46,
+            "changes": [
+              {
+                "delta": 46,
+                "reason": "《夜战》：战场侦察与梦境迷雾中的搜索",
+                "at": "2026-05-24",
+                "reportId": "report.mist-city-record-20260524"
+              }
+            ]
+          },
+          "信用评级": {
+            "base": 20,
+            "growth": 0
+          },
+          "母语": {
+            "base": 40,
+            "growth": 0
+          }
+        }
+      }
+    },
     {
       "type": "heading",
       "text": "人物概览"
@@ -47,7 +168,7 @@
       "tokens": [
         {
           "type": "text",
-          "text": "莱纳 Leina 是英国籍的一战老兵，退伍后定居于 "
+          "text": "莱纳·托尔拓，28 岁，英国籍士兵出身的一战老兵。长相普通，皮肤黝黑，脸上与额角带着战壕留下的小疤，体格强壮，一眼便能看出军人做派。退伍后定居 "
         },
         {
           "type": "ref",
@@ -56,16 +177,60 @@
         },
         {
           "type": "text",
-          "text": "。他原本只是为了探望住在 "
-        },
-        {
-          "type": "ref",
-          "entryId": "loc.kingsport-congregational-hospital",
-          "label": "金斯波特公理会医院"
-        },
+          "text": "，故乡在伦敦。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
         {
           "type": "text",
-          "text": " 的 "
+          "text": "他在伦敦郊外乡村长大：父亲是工人，母亲是医生。童年常在诊所帮母亲消毒包扎、固定骨折，乡亲都说他将来会是可靠的大夫。小学后他随父亲进厂做工，仍时常回家帮忙，日子算得上安稳——直到 1914 年应召入伍。"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "一战与战后"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "莱纳像传奇一样从世界大战的战场上活下来：出色的士兵，极其可靠的战友。枪法极好；若你曾在战场上动弹不得，也许会被某个壮汉拖回战壕，并接受还算像样的包扎——他的许多战友都受过这份恩惠。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "他见识过拉锯战如何把生命磨成木屑；也经历过第一个圣诞节停火——敌我齐唱颂歌、交换礼物、踢球，随后督战队逼迫双方再度互相杀戮。他痛恨这一切，却只能在杀戮与救治战友之间反复摇摆，并把来不及寄出的遗书与家书带回去。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "信仰：希望和平，讨厌战争，但愿意承担责任。重要之人是父母；重要之地是记忆中的家乡；最珍视的宝物是战友的信。特质：乐观开朗、坚毅、肯扛事。"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "金斯波特线"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "1928 年，他为探望住院的 "
         },
         {
           "type": "ref",
@@ -74,63 +239,25 @@
         },
         {
           "type": "text",
-          "text": "，却在次日被卷入更严重的异常事件。"
-        }
-      ]
-    },
-    {
-      "type": "paragraph",
-      "tokens": [
-        {
-          "type": "text",
-          "text": "他经常用玩笑稀释恐惧：比如自称“铠之巨人”（当然不是）。可当雾真的开始吞人时，那些玩笑反而成了队伍还能继续说话的证据。"
-        }
-      ]
-    },
-    {
-      "type": "heading",
-      "text": "人物定位"
-    },
-    {
-      "type": "list",
-      "items": [
-        [
-          {
-            "type": "text",
-            "text": "相较于另外两名调查员，他更像从局外进入的人，因此对小镇氛围变化格外敏感。"
-          }
-        ],
-        [
-          {
-            "type": "text",
-            "text": "阿卡姆与金斯波特的对比，帮助他更早意识到“这座镇子的异常是系统性的”。"
-          }
-        ],
-        [
-          {
-            "type": "text",
-            "text": "在三人行动线中，他承担了观测者与记录者的作用。"
-          }
-        ]
-      ]
-    },
-    {
-      "type": "paragraph",
-      "tokens": [
-        {
-          "type": "text",
-          "text": "在进入金斯波特后，他最先注意到的不是街景，而是镇民的目光。那种视线不像是在看陌生人，更像是在确认 "
+          "text": " 来到 "
         },
         {
-          "type": "secret-inline",
-          "playerIds": [
-            "pl.leina"
-          ],
-          "text": "又有谁会在雾里走失"
+          "type": "ref",
+          "entryId": "loc.kingsport-congregational-hospital",
+          "label": "金斯波特公理会医院"
         },
         {
           "type": "text",
-          "text": "。"
+          "text": "，随后卷入 "
+        },
+        {
+          "type": "ref",
+          "entryId": "event.kingsport-nightmare-19281109",
+          "label": "1928.11.9 噩梦事件"
+        },
+        {
+          "type": "text",
+          "text": "。他常用玩笑稀释恐惧（例如自称「铠之巨人」——当然不是），可当雾真的开始吞人时，那些玩笑反而成了队伍还能继续说话的证据。"
         }
       ]
     },
@@ -146,7 +273,7 @@
           "tokens": [
             {
               "type": "text",
-              "text": "莱纳在金斯波特停留的第一个夜晚就确信，这里的异常不是一场“会发生在某栋屋子里的怪事”，而是一种已经浸入街区与海雾的整体状态。"
+              "text": "在金斯波特停留的第一个夜晚，他便确信：这里的异常不是某一栋屋子里的怪事，而是一种已经浸入街区与海雾的整体状态。"
             }
           ]
         }
@@ -154,5 +281,5 @@
     }
   ],
   "createdAt": "1928-11-08T19:30:00Z",
-  "updatedAt": "1928-11-09T20:00:00Z"
+  "updatedAt": "2026-05-24T12:00:00Z"
 }

@@ -40,6 +40,92 @@
   ],
   "content": [
     {
+      "type": "coc-sheet",
+      "cocData": {
+        "attributes": {
+          "str": 55,
+          "con": 50,
+          "siz": 80,
+          "dex": 45,
+          "int": 55,
+          "pow": 50,
+          "app": 65,
+          "edu": 65,
+          "luck": 50,
+          "mov": 7,
+          "maxHp": 13,
+          "hp": 13,
+          "maxMp": 10,
+          "mp": 10,
+          "maxSan": 50,
+          "san": 50,
+          "build": "+1D4"
+        },
+        "skills": {
+          "闪避": {
+            "base": 22
+          },
+          "格斗": {
+            "base": 27
+          },
+          "历史": {
+            "base": 11
+          },
+          "说服": {
+            "base": 19
+          },
+          "恐吓": {
+            "base": 9
+          },
+          "图书馆": {
+            "base": 5
+          },
+          "侦查": {
+            "base": 16
+          },
+          "聆听": {
+            "base": 6
+          },
+          "步枪": {
+            "base": 15
+          },
+          "手枪": {
+            "base": 16
+          },
+          "神秘学": {
+            "base": 13
+          },
+          "急救": {
+            "base": 10,
+            "growth": 8,
+            "changes": [
+              {
+                "delta": 5,
+                "reason": "金斯波特模组：医院急救实践",
+                "at": "1928-11-06",
+                "reportId": "report.mist-city-record-20260524"
+              },
+              {
+                "delta": 3,
+                "reason": "噩梦事件后创伤护理复盘",
+                "at": "1928-11-09",
+                "reportId": "report.mist-city-record-20260524"
+              }
+            ]
+          },
+          "心理学": {
+            "base": 23
+          },
+          "潜行": {
+            "base": 11
+          },
+          "博物学": {
+            "base": 24
+          }
+        }
+      }
+    },
+    {
       "type": "heading",
       "text": "人物概览"
     },

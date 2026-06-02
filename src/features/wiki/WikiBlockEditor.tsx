@@ -111,9 +111,30 @@ function createDefaultBlock(type: BlockType, entries: WikiIndexEntry[], players:
     return {
       type: "coc-sheet",
       cocData: {
-        status: { str: 80, con: 55 },
-        skill: { 侦查: 80 },
         avatar: "pic/xxx.png",
+        attributes: {
+          str: 55,
+          con: 60,
+          siz: 65,
+          dex: 70,
+          int: 80,
+          pow: 60,
+          app: 50,
+          edu: 75,
+          hp: 12,
+          maxHp: 12,
+          mp: 12,
+          maxMp: 12,
+          san: 60,
+          maxSan: 60,
+          luck: 60,
+          mov: 8,
+          build: "0",
+        },
+        skills: {
+          侦查: { base: 50, growth: 10, changes: [{ delta: 10, reason: "示例成长", at: "1928-11-09" }] },
+          聆听: { base: 40 },
+        },
       },
     };
   }
@@ -699,33 +720,37 @@ function BlockEditorCard({
             />
           </div>
           <div className="space-y-2">
-            <Label>属性 JSON（status）</Label>
+            <Label>属性 JSON（attributes）</Label>
             <Textarea
-              value={JSON.stringify(block.cocData?.status || {}, null, 2)}
+              value={JSON.stringify(block.cocData?.attributes || block.cocData?.status || {}, null, 2)}
               onChange={(event) => {
                 try {
-                  const status = JSON.parse(event.target.value) as Record<string, number>;
-                  patchBlock({ cocData: { ...(block.cocData || {}), status } });
+                  const attributes = JSON.parse(event.target.value) as NonNullable<
+                    NonNullable<typeof block.cocData>["attributes"]
+                  >;
+                  patchBlock({ cocData: { ...(block.cocData || {}), attributes } });
                 } catch {
                   // ignore temporary invalid json while typing
                 }
               }}
-              className="min-h-24 font-mono text-xs"
+              className="min-h-32 font-mono text-xs"
             />
           </div>
           <div className="space-y-2">
-            <Label>技能 JSON（skill）</Label>
+            <Label>技能 JSON（skills：含 base / growth / changes）</Label>
             <Textarea
-              value={JSON.stringify(block.cocData?.skill || {}, null, 2)}
+              value={JSON.stringify(block.cocData?.skills || block.cocData?.skill || {}, null, 2)}
               onChange={(event) => {
                 try {
-                  const skill = JSON.parse(event.target.value) as Record<string, number>;
-                  patchBlock({ cocData: { ...(block.cocData || {}), skill } });
+                  const skills = JSON.parse(event.target.value) as NonNullable<
+                    NonNullable<typeof block.cocData>["skills"]
+                  >;
+                  patchBlock({ cocData: { ...(block.cocData || {}), skills } });
                 } catch {
                   // ignore temporary invalid json while typing
                 }
               }}
-              className="min-h-24 font-mono text-xs"
+              className="min-h-32 font-mono text-xs"
             />
           </div>
         </div>

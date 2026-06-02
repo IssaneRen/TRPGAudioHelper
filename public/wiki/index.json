@@ -376,7 +376,7 @@
         },
         {
           "label": "军籍",
-          "value": "M 国"
+          "value": "美国"
         },
         {
           "label": "对应 PL",
@@ -517,36 +517,52 @@
     {
       "id": "char.leina",
       "category": "character",
-      "displayName": "莱纳 Leina",
-      "summary": "英国籍一战老兵，退伍后定居阿卡姆。自称“铠之巨人”（不是），但确实有老兵的硬骨头：在金斯波特的雾与梦里，他更像一枚钉子，把队伍的情绪钉在现实上。",
+      "displayName": "莱纳·托尔拓 Leina",
+      "summary": "英国籍一战老兵，士兵出身，退伍后定居阿卡姆。枪法与急救都在战壕里练出来；在《夜战》的梦境前线里，他的聆听、机械维修与侦查又各上了一档。",
       "aliasNames": [
         "Leina",
-        "莱纳"
+        "莱纳",
+        "莱纳·托尔拓",
+        "阿尔洛德·让雷特"
       ],
       "playerIds": [
         "pl.leina"
       ],
       "moduleIds": [
-        "module.kingsport-city-in-the-mists"
+        "module.kingsport-city-in-the-mists",
+        "module.profile.night-battle"
       ],
       "relatedEntryIds": [
         "loc.arkham",
         "char.allen",
         "loc.kingsport-congregational-hospital",
-        "event.kingsport-nightmare-19281109"
+        "event.kingsport-nightmare-19281109",
+        "report.mist-city-record-20260524"
       ],
       "facts": [
+        {
+          "label": "姓名",
+          "value": "莱纳·托尔拓"
+        },
         {
           "label": "国籍",
           "value": "英国"
         },
         {
-          "label": "身份",
-          "value": "一战老兵"
+          "label": "职业",
+          "value": "士兵 / 一战老兵"
         },
         {
-          "label": "定居地",
-          "value": "阿卡姆"
+          "label": "年龄",
+          "value": "28 岁（1920s）"
+        },
+        {
+          "label": "故乡",
+          "value": "伦敦"
+        },
+        {
+          "label": "住地",
+          "value": "阿卡姆镇"
         },
         {
           "label": "对应 PL",
@@ -554,7 +570,7 @@
         }
       ],
       "createdAt": "1928-11-08T19:30:00Z",
-      "updatedAt": "1928-11-09T20:00:00Z"
+      "updatedAt": "2026-05-24T12:00:00Z"
     },
     {
       "id": "char.leo",
@@ -919,9 +935,11 @@
       "阿甘": "char.gan",
       "kiven": "char.kiven",
       "基文": "char.kiven",
-      "莱纳 leina": "char.leina",
+      "莱纳·托尔拓 leina": "char.leina",
       "leina": "char.leina",
       "莱纳": "char.leina",
+      "莱纳·托尔拓": "char.leina",
+      "阿尔洛德·让雷特": "char.leina",
       "leo": "char.leo",
       "里奥": "char.leo",
       "1928.11.6 - 金斯波特失明案件": "event.kingsport-blindness-19281106",

@@ -86,6 +86,11 @@
   - `secret-panel`：整段 / 整块黑框遮罩
   - `secret-inline`：句子或短语级黑框遮罩
 - 未解锁时点击黑框统一弹出 toast：`请探索更多故事解锁~`
+- **CoC 人物卡（coc-sheet）**：
+  - 人物词条列表卡与详情页顶部展示可折叠「属性 / 技能」两行
+  - 技能显示：红色最终值、灰色初始值、绿色成长值；详情页悬停绿色成长可查看 `changes` 记录（预留 `reportId` 链到战报词条）
+  - 详情页不显示首页检索/分类面板，仅保留词条头、人物卡与叙事正文
+  - 数据块 `type: "coc-sheet"`，字段见 `src/types/wiki.ts`；示例数据由 `pnpm seed:coc-sheets`（`--force` 覆盖）写入 `char.*.json`
 
 ### 关键代码位置
 
@@ -93,6 +98,10 @@
 |------|----------|------|
 | 工具箱布局 | `src/pages/ToolboxTab/index.tsx` | DropdownMenu + Outlet |
 | 世界 Wiki 入口 | `src/pages/WorldWikiTab/index.tsx` | 检索首页 + 词条详情 + 唯一键映射 + PL 解锁逻辑 |
+| CoC 人物卡面板 | `src/features/wiki/CocSheetPanel.tsx` | 属性/技能双折叠、成长 Tooltip、列表 compact / 详情 full |
+| CoC 数据工具 | `src/utils/coc-sheet.ts` | 归一化、COC7 掷骰生成、从 content 提取 coc-sheet |
+| CoC 示例种子 | `scripts/seed-coc-sheets.ts` | 为 6 张人物卡写入 coc-sheet 块（`pnpm seed:coc-sheets --force`） |
+| Wiki 词条缓存 | `src/features/wiki/wiki-entry-cache.ts` | 列表卡与详情共享懒加载缓存 |
 | Wiki 管理台（dev-only） | `src/pages/WikiAdminTab/index.tsx` | 词条元数据编辑、正文引用同步到 relatedEntryIds、block 级可视化编辑、content JSON 兜底面板、实时预览与保存 |
 | Wiki Block 编辑器 | `src/features/wiki/WikiBlockEditor.tsx` | block / token / list / secret-panel 递归编辑器，支持复制/排序/删除 |
 | Wiki 索引生成 | `scripts/generate-wiki-index.ts` | 校验实体引用并生成索引 / 名称映射 |

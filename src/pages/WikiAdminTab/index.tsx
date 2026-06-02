@@ -166,7 +166,28 @@ function buildRefParagraph(entry: WikiIndexEntry): WikiBlock {
 function buildCocSheetBlock(): WikiBlock {
   return {
     type: "coc-sheet",
-    cocData: { status: { str: 80, con: 55 }, skill: { "侦查": 80 }, avatar: "pic/xxx.png" },
+    cocData: {
+      avatar: "pic/xxx.png",
+      attributes: {
+        str: 55,
+        con: 60,
+        siz: 65,
+        dex: 70,
+        int: 80,
+        pow: 60,
+        app: 50,
+        edu: 75,
+        hp: 12,
+        maxHp: 12,
+        mp: 12,
+        maxMp: 12,
+        san: 60,
+        maxSan: 60,
+      },
+      skills: {
+        侦查: { base: 50, growth: 5, changes: [{ delta: 5, reason: "示例成长记录" }] },
+      },
+    },
   };
 }
 

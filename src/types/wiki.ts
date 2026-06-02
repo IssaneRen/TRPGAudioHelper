@@ -49,10 +49,68 @@ export interface WikiInlineToken {
 }
 
 
+export interface CocSkillChange {
+  delta: number;
+  reason: string;
+  at?: string;
+  reportId?: string;
+}
+
+export interface CocSkillValue {
+  base: number;
+  growth?: number;
+  changes?: CocSkillChange[];
+}
+
+export interface CocAttributes {
+  str: number;
+  con: number;
+  siz: number;
+  dex: number;
+  int: number;
+  pow: number;
+  app: number;
+  edu: number;
+  hp: number;
+  maxHp: number;
+  mp: number;
+  maxMp: number;
+  san: number;
+  maxSan: number;
+  luck?: number;
+  mov?: number;
+  /** 体格（BUILD 数值） */
+  physique?: number;
+  /** 闪避（属性栏展示值） */
+  dodge?: number;
+  /** 伤害加值（如 +1D4） */
+  damageBonus?: string;
+  /** @deprecated 请用 damageBonus */
+  build?: string;
+}
+
 export interface CocSheetData {
-  status?: Record<string, number>;
-  skill?: Record<string, number>;
   avatar?: string;
+  attributes?: CocAttributes;
+  skills?: Record<string, CocSkillValue | number>;
+  /** @deprecated 使用 attributes */
+  status?: Record<string, number>;
+  /** @deprecated 使用 skills */
+  skill?: Record<string, number>;
+}
+
+export interface NormalizedCocSkill {
+  name: string;
+  base: number;
+  growth: number;
+  final: number;
+  changes: CocSkillChange[];
+}
+
+export interface NormalizedCocSheet {
+  avatar?: string;
+  attributes: CocAttributes;
+  skills: NormalizedCocSkill[];
 }
 
 export interface WikiBlock {

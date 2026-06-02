@@ -29,7 +29,15 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
+import { CocSheetPanel } from "@/features/wiki/CocSheetPanel";
 import { WikiContentRenderer } from "@/features/wiki/WikiContentRenderer";
+import {
+  fetchWikiEntry,
+  getCachedWikiEntry,
+  getWikiEntryCacheSnapshot,
+  setCachedWikiEntry,
+} from "@/features/wiki/wiki-entry-cache";
+import { useWikiEntry } from "@/hooks/use-wiki-entry";
 import type {
   WikiCategory,
   WikiEntryRecord,
@@ -37,6 +45,7 @@ import type {
   WikiIndexPayload,
   WikiPlayer,
 } from "@/types/wiki";
+import { contentWithoutCocSheets, extractCocSheetFromContent } from "@/utils/coc-sheet";
 
 const PL_STORAGE_KEY = "blog-pl-name";
 const WIKI_HOME_ROUTE = "/tools/world-wiki";
@@ -105,7 +114,6 @@ const CATEGORY_ORDER: WikiCategory[] = [
 ];
 
 let wikiIndexCache: WikiIndexPayload | null = null;
-let wikiEntryDetailCache: Record<string, WikiEntryRecord> = {};
 
 /** 文本统一归一化，确保 PL / 名称 / 别名匹配规则保持一致。 */
 function normalizeText(value: string): string {
@@ -221,13 +229,18 @@ function WikiEntryCard({
 }) {
   const categoryMeta = CATEGORY_META[entry.category];
   const Icon = categoryMeta.icon;
+  const isCharacter = entry.category === "character";
+  const { entry: entryDetail, loading: cocLoading } = useWikiEntry(
+    isCharacter ? entry.id : null
+  );
+  const cocData = entryDetail ? extractCocSheetFromContent(entryDetail.content) : null;
 
   return (
-    <Link
-      to={`${WIKI_HOME_ROUTE}/${entry.id}`}
-      className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-    >
-      <Card className="eldritch-card h-full gap-4 border-border/70 bg-card/80 py-5 transition-transform hover:-translate-y-1">
+    <Card className="eldritch-card h-full gap-4 border-border/70 bg-card/80 py-5 transition-transform hover:-translate-y-1">
+      <Link
+        to={`${WIKI_HOME_ROUTE}/${entry.id}`}
+        className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+      >
         <CardHeader className="gap-3">
           <div className="flex items-start justify-between gap-3">
             <Badge variant="outline" className={categoryMeta.chipClassName}>
@@ -243,7 +256,26 @@ function WikiEntryCard({
             </CardDescription>
           </div>
         </CardHeader>
-        <CardContent className="space-y-3">
+      </Link>
+      <CardContent className="space-y-3">
+        {isCharacter && (
+          <div className="relative z-10">
+            {cocLoading && !cocData ? (
+              <Skeleton className="h-20 w-full rounded-xl" />
+            ) : cocData ? (
+              <CocSheetPanel
+                cocData={cocData}
+                variant="compact"
+                showGrowthTooltip={false}
+                displayName={entry.displayName}
+              />
+            ) : null}
+          </div>
+        )}
+        <Link
+          to={`${WIKI_HOME_ROUTE}/${entry.id}`}
+          className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+        >
           {entry.playerIds && entry.playerIds.length > 0 && (
             <div className="flex flex-wrap gap-1.5">
               {entry.playerIds.map((playerId) => {
@@ -261,12 +293,12 @@ function WikiEntryCard({
               })}
             </div>
           )}
-          <div className="flex flex-wrap gap-1.5 text-xs text-muted-foreground">
+          <div className="mt-3 flex flex-wrap gap-1.5 text-xs text-muted-foreground">
             <span>唯一键：{entry.id}</span>
           </div>
-        </CardContent>
-      </Card>
-    </Link>
+        </Link>
+      </CardContent>
+    </Card>
   );
 }
 
@@ -275,7 +307,7 @@ export default function WorldWikiTab() {
   const { entryId } = useParams<{ entryId?: string }>();
   const [indexData, setIndexData] = useState<WikiIndexPayload | null>(wikiIndexCache);
   const [entryDetailsById, setEntryDetailsById] = useState<Record<string, WikiEntryRecord>>(
-    wikiEntryDetailCache
+    () => getWikiEntryCacheSnapshot()
   );
   const [indexLoading, setIndexLoading] = useState(!wikiIndexCache);
   const [indexError, setIndexError] = useState(false);
@@ -322,8 +354,8 @@ export default function WorldWikiTab() {
       return;
     }
 
-    if (wikiEntryDetailCache[entryId]) {
-      setEntryDetailsById({ ...wikiEntryDetailCache });
+    if (getCachedWikiEntry(entryId)) {
+      setEntryDetailsById({ ...getWikiEntryCacheSnapshot() });
       setDetailLoading(false);
       setDetailError(false);
       return;
@@ -333,18 +365,11 @@ export default function WorldWikiTab() {
     setDetailLoading(true);
     setDetailError(false);
 
-    fetch(`/wiki/entities/entries/${entryId}.json`, { cache: "no-store" })
-      .then((response) => {
-        if (!response.ok) throw new Error(`Failed to load wiki entry detail: ${response.status}`);
-        return response.json();
-      })
-      .then((data: WikiEntryRecord) => {
+    fetchWikiEntry(entryId)
+      .then((data) => {
         if (cancelled) return;
-        wikiEntryDetailCache = {
-          ...wikiEntryDetailCache,
-          [data.id]: data,
-        };
-        setEntryDetailsById({ ...wikiEntryDetailCache });
+        setCachedWikiEntry(data);
+        setEntryDetailsById({ ...getWikiEntryCacheSnapshot() });
       })
       .catch(() => {
         if (!cancelled) setDetailError(true);
@@ -514,8 +539,16 @@ export default function WorldWikiTab() {
     );
   }
 
+  const detailCocData = selectedEntryDetail
+    ? extractCocSheetFromContent(selectedEntryDetail.content)
+    : null;
+  const detailNarrativeBlocks = selectedEntryDetail
+    ? contentWithoutCocSheets(selectedEntryDetail.content)
+    : [];
+
   return (
     <div className="mx-auto max-w-6xl space-y-6">
+      {!selectedEntry && (
       <section className="eldritch-card overflow-hidden rounded-[28px] border border-border/70 bg-card/75 p-6 shadow-sm md:p-8">
         <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
           <div className="flex min-w-0 flex-1 items-center gap-3">
@@ -750,6 +783,7 @@ export default function WorldWikiTab() {
           </div>
         </motion.div>
       </section>
+      )}
 
       {selectedEntry ? (
         <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_280px]">
@@ -779,6 +813,17 @@ export default function WorldWikiTab() {
               <CurrentPlButton plName={plName} onClick={() => setShowPlDialog(true)} />
             </div>
 
+            {selectedEntry.category === "character" && !detailLoading && detailCocData && (
+              <div className="mt-6">
+                <CocSheetPanel
+                  cocData={detailCocData}
+                  variant="full"
+                  showGrowthTooltip
+                  displayName={selectedEntry.displayName}
+                />
+              </div>
+            )}
+
             <div className="mt-8">
               {detailLoading ? (
                 <div className="space-y-3">
@@ -794,7 +839,7 @@ export default function WorldWikiTab() {
               ) : (
                 selectedEntryDetail && (
                   <WikiContentRenderer
-                    blocks={selectedEntryDetail.content}
+                    blocks={detailNarrativeBlocks}
                     currentPlayerId={currentPlayer?.id || null}
                     entriesById={entriesById}
                   />
