@@ -29,6 +29,12 @@ export interface Character {
   armor: number;
   luck: number;
   alive: boolean;
+  source?: {
+    type: "wiki";
+    entryId: string;
+    updatedAt?: string;
+    importedAt: string;
+  };
 }
 
 export interface CombatOptions {

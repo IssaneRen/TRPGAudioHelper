@@ -1,7 +1,7 @@
-import { useState, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { generateUUID } from "@/utils/uuid";
 import { motion, AnimatePresence } from "framer-motion";
-import { Plus, Dices, Trash2, Edit3, ChevronDown, ChevronRight, Download } from "lucide-react";
+import { Plus, Dices, Trash2, Edit3, ChevronDown, ChevronRight, Download, RefreshCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -9,6 +9,8 @@ import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
+import { fetchWikiEntry } from "@/features/wiki/wiki-entry-cache";
+import type { WikiIndexEntry, WikiIndexPayload } from "@/types/wiki";
 import type { Character, CombatOptions, SimulationReport } from "./types";
 import {
   DEFAULT_COMBAT_OPTIONS,
@@ -19,6 +21,7 @@ import {
 import { runSimulation } from "./battle-simulator";
 import { PRESET_INVESTIGATORS, PRESET_ENEMIES } from "./presets";
 import { CharacterDialog } from "./CharacterDialog";
+import { wikiEntryToCombatCharacter } from "./wiki-combat-adapter";
 
 const STORAGE_KEY = "trpg-battle-config";
 
@@ -59,7 +62,38 @@ export default function BattleSimulator() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editingChar, setEditingChar] = useState<Character | null>(null);
   const [dialogIsEnemy, setDialogIsEnemy] = useState(false);
-  const [presetPanel, setPresetPanel] = useState<"pc" | "enemy" | null>(null);
+  const [presetPanel, setPresetPanel] = useState<"pc" | "enemy" | "wiki" | null>(null);
+  const [wikiIndex, setWikiIndex] = useState<WikiIndexPayload | null>(null);
+  const [wikiLoading, setWikiLoading] = useState(false);
+  const [wikiImportingId, setWikiImportingId] = useState<string | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    setWikiLoading(true);
+    fetch("/wiki/index.json", { cache: "no-store" })
+      .then((response) => {
+        if (!response.ok) throw new Error(`wiki index ${response.status}`);
+        return response.json();
+      })
+      .then((data: WikiIndexPayload) => {
+        if (!cancelled) setWikiIndex(data);
+      })
+      .catch(() => {
+        if (!cancelled) toast.error("Wiki 人物卡索引加载失败");
+      })
+      .finally(() => {
+        if (!cancelled) setWikiLoading(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const wikiCharacterEntries = useMemo(
+    () => (wikiIndex?.entries || []).filter((entry) => entry.category === "character"),
+    [wikiIndex]
+  );
 
   const persist = (p: Character[], e: Character[], o: CombatOptions) => saveState(p, e, o);
 
@@ -80,6 +114,45 @@ export default function BattleSimulator() {
       setPcs(next);
       persist(next, enemies, options);
     }
+  };
+
+  const importWikiCharacter = async (entry: WikiIndexEntry, replaceId?: string) => {
+    setWikiImportingId(entry.id);
+    try {
+      const detail = await fetchWikiEntry(entry.id);
+      const character = wikiEntryToCombatCharacter(detail, entry);
+      if (!character) {
+        toast.error("该 Wiki 人物卡没有可导入的 coc-sheet 数据");
+        return;
+      }
+
+      if (replaceId) {
+        const next = pcs.map((pc) => (pc.id === replaceId ? { ...character, id: replaceId } : pc));
+        setPcs(next);
+        persist(next, enemies, options);
+        toast.success(`已刷新 ${character.name}`);
+        return;
+      }
+
+      const next = [...pcs, character];
+      setPcs(next);
+      persist(next, enemies, options);
+      toast.success(`已导入 ${character.name}`);
+    } catch (error) {
+      toast.error(error instanceof Error ? `导入失败：${error.message}` : "导入失败");
+    } finally {
+      setWikiImportingId(null);
+    }
+  };
+
+  const refreshWikiCharacter = (char: Character) => {
+    if (!char.source || char.source.type !== "wiki") return;
+    const entry = wikiCharacterEntries.find((item) => item.id === char.source?.entryId);
+    if (!entry) {
+      toast.error("找不到该角色的 Wiki 索引");
+      return;
+    }
+    void importWikiCharacter(entry, char.id);
   };
 
   const removeChar = (id: string, isEnemy: boolean) => {
@@ -173,6 +246,9 @@ export default function BattleSimulator() {
                   <Button size="sm" variant="ghost" onClick={() => setPresetPanel(presetPanel === "pc" ? null : "pc")}>
                     预设
                   </Button>
+                  <Button size="sm" variant="ghost" onClick={() => setPresetPanel(presetPanel === "wiki" ? null : "wiki")}>
+                    Wiki人物卡
+                  </Button>
                   <Button size="sm" variant="ghost" onClick={() => { setDialogIsEnemy(false); setEditingChar(null); setDialogOpen(true); }}>
                     <Plus className="h-3 w-3 mr-1" /> 添加
                   </Button>
@@ -193,13 +269,64 @@ export default function BattleSimulator() {
                   </motion.div>
                 )}
               </AnimatePresence>
+              <AnimatePresence>
+                {presetPanel === "wiki" && (
+                  <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden">
+                    <div className="space-y-2 border-b pb-2 mb-2">
+                      <p className="text-xs text-muted-foreground">
+                        从 Wiki 人物卡导入当前 coc-sheet 快照；人物成长后可刷新已导入角色。
+                      </p>
+                      {wikiLoading ? (
+                        <p className="text-xs text-muted-foreground">正在加载 Wiki 人物卡...</p>
+                      ) : wikiCharacterEntries.length === 0 ? (
+                        <p className="text-xs text-muted-foreground">暂无可导入的 Wiki 人物卡</p>
+                      ) : (
+                        <div className="max-h-40 space-y-1 overflow-y-auto">
+                          {wikiCharacterEntries.map((entry) => (
+                            <div key={entry.id} className="flex items-center justify-between gap-2 rounded-md border px-2 py-1.5">
+                              <div className="min-w-0">
+                                <p className="truncate text-xs font-medium">{entry.displayName}</p>
+                                <p className="truncate text-[11px] text-muted-foreground">
+                                  {entry.updatedAt ? `更新：${entry.updatedAt.slice(0, 10)}` : entry.id}
+                                </p>
+                              </div>
+                              <Button
+                                size="sm"
+                                variant="outline"
+                                className="h-7 shrink-0 text-xs"
+                                disabled={wikiImportingId === entry.id}
+                                onClick={() => void importWikiCharacter(entry)}
+                              >
+                                {wikiImportingId === entry.id ? "导入中" : "导入"}
+                              </Button>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
               {pcs.length === 0 ? (
                 <p className="text-sm text-muted-foreground py-4 text-center">暂无调查员</p>
               ) : (
                 <div className="space-y-1 max-h-48 overflow-y-auto">
-                  {pcs.map((c) => (
-                    <CharCard key={c.id} char={c} onEdit={() => { setEditingChar(c); setDialogIsEnemy(false); setDialogOpen(true); }} onRemove={() => removeChar(c.id, false)} />
-                  ))}
+                  {pcs.map((c) => {
+                    const wikiEntry = c.source?.type === "wiki"
+                      ? wikiCharacterEntries.find((entry) => entry.id === c.source?.entryId)
+                      : undefined;
+                    return (
+                      <CharCard
+                        key={c.id}
+                        char={c}
+                        onEdit={() => { setEditingChar(c); setDialogIsEnemy(false); setDialogOpen(true); }}
+                        onRemove={() => removeChar(c.id, false)}
+                        onRefresh={c.source?.type === "wiki" ? () => refreshWikiCharacter(c) : undefined}
+                        refreshing={wikiImportingId === c.source?.entryId}
+                        sourceUpdatedAt={wikiEntry?.updatedAt}
+                      />
+                    );
+                  })}
                 </div>
               )}
             </CardContent>
@@ -373,16 +500,40 @@ export default function BattleSimulator() {
   );
 }
 
-function CharCard({ char, onEdit, onRemove }: { char: Character; onEdit: () => void; onRemove: () => void }) {
+function CharCard({
+  char,
+  onEdit,
+  onRemove,
+  onRefresh,
+  refreshing,
+  sourceUpdatedAt,
+}: {
+  char: Character;
+  onEdit: () => void;
+  onRemove: () => void;
+  onRefresh?: () => void;
+  refreshing?: boolean;
+  sourceUpdatedAt?: string;
+}) {
   const mainSkill = Object.entries(char.skills).sort((a, b) => b[1] - a[1])[0];
+  const hasWikiUpdate =
+    char.source?.type === "wiki" &&
+    Boolean(sourceUpdatedAt && char.source.updatedAt && sourceUpdatedAt !== char.source.updatedAt);
   return (
     <div className="flex items-center justify-between rounded-md border px-3 py-2 text-sm">
       <div className="flex items-center gap-2 min-w-0">
         <span className="font-medium truncate">{char.name}</span>
         <Badge variant="outline" className="text-xs shrink-0">HP:{char.maxHp}</Badge>
+        {char.source?.type === "wiki" && <Badge variant="outline" className="text-xs shrink-0">Wiki</Badge>}
+        {hasWikiUpdate && <Badge variant="default" className="text-xs shrink-0">有更新</Badge>}
         {mainSkill && <Badge variant="secondary" className="text-xs shrink-0">{mainSkill[0]}:{mainSkill[1]}</Badge>}
       </div>
       <div className="flex gap-1 shrink-0">
+        {onRefresh && (
+          <Button size="sm" variant="ghost" className="h-7 w-7 p-0" disabled={refreshing} onClick={onRefresh}>
+            <RefreshCcw className={`h-3 w-3 ${refreshing ? "animate-spin" : ""}`} />
+          </Button>
+        )}
         <Button size="sm" variant="ghost" className="h-7 w-7 p-0" onClick={onEdit}>
           <Edit3 className="h-3 w-3" />
         </Button>
