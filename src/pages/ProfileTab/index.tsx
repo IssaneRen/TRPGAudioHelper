@@ -5,7 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router";
 import { ModulePreviewCard } from "@/features/modules/ModulePreviewCard";
-import type { WikiIndexPayload } from "@/types/wiki";
+import type { WikiIndexPayload, WikiModule } from "@/types/wiki";
 import type { LucideIcon } from "lucide-react";
 
 const Live2DBackground = lazy(() =>
@@ -101,13 +101,22 @@ export default function ProfileTab() {
       });
   }, []);
 
-  const modulesForProfile = useMemo(() => {
+  const modulesForProfile = useMemo<WikiModule[]>(() => {
     if (!profile) return [];
-    if (!wikiIndex) return [];
+    const fallbackModules = profile.modules.map<WikiModule>((module) => ({
+      id: module.id,
+      displayName: module.name,
+      summary: module.description,
+      description: module.description,
+      playerCount: module.playerCount,
+      duration: module.duration,
+      tags: module.tags,
+    }));
+    if (!wikiIndex) return fallbackModules;
     const modulesById = new Map((wikiIndex.modules || []).map((item) => [item.id, item]));
     return profile.modules
-      .map((mod) => modulesById.get(mod.id) ?? null)
-      .filter((item): item is NonNullable<typeof item> => item !== null);
+      .map((mod, index) => modulesById.get(mod.id) ?? fallbackModules[index])
+      .filter((item): item is WikiModule => Boolean(item));
   }, [profile, wikiIndex]);
 
   const noMotion = { hidden: {}, visible: {} };

@@ -43,6 +43,13 @@ export default function WorldWikiModuleDetailTab() {
     return (indexData?.modules || []).find((item) => item.id === moduleId) ?? null;
   }, [indexData, moduleId]);
 
+  const campaignChildModules = useMemo<WikiModule[]>(() => {
+    if (!module?.campaign || !module.id.endsWith(".overview")) return [];
+    return (indexData?.modules || []).filter(
+      (item) => item.campaign === module.campaign && item.id !== module.id
+    );
+  }, [indexData, module]);
+
   return (
     <div className="space-y-4">
       <Link to="/tools/world-wiki/modules" className="inline-flex items-center gap-1 text-sm">
@@ -91,6 +98,45 @@ export default function WorldWikiModuleDetailTab() {
                 <h2 className="text-lg font-heading font-semibold">模组导读</h2>
                 <div className="rounded-2xl border border-border/60 bg-background/65 p-4 md:p-5">
                   <ModuleDescription description={module.description} />
+                </div>
+              </div>
+            )}
+            {campaignChildModules.length > 0 && (
+              <div className="mt-8 space-y-4">
+                <h2 className="text-lg font-heading font-semibold">子模组</h2>
+                <div className="grid gap-3">
+                  {campaignChildModules.map((childModule) => (
+                    <Link
+                      key={childModule.id}
+                      to={`/tools/world-wiki/modules/${childModule.id}`}
+                      className="rounded-2xl border border-border/60 bg-background/65 p-4 transition-colors hover:border-primary/40 hover:bg-primary/5"
+                    >
+                      <div className="flex flex-wrap items-start justify-between gap-3">
+                        <div className="min-w-0 flex-1">
+                          <h3 className="font-heading text-base font-semibold leading-7">
+                            {childModule.displayName}
+                          </h3>
+                          {(childModule.summary || childModule.description) && (
+                            <p className="mt-1 line-clamp-2 text-sm leading-6 text-muted-foreground">
+                              {childModule.summary || childModule.description}
+                            </p>
+                          )}
+                        </div>
+                        <div className="flex shrink-0 flex-wrap gap-1.5">
+                          {childModule.duration && (
+                            <Badge variant="outline" className="text-[11px]">
+                              {childModule.duration}
+                            </Badge>
+                          )}
+                          {childModule.playerCount && (
+                            <Badge variant="outline" className="text-[11px]">
+                              {childModule.playerCount}
+                            </Badge>
+                          )}
+                        </div>
+                      </div>
+                    </Link>
+                  ))}
                 </div>
               </div>
             )}

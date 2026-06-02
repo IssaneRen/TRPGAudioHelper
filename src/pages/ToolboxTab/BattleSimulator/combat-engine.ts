@@ -64,7 +64,7 @@ export function runSingleBattle(
 
       const actorIsPC = pcSet.has(actor);
 
-      let aimBonus = hasAimed[i];
+      const aimBonus = hasAimed[i];
       hasAimed[i] = false;
 
       if (options.aiming && actorIsPC && shouldAim(actor)) {
