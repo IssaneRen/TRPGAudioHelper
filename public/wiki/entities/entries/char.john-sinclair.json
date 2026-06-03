@@ -1,0 +1,77 @@
+{
+  "id": "char.john-sinclair",
+  "category": "character",
+  "displayName": "约翰·辛克莱 John Sinclair",
+  "summary": "伯灵顿验尸官，湖区尸体调查的重要入口。公开层面可作为法医信息、时间规律和官方压力的来源。",
+  "aliasNames": [
+    "John Sinclair",
+    "约翰·辛克莱",
+    "辛克莱"
+  ],
+  "moduleIds": [
+    "module.campaign.primal-state.lake-champlain-monster"
+  ],
+  "relatedEntryIds": [
+    "module.campaign.primal-state.overview",
+    "loc.burlington-lake-champlain",
+    "char.jim-summers"
+  ],
+  "facts": [
+    {
+      "label": "身份",
+      "value": "伯灵顿验尸官"
+    },
+    {
+      "label": "公开作用",
+      "value": "尸检、时间规律、官方委托"
+    }
+  ],
+  "tags": [
+    "NPC",
+    "伯灵顿",
+    "湖区"
+  ],
+  "content": [
+    {
+      "type": "heading",
+      "text": "人物概览"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "约翰·辛克莱是湖区调查最清晰的入口之一。作为验尸官，他能把“湖怪传说”暂时按回现实层面：尸体是什么状态，出现时间有没有规律，官方为什么需要外部帮助。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "对 PL 来说，辛克莱的意义是提供可检验的信息，而不是直接给出答案。尸检、海图、水流和证词之间的矛盾，需要调查员自己拼。"
+        }
+      ]
+    },
+    {
+      "type": "secret-panel",
+      "title": "二级隐藏：尸体规律",
+      "hiddenMode": "collapse",
+      "playerIds": [],
+      "blocks": [
+        {
+          "type": "paragraph",
+          "tokens": [
+            {
+              "type": "text",
+              "text": "涉及尸体周期、地点指向和任何真相分支判断的信息不在公开层展示。"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "createdAt": "2026-06-03T00:00:00+08:00",
+  "updatedAt": "2026-06-03T00:00:00+08:00"
+}

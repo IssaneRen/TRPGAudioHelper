@@ -1,0 +1,78 @@
+{
+  "id": "char.daniel-abernathy",
+  "category": "character",
+  "displayName": "丹尼尔·阿伯纳西 Daniel Abernathy",
+  "summary": "佛蒙特大学考古教授，山林考古线的重要学术入口。公开层面可作为手稿、萨迦和旧遗址研究的连接点。",
+  "aliasNames": [
+    "Daniel Abernathy",
+    "丹尼尔·阿伯纳西",
+    "阿伯纳西教授"
+  ],
+  "moduleIds": [
+    "module.campaign.primal-state.home-sweet-home",
+    "module.campaign.primal-state.lake-champlain-monster"
+  ],
+  "relatedEntryIds": [
+    "module.campaign.primal-state.overview",
+    "loc.olaf-camp",
+    "char.glynis-abernathy"
+  ],
+  "facts": [
+    {
+      "label": "身份",
+      "value": "考古教授"
+    },
+    {
+      "label": "公开作用",
+      "value": "考古队、手稿、古诺斯语线索"
+    }
+  ],
+  "tags": [
+    "NPC",
+    "考古",
+    "大学"
+  ],
+  "content": [
+    {
+      "type": "heading",
+      "text": "人物概览"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "丹尼尔·阿伯纳西是《家，甜蜜的家》的学术锚点。公开层面，他让调查员有理由从大学资料、考古队失联、手稿批注和旧遗址之间建立联系。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "他不是万能翻译机。对 PL 来说，学术背景能提供方向，但在山林里，方向和安全并不是同一件事。"
+        }
+      ]
+    },
+    {
+      "type": "secret-panel",
+      "title": "二级隐藏：阿伯纳西的发现",
+      "hiddenMode": "collapse",
+      "playerIds": [],
+      "blocks": [
+        {
+          "type": "paragraph",
+          "tokens": [
+            {
+              "type": "text",
+              "text": "涉及他在营地中的状态、翻译内容、遗址机制和脱困关键的信息隐藏。"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "createdAt": "2026-06-03T00:00:00+08:00",
+  "updatedAt": "2026-06-03T00:00:00+08:00"
+}

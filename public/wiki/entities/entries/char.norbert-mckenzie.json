@@ -1,0 +1,60 @@
+{
+  "id": "char.norbert-mckenzie",
+  "category": "character",
+  "displayName": "诺伯特·麦肯齐牧师 Norbert McKenzie",
+  "summary": "圣彼得教堂相关记录入口。本宁顿墓地线里，他代表教会档案、地方记忆和普通人的不安。",
+  "aliasNames": [
+    "Norbert McKenzie",
+    "诺伯特·麦肯齐",
+    "麦肯齐牧师"
+  ],
+  "moduleIds": [
+    "module.campaign.primal-state.invitation-to-dance"
+  ],
+  "relatedEntryIds": [
+    "module.campaign.primal-state.overview",
+    "loc.bennington-vermont",
+    "loc.st-peters-churchyard"
+  ],
+  "facts": [
+    {
+      "label": "身份",
+      "value": "教堂牧师"
+    },
+    {
+      "label": "公开作用",
+      "value": "教堂记录与墓地传闻入口"
+    }
+  ],
+  "tags": [
+    "NPC",
+    "教堂",
+    "本宁顿"
+  ],
+  "content": [
+    {
+      "type": "heading",
+      "text": "人物概览"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "诺伯特·麦肯齐牧师是本宁顿墓地线里很适合被玩家接触的普通人。他不需要掌握全部真相；他的价值在于教堂记录、地方习俗，以及一个正常人面对异常时的迟疑。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "如果调查员愿意认真查档案、询问钟声、了解墓地维护，他就是把“民间怪谈”拉回具体历史材料的人。"
+        }
+      ]
+    }
+  ],
+  "createdAt": "2026-06-03T00:00:00+08:00",
+  "updatedAt": "2026-06-03T00:00:00+08:00"
+}

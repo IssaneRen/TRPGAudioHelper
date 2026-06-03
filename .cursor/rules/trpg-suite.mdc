@@ -27,5 +27,6 @@ Use this repository as a TRPG analysis workspace.
 
 - Prefer evidence-backed notes over vague summaries.
 - Keep file paths, page numbers, and source URLs visible in analysis outputs.
+- In wiki content, `magic-book` refers only to in-story fictional books or occult tomes inside the setting; do not use it for scenario books, rulebooks, sourcebooks, or real-world module publications.
 - When a task is ambiguous, split it into document structure, rules, and story consequences before answering.
 - When adding new sources or channels, record why they are trusted and how they should be rechecked.

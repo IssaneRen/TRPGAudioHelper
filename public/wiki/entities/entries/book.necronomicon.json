@@ -1,0 +1,140 @@
+{
+  "id": "book.necronomicon",
+  "category": "magic-book",
+  "displayName": "死灵之书 Necronomicon",
+  "summary": "洛氏世界观中最有名的禁忌典籍之一。公开层面只应被理解为“危险的神秘学书名”，具体内容不宜直接展示给未解锁的 PL。",
+  "aliasNames": [
+    "Necronomicon",
+    "死灵之书",
+    "Al Azif",
+    "Kitab al-Azif"
+  ],
+  "relatedEntryIds": [
+    "book.book-of-eibon",
+    "book.de-vermis-mysteriis",
+    "book.unaussprechlichen-kulten"
+  ],
+  "facts": [
+    {
+      "label": "类型",
+      "value": "故事内禁忌典籍"
+    },
+    {
+      "label": "故事内作者",
+      "value": "阿卜杜尔·阿尔哈兹莱德 Abdul Alhazred"
+    },
+    {
+      "label": "创作来源",
+      "value": "H. P. Lovecraft"
+    },
+    {
+      "label": "资料核对",
+      "value": "HPL Archive / Lovecraft Wiki，2026-06-03"
+    }
+  ],
+  "tags": [
+    "洛氏世界观",
+    "禁书",
+    "神话典籍"
+  ],
+  "content": [
+    {
+      "type": "heading",
+      "text": "玩家可见概览"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "《死灵之书》是洛夫克拉夫特笔下最具代表性的禁忌典籍。对 PL 来说，它首先不是一本“可以随便翻查设定答案”的资料书，而是一个危险信号：有人正在接触超出正常人类承受范围的知识。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "根据洛夫克拉夫特的伪学术文本《死灵之书的历史》，这本书在故事内通常与阿卜杜尔·阿尔哈兹莱德、Al Azif、失传抄本、大学馆藏和被审查的译本联系在一起。公开层面知道这些关键词已经足够；具体章节和用途应交给跑团中的发现来解锁。"
+        }
+      ]
+    },
+    {
+      "type": "secret-panel",
+      "title": "黑框传闻：馆藏与译本",
+      "playerIds": [],
+      "blocks": [
+        {
+          "type": "paragraph",
+          "tokens": [
+            {
+              "type": "text",
+              "text": "传闻说，不同译本的删节并不一致；有些版本少的是咒文，有些版本少的是让读者保持清醒的上下文。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "secret-panel",
+      "title": "二级隐藏：高风险内容类型",
+      "hiddenMode": "collapse",
+      "playerIds": [],
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            [
+              {
+                "type": "text",
+                "text": "不在公开层写具体召唤对象、仪式步骤、法术收益或阅读代价。"
+              }
+            ],
+            [
+              {
+                "type": "text",
+                "text": "若某个模组把这本书作为线索核心，应只在对应 PL 解锁后展示章节名或摘录。"
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "资料来源"
+    },
+    {
+      "type": "list",
+      "items": [
+        [
+          {
+            "type": "text",
+            "text": "H. P. Lovecraft, History of the Necronomicon: https://www.hplovecraft.com/writings/texts/fiction/hn.aspx"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "HPL Archive, Lovecraft's Fictional Tomes: https://www.hplovecraft.com/creation/tomes.aspx"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "HPL Archive, Lovecraft letters on the Necronomicon: https://www.hplovecraft.com/creation/necron/letters.aspx"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "Lovecraft Wiki, Necronomicon: https://lovecraft.fandom.com/wiki/Necronomicon"
+          }
+        ]
+      ]
+    }
+  ],
+  "createdAt": "2026-06-03T00:00:00+08:00",
+  "updatedAt": "2026-06-03T00:00:00+08:00"
+}

@@ -1,0 +1,97 @@
+{
+  "id": "loc.burlington-lake-champlain",
+  "category": "location",
+  "displayName": "伯灵顿与尚普兰湖 Burlington / Lake Champlain",
+  "summary": "湖区调查的核心区域。尸检、码头、水流、传说和城市警务把玩家带到更开阔也更模糊的水面上。",
+  "aliasNames": [
+    "Burlington",
+    "Lake Champlain",
+    "伯灵顿",
+    "尚普兰湖",
+    "伯灵顿与尚普兰湖"
+  ],
+  "moduleIds": [
+    "module.campaign.primal-state.lake-champlain-monster"
+  ],
+  "relatedEntryIds": [
+    "module.campaign.primal-state.overview",
+    "loc.primal-state-vermont",
+    "char.robert-barr",
+    "char.john-sinclair",
+    "char.jim-summers"
+  ],
+  "facts": [
+    {
+      "label": "类型",
+      "value": "城市 / 湖区 / 码头"
+    },
+    {
+      "label": "可公开线索",
+      "value": "漂流物尸体、验尸、水流、海图、湖怪传说"
+    }
+  ],
+  "tags": [
+    "湖区",
+    "伯灵顿",
+    "尚普兰湖"
+  ],
+  "content": [
+    {
+      "type": "heading",
+      "text": "地点概览"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "伯灵顿与尚普兰湖把《原初之境》的调查从乡间道路拉到城市、码头和水面。这里的公开入口通常很现实：验尸官的请求、警方记录、码头人员、水流方向和湖上老故事。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "PL 可见层面不需要提前知道湖里到底有什么。更重要的是：每个人都可能用自己熟悉的解释来处理尸体、传说和失踪，而这些解释未必能同时成立。"
+        }
+      ]
+    },
+    {
+      "type": "secret-panel",
+      "title": "黑框传闻：湖面",
+      "playerIds": [],
+      "blocks": [
+        {
+          "type": "paragraph",
+          "tokens": [
+            {
+              "type": "text",
+              "text": "湖怪故事有时只是孩子吓孩子；有时，大人也会突然决定不要在新月附近出船。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "secret-panel",
+      "title": "二级隐藏：湖区真相分支",
+      "hiddenMode": "collapse",
+      "playerIds": [],
+      "blocks": [
+        {
+          "type": "paragraph",
+          "tokens": [
+            {
+              "type": "text",
+              "text": "该篇可能采用不同真相选项。任何具体凶手、祭坛、实体或连环杀手判断都不写在公开层。"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "createdAt": "2026-06-03T00:00:00+08:00",
+  "updatedAt": "2026-06-03T00:00:00+08:00"
+}

@@ -1,0 +1,134 @@
+{
+  "id": "book.unaussprechlichen-kulten",
+  "category": "magic-book",
+  "displayName": "无名祭祀 Unaussprechlichen Kulten",
+  "summary": "又称《无名之祭》《黑书》，是克苏鲁神话中关于秘密教团、邪教传统与禁忌崇拜的故事内典籍。",
+  "aliasNames": [
+    "Unaussprechlichen Kulten",
+    "Nameless Cults",
+    "Black Book",
+    "无名祭祀",
+    "无以名状的祭祀",
+    "黑书"
+  ],
+  "relatedEntryIds": [
+    "book.necronomicon",
+    "book.book-of-eibon",
+    "book.de-vermis-mysteriis"
+  ],
+  "facts": [
+    {
+      "label": "类型",
+      "value": "故事内神秘学与邪教研究典籍"
+    },
+    {
+      "label": "故事内作者",
+      "value": "Friedrich Wilhelm von Junzt"
+    },
+    {
+      "label": "创作来源",
+      "value": "Robert E. Howard"
+    },
+    {
+      "label": "资料核对",
+      "value": "HPL Archive / Robert E. Howard 原文资料，2026-06-03"
+    }
+  ],
+  "tags": [
+    "洛氏世界观",
+    "禁书",
+    "邪教"
+  ],
+  "content": [
+    {
+      "type": "heading",
+      "text": "玩家可见概览"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "《无名祭祀》常被描述为一部关于秘密教团、禁忌崇拜和古老仪式传统的书。它的恐怖不一定来自单个法术，而来自一种更现实的危险：它暗示某些崇拜并没有消失，只是换了名字、地点和社会身份。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "在 PL 可见层面，它适合作为“某个组织很可能不是普通社团”的提示。具体教团名称、祭祀对象和历史连续性应按照实际模组解锁。"
+        }
+      ]
+    },
+    {
+      "type": "secret-panel",
+      "title": "黑框传闻：黑书",
+      "playerIds": [],
+      "blocks": [
+        {
+          "type": "paragraph",
+          "tokens": [
+            {
+              "type": "text",
+              "text": "有些藏书家不把它放在神秘学架上，而是放进旅行记、民俗学或殖民地见闻旁边；这反而更让人不舒服。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "secret-panel",
+      "title": "二级隐藏：高风险内容类型",
+      "hiddenMode": "collapse",
+      "playerIds": [],
+      "blocks": [
+        {
+          "type": "paragraph",
+          "tokens": [
+            {
+              "type": "text",
+              "text": "凡是会直接指向具体邪教、神话实体、献祭逻辑或组织成员身份的信息，都应放在二级隐藏或对应模组条目内。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "资料来源"
+    },
+    {
+      "type": "list",
+      "items": [
+        [
+          {
+            "type": "text",
+            "text": "HPL Archive, Lovecraft's Fictional Tomes: https://www.hplovecraft.com/creation/tomes.aspx"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "HPL Archive, Lovecraft letters on Mythos books: https://www.hplovecraft.com/creation/necron/letters.aspx"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "Wikipedia, Unaussprechlichen Kulten: https://en.wikipedia.org/wiki/Unaussprechlichen_Kulten"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "Cthulhu Universalis, Nameless Cults: https://cthulhufiles.com/cthsectn/nameless_cults.html"
+          }
+        ]
+      ]
+    }
+  ],
+  "createdAt": "2026-06-03T00:00:00+08:00",
+  "updatedAt": "2026-06-03T00:00:00+08:00"
+}

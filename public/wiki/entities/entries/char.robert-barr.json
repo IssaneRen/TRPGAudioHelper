@@ -1,0 +1,78 @@
+{
+  "id": "char.robert-barr",
+  "category": "character",
+  "displayName": "罗伯特·巴尔 Robert Barr",
+  "summary": "伯灵顿市政码头管理员，巴尔家族相关证人与湖区调查的自然连接点。",
+  "aliasNames": [
+    "Robert Barr",
+    "罗伯特",
+    "罗伯特·巴尔"
+  ],
+  "moduleIds": [
+    "module.campaign.primal-state.tree-sap-finale",
+    "module.campaign.primal-state.lake-champlain-monster"
+  ],
+  "relatedEntryIds": [
+    "module.campaign.primal-state.overview",
+    "loc.burlington-lake-champlain",
+    "char.margaret-barr"
+  ],
+  "facts": [
+    {
+      "label": "身份",
+      "value": "伯灵顿市政码头管理员"
+    },
+    {
+      "label": "公开作用",
+      "value": "巴尔家证人与湖区入口"
+    }
+  ],
+  "tags": [
+    "NPC",
+    "伯灵顿",
+    "巴尔家"
+  ],
+  "content": [
+    {
+      "type": "heading",
+      "text": "人物概览"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "罗伯特·巴尔在公开层面最重要的身份是伯灵顿市政码头管理员。他让巴尔家的私人故事和湖区调查之间有了自然交叉：码头、城市记录、家庭证词都可能从他身上展开。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "他适合作为 PL 的“现实锚点”：如果调查员觉得乡间传闻过于飘忽，可以从一个有职位、有工作地点、也有家庭关系的人身上重新落地。"
+        }
+      ]
+    },
+    {
+      "type": "secret-panel",
+      "title": "二级隐藏：证词价值",
+      "hiddenMode": "collapse",
+      "playerIds": [],
+      "blocks": [
+        {
+          "type": "paragraph",
+          "tokens": [
+            {
+              "type": "text",
+              "text": "涉及罗伯特能够确认的具体家庭时间线、关键姓名和终局回流线索的信息不公开展示。"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "createdAt": "2026-06-03T00:00:00+08:00",
+  "updatedAt": "2026-06-03T00:00:00+08:00"
+}

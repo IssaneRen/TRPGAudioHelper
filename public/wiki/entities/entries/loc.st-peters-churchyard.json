@@ -1,0 +1,93 @@
+{
+  "id": "loc.st-peters-churchyard",
+  "category": "location",
+  "displayName": "圣彼得教堂墓地 St. Peter's Churchyard",
+  "summary": "本宁顿的旧教堂墓地。公开层面只展示墓碑异动、钟声和地方记录入口，不直接给出墓地事件真相。",
+  "aliasNames": [
+    "St. Peter's Churchyard",
+    "圣彼得教堂墓地",
+    "圣彼得教堂"
+  ],
+  "moduleIds": [
+    "module.campaign.primal-state.invitation-to-dance"
+  ],
+  "relatedEntryIds": [
+    "module.campaign.primal-state.overview",
+    "loc.bennington-vermont",
+    "char.norbert-mckenzie"
+  ],
+  "facts": [
+    {
+      "label": "类型",
+      "value": "教堂墓地"
+    },
+    {
+      "label": "可公开线索",
+      "value": "墓碑、钟声、教堂记录、道路施工"
+    }
+  ],
+  "tags": [
+    "墓地",
+    "教堂",
+    "本宁顿"
+  ],
+  "content": [
+    {
+      "type": "heading",
+      "text": "地点概览"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "圣彼得教堂墓地是《邀请来舞会》的核心地点。它适合 PL 公开知道的部分很简单：墓地里有两块墓碑的位置不太安分，而教堂钟声和旧记录会把调查员的注意力拉回更早的年代。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "如果玩家来到这里，重点不是“蹲守一定能拍到什么”，而是把墓地、教堂、施工改动和地方历史串起来看。"
+        }
+      ]
+    },
+    {
+      "type": "secret-panel",
+      "title": "黑框传闻：墓碑之间",
+      "playerIds": [],
+      "blocks": [
+        {
+          "type": "paragraph",
+          "tokens": [
+            {
+              "type": "text",
+              "text": "有时墓碑看起来不是在移动，而是在努力回到某个它们认为正确的位置。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "secret-panel",
+      "title": "二级隐藏：墓地真相",
+      "hiddenMode": "collapse",
+      "playerIds": [],
+      "blocks": [
+        {
+          "type": "paragraph",
+          "tokens": [
+            {
+              "type": "text",
+              "text": "涉及墓碑移动原因、特定死者关系、驱散方式和最终对抗的信息，不在公开层展示。"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "createdAt": "2026-06-03T00:00:00+08:00",
+  "updatedAt": "2026-06-03T00:00:00+08:00"
+}

@@ -1,0 +1,196 @@
+{
+  "id": "module.campaign.primal-state.overview",
+  "category": "module",
+  "displayName": "原初之境",
+  "summary": "1925-1930 年佛蒙特乡镇怪谈战役入口。这里收纳 PL 可提前阅读或跑后回看的地点与人物关系。",
+  "aliasNames": [
+    "The Primal State",
+    "原初之境",
+    "佛蒙特战役"
+  ],
+  "moduleIds": [
+    "module.campaign.primal-state.overview",
+    "module.campaign.primal-state.invitation-to-dance",
+    "module.campaign.primal-state.tree-sap-opening",
+    "module.campaign.primal-state.lake-champlain-monster",
+    "module.campaign.primal-state.home-sweet-home",
+    "module.campaign.primal-state.tree-sap-finale"
+  ],
+  "relatedEntryIds": [
+    "loc.primal-state-vermont",
+    "loc.bennington-vermont",
+    "loc.st-peters-churchyard",
+    "loc.route-7-maple-country",
+    "loc.burlington-lake-champlain",
+    "loc.olaf-camp",
+    "char.claire-jeplin",
+    "char.margaret-barr",
+    "char.emilia-barr",
+    "char.robert-barr",
+    "char.norbert-mckenzie",
+    "char.john-sinclair",
+    "char.daniel-abernathy"
+  ],
+  "facts": [
+    {
+      "label": "规则",
+      "value": "COC7"
+    },
+    {
+      "label": "时代",
+      "value": "1925-1930"
+    },
+    {
+      "label": "地点",
+      "value": "美国佛蒙特州"
+    },
+    {
+      "label": "资料来源",
+      "value": "module-architecture.md，2026-05-31"
+    }
+  ],
+  "tags": [
+    "COC7",
+    "1920s",
+    "佛蒙特",
+    "民俗恐怖"
+  ],
+  "content": [
+    {
+      "type": "heading",
+      "text": "入口说明"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "《原初之境》是一组设置在 1925-1930 年佛蒙特州的乡镇怪谈。这个 wiki 入口只整理 PL 可以看的地点、人名和氛围线索：枫糖、墓地、湖雾、大学考古队和逐渐被现代化改变的小镇生活。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "如果你还没有跑完整个战役，可以把这里当作“不会直接告诉你真相”的背景目录。真正会改变判断方向的幕后信息，会用二级隐藏折叠，不命中的 PL 看不到。"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "推荐浏览"
+    },
+    {
+      "type": "list",
+      "items": [
+        [
+          {
+            "type": "text",
+            "text": "先看 "
+          },
+          {
+            "type": "ref",
+            "entryId": "loc.primal-state-vermont",
+            "label": "佛蒙特州"
+          },
+          {
+            "type": "text",
+            "text": "，了解战役的地方气质。"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "墓地线从 "
+          },
+          {
+            "type": "ref",
+            "entryId": "loc.st-peters-churchyard",
+            "label": "圣彼得教堂墓地"
+          },
+          {
+            "type": "text",
+            "text": " 开始。"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "主线日常压力集中在 "
+          },
+          {
+            "type": "ref",
+            "entryId": "loc.route-7-maple-country",
+            "label": "7 号国道枫糖乡"
+          },
+          {
+            "type": "text",
+            "text": "、"
+          },
+          {
+            "type": "ref",
+            "entryId": "char.claire-jeplin",
+            "label": "克莱儿·杰普林"
+          },
+          {
+            "type": "text",
+            "text": " 和 "
+          },
+          {
+            "type": "ref",
+            "entryId": "char.margaret-barr",
+            "label": "玛格莉特·巴尔"
+          },
+          {
+            "type": "text",
+            "text": " 身上。"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "湖区与山林线可从 "
+          },
+          {
+            "type": "ref",
+            "entryId": "loc.burlington-lake-champlain",
+            "label": "伯灵顿与尚普兰湖"
+          },
+          {
+            "type": "text",
+            "text": "、"
+          },
+          {
+            "type": "ref",
+            "entryId": "loc.olaf-camp",
+            "label": "奥拉夫营"
+          },
+          {
+            "type": "text",
+            "text": " 继续看。"
+          }
+        ]
+      ]
+    },
+    {
+      "type": "secret-panel",
+      "title": "黑框提示：这套战役的气味",
+      "playerIds": [],
+      "blocks": [
+        {
+          "type": "paragraph",
+          "tokens": [
+            {
+              "type": "text",
+              "text": "这里的恐怖经常不是突然出现的怪物，而是“本来很普通的地方为什么开始不对劲”。"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "createdAt": "2026-06-03T00:00:00+08:00",
+  "updatedAt": "2026-06-03T00:00:00+08:00"
+}

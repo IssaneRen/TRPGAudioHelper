@@ -1,0 +1,95 @@
+{
+  "id": "char.emilia-barr",
+  "category": "character",
+  "displayName": "艾蜜莉亚·巴尔 Emilia Barr",
+  "summary": "玛格莉特·巴尔的女儿。公开层面只记录她作为家庭成员和小镇视线中的年轻人，不提前展示异常身份。",
+  "aliasNames": [
+    "Emilia Barr",
+    "艾蜜莉亚",
+    "艾蜜莉亚·巴尔"
+  ],
+  "moduleIds": [
+    "module.campaign.primal-state.tree-sap-opening",
+    "module.campaign.primal-state.tree-sap-finale"
+  ],
+  "relatedEntryIds": [
+    "module.campaign.primal-state.overview",
+    "loc.route-7-maple-country",
+    "char.margaret-barr",
+    "char.claire-jeplin"
+  ],
+  "facts": [
+    {
+      "label": "身份",
+      "value": "玛格莉特·巴尔的女儿"
+    },
+    {
+      "label": "公开主题",
+      "value": "家庭 / 小镇视线 / 年轻人"
+    }
+  ],
+  "tags": [
+    "NPC",
+    "巴尔家",
+    "主线"
+  ],
+  "content": [
+    {
+      "type": "heading",
+      "text": "人物概览"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "艾蜜莉亚·巴尔是玛格莉特身边最重要的家庭成员。公开层面，她可以被理解为新商店、家庭形象和小镇流言的一部分。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "如果调查员注意到她，不要急着把她当作答案。她更像一个问题：为什么一个家庭越努力显得正常，越会让旁观者觉得哪里不对。"
+        }
+      ]
+    },
+    {
+      "type": "secret-panel",
+      "title": "黑框传闻：偶蹄印",
+      "playerIds": [],
+      "blocks": [
+        {
+          "type": "paragraph",
+          "tokens": [
+            {
+              "type": "text",
+              "text": "小镇泥地上的印子很多，孩子、鹿、牲畜、游客都可能留下痕迹。只是有些印子出现的位置太奇怪。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "secret-panel",
+      "title": "二级隐藏：艾蜜莉亚核心身份",
+      "hiddenMode": "collapse",
+      "playerIds": [],
+      "blocks": [
+        {
+          "type": "paragraph",
+          "tokens": [
+            {
+              "type": "text",
+              "text": "涉及艾蜜莉亚的真实来源、能力、受害者关系和最终对抗的信息全部隐藏。"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "createdAt": "2026-06-03T00:00:00+08:00",
+  "updatedAt": "2026-06-03T00:00:00+08:00"
+}

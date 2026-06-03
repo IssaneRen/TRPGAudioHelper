@@ -1,0 +1,77 @@
+{
+  "id": "loc.bennington-vermont",
+  "category": "location",
+  "displayName": "本宁顿 Bennington",
+  "summary": "佛蒙特南部小镇，《邀请来舞会》的主要活动区域。公开层面可作为教堂、墓地和地方档案的入口。",
+  "aliasNames": [
+    "Bennington",
+    "本宁顿",
+    "佛蒙特本宁顿"
+  ],
+  "moduleIds": [
+    "module.campaign.primal-state.invitation-to-dance"
+  ],
+  "relatedEntryIds": [
+    "module.campaign.primal-state.overview",
+    "loc.primal-state-vermont",
+    "loc.st-peters-churchyard",
+    "char.norbert-mckenzie"
+  ],
+  "facts": [
+    {
+      "label": "类型",
+      "value": "小镇"
+    },
+    {
+      "label": "关联篇章",
+      "value": "邀请来舞会"
+    }
+  ],
+  "tags": [
+    "佛蒙特",
+    "小镇",
+    "墓地"
+  ],
+  "content": [
+    {
+      "type": "heading",
+      "text": "地点概览"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "本宁顿是佛蒙特南部的小镇。对调查员来说，它可以只是旅途中的落脚点，也可以因为一则墓地怪闻变成不得不多停几天的地方。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "这里的公开调查入口很朴素：教堂记录、墓园维护、道路施工、地方老人和警长办公室。越是普通的行政细节，越可能解释“异常为什么偏偏现在发生”。"
+        }
+      ]
+    },
+    {
+      "type": "secret-panel",
+      "title": "黑框传闻：午夜以后",
+      "playerIds": [],
+      "blocks": [
+        {
+          "type": "paragraph",
+          "tokens": [
+            {
+              "type": "text",
+              "text": "有人说，本宁顿的某些夜晚不是安静，而是所有东西都在等钟声。"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "createdAt": "2026-06-03T00:00:00+08:00",
+  "updatedAt": "2026-06-03T00:00:00+08:00"
+}

@@ -1,0 +1,128 @@
+{
+  "id": "book.book-of-eibon",
+  "category": "magic-book",
+  "displayName": "伊波恩之书 Book of Eibon",
+  "summary": "源自克拉克·阿什顿·史密斯的海柏利亚传统，常被视为与《死灵之书》相近的神话典籍。",
+  "aliasNames": [
+    "Book of Eibon",
+    "The Book of Eibon",
+    "Liber Ivonis",
+    "Livre d'Eibon",
+    "伊波恩之书",
+    "艾邦之书"
+  ],
+  "relatedEntryIds": [
+    "book.necronomicon",
+    "book.de-vermis-mysteriis",
+    "book.unaussprechlichen-kulten"
+  ],
+  "facts": [
+    {
+      "label": "类型",
+      "value": "故事内神话典籍"
+    },
+    {
+      "label": "故事内作者",
+      "value": "Mhu Thulan 的术士 Eibon"
+    },
+    {
+      "label": "创作来源",
+      "value": "Clark Ashton Smith"
+    },
+    {
+      "label": "资料核对",
+      "value": "HPL Archive / Lovecraft Wiki，2026-06-03"
+    }
+  ],
+  "tags": [
+    "洛氏世界观",
+    "禁书",
+    "海柏利亚"
+  ],
+  "content": [
+    {
+      "type": "heading",
+      "text": "玩家可见概览"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "《伊波恩之书》来自克拉克·阿什顿·史密斯的海柏利亚故事传统。它不像《死灵之书》那样总是以“大学图书馆里的禁书”形象出现，而更常带着失落大陆、古代术士、异乡译本和前人旅行记录的气质。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "在本站 wiki 中，它适合用来表示“非常古老、来源不明、可能经过多次转译的神话知识”。PL 公开层面可以知道书名和传承感，但不应直接看到它能解决哪些神话问题。"
+        }
+      ]
+    },
+    {
+      "type": "secret-panel",
+      "title": "黑框传闻：译名",
+      "playerIds": [],
+      "blocks": [
+        {
+          "type": "paragraph",
+          "tokens": [
+            {
+              "type": "text",
+              "text": "同一本书可能以拉丁文 Liber Ivonis 或法文 Livre d'Eibon 的名义出现；译名越优雅，越不代表内容安全。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "secret-panel",
+      "title": "二级隐藏：高风险内容类型",
+      "hiddenMode": "collapse",
+      "playerIds": [],
+      "blocks": [
+        {
+          "type": "paragraph",
+          "tokens": [
+            {
+              "type": "text",
+              "text": "涉及具体旧神名、超自然旅行、咒文列表或某个模组的解法时，应绑定对应 PL 后再显示。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "资料来源"
+    },
+    {
+      "type": "list",
+      "items": [
+        [
+          {
+            "type": "text",
+            "text": "HPL Archive, Lovecraft's Fictional Tomes: https://www.hplovecraft.com/creation/tomes.aspx"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "Lovecraft Wiki, Book of Eibon: https://lovecraft.fandom.com/wiki/Book_of_Eibon"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "Lovecraft Stories, Book of Eibon: https://www.lovecraft-stories.com/wiki/book-of-eibon"
+          }
+        ]
+      ]
+    }
+  ],
+  "createdAt": "2026-06-03T00:00:00+08:00",
+  "updatedAt": "2026-06-03T00:00:00+08:00"
+}

@@ -1,0 +1,95 @@
+{
+  "id": "loc.primal-state-vermont",
+  "category": "location",
+  "displayName": "佛蒙特州 Vermont",
+  "summary": "《原初之境》的共同舞台：山林、湖泊、墓地、国道与枫糖乡镇构成了缓慢变质的新英格兰地方感。",
+  "aliasNames": [
+    "Vermont",
+    "佛蒙特",
+    "佛蒙特州"
+  ],
+  "moduleIds": [
+    "module.campaign.primal-state.overview"
+  ],
+  "relatedEntryIds": [
+    "module.campaign.primal-state.overview",
+    "loc.bennington-vermont",
+    "loc.route-7-maple-country",
+    "loc.burlington-lake-champlain",
+    "loc.olaf-camp"
+  ],
+  "facts": [
+    {
+      "label": "类型",
+      "value": "战役区域"
+    },
+    {
+      "label": "时代",
+      "value": "1925-1930"
+    },
+    {
+      "label": "关键词",
+      "value": "乡镇、山林、湖泊、枫糖、现代化"
+    }
+  ],
+  "tags": [
+    "佛蒙特",
+    "地点",
+    "战役入口"
+  ],
+  "content": [
+    {
+      "type": "heading",
+      "text": "地点概览"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "在《原初之境》里，佛蒙特不是一张背景地图，而是一种压力来源：传统乡镇生活仍然可见，旅游业、道路施工、大学研究和城市案件也不断把外部世界带进来。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "PL 可以公开知道的是：这套战役的线索经常藏在地方传闻、旧记录、家庭关系和日常生意里。不要急着把每件事都归为神话；先问“这里的人为什么这样生活”。"
+        }
+      ]
+    },
+    {
+      "type": "list",
+      "items": [
+        [
+          {
+            "type": "text",
+            "text": "南部的本宁顿偏向旧墓地、教堂和小镇传闻。"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "7 号国道一带连接枫糖、家庭生计和游客经济。"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "伯灵顿和尚普兰湖把调查拉向城市、码头和水面。"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "格拉斯腾伯里附近的山林则更强调失联、导航与野外压力。"
+          }
+        ]
+      ]
+    }
+  ],
+  "createdAt": "2026-06-03T00:00:00+08:00",
+  "updatedAt": "2026-06-03T00:00:00+08:00"
+}

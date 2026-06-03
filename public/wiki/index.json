@@ -478,6 +478,178 @@
   ],
   "entries": [
     {
+      "id": "book.book-of-eibon",
+      "category": "magic-book",
+      "displayName": "伊波恩之书 Book of Eibon",
+      "summary": "源自克拉克·阿什顿·史密斯的海柏利亚传统，常被视为与《死灵之书》相近的神话典籍。",
+      "aliasNames": [
+        "Book of Eibon",
+        "The Book of Eibon",
+        "Liber Ivonis",
+        "Livre d'Eibon",
+        "伊波恩之书",
+        "艾邦之书"
+      ],
+      "relatedEntryIds": [
+        "book.necronomicon",
+        "book.de-vermis-mysteriis",
+        "book.unaussprechlichen-kulten"
+      ],
+      "facts": [
+        {
+          "label": "类型",
+          "value": "故事内神话典籍"
+        },
+        {
+          "label": "故事内作者",
+          "value": "Mhu Thulan 的术士 Eibon"
+        },
+        {
+          "label": "创作来源",
+          "value": "Clark Ashton Smith"
+        },
+        {
+          "label": "资料核对",
+          "value": "HPL Archive / Lovecraft Wiki，2026-06-03"
+        }
+      ],
+      "tags": [
+        "洛氏世界观",
+        "禁书",
+        "海柏利亚"
+      ],
+      "createdAt": "2026-06-03T00:00:00+08:00",
+      "updatedAt": "2026-06-03T00:00:00+08:00"
+    },
+    {
+      "id": "book.de-vermis-mysteriis",
+      "category": "magic-book",
+      "displayName": "蠕虫之秘 De Vermis Mysteriis",
+      "summary": "罗伯特·布洛克创造、后被洛夫克拉夫特纳入神话互文的禁忌典籍，常与危险召唤和仪式知识联系在一起。",
+      "aliasNames": [
+        "De Vermis Mysteriis",
+        "Mysteries of the Worm",
+        "蠕虫之秘",
+        "蠕虫的奥秘"
+      ],
+      "relatedEntryIds": [
+        "book.necronomicon",
+        "book.book-of-eibon",
+        "book.unaussprechlichen-kulten"
+      ],
+      "facts": [
+        {
+          "label": "类型",
+          "value": "故事内禁忌典籍"
+        },
+        {
+          "label": "故事内作者",
+          "value": "Ludvig Prinn"
+        },
+        {
+          "label": "创作来源",
+          "value": "Robert Bloch；后被 H. P. Lovecraft 引用"
+        },
+        {
+          "label": "资料核对",
+          "value": "HPL Archive / Wikipedia，2026-06-03"
+        }
+      ],
+      "tags": [
+        "洛氏世界观",
+        "禁书",
+        "仪式"
+      ],
+      "createdAt": "2026-06-03T00:00:00+08:00",
+      "updatedAt": "2026-06-03T00:00:00+08:00"
+    },
+    {
+      "id": "book.necronomicon",
+      "category": "magic-book",
+      "displayName": "死灵之书 Necronomicon",
+      "summary": "洛氏世界观中最有名的禁忌典籍之一。公开层面只应被理解为“危险的神秘学书名”，具体内容不宜直接展示给未解锁的 PL。",
+      "aliasNames": [
+        "Necronomicon",
+        "死灵之书",
+        "Al Azif",
+        "Kitab al-Azif"
+      ],
+      "relatedEntryIds": [
+        "book.book-of-eibon",
+        "book.de-vermis-mysteriis",
+        "book.unaussprechlichen-kulten"
+      ],
+      "facts": [
+        {
+          "label": "类型",
+          "value": "故事内禁忌典籍"
+        },
+        {
+          "label": "故事内作者",
+          "value": "阿卜杜尔·阿尔哈兹莱德 Abdul Alhazred"
+        },
+        {
+          "label": "创作来源",
+          "value": "H. P. Lovecraft"
+        },
+        {
+          "label": "资料核对",
+          "value": "HPL Archive / Lovecraft Wiki，2026-06-03"
+        }
+      ],
+      "tags": [
+        "洛氏世界观",
+        "禁书",
+        "神话典籍"
+      ],
+      "createdAt": "2026-06-03T00:00:00+08:00",
+      "updatedAt": "2026-06-03T00:00:00+08:00"
+    },
+    {
+      "id": "book.unaussprechlichen-kulten",
+      "category": "magic-book",
+      "displayName": "无名祭祀 Unaussprechlichen Kulten",
+      "summary": "又称《无名之祭》《黑书》，是克苏鲁神话中关于秘密教团、邪教传统与禁忌崇拜的故事内典籍。",
+      "aliasNames": [
+        "Unaussprechlichen Kulten",
+        "Nameless Cults",
+        "Black Book",
+        "无名祭祀",
+        "无以名状的祭祀",
+        "黑书"
+      ],
+      "relatedEntryIds": [
+        "book.necronomicon",
+        "book.book-of-eibon",
+        "book.de-vermis-mysteriis"
+      ],
+      "facts": [
+        {
+          "label": "类型",
+          "value": "故事内神秘学与邪教研究典籍"
+        },
+        {
+          "label": "故事内作者",
+          "value": "Friedrich Wilhelm von Junzt"
+        },
+        {
+          "label": "创作来源",
+          "value": "Robert E. Howard"
+        },
+        {
+          "label": "资料核对",
+          "value": "HPL Archive / Robert E. Howard 原文资料，2026-06-03"
+        }
+      ],
+      "tags": [
+        "洛氏世界观",
+        "禁书",
+        "邪教"
+      ],
+      "createdAt": "2026-06-03T00:00:00+08:00",
+      "updatedAt": "2026-06-03T00:00:00+08:00"
+    },
+    {
       "id": "char.adam",
       "category": "character",
       "displayName": "Adam",
@@ -563,6 +735,119 @@
       "updatedAt": "1928-11-09T20:00:00Z"
     },
     {
+      "id": "char.claire-jeplin",
+      "category": "character",
+      "displayName": "克莱儿·杰普林 Claire Jeplin",
+      "summary": "传统佛蒙特枫糖生意的代表人物。她的处境让玩家看见小镇经济、人际孤立和日常压力如何变成恐怖的一部分。",
+      "aliasNames": [
+        "Claire Jeplin",
+        "克莱儿",
+        "克莱儿·杰普林"
+      ],
+      "moduleIds": [
+        "module.campaign.primal-state.tree-sap-opening",
+        "module.campaign.primal-state.tree-sap-finale"
+      ],
+      "relatedEntryIds": [
+        "module.campaign.primal-state.overview",
+        "loc.route-7-maple-country",
+        "char.margaret-barr",
+        "char.emilia-barr"
+      ],
+      "facts": [
+        {
+          "label": "身份",
+          "value": "枫糖生意经营者"
+        },
+        {
+          "label": "公开主题",
+          "value": "传统生计 / 孤立 / 小镇压力"
+        }
+      ],
+      "tags": [
+        "NPC",
+        "枫糖",
+        "主线"
+      ],
+      "createdAt": "2026-06-03T00:00:00+08:00",
+      "updatedAt": "2026-06-03T00:00:00+08:00"
+    },
+    {
+      "id": "char.daniel-abernathy",
+      "category": "character",
+      "displayName": "丹尼尔·阿伯纳西 Daniel Abernathy",
+      "summary": "佛蒙特大学考古教授，山林考古线的重要学术入口。公开层面可作为手稿、萨迦和旧遗址研究的连接点。",
+      "aliasNames": [
+        "Daniel Abernathy",
+        "丹尼尔·阿伯纳西",
+        "阿伯纳西教授"
+      ],
+      "moduleIds": [
+        "module.campaign.primal-state.home-sweet-home",
+        "module.campaign.primal-state.lake-champlain-monster"
+      ],
+      "relatedEntryIds": [
+        "module.campaign.primal-state.overview",
+        "loc.olaf-camp",
+        "char.glynis-abernathy"
+      ],
+      "facts": [
+        {
+          "label": "身份",
+          "value": "考古教授"
+        },
+        {
+          "label": "公开作用",
+          "value": "考古队、手稿、古诺斯语线索"
+        }
+      ],
+      "tags": [
+        "NPC",
+        "考古",
+        "大学"
+      ],
+      "createdAt": "2026-06-03T00:00:00+08:00",
+      "updatedAt": "2026-06-03T00:00:00+08:00"
+    },
+    {
+      "id": "char.emilia-barr",
+      "category": "character",
+      "displayName": "艾蜜莉亚·巴尔 Emilia Barr",
+      "summary": "玛格莉特·巴尔的女儿。公开层面只记录她作为家庭成员和小镇视线中的年轻人，不提前展示异常身份。",
+      "aliasNames": [
+        "Emilia Barr",
+        "艾蜜莉亚",
+        "艾蜜莉亚·巴尔"
+      ],
+      "moduleIds": [
+        "module.campaign.primal-state.tree-sap-opening",
+        "module.campaign.primal-state.tree-sap-finale"
+      ],
+      "relatedEntryIds": [
+        "module.campaign.primal-state.overview",
+        "loc.route-7-maple-country",
+        "char.margaret-barr",
+        "char.claire-jeplin"
+      ],
+      "facts": [
+        {
+          "label": "身份",
+          "value": "玛格莉特·巴尔的女儿"
+        },
+        {
+          "label": "公开主题",
+          "value": "家庭 / 小镇视线 / 年轻人"
+        }
+      ],
+      "tags": [
+        "NPC",
+        "巴尔家",
+        "主线"
+      ],
+      "createdAt": "2026-06-03T00:00:00+08:00",
+      "updatedAt": "2026-06-03T00:00:00+08:00"
+    },
+    {
       "id": "char.gan",
       "category": "character",
       "displayName": "阿甘 Gan",
@@ -604,6 +889,114 @@
       ],
       "createdAt": "1928-11-08T20:00:00Z",
       "updatedAt": "1928-11-09T20:00:00Z"
+    },
+    {
+      "id": "char.glynis-abernathy",
+      "category": "character",
+      "displayName": "格莉妮丝·阿伯纳西 Glynis Abernathy",
+      "summary": "阿伯纳西相关资料与语言线索的来源之一。公开层面可作为大学、家庭和手稿之间的现实连接。",
+      "aliasNames": [
+        "Glynis Abernathy",
+        "格莉妮丝",
+        "格莉妮丝·阿伯纳西"
+      ],
+      "moduleIds": [
+        "module.campaign.primal-state.home-sweet-home"
+      ],
+      "relatedEntryIds": [
+        "module.campaign.primal-state.overview",
+        "loc.olaf-camp",
+        "char.daniel-abernathy"
+      ],
+      "facts": [
+        {
+          "label": "身份",
+          "value": "语言与手稿线索来源"
+        },
+        {
+          "label": "公开作用",
+          "value": "大学背景 / 家庭关系 / 文献入口"
+        }
+      ],
+      "tags": [
+        "NPC",
+        "考古",
+        "大学"
+      ],
+      "createdAt": "2026-06-03T00:00:00+08:00",
+      "updatedAt": "2026-06-03T00:00:00+08:00"
+    },
+    {
+      "id": "char.jim-summers",
+      "category": "character",
+      "displayName": "吉姆·萨默斯 Jim Summers",
+      "summary": "湖区调查中的警探。公开层面只记录他的可疑感与警方视角，不提前判定他在事件中的真实位置。",
+      "aliasNames": [
+        "Jim Summers",
+        "吉姆·萨默斯",
+        "萨默斯警探"
+      ],
+      "moduleIds": [
+        "module.campaign.primal-state.lake-champlain-monster"
+      ],
+      "relatedEntryIds": [
+        "module.campaign.primal-state.overview",
+        "loc.burlington-lake-champlain",
+        "char.john-sinclair"
+      ],
+      "facts": [
+        {
+          "label": "身份",
+          "value": "警探"
+        },
+        {
+          "label": "公开作用",
+          "value": "警方视角 / 可疑人物"
+        }
+      ],
+      "tags": [
+        "NPC",
+        "伯灵顿",
+        "湖区"
+      ],
+      "createdAt": "2026-06-03T00:00:00+08:00",
+      "updatedAt": "2026-06-03T00:00:00+08:00"
+    },
+    {
+      "id": "char.john-sinclair",
+      "category": "character",
+      "displayName": "约翰·辛克莱 John Sinclair",
+      "summary": "伯灵顿验尸官，湖区尸体调查的重要入口。公开层面可作为法医信息、时间规律和官方压力的来源。",
+      "aliasNames": [
+        "John Sinclair",
+        "约翰·辛克莱",
+        "辛克莱"
+      ],
+      "moduleIds": [
+        "module.campaign.primal-state.lake-champlain-monster"
+      ],
+      "relatedEntryIds": [
+        "module.campaign.primal-state.overview",
+        "loc.burlington-lake-champlain",
+        "char.jim-summers"
+      ],
+      "facts": [
+        {
+          "label": "身份",
+          "value": "伯灵顿验尸官"
+        },
+        {
+          "label": "公开作用",
+          "value": "尸检、时间规律、官方委托"
+        }
+      ],
+      "tags": [
+        "NPC",
+        "伯灵顿",
+        "湖区"
+      ],
+      "createdAt": "2026-06-03T00:00:00+08:00",
+      "updatedAt": "2026-06-03T00:00:00+08:00"
     },
     {
       "id": "char.kiven",
@@ -748,6 +1141,118 @@
       "updatedAt": "1928-11-09T20:00:00Z"
     },
     {
+      "id": "char.margaret-barr",
+      "category": "character",
+      "displayName": "玛格莉特·巴尔 Margaret Barr",
+      "summary": "经营新式旅游枫糖商店的女性。公开层面应把她看作小镇商业变化的中心人物，而不是提前揭露她的后台秘密。",
+      "aliasNames": [
+        "Margaret Barr",
+        "玛格莉特",
+        "玛格莉特·巴尔"
+      ],
+      "moduleIds": [
+        "module.campaign.primal-state.tree-sap-opening",
+        "module.campaign.primal-state.tree-sap-finale"
+      ],
+      "relatedEntryIds": [
+        "module.campaign.primal-state.overview",
+        "loc.route-7-maple-country",
+        "char.claire-jeplin",
+        "char.emilia-barr",
+        "char.robert-barr"
+      ],
+      "facts": [
+        {
+          "label": "身份",
+          "value": "旅游枫糖商店经营者"
+        },
+        {
+          "label": "公开主题",
+          "value": "现代商业 / 家庭形象 / 小镇竞争"
+        }
+      ],
+      "tags": [
+        "NPC",
+        "枫糖",
+        "巴尔家"
+      ],
+      "createdAt": "2026-06-03T00:00:00+08:00",
+      "updatedAt": "2026-06-03T00:00:00+08:00"
+    },
+    {
+      "id": "char.norbert-mckenzie",
+      "category": "character",
+      "displayName": "诺伯特·麦肯齐牧师 Norbert McKenzie",
+      "summary": "圣彼得教堂相关记录入口。本宁顿墓地线里，他代表教会档案、地方记忆和普通人的不安。",
+      "aliasNames": [
+        "Norbert McKenzie",
+        "诺伯特·麦肯齐",
+        "麦肯齐牧师"
+      ],
+      "moduleIds": [
+        "module.campaign.primal-state.invitation-to-dance"
+      ],
+      "relatedEntryIds": [
+        "module.campaign.primal-state.overview",
+        "loc.bennington-vermont",
+        "loc.st-peters-churchyard"
+      ],
+      "facts": [
+        {
+          "label": "身份",
+          "value": "教堂牧师"
+        },
+        {
+          "label": "公开作用",
+          "value": "教堂记录与墓地传闻入口"
+        }
+      ],
+      "tags": [
+        "NPC",
+        "教堂",
+        "本宁顿"
+      ],
+      "createdAt": "2026-06-03T00:00:00+08:00",
+      "updatedAt": "2026-06-03T00:00:00+08:00"
+    },
+    {
+      "id": "char.robert-barr",
+      "category": "character",
+      "displayName": "罗伯特·巴尔 Robert Barr",
+      "summary": "伯灵顿市政码头管理员，巴尔家族相关证人与湖区调查的自然连接点。",
+      "aliasNames": [
+        "Robert Barr",
+        "罗伯特",
+        "罗伯特·巴尔"
+      ],
+      "moduleIds": [
+        "module.campaign.primal-state.tree-sap-finale",
+        "module.campaign.primal-state.lake-champlain-monster"
+      ],
+      "relatedEntryIds": [
+        "module.campaign.primal-state.overview",
+        "loc.burlington-lake-champlain",
+        "char.margaret-barr"
+      ],
+      "facts": [
+        {
+          "label": "身份",
+          "value": "伯灵顿市政码头管理员"
+        },
+        {
+          "label": "公开作用",
+          "value": "巴尔家证人与湖区入口"
+        }
+      ],
+      "tags": [
+        "NPC",
+        "伯灵顿",
+        "巴尔家"
+      ],
+      "createdAt": "2026-06-03T00:00:00+08:00",
+      "updatedAt": "2026-06-03T00:00:00+08:00"
+    },
+    {
       "id": "event.kingsport-blindness-19281106",
       "category": "event",
       "displayName": "1928.11.6 - 金斯波特失明案件",
@@ -860,6 +1365,83 @@
       "updatedAt": "1928-11-08T20:00:00Z"
     },
     {
+      "id": "loc.bennington-vermont",
+      "category": "location",
+      "displayName": "本宁顿 Bennington",
+      "summary": "佛蒙特南部小镇，《邀请来舞会》的主要活动区域。公开层面可作为教堂、墓地和地方档案的入口。",
+      "aliasNames": [
+        "Bennington",
+        "本宁顿",
+        "佛蒙特本宁顿"
+      ],
+      "moduleIds": [
+        "module.campaign.primal-state.invitation-to-dance"
+      ],
+      "relatedEntryIds": [
+        "module.campaign.primal-state.overview",
+        "loc.primal-state-vermont",
+        "loc.st-peters-churchyard",
+        "char.norbert-mckenzie"
+      ],
+      "facts": [
+        {
+          "label": "类型",
+          "value": "小镇"
+        },
+        {
+          "label": "关联篇章",
+          "value": "邀请来舞会"
+        }
+      ],
+      "tags": [
+        "佛蒙特",
+        "小镇",
+        "墓地"
+      ],
+      "createdAt": "2026-06-03T00:00:00+08:00",
+      "updatedAt": "2026-06-03T00:00:00+08:00"
+    },
+    {
+      "id": "loc.burlington-lake-champlain",
+      "category": "location",
+      "displayName": "伯灵顿与尚普兰湖 Burlington / Lake Champlain",
+      "summary": "湖区调查的核心区域。尸检、码头、水流、传说和城市警务把玩家带到更开阔也更模糊的水面上。",
+      "aliasNames": [
+        "Burlington",
+        "Lake Champlain",
+        "伯灵顿",
+        "尚普兰湖",
+        "伯灵顿与尚普兰湖"
+      ],
+      "moduleIds": [
+        "module.campaign.primal-state.lake-champlain-monster"
+      ],
+      "relatedEntryIds": [
+        "module.campaign.primal-state.overview",
+        "loc.primal-state-vermont",
+        "char.robert-barr",
+        "char.john-sinclair",
+        "char.jim-summers"
+      ],
+      "facts": [
+        {
+          "label": "类型",
+          "value": "城市 / 湖区 / 码头"
+        },
+        {
+          "label": "可公开线索",
+          "value": "漂流物尸体、验尸、水流、海图、湖怪传说"
+        }
+      ],
+      "tags": [
+        "湖区",
+        "伯灵顿",
+        "尚普兰湖"
+      ],
+      "createdAt": "2026-06-03T00:00:00+08:00",
+      "updatedAt": "2026-06-03T00:00:00+08:00"
+    },
+    {
       "id": "loc.kingsport-congregational-hospital",
       "category": "location",
       "displayName": "金斯波特公理会医院 Kingsport Congregational Hospital",
@@ -945,6 +1527,222 @@
       ],
       "createdAt": "1928-11-01T08:00:00Z",
       "updatedAt": "1928-11-09T20:00:00Z"
+    },
+    {
+      "id": "loc.olaf-camp",
+      "category": "location",
+      "displayName": "奥拉夫营 Olaf Camp",
+      "summary": "格拉斯腾伯里附近的山林考古营地。《家，甜蜜的家》的公开层面关注失联、野外压力、手稿和旧遗址。",
+      "aliasNames": [
+        "Olaf Camp",
+        "奥拉夫营",
+        "奥拉夫营地",
+        "格拉斯腾伯里营地"
+      ],
+      "moduleIds": [
+        "module.campaign.primal-state.home-sweet-home"
+      ],
+      "relatedEntryIds": [
+        "module.campaign.primal-state.overview",
+        "loc.primal-state-vermont",
+        "char.daniel-abernathy",
+        "char.glynis-abernathy"
+      ],
+      "facts": [
+        {
+          "label": "类型",
+          "value": "山林考古营地"
+        },
+        {
+          "label": "可公开线索",
+          "value": "失联考古队、营地、手稿、旧遗址、野外导航"
+        }
+      ],
+      "tags": [
+        "山林",
+        "考古",
+        "营地"
+      ],
+      "createdAt": "2026-06-03T00:00:00+08:00",
+      "updatedAt": "2026-06-03T00:00:00+08:00"
+    },
+    {
+      "id": "loc.primal-state-vermont",
+      "category": "location",
+      "displayName": "佛蒙特州 Vermont",
+      "summary": "《原初之境》的共同舞台：山林、湖泊、墓地、国道与枫糖乡镇构成了缓慢变质的新英格兰地方感。",
+      "aliasNames": [
+        "Vermont",
+        "佛蒙特",
+        "佛蒙特州"
+      ],
+      "moduleIds": [
+        "module.campaign.primal-state.overview"
+      ],
+      "relatedEntryIds": [
+        "module.campaign.primal-state.overview",
+        "loc.bennington-vermont",
+        "loc.route-7-maple-country",
+        "loc.burlington-lake-champlain",
+        "loc.olaf-camp"
+      ],
+      "facts": [
+        {
+          "label": "类型",
+          "value": "战役区域"
+        },
+        {
+          "label": "时代",
+          "value": "1925-1930"
+        },
+        {
+          "label": "关键词",
+          "value": "乡镇、山林、湖泊、枫糖、现代化"
+        }
+      ],
+      "tags": [
+        "佛蒙特",
+        "地点",
+        "战役入口"
+      ],
+      "createdAt": "2026-06-03T00:00:00+08:00",
+      "updatedAt": "2026-06-03T00:00:00+08:00"
+    },
+    {
+      "id": "loc.route-7-maple-country",
+      "category": "location",
+      "displayName": "7 号国道枫糖乡",
+      "summary": "《树汁持续流淌》的日常舞台：道路、枫糖、游客商店与邻里关系共同制造压力。",
+      "aliasNames": [
+        "Route 7 Maple Country",
+        "7号国道枫糖乡",
+        "7 号国道枫糖乡",
+        "枫糖乡"
+      ],
+      "moduleIds": [
+        "module.campaign.primal-state.tree-sap-opening",
+        "module.campaign.primal-state.tree-sap-finale"
+      ],
+      "relatedEntryIds": [
+        "module.campaign.primal-state.overview",
+        "loc.primal-state-vermont",
+        "char.claire-jeplin",
+        "char.margaret-barr",
+        "char.emilia-barr"
+      ],
+      "facts": [
+        {
+          "label": "类型",
+          "value": "乡间国道与枫糖产区"
+        },
+        {
+          "label": "关键词",
+          "value": "枫糖、家庭生计、游客经济、邻里压力"
+        }
+      ],
+      "tags": [
+        "枫糖",
+        "国道",
+        "主线"
+      ],
+      "createdAt": "2026-06-03T00:00:00+08:00",
+      "updatedAt": "2026-06-03T00:00:00+08:00"
+    },
+    {
+      "id": "loc.st-peters-churchyard",
+      "category": "location",
+      "displayName": "圣彼得教堂墓地 St. Peter's Churchyard",
+      "summary": "本宁顿的旧教堂墓地。公开层面只展示墓碑异动、钟声和地方记录入口，不直接给出墓地事件真相。",
+      "aliasNames": [
+        "St. Peter's Churchyard",
+        "圣彼得教堂墓地",
+        "圣彼得教堂"
+      ],
+      "moduleIds": [
+        "module.campaign.primal-state.invitation-to-dance"
+      ],
+      "relatedEntryIds": [
+        "module.campaign.primal-state.overview",
+        "loc.bennington-vermont",
+        "char.norbert-mckenzie"
+      ],
+      "facts": [
+        {
+          "label": "类型",
+          "value": "教堂墓地"
+        },
+        {
+          "label": "可公开线索",
+          "value": "墓碑、钟声、教堂记录、道路施工"
+        }
+      ],
+      "tags": [
+        "墓地",
+        "教堂",
+        "本宁顿"
+      ],
+      "createdAt": "2026-06-03T00:00:00+08:00",
+      "updatedAt": "2026-06-03T00:00:00+08:00"
+    },
+    {
+      "id": "module.campaign.primal-state.overview",
+      "category": "module",
+      "displayName": "原初之境",
+      "summary": "1925-1930 年佛蒙特乡镇怪谈战役入口。这里收纳 PL 可提前阅读或跑后回看的地点与人物关系。",
+      "aliasNames": [
+        "The Primal State",
+        "原初之境",
+        "佛蒙特战役"
+      ],
+      "moduleIds": [
+        "module.campaign.primal-state.overview",
+        "module.campaign.primal-state.invitation-to-dance",
+        "module.campaign.primal-state.tree-sap-opening",
+        "module.campaign.primal-state.lake-champlain-monster",
+        "module.campaign.primal-state.home-sweet-home",
+        "module.campaign.primal-state.tree-sap-finale"
+      ],
+      "relatedEntryIds": [
+        "loc.primal-state-vermont",
+        "loc.bennington-vermont",
+        "loc.st-peters-churchyard",
+        "loc.route-7-maple-country",
+        "loc.burlington-lake-champlain",
+        "loc.olaf-camp",
+        "char.claire-jeplin",
+        "char.margaret-barr",
+        "char.emilia-barr",
+        "char.robert-barr",
+        "char.norbert-mckenzie",
+        "char.john-sinclair",
+        "char.daniel-abernathy"
+      ],
+      "facts": [
+        {
+          "label": "规则",
+          "value": "COC7"
+        },
+        {
+          "label": "时代",
+          "value": "1925-1930"
+        },
+        {
+          "label": "地点",
+          "value": "美国佛蒙特州"
+        },
+        {
+          "label": "资料来源",
+          "value": "module-architecture.md，2026-05-31"
+        }
+      ],
+      "tags": [
+        "COC7",
+        "1920s",
+        "佛蒙特",
+        "民俗恐怖"
+      ],
+      "createdAt": "2026-06-03T00:00:00+08:00",
+      "updatedAt": "2026-06-03T00:00:00+08:00"
     },
     {
       "id": "module.kingsport-city-in-the-mists",
@@ -1057,15 +1855,63 @@
   ],
   "lookup": {
     "entryIdByName": {
+      "伊波恩之书 book of eibon": "book.book-of-eibon",
+      "book of eibon": "book.book-of-eibon",
+      "the book of eibon": "book.book-of-eibon",
+      "liber ivonis": "book.book-of-eibon",
+      "livre d'eibon": "book.book-of-eibon",
+      "伊波恩之书": "book.book-of-eibon",
+      "艾邦之书": "book.book-of-eibon",
+      "蠕虫之秘 de vermis mysteriis": "book.de-vermis-mysteriis",
+      "de vermis mysteriis": "book.de-vermis-mysteriis",
+      "mysteries of the worm": "book.de-vermis-mysteriis",
+      "蠕虫之秘": "book.de-vermis-mysteriis",
+      "蠕虫的奥秘": "book.de-vermis-mysteriis",
+      "死灵之书 necronomicon": "book.necronomicon",
+      "necronomicon": "book.necronomicon",
+      "死灵之书": "book.necronomicon",
+      "al azif": "book.necronomicon",
+      "kitab al-azif": "book.necronomicon",
+      "无名祭祀 unaussprechlichen kulten": "book.unaussprechlichen-kulten",
+      "unaussprechlichen kulten": "book.unaussprechlichen-kulten",
+      "nameless cults": "book.unaussprechlichen-kulten",
+      "black book": "book.unaussprechlichen-kulten",
+      "无名祭祀": "book.unaussprechlichen-kulten",
+      "无以名状的祭祀": "book.unaussprechlichen-kulten",
+      "黑书": "book.unaussprechlichen-kulten",
       "adam": "char.adam",
       "亚当": "char.adam",
       "艾伦 allen": "char.allen",
       "allen": "char.allen",
       "艾伦": "char.allen",
+      "克莱儿·杰普林 claire jeplin": "char.claire-jeplin",
+      "claire jeplin": "char.claire-jeplin",
+      "克莱儿": "char.claire-jeplin",
+      "克莱儿·杰普林": "char.claire-jeplin",
+      "丹尼尔·阿伯纳西 daniel abernathy": "char.daniel-abernathy",
+      "daniel abernathy": "char.daniel-abernathy",
+      "丹尼尔·阿伯纳西": "char.daniel-abernathy",
+      "阿伯纳西教授": "char.daniel-abernathy",
+      "艾蜜莉亚·巴尔 emilia barr": "char.emilia-barr",
+      "emilia barr": "char.emilia-barr",
+      "艾蜜莉亚": "char.emilia-barr",
+      "艾蜜莉亚·巴尔": "char.emilia-barr",
       "阿甘 gan": "char.gan",
       "gan": "char.gan",
       "甘": "char.gan",
       "阿甘": "char.gan",
+      "格莉妮丝·阿伯纳西 glynis abernathy": "char.glynis-abernathy",
+      "glynis abernathy": "char.glynis-abernathy",
+      "格莉妮丝": "char.glynis-abernathy",
+      "格莉妮丝·阿伯纳西": "char.glynis-abernathy",
+      "吉姆·萨默斯 jim summers": "char.jim-summers",
+      "jim summers": "char.jim-summers",
+      "吉姆·萨默斯": "char.jim-summers",
+      "萨默斯警探": "char.jim-summers",
+      "约翰·辛克莱 john sinclair": "char.john-sinclair",
+      "john sinclair": "char.john-sinclair",
+      "约翰·辛克莱": "char.john-sinclair",
+      "辛克莱": "char.john-sinclair",
       "kiven": "char.kiven",
       "基文": "char.kiven",
       "莱纳·托尔拓 leina": "char.leina",
@@ -1075,6 +1921,18 @@
       "阿尔洛德·让雷特": "char.leina",
       "leo": "char.leo",
       "里奥": "char.leo",
+      "玛格莉特·巴尔 margaret barr": "char.margaret-barr",
+      "margaret barr": "char.margaret-barr",
+      "玛格莉特": "char.margaret-barr",
+      "玛格莉特·巴尔": "char.margaret-barr",
+      "诺伯特·麦肯齐牧师 norbert mckenzie": "char.norbert-mckenzie",
+      "norbert mckenzie": "char.norbert-mckenzie",
+      "诺伯特·麦肯齐": "char.norbert-mckenzie",
+      "麦肯齐牧师": "char.norbert-mckenzie",
+      "罗伯特·巴尔 robert barr": "char.robert-barr",
+      "robert barr": "char.robert-barr",
+      "罗伯特": "char.robert-barr",
+      "罗伯特·巴尔": "char.robert-barr",
       "1928.11.6 - 金斯波特失明案件": "event.kingsport-blindness-19281106",
       "金斯波特失明案件": "event.kingsport-blindness-19281106",
       "1928.11.6 失明案件": "event.kingsport-blindness-19281106",
@@ -1084,12 +1942,42 @@
       "阿卡姆 arkham": "loc.arkham",
       "arkham": "loc.arkham",
       "阿卡姆": "loc.arkham",
+      "本宁顿 bennington": "loc.bennington-vermont",
+      "bennington": "loc.bennington-vermont",
+      "本宁顿": "loc.bennington-vermont",
+      "佛蒙特本宁顿": "loc.bennington-vermont",
+      "伯灵顿与尚普兰湖 burlington / lake champlain": "loc.burlington-lake-champlain",
+      "burlington": "loc.burlington-lake-champlain",
+      "lake champlain": "loc.burlington-lake-champlain",
+      "伯灵顿": "loc.burlington-lake-champlain",
+      "尚普兰湖": "loc.burlington-lake-champlain",
+      "伯灵顿与尚普兰湖": "loc.burlington-lake-champlain",
       "金斯波特公理会医院 kingsport congregational hospital": "loc.kingsport-congregational-hospital",
       "kingsport congregational hospital": "loc.kingsport-congregational-hospital",
       "金斯波特公理会医院": "loc.kingsport-congregational-hospital",
       "金斯波特 kingsport": "loc.kingsport",
       "kingsport": "loc.kingsport",
       "金斯波特": "loc.kingsport",
+      "奥拉夫营 olaf camp": "loc.olaf-camp",
+      "olaf camp": "loc.olaf-camp",
+      "奥拉夫营": "loc.olaf-camp",
+      "奥拉夫营地": "loc.olaf-camp",
+      "格拉斯腾伯里营地": "loc.olaf-camp",
+      "佛蒙特州 vermont": "loc.primal-state-vermont",
+      "vermont": "loc.primal-state-vermont",
+      "佛蒙特": "loc.primal-state-vermont",
+      "佛蒙特州": "loc.primal-state-vermont",
+      "7 号国道枫糖乡": "loc.route-7-maple-country",
+      "route 7 maple country": "loc.route-7-maple-country",
+      "7号国道枫糖乡": "loc.route-7-maple-country",
+      "枫糖乡": "loc.route-7-maple-country",
+      "圣彼得教堂墓地 st. peter's churchyard": "loc.st-peters-churchyard",
+      "st. peter's churchyard": "loc.st-peters-churchyard",
+      "圣彼得教堂墓地": "loc.st-peters-churchyard",
+      "圣彼得教堂": "loc.st-peters-churchyard",
+      "原初之境": "module.campaign.primal-state.overview",
+      "the primal state": "module.campaign.primal-state.overview",
+      "佛蒙特战役": "module.campaign.primal-state.overview",
       "永恒恶意": "module.kingsport-city-in-the-mists",
       "kingsport: the city in the mists": "module.kingsport-city-in-the-mists",
       "金斯波特：迷雾之城": "module.kingsport-city-in-the-mists",

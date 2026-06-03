@@ -1,0 +1,95 @@
+{
+  "id": "loc.olaf-camp",
+  "category": "location",
+  "displayName": "奥拉夫营 Olaf Camp",
+  "summary": "格拉斯腾伯里附近的山林考古营地。《家，甜蜜的家》的公开层面关注失联、野外压力、手稿和旧遗址。",
+  "aliasNames": [
+    "Olaf Camp",
+    "奥拉夫营",
+    "奥拉夫营地",
+    "格拉斯腾伯里营地"
+  ],
+  "moduleIds": [
+    "module.campaign.primal-state.home-sweet-home"
+  ],
+  "relatedEntryIds": [
+    "module.campaign.primal-state.overview",
+    "loc.primal-state-vermont",
+    "char.daniel-abernathy",
+    "char.glynis-abernathy"
+  ],
+  "facts": [
+    {
+      "label": "类型",
+      "value": "山林考古营地"
+    },
+    {
+      "label": "可公开线索",
+      "value": "失联考古队、营地、手稿、旧遗址、野外导航"
+    }
+  ],
+  "tags": [
+    "山林",
+    "考古",
+    "营地"
+  ],
+  "content": [
+    {
+      "type": "heading",
+      "text": "地点概览"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "奥拉夫营是《家，甜蜜的家》的山林舞台。调查员面对的公开问题是：佛蒙特大学考古队为什么失联，营地里还留下了什么，手稿和旧遗址是否能解释他们遭遇的危险。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "这里比小镇段落更强调孤立感。PL 可以知道会有野外行进、资源压力和方向判断；具体诅咒、活死人、挖掘后果与解法不应提前公开。"
+        }
+      ]
+    },
+    {
+      "type": "secret-panel",
+      "title": "黑框传闻：营地边缘",
+      "playerIds": [],
+      "blocks": [
+        {
+          "type": "paragraph",
+          "tokens": [
+            {
+              "type": "text",
+              "text": "有些地方让人觉得“离开营地”是一件简单事，直到你发现每条路都比记忆里更长。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "secret-panel",
+      "title": "二级隐藏：山林核心危险",
+      "hiddenMode": "collapse",
+      "playerIds": [],
+      "blocks": [
+        {
+          "type": "paragraph",
+          "tokens": [
+            {
+              "type": "text",
+              "text": "涉及营地幸存者状态、遗址机制、诅咒边界、错误处理后果和推荐脱困法的信息全部隐藏。"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "createdAt": "2026-06-03T00:00:00+08:00",
+  "updatedAt": "2026-06-03T00:00:00+08:00"
+}

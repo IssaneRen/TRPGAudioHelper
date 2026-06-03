@@ -1,0 +1,93 @@
+{
+  "id": "char.jim-summers",
+  "category": "character",
+  "displayName": "吉姆·萨默斯 Jim Summers",
+  "summary": "湖区调查中的警探。公开层面只记录他的可疑感与警方视角，不提前判定他在事件中的真实位置。",
+  "aliasNames": [
+    "Jim Summers",
+    "吉姆·萨默斯",
+    "萨默斯警探"
+  ],
+  "moduleIds": [
+    "module.campaign.primal-state.lake-champlain-monster"
+  ],
+  "relatedEntryIds": [
+    "module.campaign.primal-state.overview",
+    "loc.burlington-lake-champlain",
+    "char.john-sinclair"
+  ],
+  "facts": [
+    {
+      "label": "身份",
+      "value": "警探"
+    },
+    {
+      "label": "公开作用",
+      "value": "警方视角 / 可疑人物"
+    }
+  ],
+  "tags": [
+    "NPC",
+    "伯灵顿",
+    "湖区"
+  ],
+  "content": [
+    {
+      "type": "heading",
+      "text": "人物概览"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "吉姆·萨默斯是湖区调查里不应被过早定性的警探。公开层面可以把他看作警方信息、程序压力和不完全可信证词的交叉点。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "玩家可以怀疑他，但怀疑本身不是结论。湖区篇的乐趣之一，就是把“某人很可疑”和“某人就是答案”分开。"
+        }
+      ]
+    },
+    {
+      "type": "secret-panel",
+      "title": "黑框传闻：警探的空白",
+      "playerIds": [],
+      "blocks": [
+        {
+          "type": "paragraph",
+          "tokens": [
+            {
+              "type": "text",
+              "text": "有些警察办案像是在找凶手；有些警察办案像是在确认别人没找到什么。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "secret-panel",
+      "title": "二级隐藏：萨默斯真相分支",
+      "hiddenMode": "collapse",
+      "playerIds": [],
+      "blocks": [
+        {
+          "type": "paragraph",
+          "tokens": [
+            {
+              "type": "text",
+              "text": "该角色在不同真相选项下的位置可能不同；任何定性、动机或关联案件都不公开展示。"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "createdAt": "2026-06-03T00:00:00+08:00",
+  "updatedAt": "2026-06-03T00:00:00+08:00"
+}

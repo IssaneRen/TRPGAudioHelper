@@ -1,0 +1,95 @@
+{
+  "id": "char.claire-jeplin",
+  "category": "character",
+  "displayName": "克莱儿·杰普林 Claire Jeplin",
+  "summary": "传统佛蒙特枫糖生意的代表人物。她的处境让玩家看见小镇经济、人际孤立和日常压力如何变成恐怖的一部分。",
+  "aliasNames": [
+    "Claire Jeplin",
+    "克莱儿",
+    "克莱儿·杰普林"
+  ],
+  "moduleIds": [
+    "module.campaign.primal-state.tree-sap-opening",
+    "module.campaign.primal-state.tree-sap-finale"
+  ],
+  "relatedEntryIds": [
+    "module.campaign.primal-state.overview",
+    "loc.route-7-maple-country",
+    "char.margaret-barr",
+    "char.emilia-barr"
+  ],
+  "facts": [
+    {
+      "label": "身份",
+      "value": "枫糖生意经营者"
+    },
+    {
+      "label": "公开主题",
+      "value": "传统生计 / 孤立 / 小镇压力"
+    }
+  ],
+  "tags": [
+    "NPC",
+    "枫糖",
+    "主线"
+  ],
+  "content": [
+    {
+      "type": "heading",
+      "text": "人物概览"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "克莱儿·杰普林是《树汁持续流淌》中最适合 PL 先认识的人之一。她代表的是一种旧式佛蒙特生活：靠手艺、季节、熟客和邻里信誉维持生计。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "当新商店、新游客和更醒目的商品开始改变小镇时，克莱儿的反应不只是“生意被抢”。她让玩家看见：一个地方的传统如果被挤压，最先受伤的往往是具体的人。"
+        }
+      ]
+    },
+    {
+      "type": "secret-panel",
+      "title": "黑框传闻：克莱儿的梦",
+      "playerIds": [],
+      "blocks": [
+        {
+          "type": "paragraph",
+          "tokens": [
+            {
+              "type": "text",
+              "text": "她有时会梦见车、女人和路面上不该出现的痕迹。醒来以后，白天的枫糖棚也不再完全像白天。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "secret-panel",
+      "title": "二级隐藏：克莱儿线后果",
+      "hiddenMode": "collapse",
+      "playerIds": [],
+      "blocks": [
+        {
+          "type": "paragraph",
+          "tokens": [
+            {
+              "type": "text",
+              "text": "涉及她的最终状态、遗嘱、保险箱和与终局线索的关系，不在公开层显示。"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "createdAt": "2026-06-03T00:00:00+08:00",
+  "updatedAt": "2026-06-03T00:00:00+08:00"
+}

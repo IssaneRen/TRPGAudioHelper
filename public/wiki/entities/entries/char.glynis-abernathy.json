@@ -1,0 +1,60 @@
+{
+  "id": "char.glynis-abernathy",
+  "category": "character",
+  "displayName": "格莉妮丝·阿伯纳西 Glynis Abernathy",
+  "summary": "阿伯纳西相关资料与语言线索的来源之一。公开层面可作为大学、家庭和手稿之间的现实连接。",
+  "aliasNames": [
+    "Glynis Abernathy",
+    "格莉妮丝",
+    "格莉妮丝·阿伯纳西"
+  ],
+  "moduleIds": [
+    "module.campaign.primal-state.home-sweet-home"
+  ],
+  "relatedEntryIds": [
+    "module.campaign.primal-state.overview",
+    "loc.olaf-camp",
+    "char.daniel-abernathy"
+  ],
+  "facts": [
+    {
+      "label": "身份",
+      "value": "语言与手稿线索来源"
+    },
+    {
+      "label": "公开作用",
+      "value": "大学背景 / 家庭关系 / 文献入口"
+    }
+  ],
+  "tags": [
+    "NPC",
+    "考古",
+    "大学"
+  ],
+  "content": [
+    {
+      "type": "heading",
+      "text": "人物概览"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "格莉妮丝·阿伯纳西让考古线不只是“去野外找失踪队伍”。她把大学、家庭关系、手稿和语言问题连在一起，使调查员在进入山林前就能意识到：这不是一场单纯的搜救。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "公开层面可以把她看作有限但重要的辅助来源。她能帮助玩家理解资料从何而来，但不应该替代调查员自己判断资料意味着什么。"
+        }
+      ]
+    }
+  ],
+  "createdAt": "2026-06-03T00:00:00+08:00",
+  "updatedAt": "2026-06-03T00:00:00+08:00"
+}

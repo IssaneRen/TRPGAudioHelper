@@ -1,0 +1,97 @@
+{
+  "id": "loc.route-7-maple-country",
+  "category": "location",
+  "displayName": "7 号国道枫糖乡",
+  "summary": "《树汁持续流淌》的日常舞台：道路、枫糖、游客商店与邻里关系共同制造压力。",
+  "aliasNames": [
+    "Route 7 Maple Country",
+    "7号国道枫糖乡",
+    "7 号国道枫糖乡",
+    "枫糖乡"
+  ],
+  "moduleIds": [
+    "module.campaign.primal-state.tree-sap-opening",
+    "module.campaign.primal-state.tree-sap-finale"
+  ],
+  "relatedEntryIds": [
+    "module.campaign.primal-state.overview",
+    "loc.primal-state-vermont",
+    "char.claire-jeplin",
+    "char.margaret-barr",
+    "char.emilia-barr"
+  ],
+  "facts": [
+    {
+      "label": "类型",
+      "value": "乡间国道与枫糖产区"
+    },
+    {
+      "label": "关键词",
+      "value": "枫糖、家庭生计、游客经济、邻里压力"
+    }
+  ],
+  "tags": [
+    "枫糖",
+    "国道",
+    "主线"
+  ],
+  "content": [
+    {
+      "type": "heading",
+      "text": "地点概览"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "7 号国道一带是《树汁持续流淌》的日常舞台。调查员最初可能只是来买枫糖、拜访熟人或顺路停车，但很快会发现这里的生意变化、家庭关系和游客经济都在改变人们的处境。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "对 PL 来说，公开可见的重点是“谁在失去生计，谁突然变得顺风顺水”。这些信息不直接等于真相，但足以让人意识到小镇上的甜味并不完全温和。"
+        }
+      ]
+    },
+    {
+      "type": "secret-panel",
+      "title": "黑框传闻：太好吃的糖",
+      "playerIds": [],
+      "blocks": [
+        {
+          "type": "paragraph",
+          "tokens": [
+            {
+              "type": "text",
+              "text": "有些游客只记得那种枫糖“红得漂亮”，至于为什么红，他们没有多问。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "secret-panel",
+      "title": "二级隐藏：枫糖线核心",
+      "hiddenMode": "collapse",
+      "playerIds": [],
+      "blocks": [
+        {
+          "type": "paragraph",
+          "tokens": [
+            {
+              "type": "text",
+              "text": "涉及巴尔家庭真相、异常枫糖来源、地下室、遗骸、仪式文本和终局追逐的信息全部折叠。"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "createdAt": "2026-06-03T00:00:00+08:00",
+  "updatedAt": "2026-06-03T00:00:00+08:00"
+}

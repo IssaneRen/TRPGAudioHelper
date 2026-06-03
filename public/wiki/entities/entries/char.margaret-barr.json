@@ -1,0 +1,96 @@
+{
+  "id": "char.margaret-barr",
+  "category": "character",
+  "displayName": "玛格莉特·巴尔 Margaret Barr",
+  "summary": "经营新式旅游枫糖商店的女性。公开层面应把她看作小镇商业变化的中心人物，而不是提前揭露她的后台秘密。",
+  "aliasNames": [
+    "Margaret Barr",
+    "玛格莉特",
+    "玛格莉特·巴尔"
+  ],
+  "moduleIds": [
+    "module.campaign.primal-state.tree-sap-opening",
+    "module.campaign.primal-state.tree-sap-finale"
+  ],
+  "relatedEntryIds": [
+    "module.campaign.primal-state.overview",
+    "loc.route-7-maple-country",
+    "char.claire-jeplin",
+    "char.emilia-barr",
+    "char.robert-barr"
+  ],
+  "facts": [
+    {
+      "label": "身份",
+      "value": "旅游枫糖商店经营者"
+    },
+    {
+      "label": "公开主题",
+      "value": "现代商业 / 家庭形象 / 小镇竞争"
+    }
+  ],
+  "tags": [
+    "NPC",
+    "枫糖",
+    "巴尔家"
+  ],
+  "content": [
+    {
+      "type": "heading",
+      "text": "人物概览"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "玛格莉特·巴尔是 7 号国道枫糖线里最显眼的变化来源。她的新式商店更会迎合游客，也更懂得把佛蒙特传统包装成可以购买的纪念品。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "公开层面看，她不必一开始就是“坏人”。她可以是更成功的商人、克莱儿的竞争者、艾蜜莉亚的母亲，也可以是一个把体面维持得太用力的人。"
+        }
+      ]
+    },
+    {
+      "type": "secret-panel",
+      "title": "黑框传闻：红色糖浆",
+      "playerIds": [],
+      "blocks": [
+        {
+          "type": "paragraph",
+          "tokens": [
+            {
+              "type": "text",
+              "text": "她家的枫糖产品好得有些过分。人们总说“再买一瓶”，却很少问原料从哪里来。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "secret-panel",
+      "title": "二级隐藏：巴尔家真相",
+      "hiddenMode": "collapse",
+      "playerIds": [],
+      "blocks": [
+        {
+          "type": "paragraph",
+          "tokens": [
+            {
+              "type": "text",
+              "text": "涉及玛格莉特的过去、女儿相关真相、地下室、神话崇拜与终局对抗的信息全部折叠。"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "createdAt": "2026-06-03T00:00:00+08:00",
+  "updatedAt": "2026-06-03T00:00:00+08:00"
+}

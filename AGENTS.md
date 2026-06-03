@@ -30,6 +30,7 @@ This repository is a TRPG assistant workspace. The project now includes a reusab
 
 - Keep user-facing prose in Chinese.
 - Keep code identifiers, file names, and machine-readable keys in English.
+- In wiki content, `magic-book` means an in-story fictional book or occult tome inside the setting. It must not be used for scenario books, rulebooks, sourcebooks, or real-world module publications.
 - When the suite changes, update the project report in `docs/reports/`.
 - If a new skill becomes general-purpose, add it to the suite index before splitting it into a separate workflow.
 - After editing `.claude/skills/`, run `scripts/sync-trpg-suite.ps1` so Codex receives the same skill markdown.
