@@ -2,7 +2,7 @@
   "id": "book.unaussprechlichen-kulten",
   "category": "magic-book",
   "displayName": "无名祭祀 Unaussprechlichen Kulten",
-  "summary": "又称《无名之祭》《黑书》，是克苏鲁神话中关于秘密教团、邪教传统与禁忌崇拜的故事内典籍。",
+  "summary": "又称《无名之祭》《黑书》。它像一册从旅行箱、民俗笔记和审查版索引里拼出的教团残档。",
   "aliasNames": [
     "Unaussprechlichen Kulten",
     "Nameless Cults",
@@ -31,7 +31,7 @@
     },
     {
       "label": "资料核对",
-      "value": "HPL Archive / Robert E. Howard 原文资料，2026-06-03"
+      "value": "HPL Archive / Robert E. Howard 原文资料 / Wikipedia，2026-06-04"
     }
   ],
   "tags": [
@@ -42,14 +42,14 @@
   "content": [
     {
       "type": "heading",
-      "text": "玩家可见概览"
+      "text": "黑书题页"
     },
     {
       "type": "paragraph",
       "tokens": [
         {
           "type": "text",
-          "text": "《无名祭祀》常被描述为一部关于秘密教团、禁忌崇拜和古老仪式传统的书。它的恐怖不一定来自单个法术，而来自一种更现实的危险：它暗示某些崇拜并没有消失，只是换了名字、地点和社会身份。"
+          "text": "封皮很厚，扣带处有旧铁锈。题名被译成 Nameless Cults 时，看起来像一本猎奇民俗书；换回德文 Unaussprechlichen Kulten，又像是作者故意把读者的舌头拧在第一个词上。"
         }
       ]
     },
@@ -58,7 +58,110 @@
       "tokens": [
         {
           "type": "text",
-          "text": "在 PL 可见层面，它适合作为“某个组织很可能不是普通社团”的提示。具体教团名称、祭祀对象和历史连续性应按照实际模组解锁。"
+          "text": "题页下方有一行小字：Friedrich Wilhelm von Junzt。后来的藏书票把它贴在旅行记与殖民地见闻之间，仿佛这样就能把书中记录的崇拜都降格为偏远地方的古怪风俗。"
+        }
+      ]
+    },
+    {
+      "type": "secret-panel",
+      "title": "黑框题签：版本差异",
+      "playerIds": [],
+      "blocks": [
+        {
+          "type": "paragraph",
+          "tokens": [
+            {
+              "type": "text",
+              "text": "1839 年杜塞尔多夫本的纸页边缘留下铁扣压痕；1845 年伦敦英文盗印本错字极多；1909 年纽约精装删节本把最危险的名词换成了空白、星号和礼貌的拉丁缩写。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "旅行箱笔记"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "正文最令人不安的地方，是它很少把邪教写成“古代遗迹”。它更像在提醒读者：崇拜会换语言，换旗帜，换社会身份，换成慈善会、猎人会社、考古小组、地方传说保护协会，然后继续在同一块石头前聚集。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "某些章节的地点被细心刮除，只留下气候、食物、服饰和夜间敲击声。作者似乎明白，直接写出地名会让读者查地图；写出习俗反而会让读者在下一次旅行时自己认出来。"
+        }
+      ]
+    },
+    {
+      "type": "secret-panel",
+      "title": "黑框索引：不应成名",
+      "playerIds": [],
+      "blocks": [
+        {
+          "type": "paragraph",
+          "tokens": [
+            {
+              "type": "text",
+              "text": "索引里有数个名字被涂黑："
+            },
+            {
+              "type": "secret-inline",
+              "text": "Ghatanothoa",
+              "playerIds": []
+            },
+            {
+              "type": "text",
+              "text": "、"
+            },
+            {
+              "type": "secret-inline",
+              "text": "Bran Mak Morn",
+              "playerIds": []
+            },
+            {
+              "type": "text",
+              "text": "、"
+            },
+            {
+              "type": "secret-inline",
+              "text": "the Black Stone",
+              "playerIds": []
+            },
+            {
+              "type": "text",
+              "text": "。涂黑者在旁边写：“这些词不是答案，是路标。路标不该亮在夜里。”"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "被删去的祭历"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "删节本留下了许多奇怪空洞：日期还在，月份还在，地点和对象却被整齐挖掉。于是读者只能看见某些夜晚被反复圈出，某些乡村节庆被画上三角符号，某些家族姓氏被墨块覆盖。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "有一页写着：“真正顽固的崇拜从不需要神庙。它只需要一个故事被祖父讲给父亲，父亲讲给儿子，而每一代都以为自己只是保留传统。”"
         }
       ]
     },
@@ -80,24 +183,32 @@
     },
     {
       "type": "secret-panel",
-      "title": "二级隐藏：高风险内容类型",
+      "title": "二级隐藏：不可公开的索引",
       "hiddenMode": "collapse",
       "playerIds": [],
       "blocks": [
         {
-          "type": "paragraph",
-          "tokens": [
-            {
-              "type": "text",
-              "text": "凡是会直接指向具体邪教、神话实体、献祭逻辑或组织成员身份的信息，都应放在二级隐藏或对应模组条目内。"
-            }
+          "type": "list",
+          "items": [
+            [
+              {
+                "type": "text",
+                "text": "直接指向具体邪教、神话实体、献祭逻辑、组织成员身份或模组解法的信息，不写在公开层。"
+              }
+            ],
+            [
+              {
+                "type": "text",
+                "text": "需要露出危险感时，用删节版祭历、黑书索引、旅行箱笔记和涂黑名词表达，不直接公布答案。"
+              }
+            ]
           ]
         }
       ]
     },
     {
       "type": "heading",
-      "text": "资料来源"
+      "text": "编目来源"
     },
     {
       "type": "list",
@@ -130,5 +241,5 @@
     }
   ],
   "createdAt": "2026-06-03T00:00:00+08:00",
-  "updatedAt": "2026-06-03T00:00:00+08:00"
+  "updatedAt": "2026-06-04T00:00:00+08:00"
 }

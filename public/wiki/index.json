@@ -481,7 +481,7 @@
       "id": "book.book-of-eibon",
       "category": "magic-book",
       "displayName": "伊波恩之书 Book of Eibon",
-      "summary": "源自克拉克·阿什顿·史密斯的海柏利亚传统，常被视为与《死灵之书》相近的神话典籍。",
+      "summary": "一组来自海柏利亚传统的残卷与转译抄本。它读起来不像后世学术书，更像术士留下的旅行、献辞和危险边注。",
       "aliasNames": [
         "Book of Eibon",
         "The Book of Eibon",
@@ -502,7 +502,7 @@
         },
         {
           "label": "故事内作者",
-          "value": "Mhu Thulan 的术士 Eibon"
+          "value": "海柏利亚传统中的术士 Eibon"
         },
         {
           "label": "创作来源",
@@ -510,7 +510,7 @@
         },
         {
           "label": "资料核对",
-          "value": "HPL Archive / Lovecraft Wiki，2026-06-03"
+          "value": "HPL Archive / Lovecraft Wiki，2026-06-04"
         }
       ],
       "tags": [
@@ -519,13 +519,13 @@
         "海柏利亚"
       ],
       "createdAt": "2026-06-03T00:00:00+08:00",
-      "updatedAt": "2026-06-03T00:00:00+08:00"
+      "updatedAt": "2026-06-04T00:00:00+08:00"
     },
     {
       "id": "book.de-vermis-mysteriis",
       "category": "magic-book",
       "displayName": "蠕虫之秘 De Vermis Mysteriis",
-      "summary": "罗伯特·布洛克创造、后被洛夫克拉夫特纳入神话互文的禁忌典籍，常与危险召唤和仪式知识联系在一起。",
+      "summary": "一本以拉丁题名流传的危险手稿。残页像审判记录、墓穴札记和召请页的混合物，越读越难分清蠕虫指向坟土还是星空。",
       "aliasNames": [
         "De Vermis Mysteriis",
         "Mysteries of the Worm",
@@ -552,7 +552,7 @@
         },
         {
           "label": "资料核对",
-          "value": "HPL Archive / Wikipedia，2026-06-03"
+          "value": "HPL Archive / Wikipedia，2026-06-04"
         }
       ],
       "tags": [
@@ -561,13 +561,13 @@
         "仪式"
       ],
       "createdAt": "2026-06-03T00:00:00+08:00",
-      "updatedAt": "2026-06-03T00:00:00+08:00"
+      "updatedAt": "2026-06-04T00:00:00+08:00"
     },
     {
       "id": "book.necronomicon",
       "category": "magic-book",
-      "displayName": "死灵之书 Necronomicon",
-      "summary": "洛氏世界观中最有名的禁忌典籍之一。公开层面只应被理解为“危险的神秘学书名”，具体内容不宜直接展示给未解锁的 PL。",
+      "displayName": "Necronomicon",
+      "summary": "洛氏世界观中最有名的禁忌典籍之一。它更像一份被不断转译、删节、封存的危险目录，而不是可以安全查阅的普通书籍。",
       "aliasNames": [
         "Necronomicon",
         "死灵之书",
@@ -594,7 +594,7 @@
         },
         {
           "label": "资料核对",
-          "value": "HPL Archive / Lovecraft Wiki，2026-06-03"
+          "value": "HPL Archive / Britannica / Lovecraft Encyclopedia，2026-06-04"
         }
       ],
       "tags": [
@@ -603,13 +603,13 @@
         "神话典籍"
       ],
       "createdAt": "2026-06-03T00:00:00+08:00",
-      "updatedAt": "2026-06-03T00:00:00+08:00"
+      "updatedAt": "2026-06-04T00:00:00+08:00"
     },
     {
       "id": "book.unaussprechlichen-kulten",
       "category": "magic-book",
       "displayName": "无名祭祀 Unaussprechlichen Kulten",
-      "summary": "又称《无名之祭》《黑书》，是克苏鲁神话中关于秘密教团、邪教传统与禁忌崇拜的故事内典籍。",
+      "summary": "又称《无名之祭》《黑书》。它像一册从旅行箱、民俗笔记和审查版索引里拼出的教团残档。",
       "aliasNames": [
         "Unaussprechlichen Kulten",
         "Nameless Cults",
@@ -638,7 +638,7 @@
         },
         {
           "label": "资料核对",
-          "value": "HPL Archive / Robert E. Howard 原文资料，2026-06-03"
+          "value": "HPL Archive / Robert E. Howard 原文资料 / Wikipedia，2026-06-04"
         }
       ],
       "tags": [
@@ -647,7 +647,7 @@
         "邪教"
       ],
       "createdAt": "2026-06-03T00:00:00+08:00",
-      "updatedAt": "2026-06-03T00:00:00+08:00"
+      "updatedAt": "2026-06-04T00:00:00+08:00"
     },
     {
       "id": "char.adam",
@@ -1867,7 +1867,6 @@
       "mysteries of the worm": "book.de-vermis-mysteriis",
       "蠕虫之秘": "book.de-vermis-mysteriis",
       "蠕虫的奥秘": "book.de-vermis-mysteriis",
-      "死灵之书 necronomicon": "book.necronomicon",
       "necronomicon": "book.necronomicon",
       "死灵之书": "book.necronomicon",
       "al azif": "book.necronomicon",

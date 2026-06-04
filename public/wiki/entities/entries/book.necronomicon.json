@@ -1,8 +1,8 @@
 {
   "id": "book.necronomicon",
   "category": "magic-book",
-  "displayName": "死灵之书 Necronomicon",
-  "summary": "洛氏世界观中最有名的禁忌典籍之一。公开层面只应被理解为“危险的神秘学书名”，具体内容不宜直接展示给未解锁的 PL。",
+  "displayName": "Necronomicon",
+  "summary": "洛氏世界观中最有名的禁忌典籍之一。它更像一份被不断转译、删节、封存的危险目录，而不是可以安全查阅的普通书籍。",
   "aliasNames": [
     "Necronomicon",
     "死灵之书",
@@ -29,7 +29,7 @@
     },
     {
       "label": "资料核对",
-      "value": "HPL Archive / Lovecraft Wiki，2026-06-03"
+      "value": "HPL Archive / Britannica / Lovecraft Encyclopedia，2026-06-04"
     }
   ],
   "tags": [
@@ -40,14 +40,14 @@
   "content": [
     {
       "type": "heading",
-      "text": "玩家可见概览"
+      "text": "馆藏记录"
     },
     {
       "type": "paragraph",
       "tokens": [
         {
           "type": "text",
-          "text": "《死灵之书》是洛夫克拉夫特笔下最具代表性的禁忌典籍。对 PL 来说，它首先不是一本“可以随便翻查设定答案”的资料书，而是一个危险信号：有人正在接触超出正常人类承受范围的知识。"
+          "text": "本书在许多档案里并不以这个名字开头。更早的题名写作 Al Azif，据说指夜间虫声被误听成群魔低语时的声音。后来它被译入希腊文，才得到 Necronomicon 这个更冷硬、也更适合藏书目录的名字。"
         }
       ]
     },
@@ -56,13 +56,165 @@
       "tokens": [
         {
           "type": "text",
-          "text": "根据洛夫克拉夫特的伪学术文本《死灵之书的历史》，这本书在故事内通常与阿卜杜尔·阿尔哈兹莱德、Al Azif、失传抄本、大学馆藏和被审查的译本联系在一起。公开层面知道这些关键词已经足够；具体章节和用途应交给跑团中的发现来解锁。"
+          "text": "书的传承总伴随着缺页、禁令、火灾和私藏。它像一条在图书馆、教会封存室、私人书房和大学特藏间断续出现的黑线：每一处记录都声称自己只是副本，每一处副本又都暗示真正危险的部分已经被别人删去。"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "成书与流传"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "故事内的编年把作者指向也门萨那出身的诗人阿卜杜尔·阿尔哈兹莱德。他被说成在巴比伦废墟、孟斐斯地下遗迹和阿拉伯南部大沙漠之间游历多年，晚年居于大马士革，并在那里写下这部书。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "流传链条通常被写成这样：约 730 年成书；950 年由君士坦丁堡的 Theodorus Philetas 译为希腊文；1228 年又有 Olaus Wormius 的拉丁译本；后来传出 John Dee 曾做英文译本，但未正式刊行，只留下残片。这个链条本身就像一份警告：越靠近源头，越少有人愿意留下完整证词。"
         }
       ]
     },
     {
       "type": "secret-panel",
-      "title": "黑框传闻：馆藏与译本",
+      "title": "黑框传闻：目录页边",
+      "playerIds": [],
+      "blocks": [
+        {
+          "type": "paragraph",
+          "tokens": [
+            {
+              "type": "text",
+              "text": "某些拉丁本的页边不只校正译文，还会用不同笔迹重复同一个名字："
+            },
+            {
+              "type": "secret-inline",
+              "text": "Yog-Sothoth",
+              "playerIds": []
+            },
+            {
+              "type": "text",
+              "text": "。旁边另有一行被刮去的祷句，只剩"
+            },
+            {
+              "type": "secret-inline",
+              "text": "Cthulhu",
+              "playerIds": []
+            },
+            {
+              "type": "text",
+              "text": "几个字母仍能在斜光下看见。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "可疑馆藏"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "常见说法把现存拉丁本分散在大英博物馆、巴黎国家图书馆、哈佛 Widener 图书馆、布宜诺斯艾利斯大学，以及阿卡姆的密斯卡托尼克大学图书馆。这样的名单并不让人安心；它反而说明这本书已经进入足够正规的机构，足以被编目、借阅、误放，或被某个夜班馆员短暂地拿出锁柜。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "另有传闻称，塞勒姆某个家族曾保存十六世纪希腊文本；也有人坚持说，美国某位收藏家的十五世纪黑字体印本从未离开过他的宅邸。每一种传闻都缺少最后一环证据，也都留下了同一种空白：没有人能解释那些读过它的人为何突然停笔。"
+        }
+      ]
+    },
+    {
+      "type": "secret-panel",
+      "title": "黑框传闻：借阅卡",
+      "playerIds": [],
+      "blocks": [
+        {
+          "type": "paragraph",
+          "tokens": [
+            {
+              "type": "text",
+              "text": "一张被剪去姓名的借阅卡背面写着：“不要按目录找第七五一页。若页码自己停在那里，合上书。”"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "书中阴影"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "《死灵之书》的可怕之处，不在于它总是直接给出答案，而在于它把答案摆成一种几乎可信的形状：古老城市的名字、远古种族的残迹、星辰位置、仪式残文、异教神名，以及那些被学术语气压低的疯狂旁证。读者越想把它当成伪史，就越容易发现现实里有东西刚好能填上空位。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "它在洛夫克拉夫特小说中常以暗示和引文出现：早期故事把它当作禁忌象征，后来的文本又让它像一本残缺的宇宙学注释，试图解释人类出现前的地球、非人文明，以及某些被误称为神的存在。正因如此，完整阅读反而未必比偶然读到一段更安全。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "有些抄本会把名字写得很完整，例如"
+        },
+        {
+          "type": "secret-inline",
+          "text": "Nyarlathotep",
+          "playerIds": []
+        },
+        {
+          "type": "text",
+          "text": "、"
+        },
+        {
+          "type": "secret-inline",
+          "text": "Azathoth",
+          "playerIds": []
+        },
+        {
+          "type": "text",
+          "text": "或"
+        },
+        {
+          "type": "secret-inline",
+          "text": "Shub-Niggurath",
+          "playerIds": []
+        },
+        {
+          "type": "text",
+          "text": "；也有版本只保留称号，仿佛抄写员宁愿让读者猜错，也不愿把音节重新带回纸面。"
+        }
+      ]
+    },
+    {
+      "type": "secret-panel",
+      "title": "黑框传闻：删节差异",
       "playerIds": [],
       "blocks": [
         {
@@ -88,16 +240,38 @@
             [
               {
                 "type": "text",
-                "text": "不在公开层写具体召唤对象、仪式步骤、法术收益或阅读代价。"
+                "text": "具体召唤对象、仪式步骤、法术收益、阅读代价和模组解法不写在公开层。"
               }
             ],
             [
               {
                 "type": "text",
-                "text": "若某个模组把这本书作为线索核心，应只在对应 PL 解锁后展示章节名或摘录。"
+                "text": "若某个模组把这本书作为线索核心，只在对应权限解锁后展示章节名、摘录或可验证的页码。"
               }
             ]
           ]
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "现实注记"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "现实中，《死灵之书》是洛夫克拉夫特创造的虚构典籍，并不对应一本真实可考的古代魔法书。洛夫克拉夫特频繁引用它，以制造一种“世界上早已有书记录这些恐怖”的伪真实感；他后来写下《死灵之书的历史》，正是为了让这些引用看起来像来自同一套危险档案。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "后世出版物中确有许多冠以 Necronomicon 名义的书，但它们属于再创作、伪书或流行文化产物，不应直接等同于洛夫克拉夫特小说中的那部禁书。"
         }
       ]
     },
@@ -117,6 +291,18 @@
         [
           {
             "type": "text",
+            "text": "Encyclopaedia Britannica, Necronomicon: https://www.britannica.com/topic/Necronomicon"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "S. T. Joshi and David E. Schultz, An H. P. Lovecraft Encyclopedia, Necronomicon: https://lovecraft.en-academic.com/400/Necronomicon"
+          }
+        ],
+        [
+          {
+            "type": "text",
             "text": "HPL Archive, Lovecraft's Fictional Tomes: https://www.hplovecraft.com/creation/tomes.aspx"
           }
         ],
@@ -125,16 +311,10 @@
             "type": "text",
             "text": "HPL Archive, Lovecraft letters on the Necronomicon: https://www.hplovecraft.com/creation/necron/letters.aspx"
           }
-        ],
-        [
-          {
-            "type": "text",
-            "text": "Lovecraft Wiki, Necronomicon: https://lovecraft.fandom.com/wiki/Necronomicon"
-          }
         ]
       ]
     }
   ],
   "createdAt": "2026-06-03T00:00:00+08:00",
-  "updatedAt": "2026-06-03T00:00:00+08:00"
+  "updatedAt": "2026-06-04T00:00:00+08:00"
 }

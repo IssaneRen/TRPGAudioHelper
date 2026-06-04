@@ -31,6 +31,9 @@ This repository is a TRPG assistant workspace. The project now includes a reusab
 - Keep user-facing prose in Chinese.
 - Keep code identifiers, file names, and machine-readable keys in English.
 - In wiki content, `magic-book` means an in-story fictional book or occult tome inside the setting. It must not be used for scenario books, rulebooks, sourcebooks, or real-world module publications.
+- For `magic-book` entries, write the content as if composing the book, fragment, marginalia, catalog card, or redacted page itself. Do not treat the entry as an out-of-world book introduction.
+- Wiki entries should preserve player immersion. Avoid meta-facing prose such as "PL 视角应该", "对 PL 来说", or "玩家可见层面"; rewrite it as in-world records, recollections, rumors, catalog notes, missing pages, or redacted passages.
+- Use first-level hiding for readable-but-redacted wiki material: `secret-inline` for deity names, ritual names, and truth keywords; `secret-panel` / `hiddenMode: "mask"` for whole rumors or dossier blocks. These redactions protect mystery and prevent players from reading a wiki entry and immediately knowing the answer. Use `hiddenMode: "collapse"` only when the content should not appear in the public preview at all.
 - When the suite changes, update the project report in `docs/reports/`.
 - If a new skill becomes general-purpose, add it to the suite index before splitting it into a separate workflow.
 - After editing `.claude/skills/`, run `scripts/sync-trpg-suite.ps1` so Codex receives the same skill markdown.

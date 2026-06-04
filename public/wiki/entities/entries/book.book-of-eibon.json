@@ -2,7 +2,7 @@
   "id": "book.book-of-eibon",
   "category": "magic-book",
   "displayName": "伊波恩之书 Book of Eibon",
-  "summary": "源自克拉克·阿什顿·史密斯的海柏利亚传统，常被视为与《死灵之书》相近的神话典籍。",
+  "summary": "一组来自海柏利亚传统的残卷与转译抄本。它读起来不像后世学术书，更像术士留下的旅行、献辞和危险边注。",
   "aliasNames": [
     "Book of Eibon",
     "The Book of Eibon",
@@ -23,7 +23,7 @@
     },
     {
       "label": "故事内作者",
-      "value": "Mhu Thulan 的术士 Eibon"
+      "value": "海柏利亚传统中的术士 Eibon"
     },
     {
       "label": "创作来源",
@@ -31,7 +31,7 @@
     },
     {
       "label": "资料核对",
-      "value": "HPL Archive / Lovecraft Wiki，2026-06-03"
+      "value": "HPL Archive / Lovecraft Wiki，2026-06-04"
     }
   ],
   "tags": [
@@ -42,14 +42,14 @@
   "content": [
     {
       "type": "heading",
-      "text": "玩家可见概览"
+      "text": "残卷题签"
     },
     {
       "type": "paragraph",
       "tokens": [
         {
           "type": "text",
-          "text": "《伊波恩之书》来自克拉克·阿什顿·史密斯的海柏利亚故事传统。它不像《死灵之书》那样总是以“大学图书馆里的禁书”形象出现，而更常带着失落大陆、古代术士、异乡译本和前人旅行记录的气质。"
+          "text": "此册并非同一只手写成。最早的纸页脆得像冻土下的苔，后来的译者却给它换上了拉丁文 Liber Ivonis 与法文 Livre d'Eibon 的名字。每一次转译都让文字更优雅，也更像某种把危险包进礼貌措辞里的仪式。"
         }
       ]
     },
@@ -58,13 +58,13 @@
       "tokens": [
         {
           "type": "text",
-          "text": "在本站 wiki 中，它适合用来表示“非常古老、来源不明、可能经过多次转译的神话知识”。PL 公开层面可以知道书名和传承感，但不应直接看到它能解决哪些神话问题。"
+          "text": "书页反复提到北方、白色石塔、早已沉入神话的高原，以及一位在旧大陆边缘写作的术士。抄写员没有解释那些地名是否仍能抵达；他只在页边写下一句：“若雪在梦中落下，不要醒来时掸去肩头。”"
         }
       ]
     },
     {
       "type": "secret-panel",
-      "title": "黑框传闻：译名",
+      "title": "黑框残页：塔中献辞",
       "playerIds": [],
       "blocks": [
         {
@@ -72,24 +72,16 @@
           "tokens": [
             {
               "type": "text",
-              "text": "同一本书可能以拉丁文 Liber Ivonis 或法文 Livre d'Eibon 的名义出现；译名越优雅，越不代表内容安全。"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "type": "secret-panel",
-      "title": "二级隐藏：高风险内容类型",
-      "hiddenMode": "collapse",
-      "playerIds": [],
-      "blocks": [
-        {
-          "type": "paragraph",
-          "tokens": [
+              "text": "献给沉睡于黑暗地底、比人类诸神更古老的"
+            },
+            {
+              "type": "secret-inline",
+              "text": "Tsathoggua",
+              "playerIds": []
+            },
             {
               "type": "text",
-              "text": "涉及具体旧神名、超自然旅行、咒文列表或某个模组的解法时，应绑定对应 PL 后再显示。"
+              "text": "。愿他的懒惰胜过我们的虔诚，愿他在饥饿前先忘记仆人的名字。"
             }
           ]
         }
@@ -97,7 +89,110 @@
     },
     {
       "type": "heading",
-      "text": "资料来源"
+      "text": "旅行者边注"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "第七束羊皮纸的边缘画着一只乳白色晶体。旁注声称，透过它看见的不是未来，而是时间向后剥落后的底层：城市退成泥，泥退成海，海退成一片尚未命名的潮湿生命。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "这里有一段文字被后来的馆员用黑墨划去，只剩句尾：“一切生命终将回到"
+        },
+        {
+          "type": "secret-inline",
+          "text": "Ubbo-Sathla",
+          "playerIds": []
+        },
+        {
+          "type": "text",
+          "text": "；不是作为灵魂，而是作为尚未分开的泥。”"
+        }
+      ]
+    },
+    {
+      "type": "secret-panel",
+      "title": "黑框边注：不得照读",
+      "playerIds": [],
+      "blocks": [
+        {
+          "type": "paragraph",
+          "tokens": [
+            {
+              "type": "text",
+              "text": "有些抄本把"
+            },
+            {
+              "type": "secret-inline",
+              "text": "Yog-Sothoth",
+              "playerIds": []
+            },
+            {
+              "type": "text",
+              "text": "的名讳写成门的形状。馆员批注：不要按字母顺序念，不要按星辰顺序念，也不要在梦里念。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "译者的手"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "法文译本的语气比拉丁本温和，像一位受过良好教育的人试图把恐惧改写成旅行见闻。可是每逢出现古老种族、地下神龛和无门之门，译者都会突然变得简短，仿佛再多写一个形容词就会引来回声。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "某页夹着一片干裂的蓝黑色花瓣。花瓣旁写着：“若你已经知道它来自何处，就不必再问此书为何被锁起；若你不知道，就不要把花瓣带出室外。”"
+        }
+      ]
+    },
+    {
+      "type": "secret-panel",
+      "title": "二级隐藏：不可公开的索引",
+      "hiddenMode": "collapse",
+      "playerIds": [],
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            [
+              {
+                "type": "text",
+                "text": "涉及具体旧神名、超自然旅行路径、仪式动作、咒文效果或模组解法时，不写在公开层。"
+              }
+            ],
+            [
+              {
+                "type": "text",
+                "text": "如需保留书页感，优先用涂黑名讳、缺页、译者删节和馆员禁读批注表达。"
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "编目来源"
     },
     {
       "type": "list",
@@ -117,12 +212,12 @@
         [
           {
             "type": "text",
-            "text": "Lovecraft Stories, Book of Eibon: https://www.lovecraft-stories.com/wiki/book-of-eibon"
+            "text": "Clark Ashton Smith, Ubbo-Sathla: https://cthulhufiles.com/stories/smith/smith-ubbo-sathla.html"
           }
         ]
       ]
     }
   ],
   "createdAt": "2026-06-03T00:00:00+08:00",
-  "updatedAt": "2026-06-03T00:00:00+08:00"
+  "updatedAt": "2026-06-04T00:00:00+08:00"
 }

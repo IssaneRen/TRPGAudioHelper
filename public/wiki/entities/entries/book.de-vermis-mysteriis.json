@@ -2,7 +2,7 @@
   "id": "book.de-vermis-mysteriis",
   "category": "magic-book",
   "displayName": "蠕虫之秘 De Vermis Mysteriis",
-  "summary": "罗伯特·布洛克创造、后被洛夫克拉夫特纳入神话互文的禁忌典籍，常与危险召唤和仪式知识联系在一起。",
+  "summary": "一本以拉丁题名流传的危险手稿。残页像审判记录、墓穴札记和召请页的混合物，越读越难分清蠕虫指向坟土还是星空。",
   "aliasNames": [
     "De Vermis Mysteriis",
     "Mysteries of the Worm",
@@ -29,7 +29,7 @@
     },
     {
       "label": "资料核对",
-      "value": "HPL Archive / Wikipedia，2026-06-03"
+      "value": "HPL Archive / Wikipedia，2026-06-04"
     }
   ],
   "tags": [
@@ -40,14 +40,14 @@
   "content": [
     {
       "type": "heading",
-      "text": "玩家可见概览"
+      "text": "审判前页"
     },
     {
       "type": "paragraph",
       "tokens": [
         {
           "type": "text",
-          "text": "《蠕虫之秘》是克苏鲁神话圈层中常见的危险典籍之一。它由罗伯特·布洛克创造，洛夫克拉夫特后来也在自己的作品中引用，形成了早期神话作者互相借用禁书名目的传统。"
+          "text": "封面里侧有烧焦的指印，指印下方写着 Ludvig Prinn。墨迹像是从牢房墙上刮下的煤灰调成；字母不稳定，却始终保持一种令人不快的工整。"
         }
       ]
     },
@@ -56,13 +56,134 @@
       "tokens": [
         {
           "type": "text",
-          "text": "玩家公开层面只需要知道：这不是普通民俗书，也不是安全的学术材料。若某个调查现场出现它，最合理的反应不是“我读读看”，而是先确认谁拥有它、谁读过它、读完之后发生了什么。"
+          "text": "开篇不是祈祷，也不是自辩，而是一段关于俘虏、沙地、叙利亚术士和漫长寿命的残缺叙述。作者似乎相信，真正的老师不在学院，也不在教堂，而在那些不会留下姓名的俘获者手里。"
         }
       ]
     },
     {
       "type": "secret-panel",
-      "title": "黑框传闻：书名的气味",
+      "title": "黑框残句：不可补全",
+      "playerIds": [],
+      "blocks": [
+        {
+          "type": "paragraph",
+          "tokens": [
+            {
+              "type": "text",
+              "text": "页底有一句拉丁文被粗暴涂黑，只余开头：“Tibi, magnum "
+            },
+            {
+              "type": "secret-inline",
+              "text": "Innominandum",
+              "playerIds": []
+            },
+            {
+              "type": "text",
+              "text": "...”。旁边的英文铅笔批注更简短：不要替它补完宾语。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "墓穴札记"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "书中“蠕虫”一词并不总指同一种东西。有时它是坟土里的腐败，有时是地下密室里听见的摩擦声，有时又像某种从星辰之间钻入世界的缝隙。读到后来，标题仿佛不是在命名对象，而是在命名一种进入方式。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "一章题作“使役者与来客”，但“来客”的名字多半被刮去。残余段落反复告诫：不要把召请和控制视为同一件事；门能被打开，不代表门后的东西承认开门者。"
+        }
+      ]
+    },
+    {
+      "type": "secret-panel",
+      "title": "黑框页边：召请对象",
+      "playerIds": [],
+      "blocks": [
+        {
+          "type": "paragraph",
+          "tokens": [
+            {
+              "type": "text",
+              "text": "某份摘录把星间来客称为"
+            },
+            {
+              "type": "secret-inline",
+              "text": "Shambler from the Stars",
+              "playerIds": []
+            },
+            {
+              "type": "text",
+              "text": "。馆员后来把这个名字也划掉，只留下“不是影子，也不是血；更接近看见血之后才出现的空白”。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "埃及页"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "后半部的纸张更薄，夹杂埃及、阿拉伯与北非传闻。某些章节标题像旅行记，正文却突然转入神龛、面具、献酒、黑色星印和无法在白天完整抄写的名字。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "这里出现过"
+        },
+        {
+          "type": "secret-inline",
+          "text": "Nyarlathotep",
+          "playerIds": []
+        },
+        {
+          "type": "text",
+          "text": "、"
+        },
+        {
+          "type": "secret-inline",
+          "text": "Tsathoggua",
+          "playerIds": []
+        },
+        {
+          "type": "text",
+          "text": "与"
+        },
+        {
+          "type": "secret-inline",
+          "text": "Nephren-Ka",
+          "playerIds": []
+        },
+        {
+          "type": "text",
+          "text": "的残名。每个名字旁都有不同笔迹的警告；最晚的一条只写：“若你能认出这些空格，说明遮挡已经太迟。”"
+        }
+      ]
+    },
+    {
+      "type": "secret-panel",
+      "title": "黑框传闻：书页气味",
       "playerIds": [],
       "blocks": [
         {
@@ -78,24 +199,32 @@
     },
     {
       "type": "secret-panel",
-      "title": "二级隐藏：高风险内容类型",
+      "title": "二级隐藏：不可公开的索引",
       "hiddenMode": "collapse",
       "playerIds": [],
       "blocks": [
         {
-          "type": "paragraph",
-          "tokens": [
-            {
-              "type": "text",
-              "text": "涉及具体章节、召唤后果、神话实体名和阅读惩罚时，不应进入公开层。"
-            }
+          "type": "list",
+          "items": [
+            [
+              {
+                "type": "text",
+                "text": "具体章节、召请语、仪式步骤、代价、怪物机制和阅读惩罚不写在公开层。"
+              }
+            ],
+            [
+              {
+                "type": "text",
+                "text": "如必须提及神话实体名或仪式名，优先用 `secret-inline` 遮挡，不让词条直接变成答案表。"
+              }
+            ]
           ]
         }
       ]
     },
     {
       "type": "heading",
-      "text": "资料来源"
+      "text": "编目来源"
     },
     {
       "type": "list",
@@ -115,12 +244,12 @@
         [
           {
             "type": "text",
-            "text": "Lovecraft Wiki, Grimoire: https://lovecraft.fandom.com/wiki/Grimoire"
+            "text": "Robert Bloch official site, Mysteries of the Worm: https://www.robertbloch.net/mysteries-of-the-worm.html"
           }
         ]
       ]
     }
   ],
   "createdAt": "2026-06-03T00:00:00+08:00",
-  "updatedAt": "2026-06-03T00:00:00+08:00"
+  "updatedAt": "2026-06-04T00:00:00+08:00"
 }
