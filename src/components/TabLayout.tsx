@@ -198,6 +198,16 @@ export default function TabLayout() {
             <Outlet />
           </motion.div>
         </AnimatePresence>
+        <footer className="mt-12 border-t border-border/60 py-5 text-center text-xs text-muted-foreground">
+          <a
+            href="https://beian.miit.gov.cn/"
+            target="_blank"
+            rel="noreferrer"
+            className="underline decoration-muted-foreground/40 underline-offset-4 transition-colors hover:text-foreground hover:decoration-foreground"
+          >
+            沪ICP备2025112187号-2
+          </a>
+        </footer>
       </main>
 
       {/* 移动端底部导航 */}
