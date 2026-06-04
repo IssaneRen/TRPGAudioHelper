@@ -44,7 +44,7 @@ export default function TabLayout() {
   };
 
   return (
-    <div className="flex h-dvh max-h-dvh flex-col overflow-hidden bg-background transition-colors duration-300">
+    <div className="mobile-safe-width flex h-dvh max-h-dvh flex-col bg-background transition-colors duration-300">
       {/* 桌面端顶部导航 */}
       <motion.header
         initial={{ opacity: 0, y: -20 }}
@@ -185,10 +185,11 @@ export default function TabLayout() {
       </motion.header>
 
       {/* 页面内容区 - 独立滚动，避免 body 滚动条导致顶栏宽度抖动 */}
-      <main className="app-scroll-area mx-auto w-full max-w-screen-xl flex-1 overflow-y-auto px-4 py-6 sm:pr-5">
+      <main className="app-scroll-area mobile-safe-width mx-auto w-full max-w-screen-xl flex-1 overflow-y-auto px-3 py-5 sm:px-4 sm:py-6 sm:pr-5">
         <AnimatePresence mode="wait">
           <motion.div
             key={animationKey}
+            className="mobile-safe-width"
             variants={pageVariants}
             initial="initial"
             animate="animate"

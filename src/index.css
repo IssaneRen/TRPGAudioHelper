@@ -78,6 +78,13 @@
   * {
     @apply border-border;
   }
+  html,
+  body,
+  #root {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
   body {
     @apply bg-background text-foreground;
     font-family: var(--font-sans);
@@ -95,6 +102,24 @@ html {
 }
 
 @layer utilities {
+  .mobile-safe-width {
+    min-width: 0;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  .wiki-readable {
+    min-width: 0;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  .wiki-readable [data-slot="badge"] {
+    min-width: 0;
+    max-width: 100%;
+    text-overflow: ellipsis;
+  }
+
   .app-scroll-area {
     overscroll-behavior: contain;
     scrollbar-width: none;

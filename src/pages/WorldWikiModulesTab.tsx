@@ -12,7 +12,7 @@ function ModuleTag({ tag, variant = "secondary" }: { tag: string; variant?: "def
     <Badge
       variant={variant}
       title={tag}
-      className="inline-block max-w-48 truncate align-bottom"
+      className="inline-block max-w-[9rem] truncate align-bottom sm:max-w-48"
     >
       {tag}
     </Badge>
@@ -91,7 +91,7 @@ export default function WorldWikiModulesTab() {
   }, [modules]);
 
   return (
-    <div className="space-y-4">
+    <div className="mobile-safe-width wiki-readable space-y-4">
       <Link to="/tools/world-wiki" className="inline-flex items-center gap-1 text-sm">
         <ArrowLeft className="h-4 w-4" />
         返回Wiki
@@ -103,7 +103,7 @@ export default function WorldWikiModulesTab() {
       </div>
 
       {loading ? (
-        <div className="grid gap-3 md:grid-cols-2">
+        <div className="grid min-w-0 gap-3 md:grid-cols-2">
           <Skeleton className="h-28 rounded-xl" />
           <Skeleton className="h-28 rounded-xl" />
         </div>
@@ -116,8 +116,8 @@ export default function WorldWikiModulesTab() {
       ) : indexData.modules.length === 0 ? (
           <p className="text-sm text-muted-foreground">暂无可展示的模组。</p>
         ) : (
-          <div className="space-y-4">
-            <div className="flex flex-wrap gap-2">
+          <div className="mobile-safe-width space-y-4">
+            <div className="flex min-w-0 flex-wrap gap-2">
               <button onClick={() => setSelectedTag(null)}>
                 <Badge variant={selectedTag === null ? "default" : "outline"}>全部</Badge>
               </button>
@@ -134,11 +134,11 @@ export default function WorldWikiModulesTab() {
                 {groupedModules.groups.map((group) => {
                   const collapsed = collapsedGroups[group.key] ?? false;
                   return (
-                    <div key={group.key} className="space-y-3">
+                    <div key={group.key} className="min-w-0 space-y-3">
                       <Button
                         type="button"
                         variant="outline"
-                        className="w-full justify-between rounded-2xl border-border/60 bg-background/65 px-4 py-3 text-left"
+                        className="w-full min-w-0 justify-between rounded-2xl border-border/60 bg-background/65 px-3 py-3 text-left sm:px-4"
                         onClick={() =>
                           setCollapsedGroups((prev) => ({ ...prev, [group.key]: !(prev[group.key] ?? false) }))
                         }
@@ -148,19 +148,19 @@ export default function WorldWikiModulesTab() {
                             {group.kind === "campaign" ? "战役" : "模组集"}
                           </Badge>
                           <span className="truncate font-heading text-base font-semibold">{group.title}</span>
-                          <span className="text-xs text-muted-foreground">{group.items.length} 个模组</span>
+                          <span className="shrink-0 text-xs text-muted-foreground">{group.items.length} 个模组</span>
                         </div>
                         {collapsed ? (
-                          <ChevronDown className="h-4 w-4 text-muted-foreground" />
+                          <ChevronDown className="h-4 w-4 shrink-0 text-muted-foreground" />
                         ) : (
-                          <ChevronUp className="h-4 w-4 text-muted-foreground" />
+                          <ChevronUp className="h-4 w-4 shrink-0 text-muted-foreground" />
                         )}
                       </Button>
 
                       {!collapsed && (
-                        <div className="grid gap-3 md:grid-cols-2">
+                        <div className="grid min-w-0 gap-3 md:grid-cols-2">
                           {group.items.map((item) => (
-                            <Link key={item.id} to={`/tools/world-wiki/modules/${item.id}`}>
+                            <Link key={item.id} to={`/tools/world-wiki/modules/${item.id}`} className="min-w-0">
                               <ModulePreviewCard module={item} />
                             </Link>
                           ))}
@@ -170,11 +170,11 @@ export default function WorldWikiModulesTab() {
                   );
                 })}
 
-                <div className="space-y-3">
+                <div className="min-w-0 space-y-3">
                   <Button
                     type="button"
                     variant="outline"
-                    className="w-full justify-between rounded-2xl border-border/60 bg-background/65 px-4 py-3 text-left"
+                    className="w-full min-w-0 justify-between rounded-2xl border-border/60 bg-background/65 px-3 py-3 text-left sm:px-4"
                     onClick={() =>
                       setCollapsedGroups((prev) => ({ ...prev, ungrouped: !(prev.ungrouped ?? false) }))
                     }
@@ -184,14 +184,14 @@ export default function WorldWikiModulesTab() {
                         未分类
                       </Badge>
                       <span className="truncate font-heading text-base font-semibold">未分类</span>
-                      <span className="text-xs text-muted-foreground">
+                      <span className="shrink-0 text-xs text-muted-foreground">
                         {groupedModules.ungrouped.length} 个模组
                       </span>
                     </div>
                     {(collapsedGroups.ungrouped ?? false) ? (
-                      <ChevronDown className="h-4 w-4 text-muted-foreground" />
+                      <ChevronDown className="h-4 w-4 shrink-0 text-muted-foreground" />
                     ) : (
-                      <ChevronUp className="h-4 w-4 text-muted-foreground" />
+                      <ChevronUp className="h-4 w-4 shrink-0 text-muted-foreground" />
                     )}
                   </Button>
 
@@ -202,9 +202,9 @@ export default function WorldWikiModulesTab() {
                           当前没有未分类模组。
                         </div>
                       ) : (
-                        <div className="grid gap-3 md:grid-cols-2">
+                        <div className="grid min-w-0 gap-3 md:grid-cols-2">
                           {groupedModules.ungrouped.map((item) => (
-                            <Link key={item.id} to={`/tools/world-wiki/modules/${item.id}`}>
+                            <Link key={item.id} to={`/tools/world-wiki/modules/${item.id}`} className="min-w-0">
                               <ModulePreviewCard module={item} />
                             </Link>
                           ))}

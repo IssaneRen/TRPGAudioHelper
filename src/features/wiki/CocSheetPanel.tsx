@@ -126,7 +126,7 @@ function GrowthBadge({
           {badge}
         </button>
       </TooltipTrigger>
-      <TooltipContent side="top" className="z-[80] max-w-xs space-y-1.5 text-left">
+      <TooltipContent side="top" className="z-[80] max-w-[calc(100vw-2rem)] space-y-1.5 text-left sm:max-w-xs">
         <p className="font-medium text-foreground">成长记录</p>
         {changes.length === 0 ? (
           <p className="text-xs text-muted-foreground">
@@ -185,7 +185,7 @@ function SkillCard({
   return (
     <div
       className={cn(
-        "flex min-h-[52px] items-stretch overflow-hidden rounded-md border border-border/50 bg-background/60",
+        "flex min-h-[52px] min-w-0 items-stretch overflow-hidden rounded-md border border-border/50 bg-background/60",
         compact ? "text-[11px]" : "text-xs"
       )}
     >
@@ -222,13 +222,13 @@ function CollapsibleSection({
       <CollapsibleTrigger
         type="button"
         className={cn(
-          "flex w-full cursor-pointer items-center justify-between rounded-lg border border-border/60 bg-background/50 px-3 py-2 text-left text-sm font-medium transition-colors hover:bg-accent/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+          "flex w-full min-w-0 cursor-pointer items-center justify-between rounded-lg border border-border/60 bg-background/50 px-3 py-2 text-left text-sm font-medium transition-colors hover:bg-accent/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
           variant === "compact" ? "py-1.5 text-xs" : "py-2"
         )}
         onClick={stopBubble}
         onPointerDown={stopBubble}
       >
-        <span>{title}</span>
+        <span className="min-w-0 truncate">{title}</span>
         <ChevronDown
           className={cn(
             "h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-200",
@@ -264,7 +264,7 @@ function AttributesBody({
   const dodge = attributes.dodge ?? Math.floor(attributes.dex / 2);
 
   return (
-    <div className={cn("flex gap-3 px-1", compact ? "gap-2" : "gap-4")}>
+    <div className={cn("flex min-w-0 flex-col gap-3 px-1 sm:flex-row", compact ? "gap-2" : "gap-4")}>
       <CocPortrait avatar={avatar} displayName={displayName} compact={compact} />
       <div className="min-w-0 flex-1 space-y-3">
         <div className="grid grid-cols-3 gap-2">
@@ -284,7 +284,7 @@ function AttributesBody({
             />
           ))}
         </div>
-        <div className="grid grid-cols-4 gap-1.5">
+        <div className="grid grid-cols-2 gap-1.5 sm:grid-cols-4">
           {coreAttrs.map(([key, label]) => (
             <StatChip
               key={key}
@@ -328,7 +328,7 @@ export function CocSheetPanel({
     <TooltipProvider delayDuration={150} skipDelayDuration={0}>
       <div
         className={cn(
-          "space-y-2 rounded-xl border border-primary/20 bg-card/50",
+          "mobile-safe-width space-y-2 rounded-xl border border-primary/20 bg-card/50",
           compact ? "p-2" : "p-4",
           className
         )}
@@ -348,7 +348,7 @@ export function CocSheetPanel({
           <div
             className={cn(
               "max-h-56 overflow-y-auto px-1",
-              compact ? "grid grid-cols-1 gap-1.5 sm:grid-cols-2" : "grid grid-cols-2 gap-2 md:grid-cols-3"
+              compact ? "grid grid-cols-1 gap-1.5 sm:grid-cols-2" : "grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3"
             )}
           >
             {skills.length === 0 ? (

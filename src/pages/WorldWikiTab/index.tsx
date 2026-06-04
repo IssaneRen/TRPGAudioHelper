@@ -236,13 +236,13 @@ function WikiEntryCard({
   const cocData = entryDetail ? extractCocSheetFromContent(entryDetail.content) : null;
 
   return (
-    <Card className="eldritch-card h-full gap-4 border-border/70 bg-card/80 py-5 transition-transform hover:-translate-y-1">
+    <Card className="eldritch-card mobile-safe-width h-full gap-4 border-border/70 bg-card/80 py-5 transition-transform hover:-translate-y-1">
       <Link
         to={`${WIKI_HOME_ROUTE}/${entry.id}`}
-        className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+        className="block min-w-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
       >
         <CardHeader className="gap-3">
-          <div className="flex items-start justify-between gap-3">
+          <div className="flex min-w-0 items-start justify-between gap-3">
             <Badge variant="outline" className={categoryMeta.chipClassName}>
               <Icon className="h-3.5 w-3.5" />
               {categoryMeta.label}
@@ -250,8 +250,8 @@ function WikiEntryCard({
             <ArrowUpRight className="h-4 w-4 text-muted-foreground" />
           </div>
           <div className="space-y-2">
-            <CardTitle className="text-lg leading-snug">{entry.displayName}</CardTitle>
-            <CardDescription className="text-sm leading-6">
+            <CardTitle className="break-words text-lg leading-snug">{entry.displayName}</CardTitle>
+            <CardDescription className="break-words text-sm leading-6">
               {entry.summary}
             </CardDescription>
           </div>
@@ -285,7 +285,8 @@ function WikiEntryCard({
                   <Badge
                     key={player.id}
                     variant={currentPlayerId === player.id ? "default" : "secondary"}
-                    className="text-[11px]"
+                    title={player.displayName}
+                    className="max-w-[8rem] truncate text-[11px] sm:max-w-40"
                   >
                     {player.displayName}
                   </Badge>
@@ -294,7 +295,7 @@ function WikiEntryCard({
             </div>
           )}
           <div className="mt-3 flex flex-wrap gap-1.5 text-xs text-muted-foreground">
-            <span>唯一键：{entry.id}</span>
+            <span className="break-all">唯一键：{entry.id}</span>
           </div>
         </Link>
       </CardContent>
@@ -520,7 +521,7 @@ export default function WorldWikiTab() {
 
   if (indexLoading && !indexData) {
     return (
-      <div className="mx-auto max-w-6xl space-y-4">
+      <div className="mobile-safe-width mx-auto max-w-6xl space-y-4">
         <Skeleton className="h-44 rounded-3xl" />
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
           {Array.from({ length: 4 }).map((_, index) => (
@@ -547,9 +548,9 @@ export default function WorldWikiTab() {
     : [];
 
   return (
-    <div className="mx-auto max-w-6xl space-y-6">
+    <div className="mobile-safe-width wiki-readable mx-auto max-w-6xl space-y-6">
       {!selectedEntry && (
-      <section className="eldritch-card overflow-hidden rounded-[28px] border border-border/70 bg-card/75 p-6 shadow-sm md:p-8">
+      <section className="eldritch-card mobile-safe-width rounded-[28px] border border-border/70 bg-card/75 p-4 shadow-sm sm:p-6 md:p-8">
         <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
           <div className="flex min-w-0 flex-1 items-center gap-3">
             <Badge
@@ -571,7 +572,7 @@ export default function WorldWikiTab() {
                   }
                 }}
                 placeholder="检索世界 Wiki 词条、地点、事件、中文名、英文名或 PL 名称"
-                className="pl-9"
+                className="min-w-0 pl-9"
               />
             </div>
           </div>
@@ -786,8 +787,8 @@ export default function WorldWikiTab() {
       )}
 
       {selectedEntry ? (
-        <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_280px]">
-          <article className="rounded-[28px] border border-border/70 bg-card/80 p-6 shadow-sm md:p-8">
+        <div className="grid min-w-0 gap-6 xl:grid-cols-[minmax(0,1fr)_280px]">
+          <article className="mobile-safe-width rounded-[28px] border border-border/70 bg-card/80 p-4 shadow-sm sm:p-6 md:p-8">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
               <div className="space-y-3">
                 <Button variant="ghost" size="sm" className="-ml-3 w-fit" asChild>
@@ -801,12 +802,14 @@ export default function WorldWikiTab() {
                     {CATEGORY_META[selectedEntry.category].label}
                   </Badge>
                   <Badge variant="outline">更新于 {formatDate(selectedEntry.updatedAt)}</Badge>
-                  <Badge variant="outline">唯一键：{selectedEntry.id}</Badge>
+                  <Badge variant="outline" title={selectedEntry.id} className="max-w-full truncate">
+                    唯一键：{selectedEntry.id}
+                  </Badge>
                 </div>
-                <h2 className="text-3xl font-heading font-semibold leading-tight">
+                <h2 className="break-words text-2xl font-heading font-semibold leading-tight sm:text-3xl">
                   {selectedEntry.displayName}
                 </h2>
-                <p className="max-w-3xl text-sm leading-7 text-muted-foreground md:text-base">
+                <p className="max-w-3xl break-words text-sm leading-7 text-muted-foreground md:text-base">
                   {selectedEntry.summary}
                 </p>
               </div>
@@ -848,7 +851,7 @@ export default function WorldWikiTab() {
             </div>
           </article>
 
-          <aside className="space-y-4">
+          <aside className="min-w-0 space-y-4">
             <Card className="gap-4 border-border/70 bg-card/80 py-5">
               <CardHeader className="gap-2">
                 <CardTitle className="text-base">信息框</CardTitle>
@@ -860,13 +863,13 @@ export default function WorldWikiTab() {
                     <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
                       {fact.label}
                     </p>
-                    <p className="mt-1 leading-6">{fact.value}</p>
+                    <p className="mt-1 break-words leading-6">{fact.value}</p>
                   </div>
                 ))}
                 {selectedEntry.aliasNames && selectedEntry.aliasNames.length > 0 && (
                   <div className="rounded-xl border border-border/50 bg-background/65 p-3">
                     <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">别名</p>
-                    <p className="mt-1 leading-6">{selectedEntry.aliasNames.join(" / ")}</p>
+                    <p className="mt-1 break-words leading-6">{selectedEntry.aliasNames.join(" / ")}</p>
                   </div>
                 )}
               </CardContent>
@@ -883,10 +886,10 @@ export default function WorldWikiTab() {
                     <Link
                       key={entry.id}
                       to={`${WIKI_HOME_ROUTE}/${entry.id}`}
-                      className="flex items-center justify-between rounded-xl border border-border/50 bg-background/60 px-3 py-2 text-sm transition-colors hover:bg-accent/40"
+                      className="flex min-w-0 items-center justify-between gap-3 rounded-xl border border-border/50 bg-background/60 px-3 py-2 text-sm transition-colors hover:bg-accent/40"
                     >
-                      <span>{entry.displayName}</span>
-                      <ArrowUpRight className="h-4 w-4 text-muted-foreground" />
+                      <span className="min-w-0 truncate">{entry.displayName}</span>
+                      <ArrowUpRight className="h-4 w-4 shrink-0 text-muted-foreground" />
                     </Link>
                   ))}
                 </CardContent>

@@ -51,7 +51,7 @@ export default function WorldWikiModuleDetailTab() {
   }, [indexData, module]);
 
   return (
-    <div className="space-y-4">
+    <div className="mobile-safe-width wiki-readable space-y-4">
       <Link to="/tools/world-wiki/modules" className="inline-flex items-center gap-1 text-sm">
         <ArrowLeft className="h-4 w-4" />
         返回模组列表
@@ -72,22 +72,32 @@ export default function WorldWikiModuleDetailTab() {
           找不到该模组：{moduleId}
         </div>
       ) : (
-        <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_280px]">
-          <article className="rounded-[28px] border border-border/70 bg-card/80 p-6 shadow-sm md:p-8">
+        <div className="grid min-w-0 gap-6 xl:grid-cols-[minmax(0,1fr)_280px]">
+          <article className="mobile-safe-width rounded-[28px] border border-border/70 bg-card/80 p-4 shadow-sm sm:p-6 md:p-8">
             <div className="space-y-3">
               <div className="flex flex-wrap items-center gap-2">
                 {module.ruleSystem && (
-                  <Badge variant="outline" className="border-primary/30 bg-primary/10 text-primary">
+                  <Badge variant="outline" className="max-w-full break-words border-primary/30 bg-primary/10 text-primary">
                     {module.ruleSystem}
                   </Badge>
                 )}
-                {module.campaign && <Badge variant="outline">战役：{module.campaign}</Badge>}
-                {!module.campaign && module.collection && <Badge variant="outline">模组集：{module.collection}</Badge>}
-                <Badge variant="outline">唯一键：{module.id}</Badge>
+                {module.campaign && (
+                  <Badge variant="outline" title={module.campaign} className="max-w-full truncate">
+                    战役：{module.campaign}
+                  </Badge>
+                )}
+                {!module.campaign && module.collection && (
+                  <Badge variant="outline" title={module.collection} className="max-w-full truncate">
+                    模组集：{module.collection}
+                  </Badge>
+                )}
+                <Badge variant="outline" title={module.id} className="max-w-full truncate">
+                  唯一键：{module.id}
+                </Badge>
               </div>
-              <h1 className="text-3xl font-heading font-semibold leading-tight">{module.displayName}</h1>
+              <h1 className="break-words text-2xl font-heading font-semibold leading-tight sm:text-3xl">{module.displayName}</h1>
               {(module.summary || module.description) && (
-                <p className="max-w-3xl text-sm leading-7 text-muted-foreground md:text-base">
+                <p className="max-w-3xl break-words text-sm leading-7 text-muted-foreground md:text-base">
                   {module.summary || "（暂无列表简介）"}
                 </p>
               )}
@@ -96,7 +106,7 @@ export default function WorldWikiModuleDetailTab() {
             {module.description && (
               <div className="mt-8 space-y-4">
                 <h2 className="text-lg font-heading font-semibold">模组导读</h2>
-                <div className="rounded-2xl border border-border/60 bg-background/65 p-4 md:p-5">
+                <div className="mobile-safe-width rounded-2xl border border-border/60 bg-background/65 p-4 md:p-5">
                   <ModuleDescription description={module.description} />
                 </div>
               </div>
@@ -104,32 +114,32 @@ export default function WorldWikiModuleDetailTab() {
             {campaignChildModules.length > 0 && (
               <div className="mt-8 space-y-4">
                 <h2 className="text-lg font-heading font-semibold">子模组</h2>
-                <div className="grid gap-3">
+                <div className="grid min-w-0 gap-3">
                   {campaignChildModules.map((childModule) => (
                     <Link
                       key={childModule.id}
                       to={`/tools/world-wiki/modules/${childModule.id}`}
-                      className="rounded-2xl border border-border/60 bg-background/65 p-4 transition-colors hover:border-primary/40 hover:bg-primary/5"
+                      className="mobile-safe-width rounded-2xl border border-border/60 bg-background/65 p-4 transition-colors hover:border-primary/40 hover:bg-primary/5"
                     >
                       <div className="flex flex-wrap items-start justify-between gap-3">
                         <div className="min-w-0 flex-1">
-                          <h3 className="font-heading text-base font-semibold leading-7">
+                          <h3 className="break-words font-heading text-base font-semibold leading-7">
                             {childModule.displayName}
                           </h3>
                           {(childModule.summary || childModule.description) && (
-                            <p className="mt-1 line-clamp-2 text-sm leading-6 text-muted-foreground">
+                            <p className="mt-1 line-clamp-2 break-words text-sm leading-6 text-muted-foreground">
                               {childModule.summary || childModule.description}
                             </p>
                           )}
                         </div>
-                        <div className="flex shrink-0 flex-wrap gap-1.5">
+                        <div className="flex max-w-full shrink-0 flex-wrap gap-1.5">
                           {childModule.duration && (
-                            <Badge variant="outline" className="text-[11px]">
+                            <Badge variant="outline" className="max-w-full break-words text-[11px]">
                               {childModule.duration}
                             </Badge>
                           )}
                           {childModule.playerCount && (
-                            <Badge variant="outline" className="text-[11px]">
+                            <Badge variant="outline" className="max-w-full break-words text-[11px]">
                               {childModule.playerCount}
                             </Badge>
                           )}
@@ -142,7 +152,7 @@ export default function WorldWikiModuleDetailTab() {
             )}
           </article>
 
-          <aside className="space-y-4">
+          <aside className="min-w-0 space-y-4">
             <Card className="gap-4 border-border/70 bg-card/80 py-5">
               <CardHeader className="gap-2">
                 <CardTitle className="text-base">推荐信息</CardTitle>
@@ -152,13 +162,13 @@ export default function WorldWikiModuleDetailTab() {
                 {module.playerCount && (
                   <div className="rounded-xl border border-border/50 bg-background/65 p-3">
                     <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">推荐人数</p>
-                    <p className="mt-1 leading-6">{module.playerCount}</p>
+                    <p className="mt-1 break-words leading-6">{module.playerCount}</p>
                   </div>
                 )}
                 {module.duration && (
                   <div className="rounded-xl border border-border/50 bg-background/65 p-3">
                     <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">推荐时长</p>
-                    <p className="mt-1 leading-6">{module.duration}</p>
+                    <p className="mt-1 break-words leading-6">{module.duration}</p>
                   </div>
                 )}
                 {module.tags && module.tags.length > 0 && (
@@ -166,7 +176,7 @@ export default function WorldWikiModuleDetailTab() {
                     <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">标签</p>
                     <div className="mt-2 flex flex-wrap gap-1.5">
                       {module.tags.map((tag) => (
-                        <Badge key={tag} variant="secondary" className="text-[11px]">
+                        <Badge key={tag} variant="secondary" title={tag} className="max-w-[9rem] truncate text-[11px] sm:max-w-48">
                           {tag}
                         </Badge>
                       ))}
