@@ -68,12 +68,166 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
-            sudo tee /etc/nginx/sites-enabled/trpg-helper > /dev/null <<'NGINX'
-            server {
-                listen 80 default_server;
-                server_name _;
+            set -eu
 
-                root /var/www/trpg-helper;
+            APP_ROOT="/var/www/trpg-helper"
+            SITE_NAME="trpg-helper"
+            CONFIG_AVAILABLE="/etc/nginx/sites-available/${SITE_NAME}"
+            CONFIG_ENABLED="/etc/nginx/sites-enabled/${SITE_NAME}"
+            SERVER_NAME="${{ secrets.NGINX_SERVER_NAME }}"
+            CERT_NAME="${{ secrets.LETSENCRYPT_CERT_NAME }}"
+            CUSTOM_SSL_CERT_PATH="${{ secrets.NGINX_SSL_CERT_PATH }}"
+            CUSTOM_SSL_KEY_PATH="${{ secrets.NGINX_SSL_KEY_PATH }}"
+            DEFAULT_SSL_CERT_PATH="/etc/nginx/ssl/issane.cn/fullchain.crt"
+            DEFAULT_SSL_KEY_PATH="/etc/nginx/ssl/issane.cn/privkey.key"
+            MANAGED_SSL_DIR="/etc/nginx/ssl/${SITE_NAME}"
+            TIMESTAMP="$(date '+%Y%m%d%H%M%S')"
+
+            sudo mkdir -p /etc/nginx/sites-available /etc/nginx/sites-enabled
+            if [ -e "$CONFIG_AVAILABLE" ]; then
+              sudo cp -a "$CONFIG_AVAILABLE" "${CONFIG_AVAILABLE}.bak-${TIMESTAMP}"
+            fi
+            if [ -e "$CONFIG_ENABLED" ] && [ ! "$CONFIG_ENABLED" -ef "$CONFIG_AVAILABLE" ]; then
+              sudo cp -a "$CONFIG_ENABLED" "${CONFIG_ENABLED}.bak-${TIMESTAMP}"
+            fi
+
+            SSL_CERT=""
+            SSL_KEY=""
+
+            if [ -z "$SERVER_NAME" ] && sudo test -f "$DEFAULT_SSL_CERT_PATH"; then
+              SERVER_NAME="issane.cn"
+            fi
+
+            if sudo test -f "$DEFAULT_SSL_CERT_PATH" && sudo test -f "$DEFAULT_SSL_KEY_PATH"; then
+              if ! sudo openssl x509 -in "$DEFAULT_SSL_CERT_PATH" -noout >/dev/null 2>&1; then
+                echo "Invalid default SSL certificate file: $DEFAULT_SSL_CERT_PATH" >&2
+                exit 1
+              fi
+              if ! sudo openssl pkey -in "$DEFAULT_SSL_KEY_PATH" -noout >/dev/null 2>&1; then
+                echo "Invalid default SSL private key file: $DEFAULT_SSL_KEY_PATH" >&2
+                exit 1
+              fi
+              CERT_PUBLIC_HASH="$(sudo openssl x509 -in "$DEFAULT_SSL_CERT_PATH" -pubkey -noout | openssl sha256)"
+              KEY_PUBLIC_HASH="$(sudo openssl pkey -in "$DEFAULT_SSL_KEY_PATH" -pubout 2>/dev/null | openssl sha256)"
+              if [ "$CERT_PUBLIC_HASH" != "$KEY_PUBLIC_HASH" ]; then
+                echo "Default SSL certificate and private key do not match: $DEFAULT_SSL_CERT_PATH / $DEFAULT_SSL_KEY_PATH" >&2
+                exit 1
+              fi
+              SSL_CERT="$DEFAULT_SSL_CERT_PATH"
+              SSL_KEY="$DEFAULT_SSL_KEY_PATH"
+            elif sudo test -f "${MANAGED_SSL_DIR}/fullchain.pem" && sudo test -f "${MANAGED_SSL_DIR}/privkey.pem"; then
+              SSL_CERT="${MANAGED_SSL_DIR}/fullchain.pem"
+              SSL_KEY="${MANAGED_SSL_DIR}/privkey.pem"
+            elif [ -n "$CUSTOM_SSL_CERT_PATH" ] || [ -n "$CUSTOM_SSL_KEY_PATH" ]; then
+              if [ -z "$CUSTOM_SSL_CERT_PATH" ] || [ -z "$CUSTOM_SSL_KEY_PATH" ]; then
+                echo "NGINX_SSL_CERT_PATH and NGINX_SSL_KEY_PATH must be set together." >&2
+                exit 1
+              fi
+              if ! sudo test -f "$CUSTOM_SSL_CERT_PATH"; then
+                echo "SSL certificate file not found: $CUSTOM_SSL_CERT_PATH" >&2
+                exit 1
+              fi
+              if ! sudo test -f "$CUSTOM_SSL_KEY_PATH"; then
+                echo "SSL private key file not found: $CUSTOM_SSL_KEY_PATH" >&2
+                exit 1
+              fi
+              if ! sudo openssl x509 -in "$CUSTOM_SSL_CERT_PATH" -noout >/dev/null 2>&1; then
+                echo "Invalid SSL certificate file: $CUSTOM_SSL_CERT_PATH" >&2
+                exit 1
+              fi
+              if ! sudo openssl pkey -in "$CUSTOM_SSL_KEY_PATH" -noout >/dev/null 2>&1; then
+                echo "Invalid SSL private key file: $CUSTOM_SSL_KEY_PATH" >&2
+                echo "A CSR file cannot be used as ssl_certificate_key. Use the .key file generated with the CSR or downloaded in the Tencent Cloud Nginx certificate package." >&2
+                exit 1
+              fi
+
+              CERT_PUBLIC_HASH="$(sudo openssl x509 -in "$CUSTOM_SSL_CERT_PATH" -pubkey -noout | openssl sha256)"
+              KEY_PUBLIC_HASH="$(sudo openssl pkey -in "$CUSTOM_SSL_KEY_PATH" -pubout 2>/dev/null | openssl sha256)"
+              if [ "$CERT_PUBLIC_HASH" != "$KEY_PUBLIC_HASH" ]; then
+                echo "SSL certificate and private key do not match: $CUSTOM_SSL_CERT_PATH / $CUSTOM_SSL_KEY_PATH" >&2
+                exit 1
+              fi
+
+              sudo mkdir -p "$MANAGED_SSL_DIR"
+              sudo cp "$CUSTOM_SSL_CERT_PATH" "${MANAGED_SSL_DIR}/fullchain.pem"
+              sudo cp "$CUSTOM_SSL_KEY_PATH" "${MANAGED_SSL_DIR}/privkey.pem"
+              sudo chown root:root "${MANAGED_SSL_DIR}/fullchain.pem" "${MANAGED_SSL_DIR}/privkey.pem"
+              sudo chmod 644 "${MANAGED_SSL_DIR}/fullchain.pem"
+              sudo chmod 600 "${MANAGED_SSL_DIR}/privkey.pem"
+              SSL_CERT="${MANAGED_SSL_DIR}/fullchain.pem"
+              SSL_KEY="${MANAGED_SSL_DIR}/privkey.pem"
+            fi
+
+            if [ -z "$SSL_CERT" ] || [ -z "$SSL_KEY" ]; then
+              if [ -z "$CERT_NAME" ] && [ -n "$SERVER_NAME" ]; then
+                CERT_NAME="$(printf '%s\n' "$SERVER_NAME" | awk '{print $1}')"
+              fi
+
+              if [ -z "$CERT_NAME" ] && sudo test -d /etc/letsencrypt/live; then
+                CERT_DIR="$(sudo find /etc/letsencrypt/live -mindepth 1 -maxdepth 1 -type d | head -n 1 || true)"
+                if [ -n "${CERT_DIR:-}" ]; then
+                  CERT_NAME="$(basename "$CERT_DIR")"
+                fi
+              fi
+
+              if [ -n "$CERT_NAME" ]; then
+                SSL_CERT="/etc/letsencrypt/live/${CERT_NAME}/fullchain.pem"
+                SSL_KEY="/etc/letsencrypt/live/${CERT_NAME}/privkey.pem"
+              fi
+            fi
+
+            if [ -z "$SERVER_NAME" ] && [ -n "$SSL_CERT" ] && sudo test -f "$SSL_CERT"; then
+              SERVER_NAME="$(sudo openssl x509 -in "$SSL_CERT" -noout -ext subjectAltName 2>/dev/null \
+                | tr ',' '\n' \
+                | sed -n 's/.*DNS://p' \
+                | xargs || true)"
+            fi
+
+            if [ -z "$SERVER_NAME" ]; then
+              SERVER_NAME="_"
+              HTTP_LISTEN="listen 80 default_server;"
+            else
+              HTTP_LISTEN="listen 80;"
+            fi
+
+            SSL_ENABLED="false"
+            if [ -n "$SSL_CERT" ] && [ -n "$SSL_KEY" ] && sudo test -f "$SSL_CERT" && sudo test -f "$SSL_KEY"; then
+              SSL_ENABLED="true"
+            fi
+
+            SSL_OPTIONS=""
+            if sudo test -f /etc/letsencrypt/options-ssl-nginx.conf; then
+              SSL_OPTIONS="${SSL_OPTIONS}    include /etc/letsencrypt/options-ssl-nginx.conf;\n"
+            fi
+            if sudo test -f /etc/letsencrypt/ssl-dhparams.pem; then
+              SSL_OPTIONS="${SSL_OPTIONS}    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;\n"
+            fi
+
+            if [ "$SSL_ENABLED" = "true" ]; then
+              printf "Using HTTPS Nginx config for server_name: %s, cert: %s\n" "$SERVER_NAME" "$CERT_NAME"
+              sudo tee "$CONFIG_AVAILABLE" > /dev/null <<NGINX
+            server {
+                ${HTTP_LISTEN}
+                server_name ${SERVER_NAME};
+
+                location ^~ /.well-known/acme-challenge/ {
+                    root /var/www/html;
+                    default_type "text/plain";
+                }
+
+                location / {
+                    return 301 https://\$host\$request_uri;
+                }
+            }
+
+            server {
+                listen 443 ssl http2;
+                server_name ${SERVER_NAME};
+
+                ssl_certificate ${SSL_CERT};
+                ssl_certificate_key ${SSL_KEY};
+            $(printf "%b" "$SSL_OPTIONS")
+                root ${APP_ROOT};
                 index index.html;
 
                 # /blog is both a SPA route and a deployed content directory.
@@ -86,10 +240,42 @@ jobs:
                 }
 
                 location / {
-                    try_files $uri /index.html;
+                    try_files \$uri /index.html;
                 }
             }
             NGINX
+            else
+              printf "Using HTTP Nginx config for server_name: %s. Add Let's Encrypt certs to enable HTTPS.\n" "$SERVER_NAME"
+              sudo tee "$CONFIG_AVAILABLE" > /dev/null <<NGINX
+            server {
+                ${HTTP_LISTEN}
+                server_name ${SERVER_NAME};
+
+                root ${APP_ROOT};
+                index index.html;
+
+                location ^~ /.well-known/acme-challenge/ {
+                    root /var/www/html;
+                    default_type "text/plain";
+                }
+
+                # /blog is both a SPA route and a deployed content directory.
+                location = /blog {
+                    try_files /index.html =404;
+                }
+
+                location = /blog/ {
+                    try_files /index.html =404;
+                }
+
+                location / {
+                    try_files \$uri /index.html;
+                }
+            }
+            NGINX
+            fi
+
+            sudo ln -sfn "$CONFIG_AVAILABLE" "$CONFIG_ENABLED"
             sudo rm -f /etc/nginx/sites-enabled/default
             sudo nginx -t && sudo systemctl reload nginx
             echo "Deploy done - $(date '+%Y-%m-%d %H:%M:%S')"
