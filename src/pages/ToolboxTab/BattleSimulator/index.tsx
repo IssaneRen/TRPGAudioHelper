@@ -62,7 +62,7 @@ export default function BattleSimulator() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editingChar, setEditingChar] = useState<Character | null>(null);
   const [dialogIsEnemy, setDialogIsEnemy] = useState(false);
-  const [presetPanel, setPresetPanel] = useState<"pc" | "enemy" | "wiki" | null>(null);
+  const [presetPanel, setPresetPanel] = useState<"pc" | "enemy" | "wiki" | "enemy-people" | null>(null);
   const [wikiIndex, setWikiIndex] = useState<WikiIndexPayload | null>(null);
   const [wikiLoading, setWikiLoading] = useState(false);
   const [wikiImportingId, setWikiImportingId] = useState<string | null>(null);
@@ -116,7 +116,7 @@ export default function BattleSimulator() {
     }
   };
 
-  const importWikiCharacter = async (entry: WikiIndexEntry, replaceId?: string) => {
+  const importWikiCharacter = async (entry: WikiIndexEntry, isEnemy: boolean, replaceId?: string) => {
     setWikiImportingId(entry.id);
     try {
       const detail = await fetchWikiEntry(entry.id);
@@ -127,16 +127,28 @@ export default function BattleSimulator() {
       }
 
       if (replaceId) {
-        const next = pcs.map((pc) => (pc.id === replaceId ? { ...character, id: replaceId } : pc));
-        setPcs(next);
-        persist(next, enemies, options);
+        if (isEnemy) {
+          const next = enemies.map((enemy) => (enemy.id === replaceId ? { ...character, id: replaceId } : enemy));
+          setEnemies(next);
+          persist(pcs, next, options);
+        } else {
+          const next = pcs.map((pc) => (pc.id === replaceId ? { ...character, id: replaceId } : pc));
+          setPcs(next);
+          persist(next, enemies, options);
+        }
         toast.success(`已刷新 ${character.name}`);
         return;
       }
 
-      const next = [...pcs, character];
-      setPcs(next);
-      persist(next, enemies, options);
+      if (isEnemy) {
+        const next = [...enemies, character];
+        setEnemies(next);
+        persist(pcs, next, options);
+      } else {
+        const next = [...pcs, character];
+        setPcs(next);
+        persist(next, enemies, options);
+      }
       toast.success(`已导入 ${character.name}`);
     } catch (error) {
       toast.error(error instanceof Error ? `导入失败：${error.message}` : "导入失败");
@@ -145,14 +157,14 @@ export default function BattleSimulator() {
     }
   };
 
-  const refreshWikiCharacter = (char: Character) => {
+  const refreshWikiCharacter = (char: Character, isEnemy: boolean) => {
     if (!char.source || char.source.type !== "wiki") return;
     const entry = wikiCharacterEntries.find((item) => item.id === char.source?.entryId);
     if (!entry) {
       toast.error("找不到该角色的 Wiki 索引");
       return;
     }
-    void importWikiCharacter(entry, char.id);
+    void importWikiCharacter(entry, isEnemy, char.id);
   };
 
   const removeChar = (id: string, isEnemy: boolean) => {
@@ -295,7 +307,7 @@ export default function BattleSimulator() {
                                 variant="outline"
                                 className="h-7 shrink-0 text-xs"
                                 disabled={wikiImportingId === entry.id}
-                                onClick={() => void importWikiCharacter(entry)}
+                                onClick={() => void importWikiCharacter(entry, false)}
                               >
                                 {wikiImportingId === entry.id ? "导入中" : "导入"}
                               </Button>
@@ -321,7 +333,7 @@ export default function BattleSimulator() {
                         char={c}
                         onEdit={() => { setEditingChar(c); setDialogIsEnemy(false); setDialogOpen(true); }}
                         onRemove={() => removeChar(c.id, false)}
-                        onRefresh={c.source?.type === "wiki" ? () => refreshWikiCharacter(c) : undefined}
+                        onRefresh={c.source?.type === "wiki" ? () => refreshWikiCharacter(c, false) : undefined}
                         refreshing={wikiImportingId === c.source?.entryId}
                         sourceUpdatedAt={wikiEntry?.updatedAt}
                       />
@@ -340,6 +352,9 @@ export default function BattleSimulator() {
                 <div className="flex gap-1">
                   <Button size="sm" variant="ghost" onClick={() => setPresetPanel(presetPanel === "enemy" ? null : "enemy")}>
                     预设
+                  </Button>
+                  <Button size="sm" variant="ghost" onClick={() => setPresetPanel(presetPanel === "enemy-people" ? null : "enemy-people")}>
+                    预设人物
                   </Button>
                   <Button size="sm" variant="ghost" onClick={() => { setDialogIsEnemy(true); setEditingChar(null); setDialogOpen(true); }}>
                     <Plus className="h-3 w-3 mr-1" /> 添加
@@ -361,13 +376,76 @@ export default function BattleSimulator() {
                   </motion.div>
                 )}
               </AnimatePresence>
+              <AnimatePresence>
+                {presetPanel === "enemy-people" && (
+                  <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden">
+                    <div className="space-y-3 border-b pb-2 mb-2">
+                      <div className="space-y-1">
+                        <p className="text-xs text-muted-foreground">预设人物可作为敌方、反派或临时倒戈角色加入模拟。</p>
+                        <div className="flex flex-wrap gap-1">
+                          {PRESET_INVESTIGATORS.map((p) => (
+                            <Button key={p.name} size="sm" variant="outline" className="text-xs" onClick={() => addPreset(p, true)}>
+                              {p.name}
+                            </Button>
+                          ))}
+                        </div>
+                      </div>
+                      <div className="space-y-2">
+                        <p className="text-xs text-muted-foreground">
+                          从 Wiki 人物卡导入当前 coc-sheet 快照到敌方；人物成长后可刷新已导入角色。
+                        </p>
+                        {wikiLoading ? (
+                          <p className="text-xs text-muted-foreground">正在加载 Wiki 人物卡...</p>
+                        ) : wikiCharacterEntries.length === 0 ? (
+                          <p className="text-xs text-muted-foreground">暂无可导入的 Wiki 人物卡</p>
+                        ) : (
+                          <div className="max-h-40 space-y-1 overflow-y-auto">
+                            {wikiCharacterEntries.map((entry) => (
+                              <div key={entry.id} className="flex items-center justify-between gap-2 rounded-md border px-2 py-1.5">
+                                <div className="min-w-0">
+                                  <p className="truncate text-xs font-medium">{entry.displayName}</p>
+                                  <p className="truncate text-[11px] text-muted-foreground">
+                                    {entry.updatedAt ? `更新：${entry.updatedAt.slice(0, 10)}` : entry.id}
+                                  </p>
+                                </div>
+                                <Button
+                                  size="sm"
+                                  variant="outline"
+                                  className="h-7 shrink-0 text-xs"
+                                  disabled={wikiImportingId === entry.id}
+                                  onClick={() => void importWikiCharacter(entry, true)}
+                                >
+                                  {wikiImportingId === entry.id ? "导入中" : "导入"}
+                                </Button>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
               {enemies.length === 0 ? (
                 <p className="text-sm text-muted-foreground py-4 text-center">暂无敌人</p>
               ) : (
                 <div className="space-y-1 max-h-48 overflow-y-auto">
-                  {enemies.map((c) => (
-                    <CharCard key={c.id} char={c} onEdit={() => { setEditingChar(c); setDialogIsEnemy(true); setDialogOpen(true); }} onRemove={() => removeChar(c.id, true)} />
-                  ))}
+                  {enemies.map((c) => {
+                    const wikiEntry = c.source?.type === "wiki"
+                      ? wikiCharacterEntries.find((entry) => entry.id === c.source?.entryId)
+                      : undefined;
+                    return (
+                      <CharCard
+                        key={c.id}
+                        char={c}
+                        onEdit={() => { setEditingChar(c); setDialogIsEnemy(true); setDialogOpen(true); }}
+                        onRemove={() => removeChar(c.id, true)}
+                        onRefresh={c.source?.type === "wiki" ? () => refreshWikiCharacter(c, true) : undefined}
+                        refreshing={wikiImportingId === c.source?.entryId}
+                        sourceUpdatedAt={wikiEntry?.updatedAt}
+                      />
+                    );
+                  })}
                 </div>
               )}
             </CardContent>
