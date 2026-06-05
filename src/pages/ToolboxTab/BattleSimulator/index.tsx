@@ -245,23 +245,23 @@ export default function BattleSimulator() {
     : [];
 
   return (
-    <div className="space-y-4">
-      <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)]">
+    <div className="min-w-0 max-w-full space-y-4 overflow-x-hidden">
+      <div className="grid min-w-0 gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)]">
         {/* 左侧配置面板 */}
-        <div className="space-y-4">
+        <div className="min-w-0 space-y-4">
           {/* 调查员 */}
-          <Card className="eldritch-card">
+          <Card className="eldritch-card min-w-0">
             <CardHeader className="pb-2">
-              <div className="flex items-center justify-between">
-                <CardTitle className="text-base">调查员配置</CardTitle>
-                <div className="flex gap-1">
-                  <Button size="sm" variant="ghost" onClick={() => setPresetPanel(presetPanel === "pc" ? null : "pc")}>
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                <CardTitle className="shrink-0 text-base">调查员配置</CardTitle>
+                <div className="flex flex-wrap gap-1">
+                  <Button size="sm" variant="ghost" className="text-xs sm:text-sm" onClick={() => setPresetPanel(presetPanel === "pc" ? null : "pc")}>
                     预设
                   </Button>
-                  <Button size="sm" variant="ghost" onClick={() => setPresetPanel(presetPanel === "wiki" ? null : "wiki")}>
+                  <Button size="sm" variant="ghost" className="text-xs sm:text-sm" onClick={() => setPresetPanel(presetPanel === "wiki" ? null : "wiki")}>
                     Wiki人物卡
                   </Button>
-                  <Button size="sm" variant="ghost" onClick={() => { setDialogIsEnemy(false); setEditingChar(null); setDialogOpen(true); }}>
+                  <Button size="sm" variant="ghost" className="text-xs sm:text-sm" onClick={() => { setDialogIsEnemy(false); setEditingChar(null); setDialogOpen(true); }}>
                     <Plus className="h-3 w-3 mr-1" /> 添加
                   </Button>
                 </div>
@@ -295,7 +295,7 @@ export default function BattleSimulator() {
                       ) : (
                         <div className="max-h-40 space-y-1 overflow-y-auto">
                           {wikiCharacterEntries.map((entry) => (
-                            <div key={entry.id} className="flex items-center justify-between gap-2 rounded-md border px-2 py-1.5">
+                            <div key={entry.id} className="flex min-w-0 items-center justify-between gap-2 rounded-md border px-2 py-1.5">
                               <div className="min-w-0">
                                 <p className="truncate text-xs font-medium">{entry.displayName}</p>
                                 <p className="truncate text-[11px] text-muted-foreground">
@@ -322,7 +322,7 @@ export default function BattleSimulator() {
               {pcs.length === 0 ? (
                 <p className="text-sm text-muted-foreground py-4 text-center">暂无调查员</p>
               ) : (
-                <div className="space-y-1 max-h-48 overflow-y-auto">
+                <div className="max-h-48 min-w-0 space-y-1 overflow-y-auto">
                   {pcs.map((c) => {
                     const wikiEntry = c.source?.type === "wiki"
                       ? wikiCharacterEntries.find((entry) => entry.id === c.source?.entryId)
@@ -345,18 +345,18 @@ export default function BattleSimulator() {
           </Card>
 
           {/* 敌人 */}
-          <Card className="eldritch-card">
+          <Card className="eldritch-card min-w-0">
             <CardHeader className="pb-2">
-              <div className="flex items-center justify-between">
-                <CardTitle className="text-base">敌人配置</CardTitle>
-                <div className="flex gap-1">
-                  <Button size="sm" variant="ghost" onClick={() => setPresetPanel(presetPanel === "enemy" ? null : "enemy")}>
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                <CardTitle className="shrink-0 text-base">敌人配置</CardTitle>
+                <div className="flex flex-wrap gap-1">
+                  <Button size="sm" variant="ghost" className="text-xs sm:text-sm" onClick={() => setPresetPanel(presetPanel === "enemy" ? null : "enemy")}>
                     预设
                   </Button>
-                  <Button size="sm" variant="ghost" onClick={() => setPresetPanel(presetPanel === "enemy-people" ? null : "enemy-people")}>
+                  <Button size="sm" variant="ghost" className="text-xs sm:text-sm" onClick={() => setPresetPanel(presetPanel === "enemy-people" ? null : "enemy-people")}>
                     预设人物
                   </Button>
-                  <Button size="sm" variant="ghost" onClick={() => { setDialogIsEnemy(true); setEditingChar(null); setDialogOpen(true); }}>
+                  <Button size="sm" variant="ghost" className="text-xs sm:text-sm" onClick={() => { setDialogIsEnemy(true); setEditingChar(null); setDialogOpen(true); }}>
                     <Plus className="h-3 w-3 mr-1" /> 添加
                   </Button>
                 </div>
@@ -401,7 +401,7 @@ export default function BattleSimulator() {
                         ) : (
                           <div className="max-h-40 space-y-1 overflow-y-auto">
                             {wikiCharacterEntries.map((entry) => (
-                              <div key={entry.id} className="flex items-center justify-between gap-2 rounded-md border px-2 py-1.5">
+                              <div key={entry.id} className="flex min-w-0 items-center justify-between gap-2 rounded-md border px-2 py-1.5">
                                 <div className="min-w-0">
                                   <p className="truncate text-xs font-medium">{entry.displayName}</p>
                                   <p className="truncate text-[11px] text-muted-foreground">
@@ -429,7 +429,7 @@ export default function BattleSimulator() {
               {enemies.length === 0 ? (
                 <p className="text-sm text-muted-foreground py-4 text-center">暂无敌人</p>
               ) : (
-                <div className="space-y-1 max-h-48 overflow-y-auto">
+                <div className="max-h-48 min-w-0 space-y-1 overflow-y-auto">
                   {enemies.map((c) => {
                     const wikiEntry = c.source?.type === "wiki"
                       ? wikiCharacterEntries.find((entry) => entry.id === c.source?.entryId)
@@ -452,7 +452,7 @@ export default function BattleSimulator() {
           </Card>
 
           {/* 可选规则 */}
-          <Card className="eldritch-card">
+          <Card className="eldritch-card min-w-0">
             <CardHeader className="pb-2 cursor-pointer" onClick={() => setRulesOpen(!rulesOpen)}>
               <div className="flex items-center gap-2">
                 {rulesOpen ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
@@ -464,8 +464,8 @@ export default function BattleSimulator() {
                 <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden">
                   <CardContent className="space-y-3 pt-0">
                     {COMBAT_OPTION_KEYS.map((key, i) => (
-                      <div key={key} className="flex items-center justify-between">
-                        <div className="space-y-0.5">
+                      <div key={key} className="flex min-w-0 items-center justify-between gap-3">
+                        <div className="min-w-0 space-y-0.5">
                           <Label className="text-sm">{COMBAT_OPTION_NAMES[i]}</Label>
                           <p className="text-xs text-muted-foreground">{COMBAT_OPTION_DESCRIPTIONS[i]}</p>
                         </div>
@@ -479,9 +479,9 @@ export default function BattleSimulator() {
           </Card>
 
           {/* 模拟控制 */}
-          <Card className="eldritch-card">
+          <Card className="eldritch-card min-w-0">
             <CardContent className="pt-4">
-              <div className="flex items-center gap-3 flex-wrap">
+              <div className="flex min-w-0 flex-wrap items-center gap-3">
                 <div className="flex items-center gap-2">
                   <Label className="text-sm whitespace-nowrap">模拟次数:</Label>
                   <Input
@@ -504,20 +504,20 @@ export default function BattleSimulator() {
         </div>
 
         {/* 右侧结果面板 */}
-        <div className="space-y-4">
+        <div className="min-w-0 space-y-4">
           {/* 统计卡片 */}
-          <div className="grid grid-cols-3 gap-2">
+          <div className="grid min-w-0 grid-cols-1 gap-2 min-[430px]:grid-cols-3">
             <StatCard label="存活率" value={report ? `${(report.survivalRate * 100).toFixed(1)}%` : "--"} />
             <StatCard label="平均回合" value={report ? report.avgRounds.toFixed(1) : "--"} />
             <StatCard label="难度评级" value={report ? report.difficultyDescription : "--"} />
           </div>
 
           {/* 战斗日志 */}
-          <Card className="eldritch-card">
+          <Card className="eldritch-card min-w-0">
             <CardHeader className="pb-2">
-              <div className="flex items-center justify-between flex-wrap gap-2">
-                <CardTitle className="text-base">战斗日志</CardTitle>
-                <div className="flex gap-1 flex-wrap">
+              <div className="flex min-w-0 flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                <CardTitle className="shrink-0 text-base">战斗日志</CardTitle>
+                <div className="flex min-w-0 flex-wrap gap-1">
                   {["全部", "团灭", "全员存活", "部分死亡"].map((tag) => (
                     <Button
                       key={tag}
@@ -537,8 +537,8 @@ export default function BattleSimulator() {
                 </div>
               </div>
             </CardHeader>
-            <CardContent>
-              <div className="h-[40vh] min-h-[200px] overflow-y-auto rounded-md border bg-background/50 p-3 font-mono text-xs leading-relaxed">
+            <CardContent className="min-w-0">
+              <div className="h-[40vh] min-h-[200px] min-w-0 overflow-x-auto overflow-y-auto overscroll-x-contain rounded-md border bg-background/50 p-3 font-mono text-xs leading-relaxed touch-pan-x">
                 {!report ? (
                   <p className="text-muted-foreground text-center py-8">点击"开始模拟"查看结果</p>
                 ) : filteredLogs.length === 0 ? (
@@ -598,15 +598,15 @@ function CharCard({
     char.source?.type === "wiki" &&
     Boolean(sourceUpdatedAt && char.source.updatedAt && sourceUpdatedAt !== char.source.updatedAt);
   return (
-    <div className="flex items-center justify-between rounded-md border px-3 py-2 text-sm">
-      <div className="flex items-center gap-2 min-w-0">
-        <span className="font-medium truncate">{char.name}</span>
+    <div className="flex min-w-0 items-start justify-between gap-2 rounded-md border px-3 py-2 text-sm">
+      <div className="flex min-w-0 flex-1 flex-wrap items-center gap-1.5">
+        <span className="min-w-0 max-w-full break-words font-medium">{char.name}</span>
         <Badge variant="outline" className="text-xs shrink-0">HP:{char.maxHp}</Badge>
         {char.source?.type === "wiki" && <Badge variant="outline" className="text-xs shrink-0">Wiki</Badge>}
         {hasWikiUpdate && <Badge variant="default" className="text-xs shrink-0">有更新</Badge>}
-        {mainSkill && <Badge variant="secondary" className="text-xs shrink-0">{mainSkill[0]}:{mainSkill[1]}</Badge>}
+        {mainSkill && <Badge variant="secondary" className="min-w-0 max-w-full text-xs">{mainSkill[0]}:{mainSkill[1]}</Badge>}
       </div>
-      <div className="flex gap-1 shrink-0">
+      <div className="flex shrink-0 gap-1">
         {onRefresh && (
           <Button size="sm" variant="ghost" className="h-7 w-7 p-0" disabled={refreshing} onClick={onRefresh}>
             <RefreshCcw className={`h-3 w-3 ${refreshing ? "animate-spin" : ""}`} />
@@ -625,10 +625,10 @@ function CharCard({
 
 function StatCard({ label, value }: { label: string; value: string }) {
   return (
-    <Card className="eldritch-card">
-      <CardContent className="pt-4 pb-4 text-center">
+    <Card className="eldritch-card min-w-0">
+      <CardContent className="min-w-0 px-3 pb-4 pt-4 text-center">
         <p className="text-xs text-muted-foreground">{label}</p>
-        <p className="text-lg font-bold mt-1" style={{ fontFamily: "var(--font-heading)" }}>{value}</p>
+        <p className="mt-1 break-words text-base font-bold sm:text-lg" style={{ fontFamily: "var(--font-heading)" }}>{value}</p>
       </CardContent>
     </Card>
   );
@@ -643,5 +643,5 @@ function LogLine({ text }: { text: string }) {
   } else if (text.includes("---") || text.includes("重伤") || text.includes("消耗幸运")) {
     className = "text-yellow-500 dark:text-yellow-400";
   }
-  return <div className={className}>{text}</div>;
+  return <div className={`${className} whitespace-pre-wrap break-words`}>{text}</div>;
 }
