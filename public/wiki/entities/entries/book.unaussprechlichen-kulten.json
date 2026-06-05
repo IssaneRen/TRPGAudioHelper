@@ -2,7 +2,7 @@
   "id": "book.unaussprechlichen-kulten",
   "category": "magic-book",
   "displayName": "无名祭祀 Unaussprechlichen Kulten",
-  "summary": "又称《无名之祭》《黑书》。它像一册从旅行箱、民俗笔记和审查版索引里拼出的教团残档。",
+  "summary": "又称若干被删节的题名。它像一册从旅行箱、民俗笔记和审查版索引里拼出的教团残档。",
   "aliasNames": [
     "Unaussprechlichen Kulten",
     "Nameless Cults",
@@ -42,7 +42,7 @@
   "content": [
     {
       "type": "heading",
-      "text": "黑书题页"
+      "text": "题页"
     },
     {
       "type": "paragraph",
@@ -167,7 +167,7 @@
     },
     {
       "type": "secret-panel",
-      "title": "黑框传闻：黑书",
+      "title": "黑框传闻：馆藏位置",
       "playerIds": [],
       "blocks": [
         {
@@ -199,7 +199,7 @@
             [
               {
                 "type": "text",
-                "text": "需要露出危险感时，用删节版祭历、黑书索引、旅行箱笔记和涂黑名词表达，不直接公布答案。"
+                "text": "需要露出危险感时，用删节版祭历、涂黑索引、旅行箱笔记和涂黑名词表达，不直接公布答案。"
               }
             ]
           ]

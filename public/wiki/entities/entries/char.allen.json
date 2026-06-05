@@ -2,7 +2,7 @@
   "id": "char.allen",
   "category": "character",
   "displayName": "艾伦 Allen",
-  "summary": "美国人，一战老兵兼医疗兵。退伍后在波士顿医院工作。经历过金斯波特的异常后，他更确信：有些伤口不是在皮肤上，而是在梦里。",
+  "summary": "美国人，一战老兵兼医疗兵。退伍后在波士顿医院体系工作。经历过金斯波特的异常后，他更确信：有些伤口不是在皮肤上，而是在梦里。",
   "aliasNames": [
     "Allen",
     "艾伦"
@@ -16,6 +16,12 @@
   "relatedEntryIds": [
     "loc.kingsport",
     "loc.kingsport-congregational-hospital",
+    "loc.arkham",
+    "char.gan",
+    "char.leina",
+    "char.leo",
+    "char.adam",
+    "char.kiven",
     "event.kingsport-blindness-19281106",
     "event.kingsport-nightmare-19281109",
     "module.kingsport-city-in-the-mists"
@@ -30,8 +36,12 @@
       "value": "一战老兵 / 医疗兵 / 退伍军人"
     },
     {
+      "label": "出生年份",
+      "value": "1894 年（推定）"
+    },
+    {
       "label": "常驻地",
-      "value": "波士顿医院"
+      "value": "波士顿某大型医院"
     },
     {
       "label": "对应 PL",
@@ -107,7 +117,7 @@
               },
               {
                 "delta": 3,
-                "reason": "噩梦事件后创伤护理复盘",
+                "reason": "11 月 9 日后创伤护理复盘",
                 "at": "1928-11-09",
                 "reportId": "report.mist-city-record-20260524"
               }
@@ -134,7 +144,7 @@
       "tokens": [
         {
           "type": "text",
-          "text": "艾伦 Allen 是一名美国籍的一战老兵，战时担任医疗兵。退伍后，他回到波士顿，在医院体系内继续从事创伤护理与急救相关工作。"
+          "text": "艾伦 Allen，1894 年出生（推定），美国籍一战老兵，战时担任医疗兵。退伍后，他回到波士顿，在医院体系内继续从事创伤护理、急救与病历协查工作。"
         }
       ]
     },
@@ -143,16 +153,18 @@
       "tokens": [
         {
           "type": "text",
-          "text": "1928 年 11 月，他因 "
+          "text": "1928 年 11 月 6 日，异常失明病例的报告被递到他所在的医院。外派函来自波士顿一所大型综合医院："
         },
         {
-          "type": "ref",
-          "entryId": "event.kingsport-blindness-19281106",
-          "label": "1928.11.6 - 金斯波特失明案件"
+          "type": "secret-inline",
+          "playerIds": [
+            "pl.cici"
+          ],
+          "text": "Massachusetts General Hospital"
         },
         {
           "type": "text",
-          "text": " 前往 "
+          "text": "。艾伦被委派前往 "
         },
         {
           "type": "ref",
@@ -161,16 +173,7 @@
         },
         {
           "type": "text",
-          "text": "，随后又在 "
-        },
-        {
-          "type": "ref",
-          "entryId": "event.kingsport-nightmare-19281109",
-          "label": "1928.11.9 - 金斯波特噩梦事件"
-        },
-        {
-          "type": "text",
-          "text": " 中被卷入更深层的异常。"
+          "text": " 协助调查，并在那里与哈里森医生对接。"
         }
       ]
     },
@@ -179,35 +182,52 @@
       "tokens": [
         {
           "type": "text",
-          "text": "在战报时间线里，他的住院与诊疗经过不只是背景：它像一根钩子，把更多战友从“现实的一侧”拉进了梦境的战场。"
+          "text": "最初，这只是一起需要医学判断的 "
+        },
+        {
+          "type": "ref",
+          "entryId": "event.kingsport-blindness-19281106",
+          "label": "1928.11.6 - 金斯波特失明案件"
+        },
+        {
+          "type": "text",
+          "text": "。他检查过病患的眼部反应、病历记录与护士交接表，却越看越觉得不对：若这是疾病，它不像从身体内部发生；若这是事故，它又太整齐、太像某种被安排好的前奏。"
         }
       ]
     },
     {
       "type": "heading",
-      "text": "已知经历"
+      "text": "1928.11.8 下午"
     },
     {
-      "type": "list",
-      "items": [
-        [
-          {
-            "type": "text",
-            "text": "有长期战地救护经验，面对伤情和混乱时判断冷静。"
-          }
-        ],
-        [
-          {
-            "type": "text",
-            "text": "退伍后在波士顿医院任职，拥有相对扎实的医学观察能力。"
-          }
-        ],
-        [
-          {
-            "type": "text",
-            "text": "在金斯波特遭遇异常病例后，成为最早意识到“这并非普通医疗事故”的调查员之一。"
-          }
-        ]
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "11 月 8 日下午，艾伦顺着病历里几条过于古旧的线索，前往 "
+        },
+        {
+          "type": "secret-inline",
+          "playerIds": [
+            "pl.cici"
+          ],
+          "text": "金斯波特历史学会博物馆"
+        },
+        {
+          "type": "text",
+          "text": " 核对本地旧档。那里的空气像被火烤过，又像从很远的地方吹来；他随后遭遇了 "
+        },
+        {
+          "type": "secret-inline",
+          "playerIds": [
+            "pl.cici"
+          ],
+          "text": "炎之精"
+        },
+        {
+          "type": "text",
+          "text": "。"
+        }
       ]
     },
     {
@@ -215,16 +235,85 @@
       "tokens": [
         {
           "type": "text",
-          "text": "他的住院与诊疗经过，成为 "
+          "text": "事后的伤情记录只写“高处坠落，严重摔伤”。艾伦自己的记忆更破碎：他恍惚间做出了一个无法用常识解释的决定，"
         },
         {
-          "type": "ref",
-          "entryId": "char.leina",
-          "label": "莱纳"
+          "type": "secret-inline",
+          "playerIds": [
+            "pl.cici"
+          ],
+          "text": "从阁楼小窗子跳出跌落"
         },
         {
           "type": "text",
-          "text": " 和 "
+          "text": "。这一伤势使他不得不住院，也让后续所有人都以为他的故事暂时停在了病床上。"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "1928.11.8 夜"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "当天晚上，幕后事件终于被阻止。艾伦和同行者截断了 "
+        },
+        {
+          "type": "secret-inline",
+          "playerIds": [
+            "pl.cici",
+            "pl.leina"
+          ],
+          "text": "伊戈罗纳克"
+        },
+        {
+          "type": "text",
+          "text": " 的降生，也阻止了 "
+        },
+        {
+          "type": "secret-inline",
+          "playerIds": [
+            "pl.cici",
+            "pl.leina"
+          ],
+          "text": "神秘巫师钱德勒的复生"
+        },
+        {
+          "type": "text",
+          "text": "。后来他才把最刺人的那一层写在私人页边："
+        },
+        {
+          "type": "secret-inline",
+          "playerIds": [
+            "pl.cici",
+            "pl.leina"
+          ],
+          "text": "钱德勒也是他们熟悉的可爱小报童罗尼·派恩"
+        },
+        {
+          "type": "text",
+          "text": "。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "事件解决后，艾伦回到 "
+        },
+        {
+          "type": "ref",
+          "entryId": "loc.kingsport-congregational-hospital",
+          "label": "金斯波特公理会医院"
+        },
+        {
+          "type": "text",
+          "text": " 住院。当晚深夜，几名老战友连夜前来探访："
         },
         {
           "type": "ref",
@@ -233,7 +322,68 @@
         },
         {
           "type": "text",
-          "text": " 被拖入事件的关键起点。"
+          "text": "、"
+        },
+        {
+          "type": "ref",
+          "entryId": "char.leina",
+          "label": "莱纳"
+        },
+        {
+          "type": "text",
+          "text": "、"
+        },
+        {
+          "type": "ref",
+          "entryId": "char.leo",
+          "label": "Leo"
+        },
+        {
+          "type": "text",
+          "text": "、"
+        },
+        {
+          "type": "ref",
+          "entryId": "char.adam",
+          "label": "Adam"
+        },
+        {
+          "type": "text",
+          "text": " 与 "
+        },
+        {
+          "type": "ref",
+          "entryId": "char.kiven",
+          "label": "Kiven"
+        },
+        {
+          "type": "text",
+          "text": "。他们原本只是想确认他是否还活着，却在病房深夜遭遇了 "
+        },
+        {
+          "type": "secret-inline",
+          "playerIds": [
+            "pl.cici",
+            "pl.leina"
+          ],
+          "text": "噩梦"
+        },
+        {
+          "type": "text",
+          "text": "。"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "1928.11.9 至 1928.11.10"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "11 月 9 日，艾伦申请转院到阿卡姆医院。表面理由是伤势与后续观察需要更稳定的环境；真正的理由没有写进正式文件，只留在几个人共同的沉默里。"
         }
       ]
     },
@@ -241,25 +391,49 @@
       "type": "paragraph",
       "tokens": [
         {
-          "type": "text",
-          "text": "公开记录显示，他在病房中仍保持着完整的临床思维；但 "
-        },
-        {
           "type": "secret-inline",
           "playerIds": [
-            "pl.cici"
+            "pl.cici",
+            "pl.leina"
           ],
-          "text": "他曾在昏睡间反复听见根本不存在的海潮声"
+          "text": "11 月 9 日深夜，他再次入梦，并在梦中终于找到并打醒了小麦肯纳。"
         },
         {
           "type": "text",
-          "text": "，这使他怀疑异变并不只发生在病理层面。"
+          "text": " 到 11 月 10 日清晨，事件终于收束。艾伦返回金斯波特公理会医院，补办住院与伤情交接手续；那些表格看起来整齐得近乎讽刺。"
         }
       ]
     },
     {
+      "type": "heading",
+      "text": "角色底色"
+    },
+    {
+      "type": "list",
+      "items": [
+        [
+          {
+            "type": "text",
+            "text": "战地医疗经历使他习惯先判断伤情，再判断恐惧；这让他在异常中显得冷静，也让他更难承认自己同样受伤。"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "他相信病历、交接表、瞳孔反应和脉搏，但金斯波特让他意识到：记录越完整，有时越像有人提前安排好缺口。"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "他和老战友的关系不是热闹的友情，而是战场幸存者之间的默契；一句“还活着吗”，足够让他们深夜赶到病房。"
+          }
+        ]
+      ]
+    },
+    {
       "type": "secret-panel",
-      "title": "艾伦个人视角补遗",
+      "title": "11 月 6 日至 8 日：艾伦私人病历边注",
       "playerIds": [
         "pl.cici"
       ],
@@ -269,7 +443,7 @@
           "tokens": [
             {
               "type": "text",
-              "text": "艾伦并不认为自己只是过劳或受到创伤后应激影响。他更担心的是：某种东西正透过雾与梦，反向观察病房里的每一个人。"
+              "text": "他最早怀疑的并不是病患说谎，而是某些病患真的“看见过”。失明像一种拒绝，也像身体在替理智关门。"
             }
           ]
         },
@@ -278,7 +452,26 @@
           "tokens": [
             {
               "type": "text",
-              "text": "“那不是幻听。我知道潮声和呼吸机的区别。”"
+              "text": "“如果眼睛是在保护脑子，那么医生该治疗哪一边？”"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "secret-panel",
+      "title": "11 月 8 日后：共同记忆残页",
+      "playerIds": [
+        "pl.cici",
+        "pl.leina"
+      ],
+      "blocks": [
+        {
+          "type": "paragraph",
+          "tokens": [
+            {
+              "type": "text",
+              "text": "病房里最糟糕的不是熄灯，而是所有人同时明白：他们已经不只是在探望一个伤员。艾伦的床号、转院申请、夜间走廊的脚步声，全都被卷进同一场无法写进病历的战斗。"
             }
           ]
         }
