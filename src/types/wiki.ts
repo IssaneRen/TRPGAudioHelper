@@ -140,6 +140,7 @@ export interface WikiIndexEntry {
   relatedEntryAccess?: WikiRelatedEntryAccess[];
   facts?: WikiFact[];
   tags?: string[];
+  hasCocSheet?: boolean;
   createdAt: string;
   updatedAt: string;
 }

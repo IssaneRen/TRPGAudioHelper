@@ -111,6 +111,14 @@ function validateBlock(
   }
 }
 
+function hasCocSheetBlock(blocks: WikiBlock[]): boolean {
+  return blocks.some((block) => {
+    if (block.type === "coc-sheet" && block.cocData) return true;
+    if (block.type === "secret-panel" && block.blocks) return hasCocSheetBlock(block.blocks);
+    return false;
+  });
+}
+
 export function loadWikiEntries(): WikiEntryRecord[] {
   if (existsSync(WIKI_ENTRIES_DIR) && statSync(WIKI_ENTRIES_DIR).isDirectory()) {
     const fileNames = readdirSync(WIKI_ENTRIES_DIR)
@@ -206,6 +214,7 @@ export function buildWikiIndexPayload({
       relatedEntryAccess: entry.relatedEntryAccess,
       facts: entry.facts,
       tags: entry.tags,
+      hasCocSheet: hasCocSheetBlock(entry.content),
       createdAt: entry.createdAt,
       updatedAt: entry.updatedAt,
     })),

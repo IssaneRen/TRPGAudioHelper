@@ -25,6 +25,26 @@ import { wikiEntryToCombatCharacter } from "./wiki-combat-adapter";
 
 const STORAGE_KEY = "trpg-battle-config";
 
+type WikiCharacterRoleFilter = "all" | "pc" | "npc";
+
+const WIKI_CHARACTER_ROLE_FILTERS: { value: WikiCharacterRoleFilter; label: string }[] = [
+  { value: "all", label: "全部" },
+  { value: "pc", label: "PC" },
+  { value: "npc", label: "NPC" },
+];
+
+function getWikiCharacterRole(entry: WikiIndexEntry): "pc" | "npc" | "unknown" {
+  const tags = new Set((entry.tags || []).map((tag) => tag.trim().toLowerCase()));
+  if (tags.has("npc")) return "npc";
+  if (tags.has("pc") || (entry.playerIds || []).length > 0) return "pc";
+  return "unknown";
+}
+
+function matchesWikiCharacterRole(entry: WikiIndexEntry, filter: WikiCharacterRoleFilter) {
+  if (filter === "all") return true;
+  return getWikiCharacterRole(entry) === filter;
+}
+
 function loadState() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
@@ -66,6 +86,8 @@ export default function BattleSimulator() {
   const [wikiIndex, setWikiIndex] = useState<WikiIndexPayload | null>(null);
   const [wikiLoading, setWikiLoading] = useState(false);
   const [wikiImportingId, setWikiImportingId] = useState<string | null>(null);
+  const [pcWikiCharacterRoleFilter, setPcWikiCharacterRoleFilter] = useState<WikiCharacterRoleFilter>("pc");
+  const [enemyWikiCharacterRoleFilter, setEnemyWikiCharacterRoleFilter] = useState<WikiCharacterRoleFilter>("npc");
 
   useEffect(() => {
     let cancelled = false;
@@ -93,6 +115,14 @@ export default function BattleSimulator() {
   const wikiCharacterEntries = useMemo(
     () => (wikiIndex?.entries || []).filter((entry) => entry.category === "character"),
     [wikiIndex]
+  );
+  const filteredPcWikiCharacterEntries = useMemo(
+    () => wikiCharacterEntries.filter((entry) => matchesWikiCharacterRole(entry, pcWikiCharacterRoleFilter)),
+    [wikiCharacterEntries, pcWikiCharacterRoleFilter]
+  );
+  const filteredEnemyWikiCharacterEntries = useMemo(
+    () => wikiCharacterEntries.filter((entry) => matchesWikiCharacterRole(entry, enemyWikiCharacterRoleFilter)),
+    [wikiCharacterEntries, enemyWikiCharacterRoleFilter]
   );
 
   const persist = (p: Character[], e: Character[], o: CombatOptions) => saveState(p, e, o);
@@ -288,16 +318,36 @@ export default function BattleSimulator() {
                       <p className="text-xs text-muted-foreground">
                         从 Wiki 人物卡导入当前 coc-sheet 快照；人物成长后可刷新已导入角色。
                       </p>
+                      <div className="flex flex-wrap gap-1">
+                        {WIKI_CHARACTER_ROLE_FILTERS.map((filter) => (
+                          <Button
+                            key={filter.value}
+                            size="sm"
+                            variant={pcWikiCharacterRoleFilter === filter.value ? "default" : "outline"}
+                            className="h-7 text-xs"
+                            onClick={() => setPcWikiCharacterRoleFilter(filter.value)}
+                          >
+                            {filter.label}
+                          </Button>
+                        ))}
+                      </div>
                       {wikiLoading ? (
                         <p className="text-xs text-muted-foreground">正在加载 Wiki 人物卡...</p>
                       ) : wikiCharacterEntries.length === 0 ? (
                         <p className="text-xs text-muted-foreground">暂无可导入的 Wiki 人物卡</p>
+                      ) : filteredPcWikiCharacterEntries.length === 0 ? (
+                        <p className="text-xs text-muted-foreground">当前筛选下暂无可导入的人物卡</p>
                       ) : (
                         <div className="max-h-40 space-y-1 overflow-y-auto">
-                          {wikiCharacterEntries.map((entry) => (
+                          {filteredPcWikiCharacterEntries.map((entry) => (
                             <div key={entry.id} className="flex min-w-0 items-center justify-between gap-2 rounded-md border px-2 py-1.5">
                               <div className="min-w-0">
-                                <p className="truncate text-xs font-medium">{entry.displayName}</p>
+                                <div className="flex min-w-0 items-center gap-1.5">
+                                  <p className="truncate text-xs font-medium">{entry.displayName}</p>
+                                  <Badge variant="outline" className="shrink-0 text-[10px]">
+                                    {getWikiCharacterRole(entry).toUpperCase()}
+                                  </Badge>
+                                </div>
                                 <p className="truncate text-[11px] text-muted-foreground">
                                   {entry.updatedAt ? `更新：${entry.updatedAt.slice(0, 10)}` : entry.id}
                                 </p>
@@ -306,10 +356,10 @@ export default function BattleSimulator() {
                                 size="sm"
                                 variant="outline"
                                 className="h-7 shrink-0 text-xs"
-                                disabled={wikiImportingId === entry.id}
+                                disabled={!entry.hasCocSheet || wikiImportingId === entry.id}
                                 onClick={() => void importWikiCharacter(entry, false)}
                               >
-                                {wikiImportingId === entry.id ? "导入中" : "导入"}
+                                {!entry.hasCocSheet ? "无车卡" : wikiImportingId === entry.id ? "导入中" : "导入"}
                               </Button>
                             </div>
                           ))}
@@ -394,16 +444,36 @@ export default function BattleSimulator() {
                         <p className="text-xs text-muted-foreground">
                           从 Wiki 人物卡导入当前 coc-sheet 快照到敌方；人物成长后可刷新已导入角色。
                         </p>
+                        <div className="flex flex-wrap gap-1">
+                          {WIKI_CHARACTER_ROLE_FILTERS.map((filter) => (
+                            <Button
+                              key={filter.value}
+                              size="sm"
+                              variant={enemyWikiCharacterRoleFilter === filter.value ? "default" : "outline"}
+                              className="h-7 text-xs"
+                              onClick={() => setEnemyWikiCharacterRoleFilter(filter.value)}
+                            >
+                              {filter.label}
+                            </Button>
+                          ))}
+                        </div>
                         {wikiLoading ? (
                           <p className="text-xs text-muted-foreground">正在加载 Wiki 人物卡...</p>
                         ) : wikiCharacterEntries.length === 0 ? (
                           <p className="text-xs text-muted-foreground">暂无可导入的 Wiki 人物卡</p>
+                        ) : filteredEnemyWikiCharacterEntries.length === 0 ? (
+                          <p className="text-xs text-muted-foreground">当前筛选下暂无可导入的人物卡</p>
                         ) : (
                           <div className="max-h-40 space-y-1 overflow-y-auto">
-                            {wikiCharacterEntries.map((entry) => (
+                            {filteredEnemyWikiCharacterEntries.map((entry) => (
                               <div key={entry.id} className="flex min-w-0 items-center justify-between gap-2 rounded-md border px-2 py-1.5">
                                 <div className="min-w-0">
-                                  <p className="truncate text-xs font-medium">{entry.displayName}</p>
+                                  <div className="flex min-w-0 items-center gap-1.5">
+                                    <p className="truncate text-xs font-medium">{entry.displayName}</p>
+                                    <Badge variant="outline" className="shrink-0 text-[10px]">
+                                      {getWikiCharacterRole(entry).toUpperCase()}
+                                    </Badge>
+                                  </div>
                                   <p className="truncate text-[11px] text-muted-foreground">
                                     {entry.updatedAt ? `更新：${entry.updatedAt.slice(0, 10)}` : entry.id}
                                   </p>
@@ -412,10 +482,10 @@ export default function BattleSimulator() {
                                   size="sm"
                                   variant="outline"
                                   className="h-7 shrink-0 text-xs"
-                                  disabled={wikiImportingId === entry.id}
+                                  disabled={!entry.hasCocSheet || wikiImportingId === entry.id}
                                   onClick={() => void importWikiCharacter(entry, true)}
                                 >
-                                  {wikiImportingId === entry.id ? "导入中" : "导入"}
+                                  {!entry.hasCocSheet ? "无车卡" : wikiImportingId === entry.id ? "导入中" : "导入"}
                                 </Button>
                               </div>
                             ))}

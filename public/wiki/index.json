@@ -515,6 +515,7 @@
         "禁书",
         "海柏利亚"
       ],
+      "hasCocSheet": false,
       "createdAt": "2026-06-03T00:00:00+08:00",
       "updatedAt": "2026-06-04T00:00:00+08:00"
     },
@@ -557,6 +558,7 @@
         "禁书",
         "仪式"
       ],
+      "hasCocSheet": false,
       "createdAt": "2026-06-03T00:00:00+08:00",
       "updatedAt": "2026-06-04T00:00:00+08:00"
     },
@@ -599,6 +601,7 @@
         "禁书",
         "神话典籍"
       ],
+      "hasCocSheet": false,
       "createdAt": "2026-06-03T00:00:00+08:00",
       "updatedAt": "2026-06-04T00:00:00+08:00"
     },
@@ -643,6 +646,7 @@
         "禁书",
         "邪教"
       ],
+      "hasCocSheet": false,
       "createdAt": "2026-06-03T00:00:00+08:00",
       "updatedAt": "2026-06-04T00:00:00+08:00"
     },
@@ -685,8 +689,12 @@
           "value": "Adam"
         }
       ],
+      "tags": [
+        "PC"
+      ],
+      "hasCocSheet": true,
       "createdAt": "1928-11-08T20:30:00Z",
-      "updatedAt": "1928-11-09T20:00:00Z"
+      "updatedAt": "2026-06-06T00:00:00+08:00"
     },
     {
       "id": "char.allen",
@@ -738,14 +746,18 @@
           "value": "Cici"
         }
       ],
+      "tags": [
+        "PC"
+      ],
+      "hasCocSheet": true,
       "createdAt": "1928-11-06T08:00:00Z",
-      "updatedAt": "1928-11-09T20:00:00Z"
+      "updatedAt": "2026-06-06T00:00:00+08:00"
     },
     {
       "id": "char.claire-jeplin",
       "category": "character",
       "displayName": "克莱儿·杰普林 Claire Jeplin",
-      "summary": "传统佛蒙特枫糖生意的代表人物。她的处境让玩家看见小镇经济、人际孤立和日常压力如何变成恐怖的一部分。",
+      "summary": "传统佛蒙特枫糖生意的代表人物。她守着旧路、熟客和手艺人的信誉。",
       "aliasNames": [
         "Claire Jeplin",
         "克莱儿",
@@ -764,26 +776,27 @@
       "facts": [
         {
           "label": "身份",
-          "value": "枫糖生意经营者"
+          "value": "传统枫糖生意经营者"
         },
         {
-          "label": "公开主题",
-          "value": "传统生计 / 孤立 / 小镇压力"
+          "label": "常见印象",
+          "value": "旧式手艺 / 小镇竞争 / 家族生计"
         }
       ],
       "tags": [
         "NPC",
         "枫糖",
-        "主线"
+        "7号国道"
       ],
+      "hasCocSheet": false,
       "createdAt": "2026-06-03T00:00:00+08:00",
-      "updatedAt": "2026-06-03T00:00:00+08:00"
+      "updatedAt": "2026-06-06T00:00:00+08:00"
     },
     {
       "id": "char.daniel-abernathy",
       "category": "character",
       "displayName": "丹尼尔·阿伯纳西 Daniel Abernathy",
-      "summary": "佛蒙特大学考古教授，山林考古线的重要学术入口。公开层面可作为手稿、萨迦和旧遗址研究的连接点。",
+      "summary": "佛蒙特大学考古教授，长期关注山地遗址与旧文献。他的资料把大学、野外营地和私人通信联系起来。",
       "aliasNames": [
         "Daniel Abernathy",
         "丹尼尔·阿伯纳西",
@@ -804,8 +817,8 @@
           "value": "考古教授"
         },
         {
-          "label": "公开作用",
-          "value": "考古队、手稿、古诺斯语线索"
+          "label": "相关记录",
+          "value": "大学资料 / 野外考察 / 私人通信"
         }
       ],
       "tags": [
@@ -813,14 +826,15 @@
         "考古",
         "大学"
       ],
+      "hasCocSheet": false,
       "createdAt": "2026-06-03T00:00:00+08:00",
-      "updatedAt": "2026-06-03T00:00:00+08:00"
+      "updatedAt": "2026-06-06T00:00:00+08:00"
     },
     {
       "id": "char.emilia-barr",
       "category": "character",
       "displayName": "艾蜜莉亚·巴尔 Emilia Barr",
-      "summary": "玛格莉特·巴尔的女儿。公开层面只记录她作为家庭成员和小镇视线中的年轻人，不提前展示异常身份。",
+      "summary": "玛格莉特·巴尔的女儿。镇上关于她的记录多半停留在家庭、商店和邻里印象。",
       "aliasNames": [
         "Emilia Barr",
         "艾蜜莉亚",
@@ -842,7 +856,7 @@
           "value": "玛格莉特·巴尔的女儿"
         },
         {
-          "label": "公开主题",
+          "label": "常见印象",
           "value": "家庭 / 小镇视线 / 年轻人"
         }
       ],
@@ -851,8 +865,9 @@
         "巴尔家",
         "主线"
       ],
+      "hasCocSheet": false,
       "createdAt": "2026-06-03T00:00:00+08:00",
-      "updatedAt": "2026-06-03T00:00:00+08:00"
+      "updatedAt": "2026-06-06T00:00:00+08:00"
     },
     {
       "id": "char.gan",
@@ -894,14 +909,18 @@
           "value": "稻草人"
         }
       ],
+      "tags": [
+        "PC"
+      ],
+      "hasCocSheet": true,
       "createdAt": "1928-11-08T20:00:00Z",
-      "updatedAt": "1928-11-09T20:00:00Z"
+      "updatedAt": "2026-06-06T00:00:00+08:00"
     },
     {
       "id": "char.glynis-abernathy",
       "category": "character",
       "displayName": "格莉妮丝·阿伯纳西 Glynis Abernathy",
-      "summary": "阿伯纳西相关资料与语言线索的来源之一。公开层面可作为大学、家庭和手稿之间的现实连接。",
+      "summary": "阿伯纳西相关资料与文献记录的保管者之一。她把大学、家庭和手稿连在一起。",
       "aliasNames": [
         "Glynis Abernathy",
         "格莉妮丝",
@@ -918,10 +937,10 @@
       "facts": [
         {
           "label": "身份",
-          "value": "语言与手稿线索来源"
+          "value": "阿伯纳西相关资料保管者"
         },
         {
-          "label": "公开作用",
+          "label": "相关记录",
           "value": "大学背景 / 家庭关系 / 文献入口"
         }
       ],
@@ -930,14 +949,15 @@
         "考古",
         "大学"
       ],
+      "hasCocSheet": false,
       "createdAt": "2026-06-03T00:00:00+08:00",
-      "updatedAt": "2026-06-03T00:00:00+08:00"
+      "updatedAt": "2026-06-06T00:00:00+08:00"
     },
     {
       "id": "char.jim-summers",
       "category": "character",
       "displayName": "吉姆·萨默斯 Jim Summers",
-      "summary": "湖区调查中的警探。公开层面只记录他的可疑感与警方视角，不提前判定他在事件中的真实位置。",
+      "summary": "湖区调查中的警探。他提供警方记录、程序压力和官方沟通的视角。",
       "aliasNames": [
         "Jim Summers",
         "吉姆·萨默斯",
@@ -957,8 +977,8 @@
           "value": "警探"
         },
         {
-          "label": "公开作用",
-          "value": "警方视角 / 可疑人物"
+          "label": "相关记录",
+          "value": "警方记录 / 程序沟通 / 湖区案卷"
         }
       ],
       "tags": [
@@ -966,14 +986,15 @@
         "伯灵顿",
         "湖区"
       ],
+      "hasCocSheet": false,
       "createdAt": "2026-06-03T00:00:00+08:00",
-      "updatedAt": "2026-06-03T00:00:00+08:00"
+      "updatedAt": "2026-06-06T00:00:00+08:00"
     },
     {
       "id": "char.john-sinclair",
       "category": "character",
       "displayName": "约翰·辛克莱 John Sinclair",
-      "summary": "伯灵顿验尸官，湖区尸体调查的重要入口。公开层面可作为法医信息、时间规律和官方压力的来源。",
+      "summary": "伯灵顿验尸官，湖区官方调查中的专业人物。他的记录提供冷静、克制的医学视角。",
       "aliasNames": [
         "John Sinclair",
         "约翰·辛克莱",
@@ -993,8 +1014,8 @@
           "value": "伯灵顿验尸官"
         },
         {
-          "label": "公开作用",
-          "value": "尸检、时间规律、官方委托"
+          "label": "相关记录",
+          "value": "医学记录 / 官方委托 / 湖区案卷"
         }
       ],
       "tags": [
@@ -1002,8 +1023,9 @@
         "伯灵顿",
         "湖区"
       ],
+      "hasCocSheet": false,
       "createdAt": "2026-06-03T00:00:00+08:00",
-      "updatedAt": "2026-06-03T00:00:00+08:00"
+      "updatedAt": "2026-06-06T00:00:00+08:00"
     },
     {
       "id": "char.kiven",
@@ -1044,8 +1066,12 @@
           "value": "Kiven"
         }
       ],
+      "tags": [
+        "PC"
+      ],
+      "hasCocSheet": true,
       "createdAt": "1928-11-08T20:40:00Z",
-      "updatedAt": "1928-11-09T20:00:00Z"
+      "updatedAt": "2026-06-06T00:00:00+08:00"
     },
     {
       "id": "char.leina",
@@ -1102,8 +1128,12 @@
           "value": "莱纳"
         }
       ],
+      "tags": [
+        "PC"
+      ],
+      "hasCocSheet": true,
       "createdAt": "1928-11-08T19:30:00Z",
-      "updatedAt": "2026-05-24T12:00:00Z"
+      "updatedAt": "2026-06-06T00:00:00+08:00"
     },
     {
       "id": "char.leo",
@@ -1144,14 +1174,18 @@
           "value": "Leo"
         }
       ],
+      "tags": [
+        "PC"
+      ],
+      "hasCocSheet": true,
       "createdAt": "1928-11-08T20:50:00Z",
-      "updatedAt": "1928-11-09T20:00:00Z"
+      "updatedAt": "2026-06-06T00:00:00+08:00"
     },
     {
       "id": "char.margaret-barr",
       "category": "character",
       "displayName": "玛格莉特·巴尔 Margaret Barr",
-      "summary": "经营新式旅游枫糖商店的女性。公开层面应把她看作小镇商业变化的中心人物，而不是提前揭露她的后台秘密。",
+      "summary": "经营新式旅游枫糖商店的女性。她代表镇上更醒目、更商业化的一面。",
       "aliasNames": [
         "Margaret Barr",
         "玛格莉特",
@@ -1174,7 +1208,7 @@
           "value": "旅游枫糖商店经营者"
         },
         {
-          "label": "公开主题",
+          "label": "常见印象",
           "value": "现代商业 / 家庭形象 / 小镇竞争"
         }
       ],
@@ -1183,14 +1217,15 @@
         "枫糖",
         "巴尔家"
       ],
+      "hasCocSheet": false,
       "createdAt": "2026-06-03T00:00:00+08:00",
-      "updatedAt": "2026-06-03T00:00:00+08:00"
+      "updatedAt": "2026-06-06T00:00:00+08:00"
     },
     {
       "id": "char.norbert-mckenzie",
       "category": "character",
       "displayName": "诺伯特·麦肯齐牧师 Norbert McKenzie",
-      "summary": "圣彼得教堂相关记录入口。本宁顿墓地线里，他代表教会档案、地方记忆和普通人的不安。",
+      "summary": "圣彼得教堂相关记录入口。他与礼拜、墓册和本宁顿镇民的日常往来联系在一起。",
       "aliasNames": [
         "Norbert McKenzie",
         "诺伯特·麦肯齐",
@@ -1210,8 +1245,8 @@
           "value": "教堂牧师"
         },
         {
-          "label": "公开作用",
-          "value": "教堂记录与墓地传闻入口"
+          "label": "相关记录",
+          "value": "教堂记录 / 牧区关系 / 镇民传闻"
         }
       ],
       "tags": [
@@ -1219,14 +1254,15 @@
         "教堂",
         "本宁顿"
       ],
+      "hasCocSheet": false,
       "createdAt": "2026-06-03T00:00:00+08:00",
-      "updatedAt": "2026-06-03T00:00:00+08:00"
+      "updatedAt": "2026-06-06T00:00:00+08:00"
     },
     {
       "id": "char.robert-barr",
       "category": "character",
       "displayName": "罗伯特·巴尔 Robert Barr",
-      "summary": "伯灵顿市政码头管理员，巴尔家族相关证人与湖区调查的自然连接点。",
+      "summary": "伯灵顿市政码头管理员，巴尔家族相关人物之一。日常工作围绕码头登记和市政手续展开。",
       "aliasNames": [
         "Robert Barr",
         "罗伯特",
@@ -1247,8 +1283,8 @@
           "value": "伯灵顿市政码头管理员"
         },
         {
-          "label": "公开作用",
-          "value": "巴尔家证人与湖区入口"
+          "label": "相关记录",
+          "value": "码头记录 / 市政手续 / 家庭关系"
         }
       ],
       "tags": [
@@ -1256,8 +1292,9 @@
         "伯灵顿",
         "巴尔家"
       ],
+      "hasCocSheet": false,
       "createdAt": "2026-06-03T00:00:00+08:00",
-      "updatedAt": "2026-06-03T00:00:00+08:00"
+      "updatedAt": "2026-06-06T00:00:00+08:00"
     },
     {
       "id": "event.kingsport-blindness-19281106",
@@ -1294,6 +1331,7 @@
           "value": "艾伦 Allen"
         }
       ],
+      "hasCocSheet": false,
       "createdAt": "1928-11-06T08:00:00Z",
       "updatedAt": "2026-05-27T08:53:36.492Z"
     },
@@ -1335,6 +1373,7 @@
           "value": "艾伦 / 莱纳 / 甘"
         }
       ],
+      "hasCocSheet": false,
       "createdAt": "1928-11-09T06:00:00Z",
       "updatedAt": "1928-11-09T21:00:00Z"
     },
@@ -1368,6 +1407,7 @@
           "value": "莱纳"
         }
       ],
+      "hasCocSheet": false,
       "createdAt": "1928-11-01T08:00:00Z",
       "updatedAt": "1928-11-08T20:00:00Z"
     },
@@ -1405,6 +1445,7 @@
         "小镇",
         "墓地"
       ],
+      "hasCocSheet": false,
       "createdAt": "2026-06-03T00:00:00+08:00",
       "updatedAt": "2026-06-03T00:00:00+08:00"
     },
@@ -1445,6 +1486,7 @@
         "伯灵顿",
         "尚普兰湖"
       ],
+      "hasCocSheet": false,
       "createdAt": "2026-06-03T00:00:00+08:00",
       "updatedAt": "2026-06-03T00:00:00+08:00"
     },
@@ -1486,6 +1528,7 @@
           "value": "人物交汇 / 病例聚集 / 异常发酵中枢"
         }
       ],
+      "hasCocSheet": false,
       "createdAt": "1928-11-06T10:00:00Z",
       "updatedAt": "1928-11-09T20:00:00Z"
     },
@@ -1532,6 +1575,7 @@
           "value": "跑后回顾 / 战报补充阅读 / 世界设定跳转入口"
         }
       ],
+      "hasCocSheet": false,
       "createdAt": "1928-11-01T08:00:00Z",
       "updatedAt": "1928-11-09T20:00:00Z"
     },
@@ -1570,6 +1614,7 @@
         "考古",
         "营地"
       ],
+      "hasCocSheet": false,
       "createdAt": "2026-06-03T00:00:00+08:00",
       "updatedAt": "2026-06-03T00:00:00+08:00"
     },
@@ -1612,6 +1657,7 @@
         "地点",
         "战役入口"
       ],
+      "hasCocSheet": false,
       "createdAt": "2026-06-03T00:00:00+08:00",
       "updatedAt": "2026-06-03T00:00:00+08:00"
     },
@@ -1652,6 +1698,7 @@
         "国道",
         "主线"
       ],
+      "hasCocSheet": false,
       "createdAt": "2026-06-03T00:00:00+08:00",
       "updatedAt": "2026-06-03T00:00:00+08:00"
     },
@@ -1688,6 +1735,7 @@
         "教堂",
         "本宁顿"
       ],
+      "hasCocSheet": false,
       "createdAt": "2026-06-03T00:00:00+08:00",
       "updatedAt": "2026-06-03T00:00:00+08:00"
     },
@@ -1748,6 +1796,7 @@
         "佛蒙特",
         "民俗恐怖"
       ],
+      "hasCocSheet": false,
       "createdAt": "2026-06-03T00:00:00+08:00",
       "updatedAt": "2026-06-03T00:00:00+08:00"
     },
@@ -1792,6 +1841,7 @@
           "value": "美国/马萨诸塞州/金斯波特"
         }
       ],
+      "hasCocSheet": false,
       "createdAt": "2026-05-28T00:00:00Z",
       "updatedAt": "2026-05-28T02:23:00Z"
     },
@@ -1806,6 +1856,7 @@
       "tags": [
         "1920s"
       ],
+      "hasCocSheet": false,
       "createdAt": "2026-05-28T00:00:00+08:00",
       "updatedAt": "2026-05-28T00:00:00+08:00"
     },
@@ -1856,6 +1907,7 @@
           "value": "同一模组可以对应多次不同玩家、不同过程的战报"
         }
       ],
+      "hasCocSheet": false,
       "createdAt": "2026-05-24T12:00:00Z",
       "updatedAt": "2026-05-28T09:10:00Z"
     }

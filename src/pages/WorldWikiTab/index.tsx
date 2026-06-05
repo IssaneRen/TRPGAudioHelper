@@ -31,6 +31,7 @@ import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { CocSheetPanel } from "@/features/wiki/CocSheetPanel";
 import { WikiContentRenderer } from "@/features/wiki/WikiContentRenderer";
+import { canRevealAllWikiSecrets } from "@/features/wiki/wiki-secret-access";
 import {
   fetchWikiEntry,
   getCachedWikiEntry,
@@ -406,6 +407,8 @@ export default function WorldWikiTab() {
   );
 
   const currentPlayer = useMemo(() => resolveCurrentPlayer(indexData, plName), [indexData, plName]);
+  const revealAllWikiSecrets = useMemo(() => canRevealAllWikiSecrets(plName), [plName]);
+  const displayPlName = revealAllWikiSecrets ? "已设定" : plName;
 
   const selectedEntry = useMemo(
     () => (indexData?.entries || []).find((entry) => entry.id === entryId) ?? null,
@@ -493,11 +496,12 @@ export default function WorldWikiTab() {
       .filter((id) => {
         const permittedPlayerIds = accessByEntryId.get(id);
         if (!permittedPlayerIds) return true;
+        if (revealAllWikiSecrets) return true;
         return currentPlayer ? permittedPlayerIds.includes(currentPlayer.id) : false;
       })
       .map((id) => indexData?.entries.find((entry) => entry.id === id) ?? null)
       .filter((entry): entry is WikiIndexEntry => entry !== null);
-  }, [currentPlayer, indexData, selectedEntry]);
+  }, [currentPlayer, indexData, revealAllWikiSecrets, selectedEntry]);
 
   const handleSavePlName = useCallback(
     (value: string) => {
@@ -605,7 +609,7 @@ export default function WorldWikiTab() {
                   </>
                 )}
               </Button>
-              <CurrentPlButton plName={plName} onClick={() => setShowPlDialog(true)} />
+              <CurrentPlButton plName={displayPlName} onClick={() => setShowPlDialog(true)} />
               <Button variant="outline" size="sm" onClick={() => navigate("/tools/world-wiki/modules")}>模组总览</Button>
             </div>
           </div>
@@ -747,7 +751,7 @@ export default function WorldWikiTab() {
                   {currentPlayer
                     ? `当前已匹配为「${currentPlayer.displayName}」。系统会根据玩家唯一键高亮相关词条，并判断段落级 / 句子级隐藏内容是否解锁。`
                     : plName
-                      ? `当前填写了「${plName}」，但尚未匹配到已有 PL 档案。你仍可浏览公开词条。`
+                      ? `当前填写了「${displayPlName}」，但尚未匹配到已有 PL 档案。你仍可浏览公开词条。`
                       : "尚未设置当前 PL。你仍可浏览公开词条，但个人视角补遗会保持黑框遮罩。"}
                 </p>
                 <div className="mt-4 grid grid-cols-2 gap-3">
@@ -813,7 +817,7 @@ export default function WorldWikiTab() {
                   {selectedEntry.summary}
                 </p>
               </div>
-              <CurrentPlButton plName={plName} onClick={() => setShowPlDialog(true)} />
+              <CurrentPlButton plName={displayPlName} onClick={() => setShowPlDialog(true)} />
             </div>
 
             {selectedEntry.category === "character" && !detailLoading && detailCocData && (
@@ -845,6 +849,7 @@ export default function WorldWikiTab() {
                     blocks={detailNarrativeBlocks}
                     currentPlayerId={currentPlayer?.id || null}
                     entriesById={entriesById}
+                    revealAllSecrets={revealAllWikiSecrets}
                   />
                 )
               )}
@@ -910,13 +915,13 @@ export default function WorldWikiTab() {
         </div>
       ) : (
         <>
-          {plName && currentPlEntries.length > 0 && (
+          {plName && currentPlEntries.length > 0 && !revealAllWikiSecrets && (
             <section className="space-y-4">
               <div className="flex items-center justify-between">
                 <div>
                   <h2 className="text-xl font-heading font-semibold">与你相关的词条</h2>
                   <p className="text-sm text-muted-foreground">
-                    基于当前 PL「{plName}」高亮的世界档案入口
+                    基于当前 PL「{displayPlName}」高亮的世界档案入口
                   </p>
                 </div>
               </div>
@@ -967,7 +972,7 @@ export default function WorldWikiTab() {
 
       <PlNameDialog
         open={showPlDialog}
-        initialValue={plName}
+        initialValue={revealAllWikiSecrets ? "" : plName}
         players={indexData?.players || []}
         onClose={() => setShowPlDialog(false)}
         onConfirm={handleSavePlName}

@@ -21,6 +21,7 @@ import {
   WikiContentRenderer,
   resolveCurrentPlayerIdByName,
 } from "@/features/wiki/WikiContentRenderer";
+import { canRevealAllWikiSecrets } from "@/features/wiki/wiki-secret-access";
 
 interface BlogPostMeta {
   id: string;
@@ -286,6 +287,8 @@ export default function BlogTab() {
     () => resolveCurrentPlayerIdByName(wikiIndex?.lookup.playerIdByName, plName),
     [plName, wikiIndex]
   );
+  const revealAllWikiSecrets = useMemo(() => canRevealAllWikiSecrets(plName), [plName]);
+  const displayPlName = revealAllWikiSecrets ? "已设定" : plName;
 
   const selectedPostIsReport = useMemo(
     () =>
@@ -404,7 +407,7 @@ export default function BlogTab() {
             onClick={() => setShowPlDialog(true)}
             className="ml-auto text-xs text-muted-foreground hover:text-foreground transition-colors"
           >
-            {plName ? `PL: ${plName}` : "设置PL"}
+            {plName ? `PL: ${displayPlName}` : "设置PL"}
           </button>
         </motion.div>
 
@@ -443,7 +446,7 @@ export default function BlogTab() {
               <div className="space-y-3">
                 <p>筛选不到你跑过的模组哦</p>
                 <p className="text-sm">
-                  是否已经正确填写了PL：<strong className="text-foreground">{plName || "未设置"}</strong>
+                  是否已经正确填写了PL：<strong className="text-foreground">{displayPlName || "未设置"}</strong>
                 </p>
                 <button
                   onClick={() => setShowPlDialog(true)}
@@ -568,7 +571,7 @@ export default function BlogTab() {
                               blocks={wikiEntry.content}
                               currentPlayerId={currentWikiPlayerId}
                               entriesById={new Map(wikiIndex.entries.map((e) => [e.id, e]))}
-                              revealAllSecrets={false}
+                              revealAllSecrets={revealAllWikiSecrets}
                               entryBaseRoute="/tools/world-wiki"
                             />
                           )
@@ -650,7 +653,7 @@ export default function BlogTab() {
                   建议输入玩家唯一 key（例如：pl.cici）。也可以输入显示名/别名，但必须完全匹配（不做模糊匹配）。
                 </p>
                 <PlNameInput
-                  initialValue={plName}
+                  initialValue={revealAllWikiSecrets ? "" : plName}
                   onConfirm={(name) => {
                     const resolvedId =
                       wikiIndex?.lookup.playerIdByName[name.trim().toLowerCase()] || "";
