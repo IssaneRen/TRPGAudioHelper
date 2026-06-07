@@ -1,0 +1,210 @@
+{
+  "id": "module.campaign.primal-state.home-sweet-home",
+  "category": "module",
+  "displayName": "家，甜蜜的家",
+  "summary": "《原初之境》考古篇：佛蒙特大学考古队在格拉斯腾伯里附近失联，营地、手稿、旧遗址和山林压力共同构成高风险调查。",
+  "aliasNames": [
+    "Home Sweet Home",
+    "家，甜蜜的家",
+    "原初之境·考古篇"
+  ],
+  "moduleIds": [
+    "module.campaign.primal-state.home-sweet-home"
+  ],
+  "relatedEntryIds": [
+    "module.campaign.primal-state.overview",
+    "loc.primal-state-vermont",
+    "loc.olaf-camp",
+    "char.daniel-abernathy",
+    "char.glynis-abernathy",
+    "char.amy-luck",
+    "char.mcdougall",
+    "char.bryde"
+  ],
+  "facts": [
+    {
+      "label": "规则",
+      "value": "COC7"
+    },
+    {
+      "label": "时代",
+      "value": "1920 年代佛蒙特州乡下"
+    },
+    {
+      "label": "地点",
+      "value": "格拉斯腾伯里附近，奥拉夫营"
+    }
+  ],
+  "tags": [
+    "COC7",
+    "1920s",
+    "考古",
+    "野外",
+    "生存"
+  ],
+  "content": [
+    {
+      "type": "heading",
+      "text": "公开导读"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "佛蒙特大学考古队在格拉斯腾伯里附近的"
+        },
+        {
+          "type": "ref",
+          "entryId": "loc.olaf-camp",
+          "label": "奥拉夫营"
+        },
+        {
+          "type": "text",
+          "text": "失联。"
+        },
+        {
+          "type": "ref",
+          "entryId": "char.daniel-abernathy",
+          "label": "丹尼尔·阿伯纳西"
+        },
+        {
+          "type": "text",
+          "text": "留下的研究材料、大学记录和山林现场让调查从纸面走进荒野。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "本篇比小镇段落更重视方向判断、资源压力和营地恐惧。手稿、萨迦、旧遗址和人员证词都能提供线索，但每前进一步都会让“离开这里”变得更重要。"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "相关人物"
+    },
+    {
+      "type": "list",
+      "items": [
+        [
+          {
+            "type": "ref",
+            "entryId": "char.daniel-abernathy",
+            "label": "丹尼尔·阿伯纳西"
+          },
+          {
+            "type": "text",
+            "text": "：考古教授，研究材料与营地调查的核心姓名。"
+          }
+        ],
+        [
+          {
+            "type": "ref",
+            "entryId": "char.glynis-abernathy",
+            "label": "格莉妮丝·阿伯纳西"
+          },
+          {
+            "type": "text",
+            "text": "：通信、手稿与家庭保存资料的入口。"
+          }
+        ],
+        [
+          {
+            "type": "ref",
+            "entryId": "char.amy-luck",
+            "label": "艾咪·拉克"
+          },
+          {
+            "type": "text",
+            "text": "、"
+          },
+          {
+            "type": "ref",
+            "entryId": "char.mcdougall",
+            "label": "麦克道格"
+          },
+          {
+            "type": "text",
+            "text": "、"
+          },
+          {
+            "type": "ref",
+            "entryId": "char.bryde",
+            "label": "布赖德"
+          },
+          {
+            "type": "text",
+            "text": "：奥拉夫营人员记录与证词中的关键姓名。"
+          }
+        ]
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "跑前须知"
+    },
+    {
+      "type": "list",
+      "items": [
+        [
+          {
+            "type": "text",
+            "text": "这是更高风险的野外/考古恐怖篇，适合已经进入《原初之境》基调的队伍。"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "调查员最好有人会驾驶，并能接受野外行进、营地搜查、语言/手稿线索和资源压力。"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "题材包含失联、伤亡、野外孤立、尸体/复返意象和高压脱困；开跑前应确认尺度。"
+          }
+        ]
+      ]
+    },
+    {
+      "type": "secret-panel",
+      "title": "黑框传闻：很容易进入的地方",
+      "hiddenMode": "mask",
+      "playerIds": [],
+      "blocks": [
+        {
+          "type": "paragraph",
+          "tokens": [
+            {
+              "type": "text",
+              "text": "旧引文里说，有些地方入口宽阔，出口狭窄。读到这句话时，它还只是学术材料；走进山林后，它可能变成路标。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "secret-panel",
+      "title": "黑框档案：奥拉夫营封存页",
+      "hiddenMode": "mask",
+      "playerIds": [],
+      "blocks": [
+        {
+          "type": "paragraph",
+          "tokens": [
+            {
+              "type": "text",
+              "text": "营地边界、人员状态、遗址机制、错误处置后果和脱困路线另存于封存页。"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "createdAt": "2026-06-06T00:00:00+08:00",
+  "updatedAt": "2026-06-06T00:00:00+08:00"
+}

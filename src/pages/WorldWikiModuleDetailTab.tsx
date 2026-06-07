@@ -1,11 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ModuleDescription } from "@/features/modules/ModuleDescription";
-import type { WikiIndexPayload, WikiModule } from "@/types/wiki";
+import type { WikiIndexEntry, WikiIndexPayload, WikiModule } from "@/types/wiki";
 
 export default function WorldWikiModuleDetailTab() {
   const { moduleId } = useParams<{ moduleId: string }>();
@@ -49,6 +49,18 @@ export default function WorldWikiModuleDetailTab() {
       (item) => item.campaign === module.campaign && item.id !== module.id
     );
   }, [indexData, module]);
+
+  const moduleEntry = useMemo<WikiIndexEntry | null>(() => {
+    if (!module?.id) return null;
+    return (indexData?.entries || []).find((entry) => entry.id === module.id) ?? null;
+  }, [indexData, module]);
+
+  const relatedEntries = useMemo<WikiIndexEntry[]>(() => {
+    if (!moduleEntry?.relatedEntryIds) return [];
+    return moduleEntry.relatedEntryIds
+      .map((entryId) => (indexData?.entries || []).find((entry) => entry.id === entryId) ?? null)
+      .filter((entry): entry is WikiIndexEntry => entry !== null);
+  }, [indexData, moduleEntry]);
 
   return (
     <div className="mobile-safe-width wiki-readable space-y-4">
@@ -153,6 +165,45 @@ export default function WorldWikiModuleDetailTab() {
           </article>
 
           <aside className="min-w-0 space-y-4">
+            {moduleEntry && (
+              <Card className="gap-4 border-border/70 bg-card/80 py-5">
+                <CardHeader className="gap-2">
+                  <CardTitle className="text-base">完整词条</CardTitle>
+                  <CardDescription>含人物链接与黑框隐藏内容</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Link
+                    to={`/tools/world-wiki/${moduleEntry.id}`}
+                    className="flex min-w-0 items-center justify-between gap-3 rounded-xl border border-border/50 bg-background/60 px-3 py-2 text-sm transition-colors hover:bg-accent/40"
+                  >
+                    <span className="min-w-0 truncate">{moduleEntry.displayName}</span>
+                    <ArrowUpRight className="h-4 w-4 shrink-0 text-muted-foreground" />
+                  </Link>
+                </CardContent>
+              </Card>
+            )}
+
+            {relatedEntries.length > 0 && (
+              <Card className="gap-4 border-border/70 bg-card/80 py-5">
+                <CardHeader className="gap-2">
+                  <CardTitle className="text-base">关联词条</CardTitle>
+                  <CardDescription>相关 NPC、地点与战役索引</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-2">
+                  {relatedEntries.map((entry) => (
+                    <Link
+                      key={entry.id}
+                      to={`/tools/world-wiki/${entry.id}`}
+                      className="flex min-w-0 items-center justify-between gap-3 rounded-xl border border-border/50 bg-background/60 px-3 py-2 text-sm transition-colors hover:bg-accent/40"
+                    >
+                      <span className="min-w-0 truncate">{entry.displayName}</span>
+                      <ArrowUpRight className="h-4 w-4 shrink-0 text-muted-foreground" />
+                    </Link>
+                  ))}
+                </CardContent>
+              </Card>
+            )}
+
             <Card className="gap-4 border-border/70 bg-card/80 py-5">
               <CardHeader className="gap-2">
                 <CardTitle className="text-base">推荐信息</CardTitle>

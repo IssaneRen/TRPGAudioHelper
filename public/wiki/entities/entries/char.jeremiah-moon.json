@@ -1,0 +1,78 @@
+{
+  "id": "char.jeremiah-moon",
+  "category": "character",
+  "displayName": "杰里迈亚·沐恩 Jeremiah Moon",
+  "summary": "圣彼得教堂墓地旧墓碑上的姓名之一。墓碑异动让他的记录与康斯坦丝·杰弗里斯一起被重新查阅。",
+  "aliasNames": [
+    "Jeremiah Moon",
+    "杰里迈亚",
+    "杰里迈亚·沐恩"
+  ],
+  "moduleIds": [
+    "module.campaign.primal-state.invitation-to-dance"
+  ],
+  "relatedEntryIds": [
+    "module.campaign.primal-state.invitation-to-dance",
+    "loc.st-peters-churchyard",
+    "char.constance-jefferies",
+    "char.norbert-mckenzie"
+  ],
+  "facts": [
+    {
+      "label": "记录身份",
+      "value": "18 世纪末本宁顿墓册姓名"
+    },
+    {
+      "label": "公开关联",
+      "value": "墓碑 / 教堂记录 / 地方传闻"
+    }
+  ],
+  "tags": [
+    "NPC",
+    "墓地",
+    "旧记录"
+  ],
+  "content": [
+    {
+      "type": "heading",
+      "text": "档案摘录"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "杰里迈亚·沐恩的名字随墓碑异动案回到镇民视线中。旧墓碑本该安静地待在圣彼得教堂墓地一角，却成了新报纸里的醒目细节。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "围绕他的公开材料主要来自墓碑、墓册和教堂旧记录。它们像普通地方档案一样枯燥，却也因此值得仔细核对。"
+        }
+      ]
+    },
+    {
+      "type": "secret-panel",
+      "title": "黑框记录：墓碑位置",
+      "hiddenMode": "mask",
+      "playerIds": [],
+      "blocks": [
+        {
+          "type": "paragraph",
+          "tokens": [
+            {
+              "type": "text",
+              "text": "关于墓碑原本位置和后来位置的记录并不难查，难的是解释为什么每个人都认为它不该在那里。"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "createdAt": "2026-06-06T00:00:00+08:00",
+  "updatedAt": "2026-06-06T00:00:00+08:00"
+}

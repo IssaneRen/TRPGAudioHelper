@@ -1,0 +1,238 @@
+{
+  "id": "module.campaign.primal-state.tree-sap-finale",
+  "category": "module",
+  "displayName": "树汁持续流淌：终局与余波",
+  "summary": "《原初之境》主线终局：前期枫糖生意、巴尔家记录、幽灵传闻、伯灵顿线索和现场勘查回到同一张地图上。",
+  "aliasNames": [
+    "The Sap Keeps Running Finale",
+    "树汁持续流淌终局",
+    "原初之境·主线终局"
+  ],
+  "moduleIds": [
+    "module.campaign.primal-state.tree-sap-finale"
+  ],
+  "relatedEntryIds": [
+    "module.campaign.primal-state.overview",
+    "loc.primal-state-vermont",
+    "loc.route-7-maple-country",
+    "loc.burlington-lake-champlain",
+    "char.claire-jeplin",
+    "char.margaret-barr",
+    "char.emilia-barr",
+    "char.emily-barr",
+    "char.robert-barr"
+  ],
+  "facts": [
+    {
+      "label": "规则",
+      "value": "COC7"
+    },
+    {
+      "label": "时代",
+      "value": "约 1930 年，主线后段"
+    },
+    {
+      "label": "地点",
+      "value": "7 号国道枫糖乡、伯灵顿及巴尔家相关地点"
+    }
+  ],
+  "tags": [
+    "COC7",
+    "1920s",
+    "枫糖",
+    "终局",
+    "余波"
+  ],
+  "content": [
+    {
+      "type": "heading",
+      "text": "公开导读"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "当"
+        },
+        {
+          "type": "ref",
+          "entryId": "char.claire-jeplin",
+          "label": "克莱儿·杰普林"
+        },
+        {
+          "type": "text",
+          "text": "、"
+        },
+        {
+          "type": "ref",
+          "entryId": "char.margaret-barr",
+          "label": "玛格莉特·巴尔"
+        },
+        {
+          "type": "text",
+          "text": "、"
+        },
+        {
+          "type": "ref",
+          "entryId": "char.emilia-barr",
+          "label": "艾蜜莉亚·巴尔"
+        },
+        {
+          "type": "text",
+          "text": "和"
+        },
+        {
+          "type": "ref",
+          "entryId": "char.emily-barr",
+          "label": "艾蜜莉·巴尔"
+        },
+        {
+          "type": "text",
+          "text": "这些名字不再只是零散线索，主线终局就开始成形。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "这部分应当建立在前期调查之后：枫糖乡的生意压力、伯灵顿的"
+        },
+        {
+          "type": "ref",
+          "entryId": "char.robert-barr",
+          "label": "罗伯特·巴尔"
+        },
+        {
+          "type": "text",
+          "text": "、大学通信、幽灵传闻和现场勘查会回到同一张地图上。重点不是听到一个大名词，而是判断自己愿意如何处理已经拼出的事实。"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "相关人物"
+    },
+    {
+      "type": "list",
+      "items": [
+        [
+          {
+            "type": "ref",
+            "entryId": "char.claire-jeplin",
+            "label": "克莱儿·杰普林"
+          },
+          {
+            "type": "text",
+            "text": "：前期压力与小镇旧秩序的情感锚点。"
+          }
+        ],
+        [
+          {
+            "type": "ref",
+            "entryId": "char.margaret-barr",
+            "label": "玛格莉特·巴尔"
+          },
+          {
+            "type": "text",
+            "text": "、"
+          },
+          {
+            "type": "ref",
+            "entryId": "char.emilia-barr",
+            "label": "艾蜜莉亚·巴尔"
+          },
+          {
+            "type": "text",
+            "text": "与"
+          },
+          {
+            "type": "ref",
+            "entryId": "char.emily-barr",
+            "label": "艾蜜莉·巴尔"
+          },
+          {
+            "type": "text",
+            "text": "：巴尔家记录中需要合并核对的姓名。"
+          }
+        ],
+        [
+          {
+            "type": "ref",
+            "entryId": "char.robert-barr",
+            "label": "罗伯特·巴尔"
+          },
+          {
+            "type": "text",
+            "text": "：伯灵顿、码头记录和巴尔家线索之间的连接点。"
+          }
+        ]
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "跑前须知"
+    },
+    {
+      "type": "list",
+      "items": [
+        [
+          {
+            "type": "text",
+            "text": "不建议把本篇作为入口；它需要前半段的人物关系、怀疑和档案积累。"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "终局会回应家庭恐怖、地方传说、商业化压力和前期错过的纸面细节。"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "题材包含家庭悲剧、尸体线索、梦魇、追逐和高压处置，建议在进入终局前再次确认玩家边界。"
+          }
+        ]
+      ]
+    },
+    {
+      "type": "secret-panel",
+      "title": "黑框传闻：魔鬼弯道",
+      "hiddenMode": "mask",
+      "playerIds": [],
+      "blocks": [
+        {
+          "type": "paragraph",
+          "tokens": [
+            {
+              "type": "text",
+              "text": "7 号国道上有些弯道白天只是危险路段，夜里却像旧事不肯散去的地方。当地人说法很多，没人愿意把话说满。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "secret-panel",
+      "title": "黑框档案：终局封存页",
+      "hiddenMode": "mask",
+      "playerIds": [],
+      "blocks": [
+        {
+          "type": "paragraph",
+          "tokens": [
+            {
+              "type": "text",
+              "text": "巴尔家现场、关键物证、最后冲突、追逐和不同处置后果另存于封存页。"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "createdAt": "2026-06-06T00:00:00+08:00",
+  "updatedAt": "2026-06-06T00:00:00+08:00"
+}

@@ -1,0 +1,78 @@
+{
+  "id": "char.martin-hudson",
+  "category": "character",
+  "displayName": "马丁·哈德森警长 Martin Hudson",
+  "summary": "本宁顿郡治安官。墓地异动、地方治安和普通市民报案会先落到他的案头。",
+  "aliasNames": [
+    "Martin Hudson",
+    "马丁·哈德森",
+    "哈德森警长"
+  ],
+  "moduleIds": [
+    "module.campaign.primal-state.invitation-to-dance"
+  ],
+  "relatedEntryIds": [
+    "module.campaign.primal-state.invitation-to-dance",
+    "loc.bennington-vermont",
+    "loc.st-peters-churchyard",
+    "char.norbert-mckenzie"
+  ],
+  "facts": [
+    {
+      "label": "身份",
+      "value": "本宁顿郡治安官"
+    },
+    {
+      "label": "相关记录",
+      "value": "墓地报案 / 地方治安 / 询问记录"
+    }
+  ],
+  "tags": [
+    "NPC",
+    "本宁顿",
+    "治安官"
+  ],
+  "content": [
+    {
+      "type": "heading",
+      "text": "人物概览"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "马丁·哈德森警长处理本宁顿一带的日常治安问题。墓碑移位、深夜钟声和镇民闲话落进正式记录时，通常会先经过他的案头。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "他更习惯从恶作剧、醉汉、学生和工程事故开始解释问题；这并不代表他一定固执，只说明地方警务需要先处理看得见的麻烦。"
+        }
+      ]
+    },
+    {
+      "type": "secret-panel",
+      "title": "黑框案卷：夜间巡逻",
+      "hiddenMode": "mask",
+      "playerIds": [],
+      "blocks": [
+        {
+          "type": "paragraph",
+          "tokens": [
+            {
+              "type": "text",
+              "text": "巡逻记录里有几处时间空白，可能只是乡镇警务常见的疏漏。若要判断价值，需要同教堂钟声与目击证词放在一起看。"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "createdAt": "2026-06-06T00:00:00+08:00",
+  "updatedAt": "2026-06-06T00:00:00+08:00"
+}

@@ -1,0 +1,81 @@
+{
+  "id": "char.emily-barr",
+  "category": "character",
+  "displayName": "艾蜜莉·巴尔 Emily Barr",
+  "summary": "巴尔家旧记录中的姓名。她与伯灵顿、密斯卡托尼克大学通信和 7 号国道附近的传闻相连。",
+  "aliasNames": [
+    "Emily Barr",
+    "艾蜜莉",
+    "艾蜜莉·巴尔"
+  ],
+  "moduleIds": [
+    "module.campaign.primal-state.tree-sap-opening",
+    "module.campaign.primal-state.tree-sap-finale"
+  ],
+  "relatedEntryIds": [
+    "module.campaign.primal-state.tree-sap-opening",
+    "module.campaign.primal-state.tree-sap-finale",
+    "loc.route-7-maple-country",
+    "char.margaret-barr",
+    "char.emilia-barr",
+    "char.robert-barr"
+  ],
+  "facts": [
+    {
+      "label": "公开关联",
+      "value": "巴尔家 / 伯灵顿旧事 / 大学通信"
+    },
+    {
+      "label": "注意",
+      "value": "该姓名与艾蜜莉亚·巴尔不是同一条记录"
+    }
+  ],
+  "tags": [
+    "NPC",
+    "巴尔家",
+    "主线"
+  ],
+  "content": [
+    {
+      "type": "heading",
+      "text": "档案摘录"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "艾蜜莉·巴尔是巴尔家旧记录中反复出现的姓名。公开档案会把她与伯灵顿、大学通信、家族叙述和 7 号国道附近的零散传闻联系起来。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "若这个名字在调查中反复出现，最稳妥的做法不是立刻下结论，而是核对日期、地点、通信对象与家人说法。"
+        }
+      ]
+    },
+    {
+      "type": "secret-panel",
+      "title": "黑框残页：未完成的行程",
+      "hiddenMode": "mask",
+      "playerIds": [],
+      "blocks": [
+        {
+          "type": "paragraph",
+          "tokens": [
+            {
+              "type": "text",
+              "text": "几条互相矛盾的记录都指向一段没有被讲完整的旅程。纸面上越平静，空白处就越刺眼。"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "createdAt": "2026-06-06T00:00:00+08:00",
+  "updatedAt": "2026-06-06T00:00:00+08:00"
+}

@@ -1,0 +1,232 @@
+{
+  "id": "module.campaign.primal-state.tree-sap-opening",
+  "category": "module",
+  "displayName": "树汁持续流淌：开局与压力",
+  "summary": "《原初之境》主线前半：7 号国道旁的传统枫糖生意、新式旅游商店、家庭说法和奇怪梦魇把日常竞争慢慢推向恐怖。",
+  "aliasNames": [
+    "The Sap Keeps Running",
+    "树汁持续流淌",
+    "原初之境·主线前半"
+  ],
+  "moduleIds": [
+    "module.campaign.primal-state.tree-sap-opening"
+  ],
+  "relatedEntryIds": [
+    "module.campaign.primal-state.overview",
+    "loc.primal-state-vermont",
+    "loc.route-7-maple-country",
+    "char.claire-jeplin",
+    "char.margaret-barr",
+    "char.emilia-barr",
+    "char.emily-barr",
+    "char.robert-barr"
+  ],
+  "facts": [
+    {
+      "label": "规则",
+      "value": "COC7"
+    },
+    {
+      "label": "时代",
+      "value": "约 1930 年，佛蒙特州路边旅游站"
+    },
+    {
+      "label": "地点",
+      "value": "美国佛蒙特州，保纳尔至威廉斯敦之间的 7 号国道"
+    }
+  ],
+  "tags": [
+    "COC7",
+    "1920s",
+    "枫糖",
+    "小镇",
+    "家庭恐怖"
+  ],
+  "content": [
+    {
+      "type": "heading",
+      "text": "公开导读"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "7 号国道旁，"
+        },
+        {
+          "type": "ref",
+          "entryId": "char.claire-jeplin",
+          "label": "克莱儿·杰普林"
+        },
+        {
+          "type": "text",
+          "text": "守着旧式枫糖生意；不远处，"
+        },
+        {
+          "type": "ref",
+          "entryId": "char.margaret-barr",
+          "label": "玛格莉特·巴尔"
+        },
+        {
+          "type": "text",
+          "text": "和"
+        },
+        {
+          "type": "ref",
+          "entryId": "char.emilia-barr",
+          "label": "艾蜜莉亚·巴尔"
+        },
+        {
+          "type": "text",
+          "text": "经营着更醒目的新式旅游商店。生意竞争、家庭叙事和路边闲话让这个地方一开始像普通乡镇纠纷。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "随着账目、电话、大学通信、梦魇和枫树林现场痕迹逐渐堆叠，日常压力会变成一种更难说清的威胁。"
+        },
+        {
+          "type": "ref",
+          "entryId": "char.emily-barr",
+          "label": "艾蜜莉·巴尔"
+        },
+        {
+          "type": "text",
+          "text": "这个旧姓名也可能在档案里反复出现。"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "相关人物"
+    },
+    {
+      "type": "list",
+      "items": [
+        [
+          {
+            "type": "ref",
+            "entryId": "char.claire-jeplin",
+            "label": "克莱儿·杰普林"
+          },
+          {
+            "type": "text",
+            "text": "：传统枫糖、旧熟客和邻里信誉的代表。"
+          }
+        ],
+        [
+          {
+            "type": "ref",
+            "entryId": "char.margaret-barr",
+            "label": "玛格莉特·巴尔"
+          },
+          {
+            "type": "text",
+            "text": "：新式旅游商店、家庭形象和商业化压力的中心。"
+          }
+        ],
+        [
+          {
+            "type": "ref",
+            "entryId": "char.emilia-barr",
+            "label": "艾蜜莉亚·巴尔"
+          },
+          {
+            "type": "text",
+            "text": "：巴尔家的年轻女性，被镇民目光和家庭说法包围。"
+          }
+        ],
+        [
+          {
+            "type": "ref",
+            "entryId": "char.emily-barr",
+            "label": "艾蜜莉·巴尔"
+          },
+          {
+            "type": "text",
+            "text": "：旧通信和巴尔家记录里需要谨慎核对的姓名。"
+          }
+        ],
+        [
+          {
+            "type": "ref",
+            "entryId": "char.robert-barr",
+            "label": "罗伯特·巴尔"
+          },
+          {
+            "type": "text",
+            "text": "：伯灵顿码头、巴尔家旧事和后续调查之间的连接点。"
+          }
+        ]
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "跑前须知"
+    },
+    {
+      "type": "list",
+      "items": [
+        [
+          {
+            "type": "text",
+            "text": "本篇偏重 NPC 交流、档案核对和日常异常积累，不适合只想直接进入最终冲突的队伍。"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "主题包含家庭压迫、商业竞争、梦魇、失踪阴影和小镇排斥感。"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "这部分最好不要单独当作大结局跑；它负责让人物关系和怀疑逐渐成形。"
+          }
+        ]
+      ]
+    },
+    {
+      "type": "secret-panel",
+      "title": "黑框传闻：红色糖浆",
+      "hiddenMode": "mask",
+      "playerIds": [],
+      "blocks": [
+        {
+          "type": "paragraph",
+          "tokens": [
+            {
+              "type": "text",
+              "text": "有人说新店的味道确实好得不像话，也有人说克莱儿只是输给了更懂游客的人。味觉、嫉妒和恐惧很容易混在一起。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "secret-panel",
+      "title": "黑框档案：巴尔家封存页",
+      "hiddenMode": "mask",
+      "playerIds": [],
+      "blocks": [
+        {
+          "type": "paragraph",
+          "tokens": [
+            {
+              "type": "text",
+              "text": "巴尔家旧事、两个相近姓名之间的关系、梦魇来源、枫糖异常与后续处置另存于封存页。"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "createdAt": "2026-06-06T00:00:00+08:00",
+  "updatedAt": "2026-06-06T00:00:00+08:00"
+}

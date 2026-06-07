@@ -1,0 +1,66 @@
+{
+  "id": "char.amy-luck",
+  "category": "character",
+  "displayName": "艾咪·拉克 Amy Luck",
+  "summary": "奥拉夫营相关证词入口之一。她的记录把营地日常、失联经过和山林压力连在一起。",
+  "aliasNames": [
+    "Amy Luck",
+    "艾咪·拉克",
+    "拉克"
+  ],
+  "moduleIds": [
+    "module.campaign.primal-state.home-sweet-home"
+  ],
+  "relatedEntryIds": [
+    "module.campaign.primal-state.home-sweet-home",
+    "loc.olaf-camp",
+    "char.daniel-abernathy",
+    "char.mcdougall",
+    "char.bryde"
+  ],
+  "facts": [
+    {
+      "label": "公开关联",
+      "value": "奥拉夫营 / 考古队证词 / 山林压力"
+    }
+  ],
+  "tags": [
+    "NPC",
+    "奥拉夫营",
+    "考古"
+  ],
+  "content": [
+    {
+      "type": "heading",
+      "text": "人员记录"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "艾咪·拉克的记录可作为奥拉夫营事件的人声入口。比起地图和手稿，她的材料更接近营地日常、恐惧积累和失联经过。"
+        }
+      ]
+    },
+    {
+      "type": "secret-panel",
+      "title": "黑框证词：重复的句子",
+      "hiddenMode": "mask",
+      "playerIds": [],
+      "blocks": [
+        {
+          "type": "paragraph",
+          "tokens": [
+            {
+              "type": "text",
+              "text": "她的一些说法会反复回到同几个词上，像是记忆被困在营地里的某个时刻。"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "createdAt": "2026-06-06T00:00:00+08:00",
+  "updatedAt": "2026-06-06T00:00:00+08:00"
+}

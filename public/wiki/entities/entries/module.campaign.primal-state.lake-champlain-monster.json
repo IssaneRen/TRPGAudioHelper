@@ -1,0 +1,198 @@
+{
+  "id": "module.campaign.primal-state.lake-champlain-monster",
+  "category": "module",
+  "displayName": "尚普兰湖的怪兽",
+  "summary": "《原初之境》湖区篇：伯灵顿验尸官追查尚普兰湖边连续出现的漂流物尸体，水文、码头和湖怪传说相互拉扯。",
+  "aliasNames": [
+    "Lake Champlain Monster",
+    "尚普兰湖的怪兽",
+    "原初之境·湖区篇"
+  ],
+  "moduleIds": [
+    "module.campaign.primal-state.lake-champlain-monster"
+  ],
+  "relatedEntryIds": [
+    "module.campaign.primal-state.overview",
+    "loc.primal-state-vermont",
+    "loc.burlington-lake-champlain",
+    "char.john-sinclair",
+    "char.robert-barr",
+    "char.jim-summers",
+    "char.daniel-abernathy"
+  ],
+  "facts": [
+    {
+      "label": "规则",
+      "value": "COC7"
+    },
+    {
+      "label": "时代",
+      "value": "1920 年代晚期"
+    },
+    {
+      "label": "地点",
+      "value": "美国佛蒙特州伯灵顿与尚普兰湖"
+    }
+  ],
+  "tags": [
+    "COC7",
+    "1920s",
+    "湖区",
+    "法医",
+    "民俗"
+  ],
+  "content": [
+    {
+      "type": "heading",
+      "text": "公开导读"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "ref",
+          "entryId": "char.john-sinclair",
+          "label": "约翰·辛克莱"
+        },
+        {
+          "type": "text",
+          "text": "医生需要外来协助：尚普兰湖边陆续出现被称为“漂流物”的尸体，官方记录、死亡时间、发现地点和水流方向开始显出规律。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "这篇不是简单的湖怪目击故事。"
+        },
+        {
+          "type": "ref",
+          "entryId": "loc.burlington-lake-champlain",
+          "label": "伯灵顿与尚普兰湖"
+        },
+        {
+          "type": "text",
+          "text": "的码头、警局、大学、湖岸居民和老传说会提供彼此冲突的解释；真正的调查乐趣在于用证据校验证据。"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "相关人物"
+    },
+    {
+      "type": "list",
+      "items": [
+        [
+          {
+            "type": "ref",
+            "entryId": "char.john-sinclair",
+            "label": "约翰·辛克莱"
+          },
+          {
+            "type": "text",
+            "text": "：验尸官，医学记录与委托入口。"
+          }
+        ],
+        [
+          {
+            "type": "ref",
+            "entryId": "char.robert-barr",
+            "label": "罗伯特·巴尔"
+          },
+          {
+            "type": "text",
+            "text": "：市政码头管理员，也让湖区线与巴尔家记录相连。"
+          }
+        ],
+        [
+          {
+            "type": "ref",
+            "entryId": "char.jim-summers",
+            "label": "吉姆·萨默斯"
+          },
+          {
+            "type": "text",
+            "text": "：警探，警方记录和程序压力的代表。"
+          }
+        ],
+        [
+          {
+            "type": "ref",
+            "entryId": "char.daniel-abernathy",
+            "label": "丹尼尔·阿伯纳西"
+          },
+          {
+            "type": "text",
+            "text": "：大学资料与山林考古线的潜在连接点。"
+          }
+        ]
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "跑前须知"
+    },
+    {
+      "type": "list",
+      "items": [
+        [
+          {
+            "type": "text",
+            "text": "本篇适合喜欢法医、走访、地理推理和多假说并行的队伍。"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "它可以独立运行，也可以作为《树汁持续流淌》的外部扩展，帮助小镇线接触到伯灵顿、码头和大学资料。"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "题材包含尸体、失踪、湖上危险和地方警方压力，尸检描写尺度应提前沟通。"
+          }
+        ]
+      ]
+    },
+    {
+      "type": "secret-panel",
+      "title": "黑框传闻：新月后的湖岸",
+      "hiddenMode": "mask",
+      "playerIds": [],
+      "blocks": [
+        {
+          "type": "paragraph",
+          "tokens": [
+            {
+              "type": "text",
+              "text": "水位退去后留下的东西并不总像溺水事故。老码头工人会把话题绕开，警局则更喜欢说“仍在调查”。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "secret-panel",
+      "title": "黑框档案：湖区封存案卷",
+      "hiddenMode": "mask",
+      "playerIds": [],
+      "blocks": [
+        {
+          "type": "paragraph",
+          "tokens": [
+            {
+              "type": "text",
+              "text": "源模组保留多种解释路径；案卷结论、嫌疑判断、湖岸异常地点和混合解释另存于封存页。"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "createdAt": "2026-06-06T00:00:00+08:00",
+  "updatedAt": "2026-06-06T00:00:00+08:00"
+}

@@ -1,0 +1,65 @@
+{
+  "id": "char.mcdougall",
+  "category": "character",
+  "displayName": "麦克道格 McDougall",
+  "summary": "奥拉夫营相关姓名之一。公开记录中，他属于失联考古营地需要核对的人员名单。",
+  "aliasNames": [
+    "McDougall",
+    "麦克道格"
+  ],
+  "moduleIds": [
+    "module.campaign.primal-state.home-sweet-home"
+  ],
+  "relatedEntryIds": [
+    "module.campaign.primal-state.home-sweet-home",
+    "loc.olaf-camp",
+    "char.daniel-abernathy",
+    "char.amy-luck",
+    "char.bryde"
+  ],
+  "facts": [
+    {
+      "label": "公开关联",
+      "value": "奥拉夫营 / 考古队名单 / 营地证词"
+    }
+  ],
+  "tags": [
+    "NPC",
+    "奥拉夫营",
+    "考古"
+  ],
+  "content": [
+    {
+      "type": "heading",
+      "text": "人员记录"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "麦克道格这个名字出现在奥拉夫营相关人员记录中。围绕他的公开材料应先按营地人员名单、最后目击和留下的痕迹来整理。"
+        }
+      ]
+    },
+    {
+      "type": "secret-panel",
+      "title": "黑框证词：营地夜晚",
+      "hiddenMode": "mask",
+      "playerIds": [],
+      "blocks": [
+        {
+          "type": "paragraph",
+          "tokens": [
+            {
+              "type": "text",
+              "text": "几段证词对他的夜间行动说法不一。矛盾本身已经足够让人不安，但不能单独作为结论。"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "createdAt": "2026-06-06T00:00:00+08:00",
+  "updatedAt": "2026-06-06T00:00:00+08:00"
+}

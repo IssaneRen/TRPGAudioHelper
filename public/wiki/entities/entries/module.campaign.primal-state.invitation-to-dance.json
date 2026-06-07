@@ -1,0 +1,192 @@
+{
+  "id": "module.campaign.primal-state.invitation-to-dance",
+  "category": "module",
+  "displayName": "邀请来舞会",
+  "summary": "《原初之境》墓地篇：本宁顿圣彼得教堂墓地的两块旧墓碑在午夜移位，旧记录、钟声和道路施工把调查引向地方传说。",
+  "aliasNames": [
+    "Invitation to Dance",
+    "原初之境·墓地篇",
+    "邀请来舞会"
+  ],
+  "moduleIds": [
+    "module.campaign.primal-state.invitation-to-dance"
+  ],
+  "relatedEntryIds": [
+    "module.campaign.primal-state.overview",
+    "loc.primal-state-vermont",
+    "loc.bennington-vermont",
+    "loc.st-peters-churchyard",
+    "char.norbert-mckenzie",
+    "char.martin-hudson",
+    "char.constance-jefferies",
+    "char.jeremiah-moon"
+  ],
+  "facts": [
+    {
+      "label": "规则",
+      "value": "COC7"
+    },
+    {
+      "label": "时代",
+      "value": "1920s 晚期或现代均可；本战役按 1925-1930 处理"
+    },
+    {
+      "label": "地点",
+      "value": "美国佛蒙特州本宁顿，圣彼得教堂墓地"
+    }
+  ],
+  "tags": [
+    "COC7",
+    "1920s",
+    "墓地",
+    "本宁顿",
+    "民俗恐怖"
+  ],
+  "content": [
+    {
+      "type": "heading",
+      "text": "公开导读"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "本宁顿的"
+        },
+        {
+          "type": "ref",
+          "entryId": "loc.st-peters-churchyard",
+          "label": "圣彼得教堂墓地"
+        },
+        {
+          "type": "text",
+          "text": "忽然成了报纸里的怪谈：两块 18 世纪末的旧墓碑被发现离开原位，沉重、整齐，又缺少合理的搬动痕迹。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "这篇适合作为《原初之境》的短篇开场。它的入口很清楚：新闻、教会委托、地方人情或度假途中的好奇心。调查会在墓碑、钟声、教堂档案、道路施工和镇民说法之间来回核对。"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "相关人物"
+    },
+    {
+      "type": "list",
+      "items": [
+        [
+          {
+            "type": "ref",
+            "entryId": "char.norbert-mckenzie",
+            "label": "诺伯特·麦肯齐牧师"
+          },
+          {
+            "type": "text",
+            "text": "：教堂记录、墓册和牧区往来的入口。"
+          }
+        ],
+        [
+          {
+            "type": "ref",
+            "entryId": "char.martin-hudson",
+            "label": "马丁·哈德森警长"
+          },
+          {
+            "type": "text",
+            "text": "：本宁顿地方治安与报案记录的官方入口。"
+          }
+        ],
+        [
+          {
+            "type": "ref",
+            "entryId": "char.constance-jefferies",
+            "label": "康斯坦丝·杰弗里斯"
+          },
+          {
+            "type": "text",
+            "text": " 与 "
+          },
+          {
+            "type": "ref",
+            "entryId": "char.jeremiah-moon",
+            "label": "杰里迈亚·沐恩"
+          },
+          {
+            "type": "text",
+            "text": "：墓碑与旧记录上的两个姓名。"
+          }
+        ]
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "跑前须知"
+    },
+    {
+      "type": "list",
+      "items": [
+        [
+          {
+            "type": "text",
+            "text": "整体时长较短，适合 3-5 人队伍热身；它更像地方档案怪谈，不是战斗主导的推图。"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "题材涉及新英格兰女巫传说、墓地、旧审判记录和带有成人暗示的民俗材料，开跑前应说明边界。"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "线索并不复杂，但需要主动进入现场、核对旧记录，并接受“普通解释不一定足够”的调查节奏。"
+          }
+        ]
+      ]
+    },
+    {
+      "type": "secret-panel",
+      "title": "黑框传闻：午夜钟声",
+      "hiddenMode": "mask",
+      "playerIds": [],
+      "blocks": [
+        {
+          "type": "paragraph",
+          "tokens": [
+            {
+              "type": "text",
+              "text": "有些镇民坚持说，钟声响起时墓地里并不只有石头在动。也有人说，这只是夜里回声与恐惧凑出的故事。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "secret-panel",
+      "title": "黑框档案：墓地封存页",
+      "hiddenMode": "mask",
+      "playerIds": [],
+      "blocks": [
+        {
+          "type": "paragraph",
+          "tokens": [
+            {
+              "type": "text",
+              "text": "墓地异动原因、旧防护机制、午夜现场和最终处理方式另存于封存页。"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "createdAt": "2026-06-06T00:00:00+08:00",
+  "updatedAt": "2026-06-06T00:00:00+08:00"
+}

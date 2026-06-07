@@ -1,0 +1,78 @@
+{
+  "id": "char.constance-jefferies",
+  "category": "character",
+  "displayName": "康斯坦丝·杰弗里斯 Constance Jefferies",
+  "summary": "圣彼得教堂墓册中的旧名。她的墓碑与本宁顿旧记录一起出现在《邀请来舞会》的调查中。",
+  "aliasNames": [
+    "Constance Jefferies",
+    "康斯坦丝",
+    "康斯坦丝·杰弗里斯"
+  ],
+  "moduleIds": [
+    "module.campaign.primal-state.invitation-to-dance"
+  ],
+  "relatedEntryIds": [
+    "module.campaign.primal-state.invitation-to-dance",
+    "loc.st-peters-churchyard",
+    "char.jeremiah-moon",
+    "char.norbert-mckenzie"
+  ],
+  "facts": [
+    {
+      "label": "记录身份",
+      "value": "18 世纪末本宁顿墓册姓名"
+    },
+    {
+      "label": "公开关联",
+      "value": "墓碑 / 旧审判记录 / 地方传闻"
+    }
+  ],
+  "tags": [
+    "NPC",
+    "墓地",
+    "旧记录"
+  ],
+  "content": [
+    {
+      "type": "heading",
+      "text": "档案摘录"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "康斯坦丝·杰弗里斯这个名字出现在圣彼得教堂墓地的旧墓碑与地方记录中。纸面材料把她留在 18 世纪末，而新的报案让这个名字重新被翻出。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "镇上对她的说法并不统一：墓册、传闻和更古旧的审判文本各自保留了一部分轮廓。单凭名字，不足以解释墓地里发生的事。"
+        }
+      ]
+    },
+    {
+      "type": "secret-panel",
+      "title": "黑框旧闻：墓册旁注",
+      "hiddenMode": "mask",
+      "playerIds": [],
+      "blocks": [
+        {
+          "type": "paragraph",
+          "tokens": [
+            {
+              "type": "text",
+              "text": "墓册边缘有后来补写的标记，像是有人不愿让这个名字只停留在普通死亡登记里。"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "createdAt": "2026-06-06T00:00:00+08:00",
+  "updatedAt": "2026-06-06T00:00:00+08:00"
+}

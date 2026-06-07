@@ -1,0 +1,65 @@
+{
+  "id": "char.bryde",
+  "category": "character",
+  "displayName": "布赖德 Bryde",
+  "summary": "奥拉夫营相关姓名之一。公开层面仅记录其与失联营地、野外痕迹和人员证词有关。",
+  "aliasNames": [
+    "Bryde",
+    "布赖德"
+  ],
+  "moduleIds": [
+    "module.campaign.primal-state.home-sweet-home"
+  ],
+  "relatedEntryIds": [
+    "module.campaign.primal-state.home-sweet-home",
+    "loc.olaf-camp",
+    "char.daniel-abernathy",
+    "char.mcdougall",
+    "char.amy-luck"
+  ],
+  "facts": [
+    {
+      "label": "公开关联",
+      "value": "奥拉夫营 / 野外痕迹 / 人员证词"
+    }
+  ],
+  "tags": [
+    "NPC",
+    "奥拉夫营",
+    "考古"
+  ],
+  "content": [
+    {
+      "type": "heading",
+      "text": "人员记录"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "布赖德的名字与奥拉夫营的失联记录、营地边缘的痕迹和考古队人员证词并列出现。公开材料不足以说明他的最终状态。"
+        }
+      ]
+    },
+    {
+      "type": "secret-panel",
+      "title": "黑框痕迹：林线外",
+      "hiddenMode": "mask",
+      "playerIds": [],
+      "blocks": [
+        {
+          "type": "paragraph",
+          "tokens": [
+            {
+              "type": "text",
+              "text": "林线外的痕迹让记录变得不整齐。它们像是有人离开过，也像是有什么东西回来过。"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "createdAt": "2026-06-06T00:00:00+08:00",
+  "updatedAt": "2026-06-06T00:00:00+08:00"
+}
