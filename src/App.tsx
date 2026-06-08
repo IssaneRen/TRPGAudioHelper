@@ -12,6 +12,7 @@ const WorldWikiModuleDetailTab = lazy(() => import("@/pages/WorldWikiModuleDetai
 const ModuleToolTab = lazy(() => import("@/pages/ModuleToolTab"));
 const SoundboardTab = lazy(() => import("@/pages/SoundboardTab"));
 const BattleSimulator = lazy(() => import("@/pages/ToolboxTab/BattleSimulator"));
+const AiChatTab = lazy(() => import("@/pages/AiChatTab"));
 const BlogTab = lazy(() => import("@/pages/BlogTab"));
 const NotFound = lazy(() => import("@/pages/NotFound"));
 const WikiAdminTab = import.meta.env.DEV ? lazy(() => import("@/pages/WikiAdminTab")) : null;
@@ -50,6 +51,7 @@ export default function App() {
               <Route path="world-wiki/modules/:moduleId" element={<WorldWikiModuleDetailTab />} />
               <Route path="soundboard" element={<SoundboardTab />} />
               <Route path="module-clue" element={<ModuleToolTab />} />
+              <Route path="ai-chat" element={<AiChatTab />} />
             </Route>
             <Route path="blog" element={<BlogTab />} />
             <Route path="blog/:postId" element={<BlogTab />} />

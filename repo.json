@@ -17,7 +17,7 @@
       "name": "trpg-ai-gateway",
       "path": "trpg-ai-gateway",
       "repoJson": "trpg-ai-gateway/repo.json",
-      "remoteUrl": "",
+      "remoteUrl": "git@github.com:IssaneRen/trpg-ai-gateway.git",
       "defaultBranch": "main",
       "required": true,
       "purpose": "独立 Git 子仓库，部署到新 GitHub 后用于 AI Gateway 服务。",
