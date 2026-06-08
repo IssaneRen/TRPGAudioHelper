@@ -42,3 +42,6 @@ pnpm-debug.log*
 
 # AI workflow reports (auto-generated)
 docs/reports/
+
+# Independent AI gateway sub-repository
+trpg-ai-gateway/

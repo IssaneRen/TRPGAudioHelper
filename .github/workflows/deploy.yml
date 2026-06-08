@@ -203,6 +203,12 @@ jobs:
               SSL_OPTIONS="${SSL_OPTIONS}    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;\n"
             fi
 
+            BLOCK_SCANNER_UA_RULES='    # Block common internet scanners by User-Agent.
+                if ($http_user_agent ~* "(CensysInspect|Shodan|zgrab|masscan|Nuclei|sqlmap|Nikto|acunetix|nessus|OpenVAS|Go-http-client)") {
+                    return 403;
+                }
+            '
+
             if [ "$SSL_ENABLED" = "true" ]; then
               printf "Using HTTPS Nginx config for server_name: %s, cert: %s\n" "$SERVER_NAME" "$CERT_NAME"
               sudo tee "$CONFIG_AVAILABLE" > /dev/null <<NGINX
@@ -230,6 +236,7 @@ jobs:
                 root ${APP_ROOT};
                 index index.html;
 
+            ${BLOCK_SCANNER_UA_RULES}
                 # /blog is both a SPA route and a deployed content directory.
                 location = /blog {
                     try_files /index.html =404;
@@ -254,6 +261,7 @@ jobs:
                 root ${APP_ROOT};
                 index index.html;
 
+            ${BLOCK_SCANNER_UA_RULES}
                 location ^~ /.well-known/acme-challenge/ {
                     root /var/www/html;
                     default_type "text/plain";
