@@ -11,7 +11,8 @@ $skills = @(
   "resource-channel-curator",
   "trpg-rules-analyst",
   "module-clue-analyst",
-  "plot-foreshadowing-architect"
+  "plot-foreshadowing-architect",
+  "manage-subrepositories"
 )
 
 foreach ($skill in $skills) {

@@ -11,6 +11,7 @@
     "seed:coc-sheets": "tsx scripts/seed-coc-sheets.ts",
     "import:wiki-library": "tsx scripts/import-wiki-library-modules.ts",
     "generate:blog": "tsx scripts/generate-blog-index.ts",
+    "sync:subrepos": "tsx scripts/sync-subrepos.ts",
     "predev": "pnpm generate:wiki && tsx scripts/generate-blog-index.ts",
     "dev": "vite",
     "prebuild": "pnpm generate:wiki && tsx scripts/generate-blog-index.ts",

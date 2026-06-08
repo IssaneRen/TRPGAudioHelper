@@ -1,0 +1,38 @@
+{
+  "name": "trpg-lucius-helper-workspace",
+  "purpose": "父工程负责 TRPG Lucius Helper 静态站点；子仓库 trpg-ai-gateway 负责 NPC AI 对话网关、模型调用、NPC/PL 私有记忆与服务器端 prompt 组装。",
+  "packageManager": "pnpm",
+  "primaryProject": {
+    "path": ".",
+    "type": "vite-react-static-site",
+    "repoJson": "repo.json",
+    "importantPaths": {
+      "wikiEntries": "public/wiki/entities/entries",
+      "wikiIndex": "public/wiki/index.json",
+      "deploymentDocs": "docs/deploy-guide.md"
+    }
+  },
+  "subrepositories": [
+    {
+      "name": "trpg-ai-gateway",
+      "path": "trpg-ai-gateway",
+      "repoJson": "trpg-ai-gateway/repo.json",
+      "remoteUrl": "",
+      "defaultBranch": "main",
+      "required": true,
+      "purpose": "独立 Git 子仓库，部署到新 GitHub 后用于 AI Gateway 服务。",
+      "notes": [
+        "当前父仓库 .gitignore 忽略整个 trpg-ai-gateway/ 目录。",
+        "remoteUrl 在新 GitHub 仓库创建后填写；未填写前同步脚本只能检查本地仓库，不能自动 clone。",
+        "父工程任务涉及 AI、NPC 记忆、模型调用、prompt、安全部署时，应同时阅读父工程和该子仓库。"
+      ]
+    }
+  ],
+  "workspaceRules": [
+    "开始父/子工程联动任务时，先读取本文件。",
+    "对子仓库进行代码分析或修改前，先运行 pnpm sync:subrepos；如果远端未配置，至少确认本地子仓库存在且是独立 Git 仓库。",
+    "不要把 trpg-ai-gateway/ 加回父工程 Git 跟踪。",
+    "父工程 Wiki 公开数据与子仓库 AI 私有记忆要综合阅读，但密钥、token、.env、config.local.json 不得提交。",
+    "AI Gateway 的模型 key 只能由服务器环境变量提供，不能进入前端包或父工程静态资源。"
+  ]
+}
