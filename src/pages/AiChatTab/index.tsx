@@ -12,7 +12,24 @@ interface ChatMessage {
   content: string;
 }
 
-const AI_GATEWAY_URL = import.meta.env.VITE_AI_GATEWAY_URL?.replace(/\/+$/, "") || "";
+let runtimeConfigPromise: Promise<string> | null = null;
+
+async function loadAiGatewayUrl(): Promise<string> {
+  runtimeConfigPromise ??= fetch("/config/runtime.json", { cache: "no-store" })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`运行时配置加载失败：${response.status}`);
+      }
+      return response.json() as Promise<{ aiGatewayUrl?: string }>;
+    })
+    .then((config) => config.aiGatewayUrl?.replace(/\/+$/, "") || "");
+
+  const url = await runtimeConfigPromise;
+  if (!url) {
+    throw new Error("AI 网关地址未配置：请设置 /config/runtime.json");
+  }
+  return url;
+}
 
 function buildNpcSystemPrompt(era: string, role: string, profile: string): string {
   return [
@@ -33,12 +50,9 @@ async function requestAiReply(params: {
   role: string;
   profile: string;
 }): Promise<string> {
-  if (!AI_GATEWAY_URL) {
-    throw new Error("AI 网关地址未配置：请设置 VITE_AI_GATEWAY_URL");
-  }
-
+  const aiGatewayUrl = await loadAiGatewayUrl();
   const systemPrompt = buildNpcSystemPrompt(params.era, params.role, params.profile);
-  const response = await fetch(`${AI_GATEWAY_URL}/api/chat`, {
+  const response = await fetch(`${aiGatewayUrl}/api/chat`, {
     method: "POST",
     headers: { "content-type": "application/json" },
     body: JSON.stringify({

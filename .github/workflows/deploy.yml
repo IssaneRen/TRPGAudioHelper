@@ -33,11 +33,9 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build
-        env:
-          VITE_AI_GATEWAY_URL: ${{ vars.VITE_AI_GATEWAY_URL }}
         run: pnpm build
 
-      - name: Prepare remote directory
+      - name: Prepare remote release directory
         uses: appleboy/ssh-action@v1
         with:
           host: ${{ secrets.SERVER_HOST }}
@@ -45,10 +43,16 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
-            sudo rm -rf /var/www/trpg-helper
-            sudo mkdir -p /var/www/trpg-helper
-            sudo chown ubuntu:ubuntu /var/www/trpg-helper
-            chmod 755 /var/www/trpg-helper
+            set -eu
+            APP_ROOT="/var/www/trpg-helper"
+            RELEASE_DIR="${APP_ROOT}/releases/${{ github.sha }}"
+            RUNTIME_CONFIG_DIR="/var/www/trpg-helper-config"
+            DEPLOY_USER="$(id -un)"
+            DEPLOY_GROUP="$(id -gn)"
+
+            sudo mkdir -p "${APP_ROOT}/releases" "$RELEASE_DIR" "$RUNTIME_CONFIG_DIR"
+            sudo chown "$DEPLOY_USER:$DEPLOY_GROUP" "$APP_ROOT" "${APP_ROOT}/releases" "$RELEASE_DIR" "$RUNTIME_CONFIG_DIR"
+            chmod 755 "$APP_ROOT" "${APP_ROOT}/releases" "$RELEASE_DIR" "$RUNTIME_CONFIG_DIR"
 
       - name: Deploy to server via SCP
         uses: appleboy/scp-action@v0.1.7
@@ -58,7 +62,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           source: "dist/*"
-          target: "/var/www/trpg-helper"
+          target: "/var/www/trpg-helper/releases/${{ github.sha }}"
           strip_components: 1
           overwrite: true
 
@@ -73,6 +77,10 @@ jobs:
             set -eu
 
             APP_ROOT="/var/www/trpg-helper"
+            RELEASE_DIR="${APP_ROOT}/releases/${{ github.sha }}"
+            APP_CURRENT="${APP_ROOT}/current"
+            RUNTIME_CONFIG_FILE="/var/www/trpg-helper-config/runtime.json"
+            RUNTIME_AI_GATEWAY_URL="${{ vars.VITE_AI_GATEWAY_URL }}"
             SITE_NAME="trpg-helper"
             CONFIG_AVAILABLE="/etc/nginx/sites-available/${SITE_NAME}"
             CONFIG_ENABLED="/etc/nginx/sites-enabled/${SITE_NAME}"
@@ -85,7 +93,25 @@ jobs:
             MANAGED_SSL_DIR="/etc/nginx/ssl/${SITE_NAME}"
             TIMESTAMP="$(date '+%Y%m%d%H%M%S')"
 
-            sudo mkdir -p /etc/nginx/sites-available /etc/nginx/sites-enabled
+            if ! sudo test -f "${RELEASE_DIR}/index.html"; then
+              echo "Release is missing index.html: ${RELEASE_DIR}" >&2
+              exit 1
+            fi
+
+            sudo mkdir -p /etc/nginx/sites-available /etc/nginx/sites-enabled "$(dirname "$RUNTIME_CONFIG_FILE")"
+            if ! sudo test -f "$RUNTIME_CONFIG_FILE"; then
+              if [ -z "$RUNTIME_AI_GATEWAY_URL" ]; then
+                echo "Missing AI gateway runtime config. Set repository variable VITE_AI_GATEWAY_URL or create $RUNTIME_CONFIG_FILE on the server." >&2
+                exit 1
+              fi
+              sudo tee "$RUNTIME_CONFIG_FILE" > /dev/null <<JSON
+            {"aiGatewayUrl":"${RUNTIME_AI_GATEWAY_URL}"}
+            JSON
+              sudo chown root:root "$RUNTIME_CONFIG_FILE"
+              sudo chmod 644 "$RUNTIME_CONFIG_FILE"
+            fi
+            sudo ln -sfn "$RELEASE_DIR" "$APP_CURRENT"
+
             if [ -e "$CONFIG_AVAILABLE" ]; then
               sudo cp -a "$CONFIG_AVAILABLE" "${CONFIG_AVAILABLE}.bak-${TIMESTAMP}"
             fi
@@ -97,7 +123,7 @@ jobs:
             SSL_KEY=""
 
             if [ -z "$SERVER_NAME" ] && sudo test -f "$DEFAULT_SSL_CERT_PATH"; then
-              SERVER_NAME="issane.cn"
+              SERVER_NAME="issane.cn www.issane.cn"
             fi
 
             if sudo test -f "$DEFAULT_SSL_CERT_PATH" && sudo test -f "$DEFAULT_SSL_KEY_PATH"; then
@@ -235,7 +261,7 @@ jobs:
                 ssl_certificate ${SSL_CERT};
                 ssl_certificate_key ${SSL_KEY};
             $(printf "%b" "$SSL_OPTIONS")
-                root ${APP_ROOT};
+                root ${APP_CURRENT};
                 index index.html;
 
             ${BLOCK_SCANNER_UA_RULES}
@@ -246,6 +272,12 @@ jobs:
 
                 location = /blog/ {
                     try_files /index.html =404;
+                }
+
+                location = /config/runtime.json {
+                    alias ${RUNTIME_CONFIG_FILE};
+                    default_type application/json;
+                    add_header Cache-Control "no-store" always;
                 }
 
                 location / {
@@ -260,7 +292,7 @@ jobs:
                 ${HTTP_LISTEN}
                 server_name ${SERVER_NAME};
 
-                root ${APP_ROOT};
+                root ${APP_CURRENT};
                 index index.html;
 
             ${BLOCK_SCANNER_UA_RULES}
@@ -276,6 +308,12 @@ jobs:
 
                 location = /blog/ {
                     try_files /index.html =404;
+                }
+
+                location = /config/runtime.json {
+                    alias ${RUNTIME_CONFIG_FILE};
+                    default_type application/json;
+                    add_header Cache-Control "no-store" always;
                 }
 
                 location / {

@@ -26,7 +26,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           source: "public/blog/*"
-          target: "/var/www/trpg-helper"
+          target: "/var/www/trpg-helper/current"
           strip_components: 1
           overwrite: true
 
@@ -38,7 +38,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           source: "public/wiki/*"
-          target: "/var/www/trpg-helper"
+          target: "/var/www/trpg-helper/current"
           strip_components: 1
           overwrite: true
 
@@ -51,7 +51,7 @@ jobs:
           port: 22
           script: |
             echo "Static content deployed - $(date '+%Y-%m-%d %H:%M:%S')"
-            echo "Files in /var/www/trpg-helper/blog/:"
-            ls -la /var/www/trpg-helper/blog/
-            echo "Files in /var/www/trpg-helper/wiki/:"
-            ls -la /var/www/trpg-helper/wiki/
+            echo "Files in /var/www/trpg-helper/current/blog/:"
+            ls -la /var/www/trpg-helper/current/blog/
+            echo "Files in /var/www/trpg-helper/current/wiki/:"
+            ls -la /var/www/trpg-helper/current/wiki/
