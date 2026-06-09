@@ -16,7 +16,6 @@
     {
       "name": "trpg-ai-gateway",
       "path": "trpg-ai-gateway",
-      "repoJson": "trpg-ai-gateway/repo.json",
       "remoteUrl": "git@github.com:IssaneRen/trpg-ai-gateway.git",
       "defaultBranch": "main",
       "required": true,
