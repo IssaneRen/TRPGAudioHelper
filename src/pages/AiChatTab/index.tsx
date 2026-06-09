@@ -12,6 +12,8 @@ interface ChatMessage {
   content: string;
 }
 
+const AI_GATEWAY_URL = import.meta.env.VITE_AI_GATEWAY_URL?.replace(/\/+$/, "") || "";
+
 function buildNpcSystemPrompt(era: string, role: string, profile: string): string {
   return [
     `你是一个${era.trim()}的${role.trim()}。`,
@@ -31,8 +33,12 @@ async function requestAiReply(params: {
   role: string;
   profile: string;
 }): Promise<string> {
+  if (!AI_GATEWAY_URL) {
+    throw new Error("AI 网关地址未配置：请设置 VITE_AI_GATEWAY_URL");
+  }
+
   const systemPrompt = buildNpcSystemPrompt(params.era, params.role, params.profile);
-  const response = await fetch("/api/ai/chat", {
+  const response = await fetch(`${AI_GATEWAY_URL}/api/chat`, {
     method: "POST",
     headers: { "content-type": "application/json" },
     body: JSON.stringify({
