@@ -136,9 +136,10 @@
 - **语义区分**：
   - `module` 词条：模组本体介绍、导读、关联地点/事件入口
   - `report` 词条：某一次具体游玩的场次战报；同一模组可挂多条战报
-- **PL 匹配规则（精确）**：
-  - 建议输入 `pl.xxx` 唯一 key（例如 `pl.cici`），用于“我跑过的”筛选与 Wiki/战报隐藏内容解锁
-  - 也可输入显示名/别名，但必须完全匹配；系统会自动保存为对应的 `pl.xxx`，避免改名后失效
+- **PL 登录与权限规则**：
+  - Blog/WorldWiki/AI Chat 统一输入 KP 分发的 token 登录；前端只持久保存 token，不再把 `pl.xxx` 明文作为身份来源
+  - `POST /api/session` 校验成功后返回展示名、`playerId` 与 `isKeeper`；页面刷新后通过 token 重建内存 session
+  - “我跑过的”筛选与 Wiki/战报隐藏内容解锁仍使用服务端返回的 `playerId` 判定；KP token 仅用于全局查看权限，不默认代入任一 PL 私聊
 - **战报剧透确认**：
   - 对 `renderMode: "wiki"` 且 `wikiEntryId` 指向 `report.*` 的博客详情页，若当前 PL 不在该文章 frontmatter `players` 列表中，则先显示剧透确认蒙层
   - 蒙层出现时正文整体模糊遮罩、详情容器禁止滚动；点击“确定”后放行查看，点击“取消”返回博客列表

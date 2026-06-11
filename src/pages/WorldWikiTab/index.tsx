@@ -18,6 +18,7 @@ import {
   ChevronUp,
 } from "lucide-react";
 import { motion } from "framer-motion";
+import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -31,7 +32,7 @@ import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { CocSheetPanel } from "@/features/wiki/CocSheetPanel";
 import { WikiContentRenderer } from "@/features/wiki/WikiContentRenderer";
-import { canRevealAllWikiSecrets } from "@/features/wiki/wiki-secret-access";
+import { useAiSession } from "@/features/ai/use-ai-session";
 import {
   fetchWikiEntry,
   getCachedWikiEntry,
@@ -48,7 +49,6 @@ import type {
 } from "@/types/wiki";
 import { contentWithoutCocSheets, extractCocSheetFromContent } from "@/utils/coc-sheet";
 
-const PL_STORAGE_KEY = "blog-pl-name";
 const WIKI_HOME_ROUTE = "/tools/world-wiki";
 
 const CATEGORY_META: Record<
@@ -125,16 +125,6 @@ function formatDate(date: string): string {
   return new Date(date).toLocaleDateString("zh-CN");
 }
 
-/** 复用 blog-pl-name：支持输入 playerId 或 displayName/alias（均为精确匹配，非模糊）。 */
-function resolveCurrentPlayer(index: WikiIndexPayload | null, plKeyOrName: string): WikiPlayer | null {
-  if (!index || !plKeyOrName.trim()) return null;
-  const normalized = normalizeText(plKeyOrName);
-  const direct = index.players.find((player) => normalizeText(player.id) === normalized);
-  if (direct) return direct;
-  const matchedId = index.lookup.playerIdByName[normalized];
-  return index.players.find((player) => player.id === matchedId) ?? null;
-}
-
 function CurrentPlButton({ plName, onClick }: { plName: string; onClick: () => void }) {
   return (
     <button
@@ -148,22 +138,24 @@ function CurrentPlButton({ plName, onClick }: { plName: string; onClick: () => v
 
 function PlNameDialog({
   open,
-  initialValue,
-  players,
+  loading,
+  isLoggedIn,
   onClose,
   onConfirm,
+  onLogout,
 }: {
   open: boolean;
-  initialValue: string;
-  players: WikiPlayer[];
+  loading: boolean;
+  isLoggedIn: boolean;
   onClose: () => void;
-  onConfirm: (name: string) => void;
+  onConfirm: (token: string) => void;
+  onLogout: () => void;
 }) {
-  const [value, setValue] = useState(initialValue);
+  const [value, setValue] = useState("");
 
   useEffect(() => {
-    setValue(initialValue);
-  }, [initialValue, open]);
+    if (open) setValue("");
+  }, [open]);
 
   useEffect(() => {
     if (!open) return;
@@ -192,28 +184,33 @@ function PlNameDialog({
         className="fixed left-1/2 top-1/3 z-[71] w-[min(92vw,360px)] -translate-x-1/2 -translate-y-1/2 rounded-2xl border bg-background/95 p-6 shadow-2xl"
       >
         <h3 id="wiki-pl-dialog-title" className="text-base font-heading font-semibold">
-          设置当前 PL
+          登录 PL
         </h3>
         <p className="mt-2 text-sm text-muted-foreground">
-          建议直接输入玩家唯一 key（例如：pl.cici）。也可以输入显示名/别名，但必须完全匹配（不做模糊匹配）。
+          请输出pl的token码。如果你不知道要填什么，去询问你的kp。
         </p>
         <div className="mt-4 flex gap-2">
           <Input
+            type="password"
             autoFocus
             value={value}
             onChange={(event) => setValue(event.target.value)}
-            placeholder="例如：pl.cici"
+            placeholder="输入 token"
+            disabled={loading}
           />
-          <Button onClick={() => onConfirm(value.trim())}>确认</Button>
+          <Button onClick={() => onConfirm(value.trim())} disabled={loading}>
+            {loading ? "登录中" : "确认"}
+          </Button>
         </div>
-        {players.length > 0 && (
-          <div className="mt-4 border-t border-border/60 pt-4">
-            <div className="text-xs font-medium text-muted-foreground">可用 PL 唯一 key（参考用）</div>
-            <div className="mt-2 rounded-xl border border-border/60 bg-card/60 p-3 text-xs leading-6 text-muted-foreground">
-              {players.map((player) => player.id).join(" / ")}
-            </div>
-          </div>
-        )}
+        {isLoggedIn ? (
+          <button
+            type="button"
+            className="mt-3 text-xs text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
+            onClick={onLogout}
+          >
+            退出当前登录
+          </button>
+        ) : null}
       </motion.div>
     </>
   );
@@ -315,11 +312,11 @@ export default function WorldWikiTab() {
   const [indexError, setIndexError] = useState(false);
   const [query, setQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<WikiCategory | "all">("all");
-  const [plName, setPlName] = useState(() => localStorage.getItem(PL_STORAGE_KEY) || "");
   const [showPlDialog, setShowPlDialog] = useState(false);
   const [detailLoading, setDetailLoading] = useState(false);
   const [detailError, setDetailError] = useState(false);
   const [isSearchPanelExpanded, setIsSearchPanelExpanded] = useState(false);
+  const aiSession = useAiSession();
 
   useEffect(() => {
     let cancelled = false;
@@ -406,9 +403,12 @@ export default function WorldWikiTab() {
     [indexData]
   );
 
-  const currentPlayer = useMemo(() => resolveCurrentPlayer(indexData, plName), [indexData, plName]);
-  const revealAllWikiSecrets = useMemo(() => canRevealAllWikiSecrets(plName), [plName]);
-  const displayPlName = revealAllWikiSecrets ? "已设定" : plName;
+  const currentPlayer = useMemo(() => {
+    const playerId = aiSession.session?.playerId;
+    return playerId ? playersById.get(playerId) ?? null : null;
+  }, [aiSession.session?.playerId, playersById]);
+  const revealAllWikiSecrets = Boolean(aiSession.session?.isKeeper);
+  const displayPlName = aiSession.session?.displayName || "";
 
   const selectedEntry = useMemo(
     () => (indexData?.entries || []).find((entry) => entry.id === entryId) ?? null,
@@ -503,20 +503,17 @@ export default function WorldWikiTab() {
       .filter((entry): entry is WikiIndexEntry => entry !== null);
   }, [currentPlayer, indexData, revealAllWikiSecrets, selectedEntry]);
 
-  const handleSavePlName = useCallback(
-    (value: string) => {
-      const resolved = resolveCurrentPlayer(indexData, value);
-      const canonical = resolved?.id || value;
-      localStorage.setItem(PL_STORAGE_KEY, canonical);
-      setPlName(canonical);
-      // 输入的是名称/别名时，自动收敛为唯一 key，避免后续改名导致失效
-      if (resolved && canonical !== value) {
-        localStorage.setItem(PL_STORAGE_KEY, canonical);
-        setPlName(canonical);
+  const handleSaveToken = useCallback(
+    async (value: string) => {
+      try {
+        const session = await aiSession.login(value);
+        toast.success(`已登录为 ${session.displayName}`);
+        setShowPlDialog(false);
+      } catch (error) {
+        toast.error(error instanceof Error ? error.message : "登录失败");
       }
-      setShowPlDialog(false);
     },
-    [indexData]
+    [aiSession]
   );
 
   const trimmedQuery = query.trim();
@@ -748,11 +745,11 @@ export default function WorldWikiTab() {
                   当前视角摘要
                 </div>
                 <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                  {currentPlayer
-                    ? `当前已匹配为「${currentPlayer.displayName}」。系统会根据玩家唯一键高亮相关词条，并判断段落级 / 句子级隐藏内容是否解锁。`
-                    : plName
-                      ? `当前填写了「${displayPlName}」，但尚未匹配到已有 PL 档案。你仍可浏览公开词条。`
-                      : "尚未设置当前 PL。你仍可浏览公开词条，但个人视角补遗会保持黑框遮罩。"}
+                  {revealAllWikiSecrets
+                    ? "当前已匹配为 KP 视角。系统会解锁段落级 / 句子级隐藏内容。"
+                    : currentPlayer
+                      ? `当前已匹配为「${currentPlayer.displayName}」。系统会根据登录身份高亮相关词条，并判断段落级 / 句子级隐藏内容是否解锁。`
+                      : "尚未登录 PL。你仍可浏览公开词条，但个人视角补遗会保持黑框遮罩。"}
                 </p>
                 <div className="mt-4 grid grid-cols-2 gap-3">
                   {CATEGORY_ORDER.map((category) => {
@@ -915,7 +912,7 @@ export default function WorldWikiTab() {
         </div>
       ) : (
         <>
-          {plName && currentPlEntries.length > 0 && !revealAllWikiSecrets && (
+          {currentPlayer && currentPlEntries.length > 0 && !revealAllWikiSecrets && (
             <section className="space-y-4">
               <div className="flex items-center justify-between">
                 <div>
@@ -972,10 +969,14 @@ export default function WorldWikiTab() {
 
       <PlNameDialog
         open={showPlDialog}
-        initialValue={revealAllWikiSecrets ? "" : plName}
-        players={indexData?.players || []}
+        loading={aiSession.loading}
+        isLoggedIn={Boolean(aiSession.session)}
         onClose={() => setShowPlDialog(false)}
-        onConfirm={handleSavePlName}
+        onConfirm={handleSaveToken}
+        onLogout={() => {
+          aiSession.logout();
+          setShowPlDialog(false);
+        }}
       />
     </div>
   );

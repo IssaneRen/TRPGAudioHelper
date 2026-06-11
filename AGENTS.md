@@ -18,6 +18,7 @@ This repository is a TRPG assistant workspace. The project now includes a reusab
 - `trpg-rules-analyst` - Read rulebooks, normalize mechanics, and separate RAW / RAI / inference.
 - `module-clue-analyst` - Read modules and turn them into clue graphs, timelines, and dependency chains.
 - `plot-foreshadowing-architect` - Improve plotting, foreshadowing, reveals, and payoff structure.
+- `check-server-logs` - Inspect server, Nginx, HTTPS, and AI Gateway logs without exposing secrets.
 
 ## Agents
 

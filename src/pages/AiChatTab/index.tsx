@@ -1,122 +1,209 @@
-import { useMemo, useRef, useState, type FormEvent } from "react";
-import { Bot, Loader2, Send, UserRound } from "lucide-react";
+import { useEffect, useMemo, useRef, useState, type FormEvent } from "react";
+import { Bot, Loader2, Send, Trash2, UserRound } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import {
+  deleteAiChatHistory,
+  fetchAiChatHistory,
+  fetchAiNpcs,
+  sendAiNpcMessage,
+  type AiChatMessage,
+  type AiNpcSummary,
+} from "@/features/ai/ai-gateway-client";
+import { useAiSession } from "@/features/ai/use-ai-session";
 
-interface ChatMessage {
-  id: string;
-  role: "user" | "assistant";
-  content: string;
-}
+function LoginDialog({
+  open,
+  loading,
+  onClose,
+  onConfirm,
+}: {
+  open: boolean;
+  loading: boolean;
+  onClose: () => void;
+  onConfirm: (token: string) => void;
+}) {
+  const [value, setValue] = useState("");
 
-let runtimeConfigPromise: Promise<string> | null = null;
+  useEffect(() => {
+    if (open) setValue("");
+  }, [open]);
 
-async function loadAiGatewayUrl(): Promise<string> {
-  runtimeConfigPromise ??= fetch("/config/runtime.json", { cache: "no-store" })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(`运行时配置加载失败：${response.status}`);
-      }
-      return response.json() as Promise<{ aiGatewayUrl?: string }>;
-    })
-    .then((config) => config.aiGatewayUrl?.replace(/\/+$/, "") || "");
+  if (!open) return null;
 
-  const url = await runtimeConfigPromise;
-  if (!url) {
-    throw new Error("AI 网关地址未配置：请设置 /config/runtime.json");
-  }
-  return url;
-}
-
-function buildNpcSystemPrompt(era: string, role: string, profile: string): string {
-  return [
-    `你是一个${era.trim()}的${role.trim()}。`,
-    "你正在进行 TRPG 模组中的沉浸式 NPC 对话。",
-    "你的回答必须符合人设、时代背景、社会常识、语言习惯和当前场景压力。",
-    "你只能说这个角色会知道、会相信、会隐瞒或会误解的内容。",
-    "不要跳出角色，不要解释自己是 AI，不要替主持人总结剧情，不要主动泄露未被问到的真相。",
-    profile.trim() ? `补充人设：${profile.trim()}` : ""
-  ]
-    .filter(Boolean)
-    .join("\n");
-}
-
-async function requestAiReply(params: {
-  message: string;
-  era: string;
-  role: string;
-  profile: string;
-}): Promise<string> {
-  const aiGatewayUrl = await loadAiGatewayUrl();
-  const systemPrompt = buildNpcSystemPrompt(params.era, params.role, params.profile);
-  const response = await fetch(`${aiGatewayUrl}/api/chat`, {
-    method: "POST",
-    headers: { "content-type": "application/json" },
-    body: JSON.stringify({
-      message: params.message,
-      messages: [
-        { role: "system", content: systemPrompt },
-        { role: "user", content: params.message }
-      ]
-    })
-  });
-
-  if (!response.ok) {
-    const errorText = await response.text();
-    throw new Error(errorText || `AI request failed: ${response.status}`);
-  }
-
-  const data = (await response.json()) as { content?: string };
-  if (!data.content) throw new Error("AI response is empty");
-  return data.content;
+  return (
+    <>
+      <div className="fixed inset-0 z-[70] bg-black/50" onClick={onClose} />
+      <div
+        role="dialog"
+        aria-modal="true"
+        className="fixed left-1/2 top-1/3 z-[71] w-[min(90vw,340px)] -translate-x-1/2 -translate-y-1/2 rounded-xl border bg-background p-6 shadow-2xl"
+      >
+        <h3 className="text-base font-heading font-semibold">登录 PL</h3>
+        <p className="mt-2 text-sm leading-6 text-muted-foreground">
+          请输出pl的token码。如果你不知道要填什么，去询问你的kp。
+        </p>
+        <div className="mt-4 flex gap-2">
+          <input
+            autoFocus
+            type="password"
+            value={value}
+            disabled={loading}
+            onChange={(event) => setValue(event.target.value)}
+            onKeyDown={(event) => {
+              if (event.key === "Enter") onConfirm(value.trim());
+              if (event.key === "Escape") onClose();
+            }}
+            placeholder="输入 token"
+            className="min-w-0 flex-1 rounded-md border bg-secondary px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-primary/50"
+          />
+          <Button type="button" disabled={loading} onClick={() => onConfirm(value.trim())}>
+            {loading ? "登录中" : "确认"}
+          </Button>
+        </div>
+      </div>
+    </>
+  );
 }
 
 export default function AiChatTab() {
-  const [era, setEra] = useState("1920 年代新英格兰");
-  const [role, setRole] = useState("小镇旅馆老板");
-  const [profile, setProfile] = useState("说话谨慎，熟悉镇上的流言，但会回避让自己惹麻烦的细节。");
+  const aiSession = useAiSession();
+  const [showLoginDialog, setShowLoginDialog] = useState(false);
+  const [npcs, setNpcs] = useState<AiNpcSummary[]>([]);
+  const [selectedNpcId, setSelectedNpcId] = useState("");
+  const [messages, setMessages] = useState<AiChatMessage[]>([]);
   const [input, setInput] = useState("");
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [npcsLoading, setNpcsLoading] = useState(false);
+  const [historyLoading, setHistoryLoading] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [deleting, setDeleting] = useState(false);
   const inputRef = useRef<HTMLTextAreaElement | null>(null);
 
-  const canSubmit = useMemo(() => input.trim().length > 0 && !loading, [input, loading]);
+  const selectedNpc = useMemo(
+    () => npcs.find((npc) => npc.id === selectedNpcId) || null,
+    [npcs, selectedNpcId]
+  );
+  const canChat = Boolean(aiSession.token && aiSession.session?.playerId && selectedNpc);
+  const canSubmit = input.trim().length > 0 && canChat && !sending;
+
+  useEffect(() => {
+    if (!aiSession.token || !aiSession.session?.playerId) {
+      setNpcs([]);
+      setSelectedNpcId("");
+      setMessages([]);
+      return;
+    }
+
+    let cancelled = false;
+    setNpcsLoading(true);
+    fetchAiNpcs(aiSession.token)
+      .then((items) => {
+        if (cancelled) return;
+        setNpcs(items);
+        setSelectedNpcId((current) => {
+          if (current && items.some((item) => item.id === current)) return current;
+          return items[0]?.id || "";
+        });
+      })
+      .catch((error) => {
+        if (!cancelled) {
+          setNpcs([]);
+          setSelectedNpcId("");
+          toast.error(error instanceof Error ? error.message : "NPC 列表加载失败");
+        }
+      })
+      .finally(() => {
+        if (!cancelled) setNpcsLoading(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [aiSession.session?.playerId, aiSession.token]);
+
+  useEffect(() => {
+    if (!aiSession.token || !selectedNpcId || !aiSession.session?.playerId) {
+      setMessages([]);
+      return;
+    }
+
+    let cancelled = false;
+    setHistoryLoading(true);
+    fetchAiChatHistory(aiSession.token, selectedNpcId)
+      .then((items) => {
+        if (!cancelled) setMessages(items);
+      })
+      .catch((error) => {
+        if (!cancelled) toast.error(error instanceof Error ? error.message : "聊天记录加载失败");
+      })
+      .finally(() => {
+        if (!cancelled) setHistoryLoading(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [aiSession.session?.playerId, aiSession.token, selectedNpcId]);
+
+  const handleLogin = async (token: string) => {
+    try {
+      const session = await aiSession.login(token);
+      toast.success(`已登录为 ${session.displayName}`);
+      setShowLoginDialog(false);
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "登录失败");
+    }
+  };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const trimmed = input.trim();
-    if (!trimmed || loading) return;
+    if (!trimmed || !canChat || sending) return;
 
-    const userMessage: ChatMessage = {
+    const optimisticMessage: AiChatMessage = {
       id: crypto.randomUUID(),
       role: "user",
-      content: trimmed
+      content: trimmed,
+      createdAt: new Date().toISOString(),
     };
-
-    setMessages((current) => [...current, userMessage]);
+    setMessages((current) => [...current, optimisticMessage]);
     setInput("");
-    setLoading(true);
+    setSending(true);
 
     try {
-      const content = await requestAiReply({ message: trimmed, era, role, profile });
-      setMessages((current) => [
-        ...current,
-        {
-          id: crypto.randomUUID(),
-          role: "assistant",
-          content
-        }
-      ]);
+      const assistantMessage = await sendAiNpcMessage(aiSession.token, selectedNpcId, trimmed);
+      setMessages((current) => [...current, assistantMessage]);
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "AI 对话请求失败");
     } finally {
-      setLoading(false);
+      setSending(false);
       requestAnimationFrame(() => inputRef.current?.focus());
     }
   };
+
+  const handleDeleteHistory = async () => {
+    if (!selectedNpcId || !aiSession.token || deleting) return;
+    const confirmed = window.confirm("确定要删除当前 NPC 与当前 PL 的对话记录吗？full_log 会被改名备份。");
+    if (!confirmed) return;
+
+    setDeleting(true);
+    try {
+      await deleteAiChatHistory(aiSession.token, selectedNpcId);
+      setMessages([]);
+      toast.success("聊天记录已删除");
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "删除失败");
+    } finally {
+      setDeleting(false);
+    }
+  };
+
+  const blockedMessage = !aiSession.session
+    ? "您未登录或者登录的pl不认识这个npc，还不能对话哦"
+    : npcs.length === 0
+      ? "您未登录或者登录的pl不认识这个npc，还不能对话哦"
+      : "";
 
   return (
     <div className="mx-auto flex min-h-[calc(100dvh-11rem)] max-w-5xl flex-col overflow-hidden rounded-lg border border-border/70 bg-card/70 shadow-sm">
@@ -127,64 +214,89 @@ export default function AiChatTab() {
           </div>
           <div className="min-w-0">
             <h2 className="truncate font-heading text-base font-semibold">AI 对话</h2>
-            <p className="truncate text-xs text-muted-foreground">{era} / {role}</p>
+            <p className="truncate text-xs text-muted-foreground">
+              {aiSession.session ? `当前登录：${aiSession.session.displayName}` : "尚未登录"}
+            </p>
           </div>
         </div>
-        <div className="rounded-md border border-border/70 px-2 py-1 text-xs text-muted-foreground">
-          beta
+        <div className="flex items-center gap-2">
+          {aiSession.session ? (
+            <Button variant="outline" size="sm" onClick={aiSession.logout}>
+              退出
+            </Button>
+          ) : (
+            <Button variant="outline" size="sm" onClick={() => setShowLoginDialog(true)}>
+              登录
+            </Button>
+          )}
+          <div className="rounded-md border border-border/70 px-2 py-1 text-xs text-muted-foreground">
+            beta
+          </div>
         </div>
       </header>
 
-      <div className="grid shrink-0 gap-3 border-b border-border/70 bg-background/45 p-3 sm:grid-cols-[1fr_1fr_1.4fr] sm:p-4">
-        <div className="space-y-1.5">
-          <Label htmlFor="npc-era">时代</Label>
-          <Input
-            id="npc-era"
-            value={era}
-            onChange={(event) => setEra(event.target.value)}
-          />
-        </div>
-        <div className="space-y-1.5">
-          <Label htmlFor="npc-role">身份</Label>
-          <Input
-            id="npc-role"
-            value={role}
-            onChange={(event) => setRole(event.target.value)}
-          />
-        </div>
-        <div className="space-y-1.5">
-          <Label htmlFor="npc-profile">人设</Label>
-          <Input
-            id="npc-profile"
-            value={profile}
-            onChange={(event) => setProfile(event.target.value)}
-          />
+      <div className="grid shrink-0 gap-3 border-b border-border/70 bg-background/45 p-3 sm:grid-cols-[1fr_auto] sm:p-4">
+        <label className="space-y-1.5">
+          <span className="text-sm font-medium">可对话 NPC</span>
+          <select
+            value={selectedNpcId}
+            disabled={!aiSession.session || npcsLoading || npcs.length === 0}
+            onChange={(event) => setSelectedNpcId(event.target.value)}
+            className="h-10 w-full rounded-md border border-input bg-background px-3 text-sm outline-none focus:ring-2 focus:ring-ring/40"
+          >
+            {npcs.length === 0 ? (
+              <option value="">暂无可对话 NPC</option>
+            ) : (
+              npcs.map((npc) => (
+                <option key={npc.id} value={npc.id}>
+                  {npc.displayName}
+                </option>
+              ))
+            )}
+          </select>
+        </label>
+        <div className="flex items-end">
+          <Button
+            type="button"
+            variant="outline"
+            disabled={!canChat || deleting || messages.length === 0}
+            onClick={handleDeleteHistory}
+            className="gap-2"
+          >
+            {deleting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Trash2 className="h-4 w-4" />}
+            删除记录
+          </Button>
         </div>
       </div>
 
       <section className="flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto bg-background/35 p-3 sm:p-5">
-        {messages.length === 0 ? (
+        {blockedMessage ? (
+          <div className="grid min-h-[22rem] place-items-center">
+            <div className="w-full max-w-md rounded-lg border border-dashed border-border/80 bg-background/70 p-5 text-center">
+              <Bot className="mx-auto h-6 w-6 text-primary" />
+              <p className="mt-4 text-sm leading-7 text-muted-foreground">{blockedMessage}</p>
+              {!aiSession.session ? (
+                <Button className="mt-4" onClick={() => setShowLoginDialog(true)}>
+                  登录 PL
+                </Button>
+              ) : null}
+            </div>
+          </div>
+        ) : historyLoading ? (
+          <div className="flex items-center gap-2 px-2 text-sm text-muted-foreground">
+            <Loader2 className="h-4 w-4 animate-spin" />
+            加载聊天记录
+          </div>
+        ) : messages.length === 0 ? (
           <div className="grid min-h-[22rem] place-items-center">
             <div className="w-full max-w-xl rounded-lg border border-dashed border-border/80 bg-background/70 p-5">
               <div className="flex items-center gap-3">
                 <Bot className="h-5 w-5 text-primary" />
-                <div className="text-sm font-medium">开始交谈</div>
+                <div className="text-sm font-medium">{selectedNpc?.displayName || "开始交谈"}</div>
               </div>
-              <div className="mt-4 grid gap-2 sm:grid-cols-2">
-                {["昨晚码头那边是不是出事了？", "你认识那个总在教堂附近徘徊的人吗？"].map((text) => (
-                  <button
-                    key={text}
-                    type="button"
-                    onClick={() => {
-                      setInput(text);
-                      inputRef.current?.focus();
-                    }}
-                    className="min-h-14 rounded-md border border-border/70 bg-card px-3 py-2 text-left text-sm text-muted-foreground transition-colors hover:border-primary/50 hover:text-foreground"
-                  >
-                    {text}
-                  </button>
-                ))}
-              </div>
+              <p className="mt-3 text-sm leading-7 text-muted-foreground">
+                这里会显示你与该 NPC 的独立对话记录。
+              </p>
             </div>
           </div>
         ) : (
@@ -219,7 +331,7 @@ export default function AiChatTab() {
             );
           })
         )}
-        {loading ? (
+        {sending ? (
           <div className="flex items-center gap-2 px-2 text-sm text-muted-foreground">
             <Loader2 className="h-4 w-4 animate-spin" />
             生成中
@@ -233,8 +345,9 @@ export default function AiChatTab() {
             ref={inputRef}
             value={input}
             onChange={(event) => setInput(event.target.value)}
-            placeholder="输入你要问的内容"
+            placeholder={canChat ? "输入你要问的内容" : "当前还不能对话"}
             className="max-h-36 min-h-12 resize-none"
+            disabled={!canChat}
             onKeyDown={(event) => {
               if (event.key === "Enter" && !event.shiftKey) {
                 event.preventDefault();
@@ -243,10 +356,17 @@ export default function AiChatTab() {
             }}
           />
           <Button type="submit" size="icon-lg" disabled={!canSubmit} className="h-12 w-12">
-            {loading ? <Loader2 className="h-5 w-5 animate-spin" /> : <Send className="h-5 w-5" />}
+            {sending ? <Loader2 className="h-5 w-5 animate-spin" /> : <Send className="h-5 w-5" />}
           </Button>
         </div>
       </form>
+
+      <LoginDialog
+        open={showLoginDialog}
+        loading={aiSession.loading}
+        onClose={() => setShowLoginDialog(false)}
+        onConfirm={handleLogin}
+      />
     </div>
   );
 }

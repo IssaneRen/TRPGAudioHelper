@@ -117,6 +117,7 @@ public/
 - `.claude/skills/trpg-rules-analyst.md` — 研究 TRPG 规则并输出可执行裁定
 - `.claude/skills/module-clue-analyst.md` — 整理模组线索、时间线与依赖关系
 - `.claude/skills/plot-foreshadowing-architect.md` — 优化剧情、伏笔和回收节奏
+- `.claude/skills/check-server-logs.md` — 查询服务器、Nginx、HTTPS 与 AI Gateway 日志
 - 文档处理统一通过 `scripts/trpg-workflow.ps1`，先 `inspect` 再 `read`，最后 `decompose`
 ## 团队工作流
 

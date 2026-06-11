@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo, useCallback, useRef } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
+import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
@@ -17,11 +18,8 @@ import remarkFrontmatter from "remark-frontmatter";
 import { TAG_CATEGORIES } from "@/constants/tag-categories";
 import { useNavigate, useParams } from "react-router";
 import type { WikiEntryRecord, WikiIndexPayload } from "@/types/wiki";
-import {
-  WikiContentRenderer,
-  resolveCurrentPlayerIdByName,
-} from "@/features/wiki/WikiContentRenderer";
-import { canRevealAllWikiSecrets } from "@/features/wiki/wiki-secret-access";
+import { WikiContentRenderer } from "@/features/wiki/WikiContentRenderer";
+import { useAiSession } from "@/features/ai/use-ai-session";
 
 interface BlogPostMeta {
   id: string;
@@ -36,7 +34,6 @@ interface BlogPostMeta {
   updatedAt: string;
 }
 
-const PL_STORAGE_KEY = "blog-pl-name";
 const SPECIAL_TAG_MY_PLAYED = "我跑过的";
 
 /** Safari / iOS WebKit 在 CSS columns + fixed 浮层下对 layoutId 共享动画定位不准，会闪到错误位置 */
@@ -70,10 +67,10 @@ export default function BlogTab() {
   const [wikiError, setWikiError] = useState(false);
   const contentRequestRef = useRef(0);
   const [selectedTags, setSelectedTags] = useState<Set<string>>(new Set());
-  const [plName, setPlName] = useState(() => localStorage.getItem(PL_STORAGE_KEY) || "");
   const [showPlDialog, setShowPlDialog] = useState(false);
   const [isMyPlayedMode, setIsMyPlayedMode] = useState(false);
   const [hasConfirmedSpoiler, setHasConfirmedSpoiler] = useState(false);
+  const aiSession = useAiSession();
   const prefersReducedMotion = useReducedMotion();
   const useSharedLayout = !prefersReducedMotion && !shouldDisableSharedLayout();
 
@@ -129,44 +126,13 @@ export default function BlogTab() {
     };
   }, []);
 
-  useEffect(() => {
-    if (!showPlDialog) return;
-    let cancelled = false;
-    const loadWikiIndex = async () => {
-      if (wikiIndexCache) {
-        setWikiIndex(wikiIndexCache);
-        return;
-      }
-      try {
-        const res = await fetch("/wiki/index.json", { cache: "no-store" });
-        if (!res.ok) return;
-        const data = (await res.json()) as WikiIndexPayload;
-        if (cancelled) return;
-        wikiIndexCache = data;
-        setWikiIndex(data);
-      } catch {
-        // ignore: 仅用于提示可选 key 列表，不影响主功能
-      }
-    };
-    void loadWikiIndex();
-    return () => {
-      cancelled = true;
-    };
-  }, [showPlDialog]);
-
   const allTags = useMemo(() => {
     const tagSet = new Set<string>();
     posts.forEach((p) => p.tags.forEach((t) => tagSet.add(t)));
     return Array.from(tagSet);
   }, [posts]);
 
-  const currentBlogPlayerId = useMemo(() => {
-    if (!wikiIndex) return plName.trim();
-    const normalized = plName.trim().toLowerCase();
-    const direct = wikiIndex.players.find((p) => p.id.toLowerCase() === normalized);
-    if (direct) return direct.id;
-    return wikiIndex.lookup.playerIdByName[normalized] || plName.trim();
-  }, [plName, wikiIndex]);
+  const currentBlogPlayerId = aiSession.session?.playerId || "";
 
   const filteredPosts = useMemo(() => {
     if (isMyPlayedMode) {
@@ -283,12 +249,9 @@ export default function BlogTab() {
     navigate(`/blog/${encodeURIComponent(post.id)}`);
   };
 
-  const currentWikiPlayerId = useMemo(
-    () => resolveCurrentPlayerIdByName(wikiIndex?.lookup.playerIdByName, plName),
-    [plName, wikiIndex]
-  );
-  const revealAllWikiSecrets = useMemo(() => canRevealAllWikiSecrets(plName), [plName]);
-  const displayPlName = revealAllWikiSecrets ? "已设定" : plName;
+  const currentWikiPlayerId = aiSession.session?.playerId || null;
+  const revealAllWikiSecrets = Boolean(aiSession.session?.isKeeper);
+  const displayPlName = aiSession.session?.displayName || "";
 
   const selectedPostIsReport = useMemo(
     () =>
@@ -381,7 +344,7 @@ export default function BlogTab() {
               isMyPlayedMode ? "ring-2 ring-primary/30" : ""
             }`}
             onClick={() => {
-              if (!isMyPlayedMode && !plName) {
+              if (!isMyPlayedMode && !aiSession.session) {
                 setShowPlDialog(true);
                 return;
               }
@@ -407,7 +370,7 @@ export default function BlogTab() {
             onClick={() => setShowPlDialog(true)}
             className="ml-auto text-xs text-muted-foreground hover:text-foreground transition-colors"
           >
-            {plName ? `PL: ${displayPlName}` : "设置PL"}
+            {aiSession.session ? `PL: ${displayPlName}` : "登录PL"}
           </button>
         </motion.div>
 
@@ -446,7 +409,7 @@ export default function BlogTab() {
               <div className="space-y-3">
                 <p>筛选不到你跑过的模组哦</p>
                 <p className="text-sm">
-                  是否已经正确填写了PL：<strong className="text-foreground">{displayPlName || "未设置"}</strong>
+                  是否已经正确登录：<strong className="text-foreground">{displayPlName || "未登录"}</strong>
                 </p>
                 <button
                   onClick={() => setShowPlDialog(true)}
@@ -628,7 +591,7 @@ export default function BlogTab() {
           )}
         </AnimatePresence>
 
-        {/* PL 输入弹窗（建议输入唯一 key：pl.xxx） */}
+        {/* PL token 登录弹窗 */}
         <AnimatePresence>
           {showPlDialog && (
             <>
@@ -648,32 +611,35 @@ export default function BlogTab() {
                 exit={{ opacity: 0, scale: 0.95 }}
                 className="fixed left-1/2 top-1/3 z-[71] -translate-x-1/2 -translate-y-1/2 w-[min(90vw,320px)] rounded-xl border bg-background p-6 shadow-2xl"
               >
-                <h3 id="pl-dialog-title" className="text-base font-heading font-semibold mb-3">设置 PL</h3>
+                <h3 id="pl-dialog-title" className="text-base font-heading font-semibold mb-3">登录 PL</h3>
                 <p className="text-xs text-muted-foreground mb-3">
-                  建议输入玩家唯一 key（例如：pl.cici）。也可以输入显示名/别名，但必须完全匹配（不做模糊匹配）。
+                  请输出pl的token码。如果你不知道要填什么，去询问你的kp。
                 </p>
-                <PlNameInput
-                  initialValue={revealAllWikiSecrets ? "" : plName}
-                  onConfirm={(name) => {
-                    const resolvedId =
-                      wikiIndex?.lookup.playerIdByName[name.trim().toLowerCase()] || "";
-                    const canonical =
-                      wikiIndex?.players.find((p) => p.id.toLowerCase() === name.trim().toLowerCase())?.id ||
-                      resolvedId ||
-                      name;
-                    setPlName(canonical);
-                    localStorage.setItem(PL_STORAGE_KEY, canonical);
-                    setShowPlDialog(false);
-                    if (canonical) setIsMyPlayedMode(true);
+                <PlTokenInput
+                  loading={aiSession.loading}
+                  onConfirm={async (token) => {
+                    try {
+                      const session = await aiSession.login(token);
+                      toast.success(`已登录为 ${session.displayName}`);
+                      setShowPlDialog(false);
+                      if (session.playerId) setIsMyPlayedMode(true);
+                    } catch (error) {
+                      toast.error(error instanceof Error ? error.message : "登录失败");
+                    }
                   }}
                 />
-                {wikiIndex?.players?.length ? (
-                  <div className="mt-4 border-t border-border/60 pt-4">
-                    <div className="text-xs font-medium text-muted-foreground">可用 PL 唯一 key（参考用）</div>
-                    <div className="mt-2 rounded-xl border border-border/60 bg-card/60 p-3 text-xs leading-6 text-muted-foreground">
-                      {wikiIndex.players.map((p) => p.id).join(" / ")}
-                    </div>
-                  </div>
+                {aiSession.session ? (
+                  <button
+                    type="button"
+                    className="mt-3 text-xs text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
+                    onClick={() => {
+                      aiSession.logout();
+                      setIsMyPlayedMode(false);
+                    setShowPlDialog(false);
+                    }}
+                  >
+                    退出当前登录
+                  </button>
                 ) : null}
               </motion.div>
             </>
@@ -683,24 +649,33 @@ export default function BlogTab() {
   );
 }
 
-function PlNameInput({ initialValue, onConfirm }: { initialValue: string; onConfirm: (name: string) => void }) {
-  const [value, setValue] = useState(initialValue);
+function PlTokenInput({
+  loading,
+  onConfirm,
+}: {
+  loading: boolean;
+  onConfirm: (token: string) => void;
+}) {
+  const [value, setValue] = useState("");
   return (
     <div className="flex gap-2">
       <input
-        type="text"
+        type="password"
         value={value}
         onChange={(e) => setValue(e.target.value)}
-        placeholder="输入玩家名称"
+        placeholder="输入 token"
         className="flex-1 rounded-md border bg-secondary px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-primary/50"
         autoFocus
+        disabled={loading}
         onKeyDown={(e) => { if (e.key === "Enter") onConfirm(value.trim()); }}
       />
       <button
+        type="button"
         onClick={() => onConfirm(value.trim())}
+        disabled={loading}
         className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors"
       >
-        确认
+        {loading ? "登录中" : "确认"}
       </button>
     </div>
   );

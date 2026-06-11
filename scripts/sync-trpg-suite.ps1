@@ -12,7 +12,8 @@ $skills = @(
   "trpg-rules-analyst",
   "module-clue-analyst",
   "plot-foreshadowing-architect",
-  "manage-subrepositories"
+  "manage-subrepositories",
+  "check-server-logs"
 )
 
 foreach ($skill in $skills) {
