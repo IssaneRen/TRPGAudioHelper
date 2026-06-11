@@ -1,0 +1,146 @@
+{
+  "id": "char.damien-dufresne",
+  "category": "character",
+  "displayName": "达米安·德拉克洛瓦·迪弗雷纳",
+  "summary": "法国波尔多旧酒庄的落魄继承人，禁酒令和错误投资毁掉了他的家产，却没有毁掉他对艺术、体面和“朋友”的信任。",
+  "aliasNames": [
+    "达米安",
+    "达米安·迪弗雷纳",
+    "Damien Dufresne",
+    "Damian Dufresne"
+  ],
+  "playerIds": [
+    "pl.ddd"
+  ],
+  "moduleIds": [
+    "module.campaign.primal-state.invitation-to-dance"
+  ],
+  "relatedEntryIds": [
+    "char.sebas-dufresne",
+    "char.indigo",
+    "loc.bennington-vermont",
+    "loc.st-peters-churchyard",
+    "report.invite-to-dance-20260607",
+    "module.campaign.primal-state.invitation-to-dance"
+  ],
+  "facts": [
+    {
+      "label": "国籍",
+      "value": "法国"
+    },
+    {
+      "label": "身份",
+      "value": "落魄贵族 / 业余艺术爱好者"
+    },
+    {
+      "label": "年龄",
+      "value": "26 岁"
+    },
+    {
+      "label": "对应 PL",
+      "value": "DDD"
+    }
+  ],
+  "tags": [
+    "PC"
+  ],
+  "content": [
+    {
+      "type": "heading",
+      "text": "人物概览"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "达米安·德拉克洛瓦·迪弗雷纳出身法国波尔多的葡萄酒世家，曾是德利斯酒庄的继承人。美国禁酒令后，家族海外市场崩溃，酒庄积压、资金断裂，他也从贵族继承人变成了流浪者。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "secret-inline",
+          "playerIds": [
+            "pl.ddd",
+            "pl.leina",
+            "pl.paojiang",
+            "pl.shitoubing",
+            "pl.zote",
+            "pl.lemon"
+          ],
+          "text": "他重度酒精过敏，哪怕一滴酒也可能让他呼吸困难。命运很会开玩笑：一个葡萄酒庄园的继承人，偏偏永远不能靠品酒继承家业。"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "身边的人"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "ref",
+          "entryId": "char.sebas-dufresne",
+          "label": "塞巴斯"
+        },
+        {
+          "type": "text",
+          "text": "仍称他为少爷，也仍把照顾他当成余生的职责。"
+        },
+        {
+          "type": "ref",
+          "entryId": "char.indigo",
+          "label": "靛蓝"
+        },
+        {
+          "type": "text",
+          "text": "则是达米安心中最好的朋友，"
+        },
+        {
+          "type": "secret-inline",
+          "playerIds": [
+            "pl.ddd",
+            "pl.leina",
+            "pl.paojiang",
+            "pl.shitoubing",
+            "pl.zote",
+            "pl.lemon"
+          ],
+          "text": "尽管这位朋友曾把他最后的钱推进骗局"
+        },
+        {
+          "type": "text",
+          "text": "。"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "本宁顿之夜"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "在 "
+        },
+        {
+          "type": "ref",
+          "entryId": "report.invite-to-dance-20260607",
+          "label": "《邀君共舞》"
+        },
+        {
+          "type": "text",
+          "text": " 中，达米安把墓地里的恐怖当作艺术经验保存下来。他受了重伤，却也记住了关键符号；对他来说，那晚不是单纯的灾难，而是一场美、疯狂与疼痛交织的演出。"
+        }
+      ]
+    }
+  ],
+  "createdAt": "2026-06-07T12:00:00+08:00",
+  "updatedAt": "2026-06-11T12:00:00+08:00"
+}

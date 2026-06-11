@@ -51,6 +51,47 @@
         "pl5",
         "通讯兵PL"
       ]
+    },
+    {
+      "id": "pl.ddd",
+      "displayName": "DDD",
+      "aliases": [
+        "ddd",
+        "达米安PL",
+        "达米安·德拉克洛瓦·迪弗雷纳PL"
+      ]
+    },
+    {
+      "id": "pl.paojiang",
+      "displayName": "狍酱",
+      "aliases": [
+        "paojiang",
+        "布莱尔PL"
+      ]
+    },
+    {
+      "id": "pl.shitoubing",
+      "displayName": "石头饼",
+      "aliases": [
+        "shitoubing",
+        "劳伦斯PL"
+      ]
+    },
+    {
+      "id": "pl.zote",
+      "displayName": "Zote",
+      "aliases": [
+        "zote",
+        "哈兹雷德PL"
+      ]
+    },
+    {
+      "id": "pl.lemon",
+      "displayName": "柠檬",
+      "aliases": [
+        "lemon",
+        "靛蓝PL"
+      ]
     }
   ],
   "modules": [
@@ -789,6 +830,53 @@
       "updatedAt": "2026-06-06T00:00:00+08:00"
     },
     {
+      "id": "char.blair",
+      "category": "character",
+      "displayName": "布莱尔",
+      "summary": "本宁顿当地人，对外像个三流演员。墓地新闻对他不是镇上的闲谈，而是一件必须亲自确认的事。",
+      "aliasNames": [
+        "Blair",
+        "布莱尔"
+      ],
+      "playerIds": [
+        "pl.paojiang"
+      ],
+      "moduleIds": [
+        "module.campaign.primal-state.invitation-to-dance"
+      ],
+      "relatedEntryIds": [
+        "char.lawrence",
+        "loc.bennington-vermont",
+        "loc.st-peters-churchyard",
+        "report.invite-to-dance-20260607",
+        "module.campaign.primal-state.invitation-to-dance"
+      ],
+      "facts": [
+        {
+          "label": "住地",
+          "value": "本宁顿"
+        },
+        {
+          "label": "公开身份",
+          "value": "三流演员"
+        },
+        {
+          "label": "牵挂",
+          "value": "圣彼得教堂墓地的一处私人记忆"
+        },
+        {
+          "label": "对应 PL",
+          "value": "狍酱"
+        }
+      ],
+      "tags": [
+        "PC"
+      ],
+      "hasCocSheet": false,
+      "createdAt": "2026-06-07T12:00:00+08:00",
+      "updatedAt": "2026-06-11T12:00:00+08:00"
+    },
+    {
       "id": "char.bryde",
       "category": "character",
       "displayName": "布赖德 Bryde",
@@ -898,6 +986,56 @@
       "hasCocSheet": false,
       "createdAt": "2026-06-06T00:00:00+08:00",
       "updatedAt": "2026-06-06T00:00:00+08:00"
+    },
+    {
+      "id": "char.damien-dufresne",
+      "category": "character",
+      "displayName": "达米安·德拉克洛瓦·迪弗雷纳",
+      "summary": "法国波尔多旧酒庄的落魄继承人，禁酒令和错误投资毁掉了他的家产，却没有毁掉他对艺术、体面和“朋友”的信任。",
+      "aliasNames": [
+        "达米安",
+        "达米安·迪弗雷纳",
+        "Damien Dufresne",
+        "Damian Dufresne"
+      ],
+      "playerIds": [
+        "pl.ddd"
+      ],
+      "moduleIds": [
+        "module.campaign.primal-state.invitation-to-dance"
+      ],
+      "relatedEntryIds": [
+        "char.sebas-dufresne",
+        "char.indigo",
+        "loc.bennington-vermont",
+        "loc.st-peters-churchyard",
+        "report.invite-to-dance-20260607",
+        "module.campaign.primal-state.invitation-to-dance"
+      ],
+      "facts": [
+        {
+          "label": "国籍",
+          "value": "法国"
+        },
+        {
+          "label": "身份",
+          "value": "落魄贵族 / 业余艺术爱好者"
+        },
+        {
+          "label": "年龄",
+          "value": "26 岁"
+        },
+        {
+          "label": "对应 PL",
+          "value": "DDD"
+        }
+      ],
+      "tags": [
+        "PC"
+      ],
+      "hasCocSheet": false,
+      "createdAt": "2026-06-07T12:00:00+08:00",
+      "updatedAt": "2026-06-11T12:00:00+08:00"
     },
     {
       "id": "char.daniel-abernathy",
@@ -1102,6 +1240,100 @@
       "updatedAt": "2026-06-06T00:00:00+08:00"
     },
     {
+      "id": "char.hazred",
+      "category": "character",
+      "displayName": "哈兹雷德",
+      "summary": "印度裔神秘学学生，学术兴趣与不稳定收入并行。来到美国后，他第一次真正意识到：旧符号有时也会回看凝视它的人。",
+      "aliasNames": [
+        "Hazred",
+        "哈兹雷德"
+      ],
+      "playerIds": [
+        "pl.zote"
+      ],
+      "moduleIds": [
+        "module.campaign.primal-state.invitation-to-dance"
+      ],
+      "relatedEntryIds": [
+        "loc.bennington-vermont",
+        "loc.st-peters-churchyard",
+        "report.invite-to-dance-20260607",
+        "module.campaign.primal-state.invitation-to-dance"
+      ],
+      "facts": [
+        {
+          "label": "族裔",
+          "value": "印度裔"
+        },
+        {
+          "label": "身份",
+          "value": "学生 / 神秘学研究者"
+        },
+        {
+          "label": "收入来源",
+          "value": "不稳定，细节未公开"
+        },
+        {
+          "label": "对应 PL",
+          "value": "Zote"
+        }
+      ],
+      "tags": [
+        "PC"
+      ],
+      "hasCocSheet": false,
+      "createdAt": "2026-06-07T12:00:00+08:00",
+      "updatedAt": "2026-06-11T12:00:00+08:00"
+    },
+    {
+      "id": "char.indigo",
+      "category": "character",
+      "displayName": "靛蓝",
+      "summary": "真名不详的流浪投机者，路过哪里就在哪里寻找“大单”。他总能把陌生人的信任变成新的机会。",
+      "aliasNames": [
+        "Indigo",
+        "靛蓝"
+      ],
+      "playerIds": [
+        "pl.lemon"
+      ],
+      "moduleIds": [
+        "module.campaign.primal-state.invitation-to-dance"
+      ],
+      "relatedEntryIds": [
+        "char.damien-dufresne",
+        "char.sebas-dufresne",
+        "loc.bennington-vermont",
+        "loc.st-peters-churchyard",
+        "report.invite-to-dance-20260607",
+        "module.campaign.primal-state.invitation-to-dance"
+      ],
+      "facts": [
+        {
+          "label": "身份",
+          "value": "流浪投机者"
+        },
+        {
+          "label": "真名",
+          "value": "不详"
+        },
+        {
+          "label": "交际手段",
+          "value": "风水、投资、临场应变"
+        },
+        {
+          "label": "对应 PL",
+          "value": "Lemon"
+        }
+      ],
+      "tags": [
+        "PC"
+      ],
+      "hasCocSheet": false,
+      "createdAt": "2026-06-07T12:00:00+08:00",
+      "updatedAt": "2026-06-11T12:00:00+08:00"
+    },
+    {
       "id": "char.jeremiah-moon",
       "category": "character",
       "displayName": "杰里迈亚·沐恩 Jeremiah Moon",
@@ -1258,6 +1490,53 @@
       "hasCocSheet": true,
       "createdAt": "1928-11-08T20:40:00Z",
       "updatedAt": "2026-06-06T00:00:00+08:00"
+    },
+    {
+      "id": "char.lawrence",
+      "category": "character",
+      "displayName": "劳伦斯",
+      "summary": "本宁顿当地青年，与事发墓地有私人牵挂。他话少、谨慎，习惯先观察，再用行动替别人兜底。",
+      "aliasNames": [
+        "Lawrence",
+        "劳伦斯"
+      ],
+      "playerIds": [
+        "pl.shitoubing"
+      ],
+      "moduleIds": [
+        "module.campaign.primal-state.invitation-to-dance"
+      ],
+      "relatedEntryIds": [
+        "char.blair",
+        "loc.bennington-vermont",
+        "loc.st-peters-churchyard",
+        "report.invite-to-dance-20260607",
+        "module.campaign.primal-state.invitation-to-dance"
+      ],
+      "facts": [
+        {
+          "label": "住地",
+          "value": "本宁顿"
+        },
+        {
+          "label": "身份",
+          "value": "本地青年 / 入门神秘学研究者"
+        },
+        {
+          "label": "牵挂",
+          "value": "亲人的坟墓"
+        },
+        {
+          "label": "对应 PL",
+          "value": "石头冰"
+        }
+      ],
+      "tags": [
+        "PC"
+      ],
+      "hasCocSheet": false,
+      "createdAt": "2026-06-07T12:00:00+08:00",
+      "updatedAt": "2026-06-11T12:00:00+08:00"
     },
     {
       "id": "char.leina",
@@ -1553,6 +1832,54 @@
       "hasCocSheet": false,
       "createdAt": "2026-06-03T00:00:00+08:00",
       "updatedAt": "2026-06-06T00:00:00+08:00"
+    },
+    {
+      "id": "char.sebas-dufresne",
+      "category": "character",
+      "displayName": "塞巴斯·迪弗雷纳",
+      "summary": "迪弗雷纳家族最后的管家。少爷去哪里，他就去哪里；手提箱、急救包、礼仪和手枪，全都服务于同一个目标。",
+      "aliasNames": [
+        "塞巴斯",
+        "Sebas Dufresne"
+      ],
+      "playerIds": [
+        "pl.leina"
+      ],
+      "moduleIds": [
+        "module.campaign.primal-state.invitation-to-dance"
+      ],
+      "relatedEntryIds": [
+        "char.damien-dufresne",
+        "char.indigo",
+        "loc.bennington-vermont",
+        "loc.st-peters-churchyard",
+        "report.invite-to-dance-20260607",
+        "module.campaign.primal-state.invitation-to-dance"
+      ],
+      "facts": [
+        {
+          "label": "身份",
+          "value": "管家"
+        },
+        {
+          "label": "年龄",
+          "value": "54 岁"
+        },
+        {
+          "label": "服务对象",
+          "value": "迪弗雷纳家族"
+        },
+        {
+          "label": "对应 PL",
+          "value": "莱纳"
+        }
+      ],
+      "tags": [
+        "PC"
+      ],
+      "hasCocSheet": false,
+      "createdAt": "2026-06-07T12:00:00+08:00",
+      "updatedAt": "2026-06-11T12:00:00+08:00"
     },
     {
       "id": "event.kingsport-blindness-19281106",
@@ -2355,6 +2682,73 @@
       "updatedAt": "2026-05-28T00:00:00+08:00"
     },
     {
+      "id": "report.invite-to-dance-20260607",
+      "category": "report",
+      "displayName": "战报：《邀君共舞》2026.06.07",
+      "summary": "《原初之境》战役中《邀请来舞会》的一次实际游玩记录。战报题名采用本团名《邀君共舞》，模组条目仍保留原名。",
+      "aliasNames": [
+        "邀君共舞战报 2026.06.07",
+        "战报 邀君共舞 2026.06.07",
+        "《邀君共舞》26.06.07"
+      ],
+      "playerIds": [
+        "pl.ddd",
+        "pl.leina",
+        "pl.paojiang",
+        "pl.shitoubing",
+        "pl.zote",
+        "pl.lemon"
+      ],
+      "moduleIds": [
+        "module.campaign.primal-state.invitation-to-dance"
+      ],
+      "relatedEntryIds": [
+        "module.campaign.primal-state.overview",
+        "module.campaign.primal-state.invitation-to-dance",
+        "loc.primal-state-vermont",
+        "loc.bennington-vermont",
+        "loc.st-peters-churchyard",
+        "char.norbert-mckenzie",
+        "char.martin-hudson",
+        "char.constance-jefferies",
+        "char.jeremiah-moon",
+        "char.damien-dufresne",
+        "char.sebas-dufresne",
+        "char.blair",
+        "char.lawrence",
+        "char.hazred",
+        "char.indigo"
+      ],
+      "facts": [
+        {
+          "label": "内容类型",
+          "value": "单场战报 / 跑团记录"
+        },
+        {
+          "label": "游玩时间",
+          "value": "2026.06.07"
+        },
+        {
+          "label": "关联模组",
+          "value": "邀请来舞会（战报题名：邀君共舞）"
+        },
+        {
+          "label": "说明",
+          "value": "本词条记录本团实际游玩过程，不修改既有模组名。"
+        }
+      ],
+      "tags": [
+        "COC7",
+        "战报",
+        "原初之境",
+        "本宁顿",
+        "墓地"
+      ],
+      "hasCocSheet": false,
+      "createdAt": "2026-06-07T12:00:00+08:00",
+      "updatedAt": "2026-06-11T12:00:00+08:00"
+    },
+    {
       "id": "report.mist-city-record-20260524",
       "category": "report",
       "displayName": "战报：《夜战》2026.05.24",
@@ -2440,6 +2834,8 @@
       "amy luck": "char.amy-luck",
       "艾咪·拉克": "char.amy-luck",
       "拉克": "char.amy-luck",
+      "布莱尔": "char.blair",
+      "blair": "char.blair",
       "布赖德 bryde": "char.bryde",
       "bryde": "char.bryde",
       "布赖德": "char.bryde",
@@ -2451,6 +2847,11 @@
       "constance jefferies": "char.constance-jefferies",
       "康斯坦丝": "char.constance-jefferies",
       "康斯坦丝·杰弗里斯": "char.constance-jefferies",
+      "达米安·德拉克洛瓦·迪弗雷纳": "char.damien-dufresne",
+      "达米安": "char.damien-dufresne",
+      "达米安·迪弗雷纳": "char.damien-dufresne",
+      "damien dufresne": "char.damien-dufresne",
+      "damian dufresne": "char.damien-dufresne",
       "丹尼尔·阿伯纳西 daniel abernathy": "char.daniel-abernathy",
       "daniel abernathy": "char.daniel-abernathy",
       "丹尼尔·阿伯纳西": "char.daniel-abernathy",
@@ -2471,6 +2872,10 @@
       "glynis abernathy": "char.glynis-abernathy",
       "格莉妮丝": "char.glynis-abernathy",
       "格莉妮丝·阿伯纳西": "char.glynis-abernathy",
+      "哈兹雷德": "char.hazred",
+      "hazred": "char.hazred",
+      "靛蓝": "char.indigo",
+      "indigo": "char.indigo",
       "杰里迈亚·沐恩 jeremiah moon": "char.jeremiah-moon",
       "jeremiah moon": "char.jeremiah-moon",
       "杰里迈亚": "char.jeremiah-moon",
@@ -2485,6 +2890,8 @@
       "辛克莱": "char.john-sinclair",
       "kiven": "char.kiven",
       "基文": "char.kiven",
+      "劳伦斯": "char.lawrence",
+      "lawrence": "char.lawrence",
       "莱纳·托尔拓 leina": "char.leina",
       "leina": "char.leina",
       "莱纳": "char.leina",
@@ -2511,6 +2918,9 @@
       "robert barr": "char.robert-barr",
       "罗伯特": "char.robert-barr",
       "罗伯特·巴尔": "char.robert-barr",
+      "塞巴斯·迪弗雷纳": "char.sebas-dufresne",
+      "塞巴斯": "char.sebas-dufresne",
+      "sebas dufresne": "char.sebas-dufresne",
       "1928.11.6 - 金斯波特失明案件": "event.kingsport-blindness-19281106",
       "金斯波特失明案件": "event.kingsport-blindness-19281106",
       "1928.11.6 失明案件": "event.kingsport-blindness-19281106",
@@ -2578,6 +2988,10 @@
       "金斯波特：迷雾之城": "module.kingsport-city-in-the-mists",
       "金斯波特补遗": "module.kingsport-city-in-the-mists",
       "有些人油盐不进": "module.library.and-some-fell-on-stony-ground",
+      "战报：《邀君共舞》2026.06.07": "report.invite-to-dance-20260607",
+      "邀君共舞战报 2026.06.07": "report.invite-to-dance-20260607",
+      "战报 邀君共舞 2026.06.07": "report.invite-to-dance-20260607",
+      "《邀君共舞》26.06.07": "report.invite-to-dance-20260607",
       "战报：《夜战》2026.05.24": "report.mist-city-record-20260524",
       "夜战战报 2026.05.24": "report.mist-city-record-20260524",
       "战报 夜战 2026.05.24": "report.mist-city-record-20260524",
@@ -2607,7 +3021,26 @@
       "pl.leo": "pl.leo",
       "leo": "pl.leo",
       "pl5": "pl.leo",
-      "通讯兵pl": "pl.leo"
+      "通讯兵pl": "pl.leo",
+      "pl.ddd": "pl.ddd",
+      "ddd": "pl.ddd",
+      "达米安pl": "pl.ddd",
+      "达米安·德拉克洛瓦·迪弗雷纳pl": "pl.ddd",
+      "pl.paojiang": "pl.paojiang",
+      "狍酱": "pl.paojiang",
+      "paojiang": "pl.paojiang",
+      "布莱尔pl": "pl.paojiang",
+      "pl.shitoubing": "pl.shitoubing",
+      "石头饼": "pl.shitoubing",
+      "shitoubing": "pl.shitoubing",
+      "劳伦斯pl": "pl.shitoubing",
+      "pl.zote": "pl.zote",
+      "zote": "pl.zote",
+      "哈兹雷德pl": "pl.zote",
+      "pl.lemon": "pl.lemon",
+      "柠檬": "pl.lemon",
+      "lemon": "pl.lemon",
+      "靛蓝pl": "pl.lemon"
     },
     "moduleIdByName": {
       "永恒恶意": "module.kingsport-city-in-the-mists",

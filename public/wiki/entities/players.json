@@ -28,5 +28,30 @@
     "id": "pl.leo",
     "displayName": "Leo",
     "aliases": ["leo", "pl5", "通讯兵PL"]
+  },
+  {
+    "id": "pl.ddd",
+    "displayName": "DDD",
+    "aliases": ["ddd", "达米安PL", "达米安·德拉克洛瓦·迪弗雷纳PL"]
+  },
+  {
+    "id": "pl.paojiang",
+    "displayName": "狍酱",
+    "aliases": ["paojiang", "布莱尔PL"]
+  },
+  {
+    "id": "pl.shitoubing",
+    "displayName": "石头饼",
+    "aliases": ["shitoubing", "劳伦斯PL"]
+  },
+  {
+    "id": "pl.zote",
+    "displayName": "Zote",
+    "aliases": ["zote", "哈兹雷德PL"]
+  },
+  {
+    "id": "pl.lemon",
+    "displayName": "柠檬",
+    "aliases": ["lemon", "靛蓝PL"]
   }
 ]

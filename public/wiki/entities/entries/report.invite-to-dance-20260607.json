@@ -1,0 +1,511 @@
+{
+  "id": "report.invite-to-dance-20260607",
+  "category": "report",
+  "displayName": "战报：《邀君共舞》2026.06.07",
+  "summary": "《原初之境》战役中《邀请来舞会》的一次实际游玩记录。战报题名采用本团名《邀君共舞》，模组条目仍保留原名。",
+  "aliasNames": [
+    "邀君共舞战报 2026.06.07",
+    "战报 邀君共舞 2026.06.07",
+    "《邀君共舞》26.06.07"
+  ],
+  "playerIds": [
+    "pl.ddd",
+    "pl.leina",
+    "pl.paojiang",
+    "pl.shitoubing",
+    "pl.zote",
+    "pl.lemon"
+  ],
+  "moduleIds": [
+    "module.campaign.primal-state.invitation-to-dance"
+  ],
+  "relatedEntryIds": [
+    "module.campaign.primal-state.overview",
+    "module.campaign.primal-state.invitation-to-dance",
+    "loc.primal-state-vermont",
+    "loc.bennington-vermont",
+    "loc.st-peters-churchyard",
+    "char.norbert-mckenzie",
+    "char.martin-hudson",
+    "char.constance-jefferies",
+    "char.jeremiah-moon",
+    "char.damien-dufresne",
+    "char.sebas-dufresne",
+    "char.blair",
+    "char.lawrence",
+    "char.hazred",
+    "char.indigo"
+  ],
+  "facts": [
+    {
+      "label": "内容类型",
+      "value": "单场战报 / 跑团记录"
+    },
+    {
+      "label": "游玩时间",
+      "value": "2026.06.07"
+    },
+    {
+      "label": "关联模组",
+      "value": "邀请来舞会（战报题名：邀君共舞）"
+    },
+    {
+      "label": "说明",
+      "value": "本词条记录本团实际游玩过程，不修改既有模组名。"
+    }
+  ],
+  "tags": [
+    "COC7",
+    "战报",
+    "原初之境",
+    "本宁顿",
+    "墓地"
+  ],
+  "content": [
+    {
+      "type": "heading",
+      "text": "1927 年 10 月 3 日，正午"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "那天的故事从 "
+        },
+        {
+          "type": "ref",
+          "entryId": "loc.bennington-vermont",
+          "label": "本宁顿"
+        },
+        {
+          "type": "text",
+          "text": " 的 7 号公路旁开始。咖啡厅外是施工声、尘土和停在路边的汽车；桌上摊着同一则报纸新闻："
+        },
+        {
+          "type": "ref",
+          "entryId": "loc.st-peters-churchyard",
+          "label": "圣彼得教堂墓地"
+        },
+        {
+          "type": "text",
+          "text": " 里两块旧墓碑离开原位，沉重得不像能被恶作剧搬动，却又找不到像样的拖拽痕迹。"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "公路边的六个人"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "ref",
+          "entryId": "char.damien-dufresne",
+          "label": "达米安·德拉克洛瓦·迪弗雷纳"
+        },
+        {
+          "type": "text",
+          "text": " 坐在旧汽车后座，仍努力维持着一个落魄贵族最后的体面。"
+        },
+        {
+          "type": "ref",
+          "entryId": "char.sebas-dufresne",
+          "label": "塞巴斯"
+        },
+        {
+          "type": "text",
+          "text": " 开车，手提箱里像装着半个庄园，也装着他对少爷的全部耐心。"
+        },
+        {
+          "type": "ref",
+          "entryId": "char.indigo",
+          "label": "靛蓝"
+        },
+        {
+          "type": "text",
+          "text": " 本只是路过，一看见人群聚集，立刻闻到了“大单”的味道。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "ref",
+          "entryId": "char.blair",
+          "label": "布莱尔"
+        },
+        {
+          "type": "text",
+          "text": " 听到墓地出事后坐不住，因为妻子就葬在那里。"
+        },
+        {
+          "type": "ref",
+          "entryId": "char.lawrence",
+          "label": "劳伦斯"
+        },
+        {
+          "type": "text",
+          "text": " 同样要去确认父亲的坟墓是否安好。"
+        },
+        {
+          "type": "ref",
+          "entryId": "char.hazred",
+          "label": "哈兹雷德"
+        },
+        {
+          "type": "text",
+          "text": " 则把剪报收好，像所有太好奇的人一样，已经开始惦记那些不该看的旧符号。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "六个人并不是什么预先约好的调查团。更准确地说，他们只是被同一张报纸推到了同一条路上，然后各自带着自己的债、坟墓、信仰、骗局和伤口，朝同一片墓地走去。"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "去警局的人，去墓地的人"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "布莱尔和劳伦斯没有等太久。一个租了马，一个骑上自行车，先去墓地确认亲人的坟墓。另一边，达米安、塞巴斯、哈兹雷德和靛蓝去警局找 "
+        },
+        {
+          "type": "ref",
+          "entryId": "char.martin-hudson",
+          "label": "哈德森警长"
+        },
+        {
+          "type": "text",
+          "text": "。警长已经被墓碑事件折磨了几天，愿意付赏金，只要有人能让墓碑别再自己跳舞。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "在去警局前，靛蓝先对施工队下手。他自称懂风水，摆弄几张扑克牌，告诉工人最近运势被女人影响，然后收下了 10 美元。工地旁，一根老石柱被敲掉了一角，残面上隐约露出七角星。靛蓝看见了，却还不知道它会在夜里变得多重要。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "塞巴斯也看见了靛蓝。他当然认得这个骗子：当年就是这张脸在庄园里把少爷哄得眼睛发亮。于是笔直的公路上出现了一次非常不自然的“车技失误”。靛蓝没系安全带，脑袋撞上车顶；塞巴斯又彬彬有礼地替他包扎，手法熟练，只是动作略重。"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "墓地里的误会"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "布莱尔赶到墓地时，先看见一个鬼鬼祟祟的侦探杰克逊。他没有选择从远处喊话，而是直接策马撞了过去。杰克逊摔倒，布莱尔拿绳子，劳伦斯赶到后掏枪上膛；几秒钟后，误会被迫停在枪口前。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "这场小冲突反而让两件事变得清楚：杰克逊不是盗墓贼，布莱尔妻子的坟墓也没有被动过。布莱尔在墓前停了很久，手指拂过碑上的字。劳伦斯在旁边没有多说话，只把局面从莽撞拉回了还能询问、还能调查的状态。"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "档案室里的旧纸"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "教堂地下档案室潮湿、发霉，旧纸一碰就像要碎掉。"
+        },
+        {
+          "type": "ref",
+          "entryId": "char.norbert-mckenzie",
+          "label": "麦肯齐牧师"
+        },
+        {
+          "type": "text",
+          "text": " 说话常常绕丢自己的上一句，但仍把他们放了进去。旧记录里出现了两个名字："
+        },
+        {
+          "type": "ref",
+          "entryId": "char.constance-jefferies",
+          "label": "康斯坦丝·杰弗里斯"
+        },
+        {
+          "type": "text",
+          "text": " 和 "
+        },
+        {
+          "type": "ref",
+          "entryId": "char.jeremiah-moon",
+          "label": "杰里迈亚·沐恩"
+        },
+        {
+          "type": "text",
+          "text": "。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "哈兹雷德在残柱前盯着七角星，某个非人的面孔像从符号背后看了回来。他没有立刻退开。劳伦斯翻到《新英格兰乐土上的奇书异事》的残页，旧书里提到钟、石柱和放逐；缺失的第四章却像故意被掐掉的一截喉咙，只留下够他们今晚活命、又不足以安心的信息。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "布莱尔在档案室深处闻到一股不属于霉纸的暖香。红发女人出现又消失，留下难以解释的恐惧和羞耻。达米安在旁边看见的不是完整真相，而是一段过分荒诞的表演；他默默掏出笔记本，开始作曲。"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "八点的钟声"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "傍晚时，他们试着把墓碑搬回原位，找碎石补柱，在破损的石面上补画圆。每一步都不顺：墓碑沉得离谱，临时堆出的石柱不可靠，刻痕一次次歪掉。布莱尔甚至认真考虑过另一条荒唐的活路：如果女巫只害男性，那乔装成女性是否能蒙混过去。塞巴斯帮他修假发，结果剪得乱七八糟，这条路也断了。"
+        }
+      ]
+    },
+    {
+      "type": "image",
+      "src": "/blog/images/report-20260607/img1.png",
+      "alt": "圣彼得教堂墓地深夜图",
+      "caption": "八点后，墓地不再像白天那样只是墓地。"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "晚 8 点，钟楼无人触碰，大钟自己响了十三声。浓雾从墓地地面升起，吞掉墓碑、围栏、教堂和所有人的方向感。布莱尔、塞巴斯、劳伦斯和达米安发现脚下的本宁顿变了，仿佛被甩回一百五十年前。天空里没有鸟鸣，只有两只无声俯冲的夜魔。"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "管家的枪声"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "第一只夜魔抓住达米安，把他拖离地面。达米安的身体很快失去力气，只剩声音还能从雾里掉下来。塞巴斯喊了一声少爷，拔枪，第一枪打偏，第二枪稳住，第三枪把怪物从空中打落。另一只夜魔从侧翼扑来，也被他转身击中。黑色血迹溅上管家的衣服，他没有低头看。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "康斯坦丝随后从墓园深处走出。红发，金瞳，小腹上有七角星与圆。达米安刚从夜魔爪下摔下来，却仍像被某种极端的美吸住；他唱起那支荒唐的小调，被她抱起，飞向高处。后来，他带着骨折、伤口和极不体面的状态落回墓地，却把那个符号完整记了下来。"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "旅馆窗口下的顶膝"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "靛蓝不在那段旧本宁顿里。他在旅馆窗口看见的，是红发骷髅从墓地里爬出，抱着达米安往地下拖。他没有理解，也来不及理解，只是冲下楼，冲进墓园，一记顶膝撞上去。那一击准得不像临时起意，连雾都像被撞开了一瞬。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "这一下太不讲道理，以至于后来很难复述。女巫被撞退，雾里的幻象开始碎裂。布莱尔在钟楼醒来，却发现自己看不见了；劳伦斯扶住他往旅馆方向退，一边还要回头确认其他人有没有被落下；哈兹雷德被夜魔撕伤腿，仍然往钟楼的方向爬。"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "最后一次敲钟"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "第二波夜魔从浓雾里回来时，已经没有太多时间。达米安等人补齐石柱上的圆，塞巴斯站到破损柱位前，说：“我当柱子。”这句话听起来很稳，实际却几乎等同于把自己的命放在仪式里。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "劳伦斯几乎是在濒死边缘继续求援和掩护。哈兹雷德被扑倒，又挣扎着往楼梯方向挪。靛蓝冲上钟楼时，钟绳已经断了；他抓住钟锤的木柄，用尽力气撞向大钟。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "钟声扩散出去。夜魔僵住、颤抖，最后退回浓雾深处。两块错位的墓碑自行归回原处，像从来没有移动过。墓地安静下来，只剩枪声和钟声的余震还在人耳里发疼。"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "天亮以前"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "警长赶到时，看见的是黑色血迹、弹壳、碎石和一群伤得很难解释的人。塞巴斯靠在破损石柱旁，仍然握着枪，只说问题已经解决。哈德森警长没有追问太多。新英格兰小镇生活久了，有些东西不知道比知道安全。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "布莱尔的失明会在几天后缓解，他仍要回妻子墓前待很久。劳伦斯从濒死边缘被救回，决定离开本宁顿休养，但那本缺了第四章的书不会放过他。哈兹雷德对神秘学更感兴趣，也更敬畏；那个从符号背后望来的面孔，会成为他新的注脚。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "达米安躺在病床上，把这晚当成一生难得的艺术灵感，仍握着靛蓝的手称他为最好的朋友。塞巴斯站在床边，浑身是伤，礼节却没有乱。至于靛蓝，他仍不明白自己到底踹了什么，也不知道为什么要敲钟；算上骗来的 10 美元，这趟路过本宁顿的买卖至少没有亏。"
+        }
+      ]
+    },
+    {
+      "type": "quote",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "墓碑回归原位。钟声消散于夜色。红发女人的金瞳，却会在某些人的梦里继续亮着。"
+        }
+      ]
+    },
+    {
+      "type": "secret-panel",
+      "title": "封存档案：墓碑为什么会跳舞",
+      "hiddenMode": "mask",
+      "playerIds": [
+        "pl.ddd",
+        "pl.leina",
+        "pl.paojiang",
+        "pl.shitoubing",
+        "pl.zote",
+        "pl.lemon"
+      ],
+      "blocks": [
+        {
+          "type": "paragraph",
+          "tokens": [
+            {
+              "type": "text",
+              "text": "康斯坦丝·杰弗里斯并非普通女巫，而是与繁育、生命和堕落相关的古老存在在此地留下的化身。杰里迈亚·沐恩出身猎魔人家族，却没能真正处理她；两人死后又葬在同一墓地，封印随时间衰弱。"
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "tokens": [
+            {
+              "type": "text",
+              "text": "施工图纸上的“汤尼·特拉利亚”查无此人。后来核对图纸与字母时，人们才发现这个名字指向奈亚拉托提普：祂篡改图纸，让施工队敲掉封印石柱，只为了把这场旧墓地的灾难重新推上舞台。"
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "tokens": [
+            {
+              "type": "text",
+              "text": "钟鸣放逐术需要四根完整石柱与一口钟。缺失石柱时，活人可以顶替，但代价可能是被抽干生命。塞巴斯站上破损柱位后，仪式已经开始索取代价；靛蓝及时敲响钟声，才把那份代价压了回去。"
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "tokens": [
+            {
+              "type": "text",
+              "text": "若当晚未能完成仪式，布莱尔会在午夜后被体内的异常逐步吞噬，本宁顿也很难只是“墓碑移动”的地方新闻。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "secret-panel",
+      "title": "封存影像：最后一张图",
+      "hiddenMode": "mask",
+      "playerIds": [
+        "pl.ddd",
+        "pl.leina",
+        "pl.paojiang",
+        "pl.shitoubing",
+        "pl.zote",
+        "pl.lemon"
+      ],
+      "blocks": [
+        {
+          "type": "image",
+          "src": "/blog/images/report-20260607/img2.png",
+          "alt": "墓地上空的红发身影",
+          "caption": "那一晚真正留在梦里的画面。"
+        }
+      ]
+    }
+  ],
+  "createdAt": "2026-06-07T12:00:00+08:00",
+  "updatedAt": "2026-06-11T12:00:00+08:00"
+}

@@ -1,0 +1,148 @@
+{
+  "id": "char.indigo",
+  "category": "character",
+  "displayName": "靛蓝",
+  "summary": "真名不详的流浪投机者，路过哪里就在哪里寻找“大单”。他总能把陌生人的信任变成新的机会。",
+  "aliasNames": [
+    "Indigo",
+    "靛蓝"
+  ],
+  "playerIds": [
+    "pl.lemon"
+  ],
+  "moduleIds": [
+    "module.campaign.primal-state.invitation-to-dance"
+  ],
+  "relatedEntryIds": [
+    "char.damien-dufresne",
+    "char.sebas-dufresne",
+    "loc.bennington-vermont",
+    "loc.st-peters-churchyard",
+    "report.invite-to-dance-20260607",
+    "module.campaign.primal-state.invitation-to-dance"
+  ],
+  "facts": [
+    {
+      "label": "身份",
+      "value": "流浪投机者"
+    },
+    {
+      "label": "真名",
+      "value": "不详"
+    },
+    {
+      "label": "交际手段",
+      "value": "风水、投资、临场应变"
+    },
+    {
+      "label": "对应 PL",
+      "value": "Lemon"
+    }
+  ],
+  "tags": [
+    "PC"
+  ],
+  "content": [
+    {
+      "type": "heading",
+      "text": "人物概览"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "靛蓝是真名不详的流浪投机者。"
+        },
+        {
+          "type": "secret-inline",
+          "playerIds": [
+            "pl.ddd",
+            "pl.leina",
+            "pl.paojiang",
+            "pl.shitoubing",
+            "pl.zote",
+            "pl.lemon"
+          ],
+          "text": "行骗次数太多，他甚至不记得自己曾经骗过谁；在他的说法里，那些人只是随手打死的蚊子，根本不值得记住。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "他和 "
+        },
+        {
+          "type": "ref",
+          "entryId": "char.damien-dufresne",
+          "label": "达米安"
+        },
+        {
+          "type": "text",
+          "text": " 有一段不适合公开细说的旧缘。"
+        },
+        {
+          "type": "secret-inline",
+          "playerIds": [
+            "pl.ddd",
+            "pl.leina",
+            "pl.paojiang",
+            "pl.shitoubing",
+            "pl.zote",
+            "pl.lemon"
+          ],
+          "text": "他曾以艺术投资顾问的身份怂恿达米安把最后的钱投进骗局"
+        },
+        {
+          "type": "text",
+          "text": "。"
+        },
+        {
+          "type": "ref",
+          "entryId": "char.sebas-dufresne",
+          "label": "塞巴斯"
+        },
+        {
+          "type": "text",
+          "text": " 却一眼认出了他。"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "本宁顿之夜"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "在 "
+        },
+        {
+          "type": "ref",
+          "entryId": "report.invite-to-dance-20260607",
+          "label": "《邀君共舞》"
+        },
+        {
+          "type": "text",
+          "text": " 中，靛蓝先从施工队那里骗来 10 美元，又偷马、住旅馆、隔窗看热闹。可当墓地里有东西抱住达米安时，他冲了进去，用一记荒唐到近乎命运的顶膝把局面撞回了人类这边。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "他大概始终没弄懂自己到底踹了什么。对靛蓝来说，这趟路过本宁顿的买卖至少没有亏本。"
+        }
+      ]
+    }
+  ],
+  "createdAt": "2026-06-07T12:00:00+08:00",
+  "updatedAt": "2026-06-11T12:00:00+08:00"
+}

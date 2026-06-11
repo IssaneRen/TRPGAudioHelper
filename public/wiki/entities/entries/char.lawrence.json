@@ -1,0 +1,135 @@
+{
+  "id": "char.lawrence",
+  "category": "character",
+  "displayName": "劳伦斯",
+  "summary": "本宁顿当地青年，与事发墓地有私人牵挂。他话少、谨慎，习惯先观察，再用行动替别人兜底。",
+  "aliasNames": [
+    "Lawrence",
+    "劳伦斯"
+  ],
+  "playerIds": [
+    "pl.shitoubing"
+  ],
+  "moduleIds": [
+    "module.campaign.primal-state.invitation-to-dance"
+  ],
+  "relatedEntryIds": [
+    "char.blair",
+    "loc.bennington-vermont",
+    "loc.st-peters-churchyard",
+    "report.invite-to-dance-20260607",
+    "module.campaign.primal-state.invitation-to-dance"
+  ],
+  "facts": [
+    {
+      "label": "住地",
+      "value": "本宁顿"
+    },
+    {
+      "label": "身份",
+      "value": "本地青年 / 入门神秘学研究者"
+    },
+    {
+      "label": "牵挂",
+      "value": "亲人的坟墓"
+    },
+    {
+      "label": "对应 PL",
+      "value": "石头冰"
+    }
+  ],
+  "tags": [
+    "PC"
+  ],
+  "content": [
+    {
+      "type": "heading",
+      "text": "人物概览"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "劳伦斯是本宁顿当地居民，已经从大学毕业。他自称研究神秘学，但若遇到真正的专业人士，他也知道自己的水平只能算入门。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "他家境并不宽裕，随身带着一把手枪。平日沉默寡言，习惯先观察再开口；人群里最安静的那个，往往也是第一个注意到局面要失控的人。"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "亲人的坟墓"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "secret-inline",
+          "playerIds": [
+            "pl.ddd",
+            "pl.leina",
+            "pl.paojiang",
+            "pl.shitoubing",
+            "pl.zote",
+            "pl.lemon"
+          ],
+          "text": "父亲"
+        },
+        {
+          "type": "text",
+          "text": "葬在 "
+        },
+        {
+          "type": "ref",
+          "entryId": "loc.st-peters-churchyard",
+          "label": "圣彼得教堂墓地"
+        },
+        {
+          "type": "text",
+          "text": "，这让劳伦斯无法把墓碑移动当作镇上的闲谈。他和 "
+        },
+        {
+          "type": "ref",
+          "entryId": "char.blair",
+          "label": "布莱尔"
+        },
+        {
+          "type": "text",
+          "text": " 一样，都是被亲人的坟墓叫到现场的人。"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "本宁顿之夜"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "在 "
+        },
+        {
+          "type": "ref",
+          "entryId": "report.invite-to-dance-20260607",
+          "label": "《邀君共舞》"
+        },
+        {
+          "type": "text",
+          "text": " 中，劳伦斯从开场的上膛威慑，到扶着失明的布莱尔撤离，再到濒死边缘仍试图牵制夜魔，始终不是最吵的那个人，却一直在最需要的位置。"
+        }
+      ]
+    }
+  ],
+  "createdAt": "2026-06-07T12:00:00+08:00",
+  "updatedAt": "2026-06-11T12:00:00+08:00"
+}

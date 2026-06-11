@@ -1,0 +1,162 @@
+{
+  "id": "char.blair",
+  "category": "character",
+  "displayName": "布莱尔",
+  "summary": "本宁顿当地人，对外像个三流演员。墓地新闻对他不是镇上的闲谈，而是一件必须亲自确认的事。",
+  "aliasNames": [
+    "Blair",
+    "布莱尔"
+  ],
+  "playerIds": [
+    "pl.paojiang"
+  ],
+  "moduleIds": [
+    "module.campaign.primal-state.invitation-to-dance"
+  ],
+  "relatedEntryIds": [
+    "char.lawrence",
+    "loc.bennington-vermont",
+    "loc.st-peters-churchyard",
+    "report.invite-to-dance-20260607",
+    "module.campaign.primal-state.invitation-to-dance"
+  ],
+  "facts": [
+    {
+      "label": "住地",
+      "value": "本宁顿"
+    },
+    {
+      "label": "公开身份",
+      "value": "三流演员"
+    },
+    {
+      "label": "牵挂",
+      "value": "圣彼得教堂墓地的一处私人记忆"
+    },
+    {
+      "label": "对应 PL",
+      "value": "狍酱"
+    }
+  ],
+  "tags": [
+    "PC"
+  ],
+  "content": [
+    {
+      "type": "heading",
+      "text": "人物概览"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "布莱尔是本宁顿当地居民。对外，他像个外貌出众、擅长乔装的三流演员；"
+        },
+        {
+          "type": "secret-inline",
+          "playerIds": [
+            "pl.ddd",
+            "pl.leina",
+            "pl.paojiang",
+            "pl.shitoubing",
+            "pl.zote",
+            "pl.lemon"
+          ],
+          "text": "实际上，他早已被妻子的死重塑成另一个人"
+        },
+        {
+          "type": "text",
+          "text": "。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "一场私人丧事之后，布莱尔走上了一条旁人很难问出口的路。他随身带着假发、化妆盒和那枚"
+        },
+        {
+          "type": "secret-inline",
+          "playerIds": [
+            "pl.ddd",
+            "pl.leina",
+            "pl.paojiang",
+            "pl.shitoubing",
+            "pl.zote",
+            "pl.lemon"
+          ],
+          "text": "从不摘下的结婚戒指"
+        },
+        {
+          "type": "text",
+          "text": "。"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "墓地"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "他最不愿被打扰的人葬在 "
+        },
+        {
+          "type": "ref",
+          "entryId": "loc.st-peters-churchyard",
+          "label": "圣彼得教堂墓地"
+        },
+        {
+          "type": "text",
+          "text": "。因此，墓碑移动的新闻对他不是奇闻，而是必须立刻确认的冒犯。"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "本宁顿之夜"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "在 "
+        },
+        {
+          "type": "ref",
+          "entryId": "report.invite-to-dance-20260607",
+          "label": "《邀君共舞》"
+        },
+        {
+          "type": "text",
+          "text": " 中，布莱尔一路被那座坟墓牵引到最危险的位置。钟声响起之后，他的临时性失明仍会持续数日；但墓地重新安静下来时，他终于能跪在"
+        },
+        {
+          "type": "secret-inline",
+          "playerIds": [
+            "pl.ddd",
+            "pl.leina",
+            "pl.paojiang",
+            "pl.shitoubing",
+            "pl.zote",
+            "pl.lemon"
+          ],
+          "text": "妻子墓前"
+        },
+        {
+          "type": "text",
+          "text": "，感到身上那些不属于自己的东西被带走了。"
+        }
+      ]
+    }
+  ],
+  "createdAt": "2026-06-07T12:00:00+08:00",
+  "updatedAt": "2026-06-11T12:00:00+08:00"
+}

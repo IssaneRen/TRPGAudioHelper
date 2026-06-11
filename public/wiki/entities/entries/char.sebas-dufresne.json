@@ -1,0 +1,136 @@
+{
+  "id": "char.sebas-dufresne",
+  "category": "character",
+  "displayName": "塞巴斯·迪弗雷纳",
+  "summary": "迪弗雷纳家族最后的管家。少爷去哪里，他就去哪里；手提箱、急救包、礼仪和手枪，全都服务于同一个目标。",
+  "aliasNames": [
+    "塞巴斯",
+    "Sebas Dufresne"
+  ],
+  "playerIds": [
+    "pl.leina"
+  ],
+  "moduleIds": [
+    "module.campaign.primal-state.invitation-to-dance"
+  ],
+  "relatedEntryIds": [
+    "char.damien-dufresne",
+    "char.indigo",
+    "loc.bennington-vermont",
+    "loc.st-peters-churchyard",
+    "report.invite-to-dance-20260607",
+    "module.campaign.primal-state.invitation-to-dance"
+  ],
+  "facts": [
+    {
+      "label": "身份",
+      "value": "管家"
+    },
+    {
+      "label": "年龄",
+      "value": "54 岁"
+    },
+    {
+      "label": "服务对象",
+      "value": "迪弗雷纳家族"
+    },
+    {
+      "label": "对应 PL",
+      "value": "莱纳"
+    }
+  ],
+  "tags": [
+    "PC"
+  ],
+  "content": [
+    {
+      "type": "heading",
+      "text": "人物概览"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "塞巴斯从小在迪弗雷纳家的德利斯庄园长大。幼年时，他被允许与少爷的父亲一同接受基础教育；后来又靠自修学会品酒、估价、急救、理发和烹饪。所有技能都指向同一件事：把主人照顾得体面。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "家族破产后，其他仆人陆续离去，只有他留下。他不抱怨，只拖着那只百宝箱般的手提箱，陪 "
+        },
+        {
+          "type": "ref",
+          "entryId": "char.damien-dufresne",
+          "label": "达米安"
+        },
+        {
+          "type": "text",
+          "text": " 继续旅行。"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "旧识"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "塞巴斯认得 "
+        },
+        {
+          "type": "ref",
+          "entryId": "char.indigo",
+          "label": "靛蓝"
+        },
+        {
+          "type": "text",
+          "text": "。"
+        },
+        {
+          "type": "secret-inline",
+          "playerIds": [
+            "pl.ddd",
+            "pl.leina",
+            "pl.paojiang",
+            "pl.shitoubing",
+            "pl.zote",
+            "pl.lemon"
+          ],
+          "text": "当年正是这个人用艺术投资的话术骗走了少爷最后的钱。可是少爷仍信任他，于是塞巴斯只能把怒气压进礼貌里。"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "本宁顿之夜"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "在 "
+        },
+        {
+          "type": "ref",
+          "entryId": "report.invite-to-dance-20260607",
+          "label": "《邀君共舞》"
+        },
+        {
+          "type": "text",
+          "text": " 中，塞巴斯先用一次笔直公路上的“失误”小小报复靛蓝，又在墓地夜战中成为全队火力线。到最后，他站上破损石柱的位置，说出“我当柱子”。这不是豪言壮语，只是管家的工作还没结束。"
+        }
+      ]
+    }
+  ],
+  "createdAt": "2026-06-07T12:00:00+08:00",
+  "updatedAt": "2026-06-11T12:00:00+08:00"
+}

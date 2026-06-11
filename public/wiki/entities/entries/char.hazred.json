@@ -1,0 +1,116 @@
+{
+  "id": "char.hazred",
+  "category": "character",
+  "displayName": "哈兹雷德",
+  "summary": "印度裔神秘学学生，学术兴趣与不稳定收入并行。来到美国后，他第一次真正意识到：旧符号有时也会回看凝视它的人。",
+  "aliasNames": [
+    "Hazred",
+    "哈兹雷德"
+  ],
+  "playerIds": [
+    "pl.zote"
+  ],
+  "moduleIds": [
+    "module.campaign.primal-state.invitation-to-dance"
+  ],
+  "relatedEntryIds": [
+    "loc.bennington-vermont",
+    "loc.st-peters-churchyard",
+    "report.invite-to-dance-20260607",
+    "module.campaign.primal-state.invitation-to-dance"
+  ],
+  "facts": [
+    {
+      "label": "族裔",
+      "value": "印度裔"
+    },
+    {
+      "label": "身份",
+      "value": "学生 / 神秘学研究者"
+    },
+    {
+      "label": "收入来源",
+      "value": "不稳定，细节未公开"
+    },
+    {
+      "label": "对应 PL",
+      "value": "Zote"
+    }
+  ],
+  "tags": [
+    "PC"
+  ],
+  "content": [
+    {
+      "type": "heading",
+      "text": "人物概览"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "哈兹雷德出身印度婆罗门家庭，在美国接受大学教育。英语流利，却带有明显口音；衣着讲究，却仍会被白人社会用轻慢的眼光打量。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "他表面上是神秘学研究者，也确实积累了不少知识。只是知识并不总能付账，"
+        },
+        {
+          "type": "secret-inline",
+          "playerIds": [
+            "pl.ddd",
+            "pl.leina",
+            "pl.paojiang",
+            "pl.shitoubing",
+            "pl.zote",
+            "pl.lemon"
+          ],
+          "text": "盗墓才是他更隐秘的收入来源"
+        },
+        {
+          "type": "text",
+          "text": "。"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "本宁顿之夜"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "在 "
+        },
+        {
+          "type": "ref",
+          "entryId": "report.invite-to-dance-20260607",
+          "label": "《邀君共舞》"
+        },
+        {
+          "type": "text",
+          "text": " 中，哈兹雷德从残柱符号和旧书残页里把调查推向放逐方向。他盯着七角星太久，像是看见某张不属于人类的脸从远处回望；后来被夜魔重伤，仍拖着腿往钟楼爬。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "那晚之后，他对神秘学的兴趣没有减少，只是终于多了一点敬畏。"
+        }
+      ]
+    }
+  ],
+  "createdAt": "2026-06-07T12:00:00+08:00",
+  "updatedAt": "2026-06-11T12:00:00+08:00"
+}
