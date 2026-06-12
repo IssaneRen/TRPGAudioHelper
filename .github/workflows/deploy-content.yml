@@ -18,29 +18,45 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Deploy blog files to server
+      - name: Package static content
+        run: tar -czf "trpg-helper-static-content-${{ github.sha }}.tar.gz" -C public blog wiki
+
+      - name: Deploy static content archive to server
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
-          source: "public/blog/*"
-          target: "/var/www/trpg-helper/current"
-          strip_components: 1
+          source: "trpg-helper-static-content-${{ github.sha }}.tar.gz"
+          target: "/tmp"
           overwrite: true
 
-      - name: Deploy wiki files to server
-        uses: appleboy/scp-action@v0.1.7
+      - name: Extract static content archive
+        uses: appleboy/ssh-action@v1
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
-          source: "public/wiki/*"
-          target: "/var/www/trpg-helper/current"
-          strip_components: 1
-          overwrite: true
+          script: |
+            set -eu
+
+            APP_CURRENT="/var/www/trpg-helper/current"
+            ARCHIVE="/tmp/trpg-helper-static-content-${{ github.sha }}.tar.gz"
+
+            if ! test -f "$ARCHIVE"; then
+              echo "Static content archive is missing: $ARCHIVE" >&2
+              exit 1
+            fi
+
+            if ! test -d "$APP_CURRENT"; then
+              echo "Current release directory is missing: $APP_CURRENT" >&2
+              exit 1
+            fi
+
+            tar -xzf "$ARCHIVE" -C "$APP_CURRENT"
+            rm -f "$ARCHIVE"
 
       - name: Verify deployment
         uses: appleboy/ssh-action@v1

@@ -35,6 +35,9 @@ jobs:
       - name: Build
         run: pnpm build
 
+      - name: Package build artifact
+        run: tar -C dist -czf "trpg-helper-dist-${{ github.sha }}.tar.gz" .
+
       - name: Prepare remote release directory
         uses: appleboy/ssh-action@v1
         with:
@@ -54,17 +57,38 @@ jobs:
             sudo chown "$DEPLOY_USER:$DEPLOY_GROUP" "$APP_ROOT" "${APP_ROOT}/releases" "$RELEASE_DIR" "$RUNTIME_CONFIG_DIR"
             chmod 755 "$APP_ROOT" "${APP_ROOT}/releases" "$RELEASE_DIR" "$RUNTIME_CONFIG_DIR"
 
-      - name: Deploy to server via SCP
+      - name: Deploy archive to server via SCP
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
-          source: "dist/*"
-          target: "/var/www/trpg-helper/releases/${{ github.sha }}"
-          strip_components: 1
+          source: "trpg-helper-dist-${{ github.sha }}.tar.gz"
+          target: "/tmp"
           overwrite: true
+
+      - name: Extract release archive
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script: |
+            set -eu
+
+            APP_ROOT="/var/www/trpg-helper"
+            RELEASE_DIR="${APP_ROOT}/releases/${{ github.sha }}"
+            ARCHIVE="/tmp/trpg-helper-dist-${{ github.sha }}.tar.gz"
+
+            if ! test -f "$ARCHIVE"; then
+              echo "Release archive is missing: $ARCHIVE" >&2
+              exit 1
+            fi
+
+            tar -xzf "$ARCHIVE" -C "$RELEASE_DIR"
+            rm -f "$ARCHIVE"
 
       - name: Configure and reload Nginx
         uses: appleboy/ssh-action@v1
