@@ -207,6 +207,7 @@ export function buildWikiIndexPayload({
       category: entry.category,
       displayName: entry.displayName,
       summary: entry.summary,
+      avatar: entry.avatar,
       aliasNames: entry.aliasNames,
       playerIds: entry.playerIds,
       moduleIds: entry.moduleIds,

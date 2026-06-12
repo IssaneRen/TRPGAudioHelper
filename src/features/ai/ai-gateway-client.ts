@@ -9,6 +9,7 @@ export interface AiNpcSummary {
   displayName: string;
   summary?: string;
   role?: string;
+  avatarUrl?: string;
 }
 
 export interface AiChatMessage {

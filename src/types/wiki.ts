@@ -133,6 +133,7 @@ export interface WikiIndexEntry {
   category: WikiCategory;
   displayName: string;
   summary: string;
+  avatar?: string;
   aliasNames?: string[];
   playerIds?: string[];
   moduleIds?: string[];

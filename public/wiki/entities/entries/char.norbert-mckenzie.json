@@ -3,6 +3,7 @@
   "category": "character",
   "displayName": "诺伯特·麦肯齐牧师 Norbert McKenzie",
   "summary": "圣彼得教堂相关记录入口。他与礼拜、墓册和本宁顿镇民的日常往来联系在一起。",
+  "avatar": "/wiki/characters/char.norbert-mckenzie.jpg",
   "aliasNames": [
     "Norbert McKenzie",
     "诺伯特·麦肯齐",
@@ -90,5 +91,5 @@
     }
   ],
   "createdAt": "2026-06-03T00:00:00+08:00",
-  "updatedAt": "2026-06-06T00:00:00+08:00"
+  "updatedAt": "2026-06-12T12:00:00+08:00"
 }

@@ -954,6 +954,7 @@
       "category": "character",
       "displayName": "康斯坦丝·杰弗里斯 Constance Jefferies",
       "summary": "圣彼得教堂墓册中的旧名。她的墓碑与本宁顿旧记录一起出现在《邀请来舞会》的调查中。",
+      "avatar": "/wiki/characters/char.constance-jefferies.jpg",
       "aliasNames": [
         "Constance Jefferies",
         "康斯坦丝",
@@ -985,13 +986,14 @@
       ],
       "hasCocSheet": false,
       "createdAt": "2026-06-06T00:00:00+08:00",
-      "updatedAt": "2026-06-06T00:00:00+08:00"
+      "updatedAt": "2026-06-12T12:00:00+08:00"
     },
     {
       "id": "char.damien-dufresne",
       "category": "character",
       "displayName": "达米安·德拉克洛瓦·迪弗雷纳",
       "summary": "法国波尔多旧酒庄的落魄继承人，禁酒令和错误投资毁掉了他的家产，却没有毁掉他对艺术、体面和“朋友”的信任。",
+      "avatar": "/wiki/characters/char.damien-dufresne.jpg",
       "aliasNames": [
         "达米安",
         "达米安·迪弗雷纳",
@@ -1033,9 +1035,9 @@
       "tags": [
         "PC"
       ],
-      "hasCocSheet": false,
+      "hasCocSheet": true,
       "createdAt": "2026-06-07T12:00:00+08:00",
-      "updatedAt": "2026-06-11T12:00:00+08:00"
+      "updatedAt": "2026-06-12T12:00:00+08:00"
     },
     {
       "id": "char.daniel-abernathy",
@@ -1691,6 +1693,7 @@
       "category": "character",
       "displayName": "马丁·哈德森警长 Martin Hudson",
       "summary": "本宁顿郡治安官。墓地异动、地方治安和普通市民报案会先落到他的案头。",
+      "avatar": "/wiki/characters/char.martin-hudson.jpg",
       "aliasNames": [
         "Martin Hudson",
         "马丁·哈德森",
@@ -1722,7 +1725,7 @@
       ],
       "hasCocSheet": false,
       "createdAt": "2026-06-06T00:00:00+08:00",
-      "updatedAt": "2026-06-06T00:00:00+08:00"
+      "updatedAt": "2026-06-12T12:00:00+08:00"
     },
     {
       "id": "char.mcdougall",
@@ -1763,6 +1766,7 @@
       "category": "character",
       "displayName": "诺伯特·麦肯齐牧师 Norbert McKenzie",
       "summary": "圣彼得教堂相关记录入口。他与礼拜、墓册和本宁顿镇民的日常往来联系在一起。",
+      "avatar": "/wiki/characters/char.norbert-mckenzie.jpg",
       "aliasNames": [
         "Norbert McKenzie",
         "诺伯特·麦肯齐",
@@ -1793,7 +1797,7 @@
       ],
       "hasCocSheet": false,
       "createdAt": "2026-06-03T00:00:00+08:00",
-      "updatedAt": "2026-06-06T00:00:00+08:00"
+      "updatedAt": "2026-06-12T12:00:00+08:00"
     },
     {
       "id": "char.robert-barr",
@@ -1838,6 +1842,7 @@
       "category": "character",
       "displayName": "塞巴斯·迪弗雷纳",
       "summary": "迪弗雷纳家族最后的管家。少爷去哪里，他就去哪里；手提箱、急救包、礼仪和手枪，全都服务于同一个目标。",
+      "avatar": "/wiki/characters/char.sebas-dufresne.jpg",
       "aliasNames": [
         "塞巴斯",
         "Sebas Dufresne"
@@ -1877,9 +1882,9 @@
       "tags": [
         "PC"
       ],
-      "hasCocSheet": false,
+      "hasCocSheet": true,
       "createdAt": "2026-06-07T12:00:00+08:00",
-      "updatedAt": "2026-06-11T12:00:00+08:00"
+      "updatedAt": "2026-06-12T12:00:00+08:00"
     },
     {
       "id": "event.kingsport-blindness-19281106",

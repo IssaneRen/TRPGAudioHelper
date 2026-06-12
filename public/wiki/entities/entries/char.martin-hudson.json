@@ -3,6 +3,7 @@
   "category": "character",
   "displayName": "马丁·哈德森警长 Martin Hudson",
   "summary": "本宁顿郡治安官。墓地异动、地方治安和普通市民报案会先落到他的案头。",
+  "avatar": "/wiki/characters/char.martin-hudson.jpg",
   "aliasNames": [
     "Martin Hudson",
     "马丁·哈德森",
@@ -74,5 +75,5 @@
     }
   ],
   "createdAt": "2026-06-06T00:00:00+08:00",
-  "updatedAt": "2026-06-06T00:00:00+08:00"
+  "updatedAt": "2026-06-12T12:00:00+08:00"
 }

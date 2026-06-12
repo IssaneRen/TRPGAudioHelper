@@ -3,6 +3,7 @@
   "category": "character",
   "displayName": "达米安·德拉克洛瓦·迪弗雷纳",
   "summary": "法国波尔多旧酒庄的落魄继承人，禁酒令和错误投资毁掉了他的家产，却没有毁掉他对艺术、体面和“朋友”的信任。",
+  "avatar": "/wiki/characters/char.damien-dufresne.jpg",
   "aliasNames": [
     "达米安",
     "达米安·迪弗雷纳",
@@ -48,6 +49,52 @@
     {
       "type": "heading",
       "text": "人物概览"
+    },
+    {
+      "type": "coc-sheet",
+      "cocData": {
+        "avatar": "/wiki/characters/char.damien-dufresne.jpg",
+        "attributes": {
+          "str": 40,
+          "con": 50,
+          "siz": 50,
+          "dex": 80,
+          "int": 70,
+          "pow": 50,
+          "app": 80,
+          "edu": 60,
+          "hp": 10,
+          "maxHp": 10,
+          "mp": 10,
+          "maxMp": 10,
+          "san": 50,
+          "maxSan": 50,
+          "luck": 50,
+          "mov": 8,
+          "physique": 0,
+          "dodge": 60,
+          "damageBonus": "0"
+        },
+        "skills": {
+          "博物学": 60,
+          "闪避": 60,
+          "射击（手枪）": 60,
+          "歌唱": 80,
+          "乔装": 40,
+          "取悦": 60,
+          "侦查": 60,
+          "舞蹈": 80,
+          "信用评级": 10,
+          "绘画": 10,
+          "雕刻": 10
+        }
+      }
+    },
+    {
+      "type": "image",
+      "src": "/wiki/characters/sheets/char.damien-dufresne-sheet.jpg",
+      "alt": "达米安人物卡属性页",
+      "caption": "达米安人物卡属性页"
     },
     {
       "type": "paragraph",
@@ -142,5 +189,5 @@
     }
   ],
   "createdAt": "2026-06-07T12:00:00+08:00",
-  "updatedAt": "2026-06-11T12:00:00+08:00"
+  "updatedAt": "2026-06-12T12:00:00+08:00"
 }

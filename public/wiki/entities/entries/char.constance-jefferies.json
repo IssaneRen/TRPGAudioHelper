@@ -3,6 +3,7 @@
   "category": "character",
   "displayName": "康斯坦丝·杰弗里斯 Constance Jefferies",
   "summary": "圣彼得教堂墓册中的旧名。她的墓碑与本宁顿旧记录一起出现在《邀请来舞会》的调查中。",
+  "avatar": "/wiki/characters/char.constance-jefferies.jpg",
   "aliasNames": [
     "Constance Jefferies",
     "康斯坦丝",
@@ -74,5 +75,5 @@
     }
   ],
   "createdAt": "2026-06-06T00:00:00+08:00",
-  "updatedAt": "2026-06-06T00:00:00+08:00"
+  "updatedAt": "2026-06-12T12:00:00+08:00"
 }

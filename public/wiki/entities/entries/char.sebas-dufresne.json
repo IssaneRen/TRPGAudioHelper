@@ -3,6 +3,7 @@
   "category": "character",
   "displayName": "塞巴斯·迪弗雷纳",
   "summary": "迪弗雷纳家族最后的管家。少爷去哪里，他就去哪里；手提箱、急救包、礼仪和手枪，全都服务于同一个目标。",
+  "avatar": "/wiki/characters/char.sebas-dufresne.jpg",
   "aliasNames": [
     "塞巴斯",
     "Sebas Dufresne"
@@ -46,6 +47,48 @@
     {
       "type": "heading",
       "text": "人物概览"
+    },
+    {
+      "type": "coc-sheet",
+      "cocData": {
+        "avatar": "/wiki/characters/char.sebas-dufresne.jpg",
+        "attributes": {
+          "str": 40,
+          "con": 40,
+          "siz": 50,
+          "dex": 80,
+          "int": 70,
+          "pow": 50,
+          "app": 70,
+          "edu": 80,
+          "hp": 9,
+          "maxHp": 9,
+          "mp": 10,
+          "maxMp": 10,
+          "san": 50,
+          "maxSan": 50,
+          "luck": 50,
+          "mov": 8,
+          "physique": 0,
+          "dodge": 60,
+          "damageBonus": "0"
+        },
+        "skills": {
+          "闪避": 60,
+          "射击（手枪）": 60,
+          "汽车驾驶": 80,
+          "估价": 70,
+          "急救": 20,
+          "信用评级": 40,
+          "心理学": 10
+        }
+      }
+    },
+    {
+      "type": "image",
+      "src": "/wiki/characters/sheets/char.sebas-dufresne-sheet.jpg",
+      "alt": "塞巴斯人物卡属性页",
+      "caption": "塞巴斯人物卡属性页"
     },
     {
       "type": "paragraph",
@@ -132,5 +175,5 @@
     }
   ],
   "createdAt": "2026-06-07T12:00:00+08:00",
-  "updatedAt": "2026-06-11T12:00:00+08:00"
+  "updatedAt": "2026-06-12T12:00:00+08:00"
 }

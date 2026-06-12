@@ -30,6 +30,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
+import { StableAvatar } from "@/components/StableAvatar";
 import { CocSheetPanel } from "@/features/wiki/CocSheetPanel";
 import { WikiContentRenderer } from "@/features/wiki/WikiContentRenderer";
 import { useAiSession } from "@/features/ai/use-ai-session";
@@ -247,11 +248,16 @@ function WikiEntryCard({
             </Badge>
             <ArrowUpRight className="h-4 w-4 text-muted-foreground" />
           </div>
-          <div className="space-y-2">
-            <CardTitle className="break-words text-lg leading-snug">{entry.displayName}</CardTitle>
-            <CardDescription className="break-words text-sm leading-6">
-              {entry.summary}
-            </CardDescription>
+          <div className="flex min-w-0 items-start gap-3">
+            {isCharacter ? (
+              <StableAvatar src={entry.avatar} name={entry.displayName} size={48} />
+            ) : null}
+            <div className="min-w-0 space-y-2">
+              <CardTitle className="break-words text-lg leading-snug">{entry.displayName}</CardTitle>
+              <CardDescription className="break-words text-sm leading-6">
+                {entry.summary}
+              </CardDescription>
+            </div>
           </div>
         </CardHeader>
       </Link>
@@ -807,9 +813,19 @@ export default function WorldWikiTab() {
                     唯一键：{selectedEntry.id}
                   </Badge>
                 </div>
-                <h2 className="break-words text-2xl font-heading font-semibold leading-tight sm:text-3xl">
-                  {selectedEntry.displayName}
-                </h2>
+                <div className="flex min-w-0 items-start gap-3">
+                  {selectedEntry.category === "character" ? (
+                    <StableAvatar
+                      src={selectedEntry.avatar}
+                      name={selectedEntry.displayName}
+                      size={48}
+                      className="mt-0.5"
+                    />
+                  ) : null}
+                  <h2 className="break-words text-2xl font-heading font-semibold leading-tight sm:text-3xl">
+                    {selectedEntry.displayName}
+                  </h2>
+                </div>
                 <p className="max-w-3xl break-words text-sm leading-7 text-muted-foreground md:text-base">
                   {selectedEntry.summary}
                 </p>

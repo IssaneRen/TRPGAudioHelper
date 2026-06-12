@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState, type FormEvent } from "react";
-import { Bot, Loader2, Send, Trash2, UserRound } from "lucide-react";
+import { Bot, Loader2, Send, Trash2 } from "lucide-react";
 import { toast } from "sonner";
+import { StableAvatar } from "@/components/StableAvatar";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -12,6 +13,36 @@ import {
   type AiNpcSummary,
 } from "@/features/ai/ai-gateway-client";
 import { useAiSession } from "@/features/ai/use-ai-session";
+
+const PLAYER_PC_PROFILES: Record<string, { displayName: string; avatarUrl?: string }> = {
+  "pl.ddd": {
+    displayName: "达米安",
+    avatarUrl: "/wiki/characters/char.damien-dufresne.jpg",
+  },
+  "pl.leina": {
+    displayName: "塞巴斯",
+    avatarUrl: "/wiki/characters/char.sebas-dufresne.jpg",
+  },
+  "pl.paojiang": {
+    displayName: "布莱尔",
+  },
+  "pl.shitoubing": {
+    displayName: "劳伦斯",
+  },
+  "pl.zote": {
+    displayName: "哈兹雷德",
+  },
+  "pl.lemon": {
+    displayName: "靛蓝",
+  },
+};
+
+function resolvePlayerPcProfile(playerId?: string, fallbackName?: string) {
+  if (playerId && PLAYER_PC_PROFILES[playerId]) return PLAYER_PC_PROFILES[playerId];
+  return {
+    displayName: fallbackName || "调查员",
+  };
+}
 
 function LoginDialog({
   open,
@@ -83,6 +114,14 @@ export default function AiChatTab() {
   const selectedNpc = useMemo(
     () => npcs.find((npc) => npc.id === selectedNpcId) || null,
     [npcs, selectedNpcId]
+  );
+  const currentPcProfile = useMemo(
+    () =>
+      resolvePlayerPcProfile(
+        aiSession.session?.playerId,
+        aiSession.session?.displayName
+      ),
+    [aiSession.session?.displayName, aiSession.session?.playerId]
   );
   const canChat = Boolean(aiSession.token && aiSession.session?.playerId && selectedNpc);
   const canSubmit = input.trim().length > 0 && canChat && !sending;
@@ -291,7 +330,11 @@ export default function AiChatTab() {
           <div className="grid min-h-[22rem] place-items-center">
             <div className="w-full max-w-xl rounded-lg border border-dashed border-border/80 bg-background/70 p-5">
               <div className="flex items-center gap-3">
-                <Bot className="h-5 w-5 text-primary" />
+                <StableAvatar
+                  src={selectedNpc?.avatarUrl}
+                  name={selectedNpc?.displayName || "NPC"}
+                  size={48}
+                />
                 <div className="text-sm font-medium">{selectedNpc?.displayName || "开始交谈"}</div>
               </div>
               <p className="mt-3 text-sm leading-7 text-muted-foreground">
@@ -302,16 +345,19 @@ export default function AiChatTab() {
         ) : (
           messages.map((message) => {
             const isUser = message.role === "user";
-            const Icon = isUser ? UserRound : Bot;
+            const avatarName = isUser
+              ? currentPcProfile.displayName
+              : selectedNpc?.displayName || "NPC";
+            const avatarUrl = isUser
+              ? currentPcProfile.avatarUrl
+              : selectedNpc?.avatarUrl;
             return (
               <article
                 key={message.id}
                 className={`flex gap-3 ${isUser ? "justify-end" : "justify-start"}`}
               >
                 {!isUser ? (
-                  <div className="mt-1 flex size-8 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary">
-                    <Icon className="h-4 w-4" />
-                  </div>
+                  <StableAvatar src={avatarUrl} name={avatarName} size={48} className="mt-1" />
                 ) : null}
                 <div
                   className={`max-w-[min(44rem,82%)] whitespace-pre-wrap break-words rounded-lg px-4 py-3 text-sm leading-7 ${
@@ -323,9 +369,7 @@ export default function AiChatTab() {
                   {message.content}
                 </div>
                 {isUser ? (
-                  <div className="mt-1 flex size-8 shrink-0 items-center justify-center rounded-md bg-secondary text-secondary-foreground">
-                    <Icon className="h-4 w-4" />
-                  </div>
+                  <StableAvatar src={avatarUrl} name={avatarName} size={48} className="mt-1" />
                 ) : null}
               </article>
             );
