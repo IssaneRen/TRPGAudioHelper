@@ -225,6 +225,31 @@
       ]
     },
     {
+      "id": "module.profile.masks-of-nyarlathotep.peru-prologue",
+      "displayName": "奈亚的面具-序章-秘鲁篇",
+      "aliases": [
+        "奈亚面具秘鲁篇",
+        "奈亚的面具秘鲁序章",
+        "Masks of Nyarlathotep: Peru",
+        "Masks Peru Prologue"
+      ],
+      "summary": "1920 年代，利马与秘鲁南部高地之间，一支寻找失落金字塔遗址的探险队正在招募成员。",
+      "ruleSystem": "COC7",
+      "playerCount": "4人",
+      "duration": "序章 / 长战役起点",
+      "campaign": "奈亚拉托提普的面具",
+      "description": "【简介】\n1920年代，秘鲁。探险家拉金正在利马招募同伴与支持者，准备前往秘鲁南部高地，寻找一处被历史遗忘的金字塔遗址。几件黄金文物让他相信自己已经握住了通往源头的线索；而对调查员来说，这也许只是一次学术考察、一次探险机会，或一张通往更大世界的船票。\n\n【适合谁来玩】\n适合愿意从“探险队成员”身份进入长战役的玩家：学者、医生、记者、赞助人、考古相关人员、向导、翻译，或因特殊技能被招募的人。角色之间可以沟通职业身份，但不必把人物卡完全摊开。\n\n【跑之前需要知道什么】\n· 本篇是《奈亚拉托提普的面具》7版新增的可选序章，用来为后续全球战役铺垫关系与气氛。\n· 推荐 4 人，COC7th；默认 1920 年代，从秘鲁篇开始。\n· 长团不做过窄技能要求，侦查、聆听、图书馆等基础调查能力有用，但更重要的是技能要贴合角色背景，并允许人物慢慢成长。\n· 本文保持无剧透：你们知道有一次探险，有一批黄金文物，有一处高地遗址；至于遗址里究竟留下些什么，最好等到桌上再打开。",
+      "tags": [
+        "长战役",
+        "全球",
+        "经典",
+        "沙盒",
+        "1920s",
+        "秘鲁",
+        "招募"
+      ]
+    },
+    {
       "id": "module.library.mother-love",
       "displayName": "母爱",
       "aliases": [
@@ -2687,6 +2712,56 @@
       "updatedAt": "2026-05-28T00:00:00+08:00"
     },
     {
+      "id": "module.profile.masks-of-nyarlathotep.peru-prologue",
+      "category": "module",
+      "displayName": "奈亚的面具-序章-秘鲁篇",
+      "summary": "1920 年代，从利马出发的秘鲁高地探险。拉金正在招募成员，黄金文物与失落金字塔把调查员带向长战役的第一扇门。",
+      "aliasNames": [
+        "奈亚面具秘鲁篇",
+        "奈亚的面具秘鲁序章",
+        "Masks of Nyarlathotep: Peru",
+        "Masks Peru Prologue"
+      ],
+      "moduleIds": [
+        "module.profile.masks-of-nyarlathotep.peru-prologue"
+      ],
+      "relatedEntryIds": [],
+      "facts": [
+        {
+          "label": "规则",
+          "value": "COC7th"
+        },
+        {
+          "label": "年代",
+          "value": "1920 年代"
+        },
+        {
+          "label": "地点",
+          "value": "秘鲁 / 利马 / 南部高地"
+        },
+        {
+          "label": "人数",
+          "value": "建议 4 人"
+        },
+        {
+          "label": "定位",
+          "value": "长战役序章 / 可选前导篇"
+        }
+      ],
+      "tags": [
+        "长战役",
+        "全球",
+        "经典",
+        "沙盒",
+        "1920s",
+        "秘鲁",
+        "招募"
+      ],
+      "hasCocSheet": false,
+      "createdAt": "2026-06-26T22:40:00+08:00",
+      "updatedAt": "2026-06-26T22:40:00+08:00"
+    },
+    {
       "id": "report.invite-to-dance-20260607",
       "category": "report",
       "displayName": "战报：《邀君共舞》2026.06.07",
@@ -2993,6 +3068,11 @@
       "金斯波特：迷雾之城": "module.kingsport-city-in-the-mists",
       "金斯波特补遗": "module.kingsport-city-in-the-mists",
       "有些人油盐不进": "module.library.and-some-fell-on-stony-ground",
+      "奈亚的面具-序章-秘鲁篇": "module.profile.masks-of-nyarlathotep.peru-prologue",
+      "奈亚面具秘鲁篇": "module.profile.masks-of-nyarlathotep.peru-prologue",
+      "奈亚的面具秘鲁序章": "module.profile.masks-of-nyarlathotep.peru-prologue",
+      "masks of nyarlathotep: peru": "module.profile.masks-of-nyarlathotep.peru-prologue",
+      "masks peru prologue": "module.profile.masks-of-nyarlathotep.peru-prologue",
       "战报：《邀君共舞》2026.06.07": "report.invite-to-dance-20260607",
       "邀君共舞战报 2026.06.07": "report.invite-to-dance-20260607",
       "战报 邀君共舞 2026.06.07": "report.invite-to-dance-20260607",
@@ -3060,6 +3140,11 @@
       "面具": "module.profile.masks-of-nyarlathotep",
       "奈亚面具": "module.profile.masks-of-nyarlathotep",
       "masks of nyarlathotep": "module.profile.masks-of-nyarlathotep",
+      "奈亚的面具-序章-秘鲁篇": "module.profile.masks-of-nyarlathotep.peru-prologue",
+      "奈亚面具秘鲁篇": "module.profile.masks-of-nyarlathotep.peru-prologue",
+      "奈亚的面具秘鲁序章": "module.profile.masks-of-nyarlathotep.peru-prologue",
+      "masks of nyarlathotep: peru": "module.profile.masks-of-nyarlathotep.peru-prologue",
+      "masks peru prologue": "module.profile.masks-of-nyarlathotep.peru-prologue",
       "母爱": "module.library.mother-love",
       "鬼屋": "module.reco.haunted-house",
       "追书人": "module.reco.book-hunter",

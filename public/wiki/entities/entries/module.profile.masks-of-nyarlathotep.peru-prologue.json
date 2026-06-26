@@ -1,0 +1,253 @@
+{
+  "id": "module.profile.masks-of-nyarlathotep.peru-prologue",
+  "category": "module",
+  "displayName": "奈亚的面具-序章-秘鲁篇",
+  "summary": "1920 年代，从利马出发的秘鲁高地探险。拉金正在招募成员，黄金文物与失落金字塔把调查员带向长战役的第一扇门。",
+  "aliasNames": [
+    "奈亚面具秘鲁篇",
+    "奈亚的面具秘鲁序章",
+    "Masks of Nyarlathotep: Peru",
+    "Masks Peru Prologue"
+  ],
+  "moduleIds": [
+    "module.profile.masks-of-nyarlathotep.peru-prologue"
+  ],
+  "relatedEntryIds": [],
+  "facts": [
+    {
+      "label": "规则",
+      "value": "COC7th"
+    },
+    {
+      "label": "年代",
+      "value": "1920 年代"
+    },
+    {
+      "label": "地点",
+      "value": "秘鲁 / 利马 / 南部高地"
+    },
+    {
+      "label": "人数",
+      "value": "建议 4 人"
+    },
+    {
+      "label": "定位",
+      "value": "长战役序章 / 可选前导篇"
+    }
+  ],
+  "tags": [
+    "长战役",
+    "全球",
+    "经典",
+    "沙盒",
+    "1920s",
+    "秘鲁",
+    "招募"
+  ],
+  "content": [
+    {
+      "type": "image",
+      "src": "/wiki/images/masks-of-nyarlathotep/masks-cover.jpg",
+      "alt": "奈亚的面具宣传图",
+      "caption": "暗流涌动，末日将临。这里不是结局，只是第一封邀请函。"
+    },
+    {
+      "type": "heading",
+      "text": "招募告示"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "丨规则：COC7th。丨年代：1920年代，秘鲁至全球。丨人数：建议4人。丨入口：从秘鲁篇开始。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "探险家拉金正计划前往秘鲁南部高地进行探险，他希望在那里找到一处被历史遗忘已久的金字塔遗址。在该地区发现一些黄金文物之后，拉金相信他已经找到了能够带领探险队抵达源头的证据。现在，他正在利马为这次计划招募同伴和可能的支持者。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "你收到的也许是一封学术圈转来的信，也许是某个组织递出的介绍函，也可能只是因为你见过太多常人不敢踏足的地方。纸面上写得很清楚：一次高地考察、几件黄金文物、最终的源头。纸面之外，在收到信的同时，你还听到了脑海中响起了一阵声音："
+        },
+        {
+          "type": "secret-inline",
+          "text": "这只是我的一个玩笑。或许在这里，你们会认识新的，影响你们终身的一位朋友。",
+          "playerIds": []
+        },
+        {
+          "type": "text",
+          "text": "，可你完全想不起来。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "对于PL们：这虽然只是一个序章，但是我们车如果体验不错的话，后面或许会踏上一条很长的旅程。走向全球，追随留下的痕迹，"
+        },
+        {
+          "type": "secret-inline",
+          "text": "奈亚拉托提普",
+          "playerIds": []
+        },
+        {
+          "type": "text",
+          "text": "的脚步。完成对1920s全球的探索，看看洛夫克拉夫特世界，最原汁原味的coc美模风格的世界各地都是什么样子的。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "⚠️⚠️⚠️⚠️警告：秘鲁篇会留下部分残留线索，这时还是很零星的，但是如果到了未来几张，全球的线索会四分五裂，调查员们可能会晕头转向，对于新手PL的体验可能确实不会太好，建议谨慎参与这个漫长的旅程，可以先约一些简单的短模组积累经验。"
+        }
+      ]
+    },
+    {
+      "type": "image",
+      "src": "/wiki/images/masks-of-nyarlathotep/masks-artifact.jpg",
+      "alt": "面具与异象",
+      "caption": "有些面具不是为了遮住脸，而是为了让某些东西看见你。"
+    },
+    {
+      "type": "heading",
+      "text": "你们为什么在队伍里"
+    },
+    {
+      "type": "list",
+      "items": [
+        [
+          {
+            "type": "text",
+            "text": "你可以通过学术渠道得知这次探险：考古、人类学、历史、语言、医学或博物馆相关背景都能自然进入队伍。"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "你也可以受某个组织、赞助人或报社委托而来：他们想知道拉金究竟找到了什么，也想知道这些黄金文物背后是否还有价值。"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "你还可以因为特殊技能被招募：向导、翻译、摄影师、医生、退伍军人、工程师，或任何能让一支探险队活着走进高地又活着回来的身份。"
+          }
+        ]
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "角色之间可以沟通彼此的职业身份，但不建议直接把人物卡摊给所有人看。长团里的关系会慢慢长出来，秘密也最好慢慢发芽。"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "车卡与技能"
+    },
+    {
+      "type": "list",
+      "items": [
+        [
+          {
+            "type": "text",
+            "text": "属性可以使用 500 购点或天命；若采用购点，建议保持 80/25 的上下限。"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "技能建议遵循 80/60 的上限口径，可以混点，但最好能从角色经历里说得通。"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "侦查、聆听、图书馆等基础调查能力依然有用；不过这是长战役，不必为了某一个场景把角色做得太窄。"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "更重要的是：你为什么会接受邀请，为什么愿意离开利马，为什么在看到第一件不对劲的东西后还继续向前。"
+          }
+        ]
+      ]
+    },
+    {
+      "type": "image",
+      "src": "/wiki/images/masks-of-nyarlathotep/peru-storm.jpg",
+      "alt": "风暴中的金字塔",
+      "caption": "远处的遗址沉默不语，像是在等第一支队伍走近。"
+    },
+    {
+      "type": "heading",
+      "text": "无剧透提示"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "秘鲁篇是这部长战役的序章。它不像终点，更像一次试探：先让你们认识彼此，认识拉金，认识那批黄金文物，也认识一条会从南美高地延伸到更远城市的线。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "你们真正要带上的，也许不是枪、铲子和护照，而是"
+        },
+        {
+          "type": "secret-inline",
+          "text": "在第一处遗址前仍愿意回头的勇气",
+          "playerIds": []
+        },
+        {
+          "type": "text",
+          "text": "。"
+        }
+      ]
+    },
+    {
+      "type": "secret-panel",
+      "title": "被遮住的招募附注",
+      "playerIds": [],
+      "hiddenMode": "mask",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "tokens": [
+            {
+              "type": "text",
+              "text": "有些线索只适合在桌上出现：一张地图、一件黄金文物、一个名字，以及某个在利马被轻轻带过的空白。它们会在更远的城市里重新响起来。"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "createdAt": "2026-06-26T22:40:00+08:00",
+  "updatedAt": "2026-06-26T22:40:00+08:00"
+}
