@@ -1,0 +1,6 @@
+__pycache__/
+tests/__pycache__/
+assets/*.otf
+assets/*.ttf
+assets/*.png
+output/*.png

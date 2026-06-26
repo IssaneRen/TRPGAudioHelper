@@ -207,6 +207,7 @@ push master
 | [docs/code-reading-guide.md](docs/code-reading-guide.md) | 新人读代码路径 |
 | [docs/deploy-guide.md](docs/deploy-guide.md) | 腾讯云/Nginx 部署基础 |
 | [docs/deploy-https-notes.md](docs/deploy-https-notes.md) | GitHub Actions 与 HTTPS 证书处理 |
+| [docs/deploy-sealdice-qq.md](docs/deploy-sealdice-qq.md) | 海豹骰 QQ 服务同服务器 Docker 部署与端口/域名规划 |
 | [docs/dev-log.md](docs/dev-log.md) | 开发记录 |
 | [docs/reports/](docs/reports/) | 阶段调研与专项报告 |
 | [docs/skills/trpg-suite-workflow.md](docs/skills/trpg-suite-workflow.md) | TRPG 文档处理工作流 |
