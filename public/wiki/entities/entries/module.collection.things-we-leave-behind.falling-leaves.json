@@ -1,0 +1,246 @@
+{
+  "id": "module.collection.things-we-leave-behind.falling-leaves",
+  "category": "module",
+  "displayName": "落叶归根",
+  "summary": "21 世纪初的夏天，一名即将成年的被领养女孩在露营后失踪。她留下的线索指向森林深处的一座小镇，也指向她从未真正见过的来处。",
+  "aliasNames": [
+    "落叶归根",
+    "我们所遗忘之物",
+    "The Things We Leave Behind",
+    "Simon Brake"
+  ],
+  "moduleIds": [
+    "module.collection.things-we-leave-behind.falling-leaves"
+  ],
+  "relatedEntryIds": [],
+  "facts": [
+    {
+      "label": "规则",
+      "value": "COC7th"
+    },
+    {
+      "label": "年代",
+      "value": "21 世纪初"
+    },
+    {
+      "label": "地点",
+      "value": "美国中部 / 森林 / 小镇"
+    },
+    {
+      "label": "人数",
+      "value": "建议 2-4 人"
+    },
+    {
+      "label": "定位",
+      "value": "现代短篇 / 亲友委托 / 失踪调查"
+    },
+    {
+      "label": "模组集",
+      "value": "我们所遗忘之物"
+    },
+    {
+      "label": "作者",
+      "value": "Simon Brake"
+    }
+  ],
+  "tags": [
+    "现代",
+    "失踪案",
+    "森林",
+    "小镇",
+    "亲友委托",
+    "招募"
+  ],
+  "content": [
+    {
+      "type": "image",
+      "src": "/wiki/images/things-we-leave-behind/things-we-leave-behind-cover.jpg",
+      "alt": "The Things We Leave Behind 模组集封面",
+      "caption": "有些东西被留在身后，有些东西只是等着你回头看见。"
+    },
+    {
+      "type": "heading",
+      "text": "招募告示"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "丨规则：COC7th。丨年代：21世纪初，夏天。丨人数：建议2-4人。丨入口：一通来自熟人的求助电话/ 尽职的警徽闪闪发光。"
+        }
+      ]
+    },
+    {
+      "type": "image",
+      "src": "/wiki/images/things-we-leave-behind/falling-leaves-cover.jpg",
+      "alt": "通往小镇的昏暗道路",
+      "caption": "路还在往前延伸。只是天色已经不早了。"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "某个位于美利坚中部、远离交通要道的森林里，有一条路朝着日落的方向延伸。落叶铺在道路两旁，天色慢慢暗下去，一个快要成年的女孩沿着路往前走。她知道自己要去哪里，也记得那封信上的地址。标志上写着："
+        },
+        {
+          "type": "secret-inline",
+          "text": "欢迎来到盖沃隆镇。",
+          "playerIds": []
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "几小时之后，她没有回家。她的养母玛丽打来了电话，声音已经快要撑不住了。凯伦本该和朋友们一起在森林里露营，可现在营地、朋友、回家的公交车，以及那封来自亲生母亲的信，都变成了需要你们亲自查清的东西。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "纸面上的案件看起来很普通：一个青少年离家出走，一个家庭里没有说出口的裂缝，一位母亲迟来的来信。可如果只是这样，"
+        },
+        {
+          "type": "secret-inline",
+          "text": "玛丽不会在周日晚上把电话打给你，也不会反复问同一句话：她是不是已经不想回来了？",
+          "playerIds": []
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "你们为什么会介入"
+    },
+    {
+      "type": "list",
+      "items": [
+        [
+          {
+            "type": "text",
+            "text": "你可以是玛丽的朋友、亲戚、邻居或旧识。你认识凯伦，至少知道她不是会让家人这样等上一整晚的人。"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "你可以是被紧急雇佣的私人调查员、社工、少年犯罪警官或地方记者。法律流程会等待，但焦急的父母不会。"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "你也可以只是被卷进这件事的人：开车的人、懂地图的人、熟悉附近露营地的人，或那个在事情还没有变糟之前愿意出发的人。"
+          }
+        ]
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "这个故事不要求调查员一开始就相信神秘学。相反，越是普通的动机越合适：友情、责任、职业习惯，或者单纯无法拒绝一个母亲在电话里的崩溃。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "开团前建议先确认边界：本篇会触及失踪未成年人、收养与亲生家庭关系、家庭焦虑等主题。它不适合只想轻松打怪的队伍，更适合愿意处理亲密关系压力与现代失踪案焦灼感的调查员。"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "车卡与技能"
+    },
+    {
+      "type": "list",
+      "items": [
+        [
+          {
+            "type": "text",
+            "text": "现代背景角色更合适：私人侦探、社工、警务相关人员、记者、医生、教师、露营爱好者、地方志研究者，或与玛丽一家有稳定关系的普通人。"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "侦查、聆听、心理学、话术、驾驶、急救、导航或图书馆类技能都可能派上用场。技能不必为了战斗堆得很硬，能解释你为什么会行动更重要。"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "角色之间可以彼此认识，也可以是被临时叫到同一件事里的人。建议提前想好：你和凯伦、玛丽，或者“失踪的孩子”这个概念之间有什么关系。"
+          }
+        ]
+      ]
+    },
+    {
+      "type": "image",
+      "src": "/wiki/images/things-we-leave-behind/things-we-leave-behind-forest.jpg",
+      "alt": "We Have Been, We Are, We Will Be 封面图",
+      "caption": "我们来过，我们仍在，我们还会留下痕迹。"
+    },
+    {
+      "type": "heading",
+      "text": "无剧透提示"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "《落叶归根》的入口很小：一个家庭、一封信、一处露营地、一座地图上不太起眼的小镇。它的压力不是从怪异场面开始，而是从“也许再早一点就能找到她”的焦躁开始。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "你们真正要追的，也许不是一个地址，而是"
+        },
+        {
+          "type": "secret-inline",
+          "text": "一个人以为自己终于能回家的那条路",
+          "playerIds": []
+        },
+        {
+          "type": "text",
+          "text": "。"
+        }
+      ]
+    },
+    {
+      "type": "secret-panel",
+      "title": "被折起的那封信",
+      "playerIds": [],
+      "hiddenMode": "mask",
+      "blocks": [
+        {
+          "type": "paragraph",
+          "tokens": [
+            {
+              "type": "text",
+              "text": "信纸上没有威胁，也没有恐吓。只有问候、歉意、地址，还有那些足以让一个快满十八岁的孩子相信自己终于可以知道答案的话。"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "createdAt": "2026-06-27T00:00:00+08:00",
+  "updatedAt": "2026-06-27T00:00:00+08:00"
+}
