@@ -1,0 +1,330 @@
+{
+  "id": "char.alvyn-brooke",
+  "category": "character",
+  "displayName": "Alvyn Brooke 阿尔文·布鲁克",
+  "summary": "公开档案仅登记姓名；详细人物卡与背景记录仅在授权视角中显示。",
+  "avatar": "/wiki/characters/char.alvyn-brooke.png",
+  "aliasNames": [
+    "Alvyn Brooke",
+    "阿尔文·布鲁克",
+    "阿尔文"
+  ],
+  "playerIds": [
+    "pl.xxt"
+  ],
+  "relatedEntryIds": [
+    "char.rees-brooke"
+  ],
+  "relatedEntryAccess": [
+    {
+      "entryId": "char.rees-brooke",
+      "playerIds": [
+        "pl.xxt"
+      ]
+    }
+  ],
+  "tags": [
+    "pc"
+  ],
+  "content": [
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "公开索引仅保留姓名。完整调查员档案已封存。"
+        }
+      ]
+    },
+    {
+      "type": "secret-panel",
+      "title": "已授权调查员档案",
+      "hiddenMode": "mask",
+      "playerIds": [
+        "pl.xxt"
+      ],
+      "blocks": [
+        {
+          "type": "coc-sheet",
+          "cocData": {
+            "avatar": "/wiki/characters/char.alvyn-brooke.png",
+            "attributes": {
+              "str": 45,
+              "con": 65,
+              "siz": 85,
+              "dex": 65,
+              "int": 75,
+              "pow": 60,
+              "app": 60,
+              "edu": 55,
+              "luck": 55,
+              "mov": 7,
+              "hp": 15,
+              "maxHp": 15,
+              "mp": 12,
+              "maxMp": 12,
+              "san": 60,
+              "maxSan": 99,
+              "physique": 1,
+              "dodge": 60,
+              "damageBonus": "+1D4",
+              "build": "+1D4"
+            },
+            "skills": {
+              "信用评级": {
+                "base": 10,
+                "growth": 0
+              },
+              "闪避": {
+                "base": 60,
+                "growth": 0
+              },
+              "格斗：斗殴": {
+                "base": 60,
+                "growth": 0
+              },
+              "历史": {
+                "base": 60,
+                "growth": 0
+              },
+              "外语：罗曼语族": {
+                "base": 80,
+                "growth": 0
+              },
+              "母语": {
+                "base": 55,
+                "growth": 0
+              },
+              "图书馆使用": {
+                "base": 50,
+                "growth": 0
+              },
+              "聆听": {
+                "base": 60,
+                "growth": 0
+              },
+              "说服": {
+                "base": 60,
+                "growth": 0
+              },
+              "侦查": {
+                "base": 68,
+                "growth": 0
+              }
+            }
+          }
+        },
+        {
+          "type": "heading",
+          "text": "调查员信息"
+        },
+        {
+          "type": "list",
+          "items": [
+            [
+              {
+                "type": "text",
+                "text": "玩家：xxt"
+              }
+            ],
+            [
+              {
+                "type": "text",
+                "text": "出生：1900年"
+              }
+            ],
+            [
+              {
+                "type": "text",
+                "text": "职业：学生"
+              }
+            ],
+            [
+              {
+                "type": "text",
+                "text": "年龄：21"
+              }
+            ],
+            [
+              {
+                "type": "text",
+                "text": "性别：男"
+              }
+            ],
+            [
+              {
+                "type": "text",
+                "text": "住地：英国"
+              }
+            ],
+            [
+              {
+                "type": "text",
+                "text": "故乡：英国"
+              }
+            ]
+          ]
+        },
+        {
+          "type": "heading",
+          "text": "形象与背景"
+        },
+        {
+          "type": "paragraph",
+          "tokens": [
+            {
+              "type": "text",
+              "text": "反应经常慢半拍的大学生，单纯随和，有时会犯迷糊。"
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "tokens": [
+            {
+              "type": "text",
+              "text": "阿尔文·布鲁克出生在一个主营羊毛贸易的英格兰乡绅家族，他有一个感情很好的兄长——"
+            },
+            {
+              "type": "ref",
+              "entryId": "char.rees-brooke",
+              "label": "里斯·布鲁克"
+            },
+            {
+              "type": "text",
+              "text": "。里斯比阿尔文大十岁，热爱旅行，在阿尔文小时候经常给他带各国的明信片和绘本小册子，阿尔文也因此深受熏陶，从小对各国的语言和文化产生浓厚的兴趣。"
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "tokens": [
+            {
+              "type": "text",
+              "text": "1914年战火燃起，25岁的里斯作为战地记者往返于法国、意大利战线。1917年，阿尔文考入了剑桥大学的罗曼语专业，并收到了远方的哥哥寄来的祝福信和一支名贵的钢笔。在学校期间，阿尔文专心学业，于1919年末前往西班牙游学数月，归国后在学校公告板看到了探险队招募翻译的信息，本着磨炼自己，探索世界各地的想法，阿尔文联系上了探险队..."
+            }
+          ]
+        },
+        {
+          "type": "heading",
+          "text": "个人条目"
+        },
+        {
+          "type": "list",
+          "items": [
+            [
+              {
+                "type": "text",
+                "text": "思想与信念：相信缘分和命运"
+              }
+            ],
+            [
+              {
+                "type": "text",
+                "text": "重要之人：哥哥"
+              }
+            ],
+            [
+              {
+                "type": "text",
+                "text": "意义非凡之地：学校图书馆"
+              }
+            ],
+            [
+              {
+                "type": "text",
+                "text": "宝贵之物：升学时哥哥送的名贵钢笔"
+              }
+            ],
+            [
+              {
+                "type": "text",
+                "text": "特质：有时会产生过于天真和理想化的想法，总是担心莫名其妙的事情"
+              }
+            ],
+            [
+              {
+                "type": "text",
+                "text": "伤口和疤痕：无"
+              }
+            ],
+            [
+              {
+                "type": "text",
+                "text": "恐惧症和躁狂症：无"
+              }
+            ]
+          ]
+        },
+        {
+          "type": "heading",
+          "text": "资产与随身物品"
+        },
+        {
+          "type": "list",
+          "items": [
+            [
+              {
+                "type": "text",
+                "text": "信用评级：10%/5%/2%"
+              }
+            ],
+            [
+              {
+                "type": "text",
+                "text": "生活水平：标准"
+              }
+            ],
+            [
+              {
+                "type": "text",
+                "text": "消费水平：10"
+              }
+            ],
+            [
+              {
+                "type": "text",
+                "text": "其他资产：500"
+              }
+            ],
+            [
+              {
+                "type": "text",
+                "text": "当前现金：20 美元"
+              }
+            ],
+            [
+              {
+                "type": "text",
+                "text": "挎包：钢笔、笔记本、简易语言工具书、小词典、小型放大镜、护照、英国银币、手提灯、镇痛药、便携罐头、防身用的小刀"
+              }
+            ]
+          ]
+        },
+        {
+          "type": "heading",
+          "text": "武器"
+        },
+        {
+          "type": "list",
+          "items": [
+            [
+              {
+                "type": "text",
+                "text": "无：肉搏，斗殴 60，伤害 1D3+DB"
+              }
+            ],
+            [
+              {
+                "type": "text",
+                "text": "小刀：小型刀具，斗殴 60，伤害 1D4+DB，基础射程接触，贯穿"
+              }
+            ]
+          ]
+        }
+      ]
+    }
+  ],
+  "createdAt": "2026-06-29",
+  "updatedAt": "2026-06-29"
+}

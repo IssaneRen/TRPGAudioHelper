@@ -53,5 +53,10 @@
     "id": "pl.lemon",
     "displayName": "柠檬",
     "aliases": ["lemon", "靛蓝PL"]
+  },
+  {
+    "id": "pl.xxt",
+    "displayName": "xxt",
+    "aliases": ["xxt", "阿尔文PL", "Alvyn PL"]
   }
 ]

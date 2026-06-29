@@ -92,6 +92,15 @@
         "lemon",
         "靛蓝PL"
       ]
+    },
+    {
+      "id": "pl.xxt",
+      "displayName": "xxt",
+      "aliases": [
+        "星星糖",
+        "xxt",
+        "阿尔文PL"
+      ]
     }
   ],
   "modules": [
@@ -842,6 +851,38 @@
       "hasCocSheet": true,
       "createdAt": "1928-11-06T08:00:00Z",
       "updatedAt": "2026-06-06T00:00:00+08:00"
+    },
+    {
+      "id": "char.alvyn-brooke",
+      "category": "character",
+      "displayName": "Alvyn Brooke 阿尔文·布鲁克",
+      "summary": "公开档案仅登记姓名；详细人物卡与背景记录仅在授权视角中显示。",
+      "avatar": "/wiki/characters/char.alvyn-brooke.png",
+      "aliasNames": [
+        "Alvyn Brooke",
+        "阿尔文·布鲁克",
+        "阿尔文"
+      ],
+      "playerIds": [
+        "pl.xxt"
+      ],
+      "relatedEntryIds": [
+        "char.rees-brooke"
+      ],
+      "relatedEntryAccess": [
+        {
+          "entryId": "char.rees-brooke",
+          "playerIds": [
+            "pl.xxt"
+          ]
+        }
+      ],
+      "tags": [
+        "pc"
+      ],
+      "hasCocSheet": true,
+      "createdAt": "2026-06-29",
+      "updatedAt": "2026-06-29"
     },
     {
       "id": "char.amy-luck",
@@ -1847,6 +1888,33 @@
       "hasCocSheet": false,
       "createdAt": "2026-06-03T00:00:00+08:00",
       "updatedAt": "2026-06-12T12:00:00+08:00"
+    },
+    {
+      "id": "char.rees-brooke",
+      "category": "character",
+      "displayName": "Rees Brooke 里斯·布鲁克",
+      "summary": "阿尔文·布鲁克的兄长；公开档案仅保留姓名与亲属关系，其他记录待补。",
+      "aliasNames": [
+        "Rees Brooke",
+        "里斯·布鲁克",
+        "里斯"
+      ],
+      "relatedEntryIds": [
+        "char.alvyn-brooke"
+      ],
+      "relatedEntryAccess": [
+        {
+          "entryId": "char.alvyn-brooke",
+          "playerIds": []
+        }
+      ],
+      "tags": [
+        "npc",
+        "incomplete-card"
+      ],
+      "hasCocSheet": false,
+      "createdAt": "2026-06-29",
+      "updatedAt": "2026-06-29"
     },
     {
       "id": "char.robert-barr",
@@ -2991,6 +3059,10 @@
       "艾伦 allen": "char.allen",
       "allen": "char.allen",
       "艾伦": "char.allen",
+      "alvyn brooke 阿尔文·布鲁克": "char.alvyn-brooke",
+      "alvyn brooke": "char.alvyn-brooke",
+      "阿尔文·布鲁克": "char.alvyn-brooke",
+      "阿尔文": "char.alvyn-brooke",
       "艾咪·拉克 amy luck": "char.amy-luck",
       "amy luck": "char.amy-luck",
       "艾咪·拉克": "char.amy-luck",
@@ -3075,6 +3147,10 @@
       "norbert mckenzie": "char.norbert-mckenzie",
       "诺伯特·麦肯齐": "char.norbert-mckenzie",
       "麦肯齐牧师": "char.norbert-mckenzie",
+      "rees brooke 里斯·布鲁克": "char.rees-brooke",
+      "rees brooke": "char.rees-brooke",
+      "里斯·布鲁克": "char.rees-brooke",
+      "里斯": "char.rees-brooke",
       "罗伯特·巴尔 robert barr": "char.robert-barr",
       "robert barr": "char.robert-barr",
       "罗伯特": "char.robert-barr",
@@ -3210,7 +3286,11 @@
       "pl.lemon": "pl.lemon",
       "柠檬": "pl.lemon",
       "lemon": "pl.lemon",
-      "靛蓝pl": "pl.lemon"
+      "靛蓝pl": "pl.lemon",
+      "pl.xxt": "pl.xxt",
+      "xxt": "pl.xxt",
+      "阿尔文pl": "pl.xxt",
+      "alvyn pl": "pl.xxt"
     },
     "moduleIdByName": {
       "永恒恶意": "module.kingsport-city-in-the-mists",

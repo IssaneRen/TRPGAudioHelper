@@ -1,0 +1,123 @@
+{
+  "id": "char.rees-brooke",
+  "category": "character",
+  "displayName": "Rees Brooke 里斯·布鲁克",
+  "summary": "阿尔文·布鲁克的兄长；公开档案仅保留姓名与亲属关系，其他记录待补。",
+  "aliasNames": [
+    "Rees Brooke",
+    "里斯·布鲁克",
+    "里斯"
+  ],
+  "relatedEntryIds": [
+    "char.alvyn-brooke"
+  ],
+  "relatedEntryAccess": [
+    {
+      "entryId": "char.alvyn-brooke",
+      "playerIds": []
+    }
+  ],
+  "tags": [
+    "npc",
+    "incomplete-card"
+  ],
+  "content": [
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "公开索引仅登记姓名与亲属关系。详细记录已封存。"
+        }
+      ]
+    },
+    {
+      "type": "secret-panel",
+      "title": "封存人物卡",
+      "hiddenMode": "mask",
+      "playerIds": [],
+      "blocks": [
+        {
+          "type": "heading",
+          "text": "已知记录"
+        },
+        {
+          "type": "list",
+          "items": [
+            [
+              {
+                "type": "text",
+                "text": "姓名：Rees Brooke 里斯·布鲁克"
+              }
+            ],
+            [
+              {
+                "type": "text",
+                "text": "亲属关系：阿尔文·布鲁克的兄长"
+              }
+            ],
+            [
+              {
+                "type": "text",
+                "text": "年龄线索：比阿尔文大十岁；1914 年时 25 岁"
+              }
+            ],
+            [
+              {
+                "type": "text",
+                "text": "已知经历：热爱旅行；阿尔文小时候常带回各国明信片和绘本小册子"
+              }
+            ],
+            [
+              {
+                "type": "text",
+                "text": "已知经历：1914 年作为战地记者往返于法国、意大利战线"
+              }
+            ],
+            [
+              {
+                "type": "text",
+                "text": "已知经历：1917 年给考入剑桥大学罗曼语专业的阿尔文寄来祝福信和一支名贵钢笔"
+              }
+            ]
+          ]
+        },
+        {
+          "type": "heading",
+          "text": "待补人物卡字段"
+        },
+        {
+          "type": "list",
+          "items": [
+            [
+              {
+                "type": "text",
+                "text": "职业、现状、住地、故乡：未填写"
+              }
+            ],
+            [
+              {
+                "type": "text",
+                "text": "属性、技能、生命值、理智值、魔法值、幸运、移动力：未填写"
+              }
+            ],
+            [
+              {
+                "type": "text",
+                "text": "思想与信念、重要之人、意义非凡之地、宝贵之物、特质、伤疤、恐惧或躁狂：未填写"
+              }
+            ],
+            [
+              {
+                "type": "text",
+                "text": "资产、装备、武器、调查员经历、神话相关记录、法术：未填写"
+              }
+            ]
+          ]
+        }
+      ]
+    }
+  ],
+  "createdAt": "2026-06-29",
+  "updatedAt": "2026-06-29"
+}
