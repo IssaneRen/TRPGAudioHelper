@@ -856,7 +856,7 @@
       "id": "char.alvyn-brooke",
       "category": "character",
       "displayName": "Alvyn Brooke 阿尔文·布鲁克",
-      "summary": "公开档案仅登记姓名；详细人物卡与背景记录仅在授权视角中显示。",
+      "summary": "公开档案显示基础人物卡、属性、技能与外貌；背景记录仅在授权视角中显示。",
       "avatar": "/wiki/characters/char.alvyn-brooke.png",
       "aliasNames": [
         "Alvyn Brooke",
@@ -882,7 +882,7 @@
       ],
       "hasCocSheet": true,
       "createdAt": "2026-06-29",
-      "updatedAt": "2026-06-29"
+      "updatedAt": "2026-06-30"
     },
     {
       "id": "char.amy-luck",
