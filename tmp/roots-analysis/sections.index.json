@@ -1,0 +1,578 @@
+[
+  {
+    "n": 1,
+    "level": 1,
+    "title": "引言",
+    "start_page": 1,
+    "end_page": 0,
+    "file": "tmp/roots-analysis/sections/001_L1_p01-00_引言.txt"
+  },
+  {
+    "n": 2,
+    "level": 1,
+    "title": "守秘人信息",
+    "start_page": 1,
+    "end_page": 1,
+    "file": "tmp/roots-analysis/sections/002_L1_p01-01_守秘人信息.txt"
+  },
+  {
+    "n": 3,
+    "level": 2,
+    "title": "引入调查员",
+    "start_page": 2,
+    "end_page": 1,
+    "file": "tmp/roots-analysis/sections/003_L2_p02-01_引入调查员.txt"
+  },
+  {
+    "n": 4,
+    "level": 1,
+    "title": "模组开始",
+    "start_page": 2,
+    "end_page": 11,
+    "file": "tmp/roots-analysis/sections/004_L1_p02-11_模组开始.txt"
+  },
+  {
+    "n": 5,
+    "level": 2,
+    "title": "盖沃隆镇在何处",
+    "start_page": 3,
+    "end_page": 3,
+    "file": "tmp/roots-analysis/sections/005_L2_p03-03_盖沃隆镇在何处.txt"
+  },
+  {
+    "n": 6,
+    "level": 2,
+    "title": "凯伦的详细信息",
+    "start_page": 4,
+    "end_page": 3,
+    "file": "tmp/roots-analysis/sections/006_L2_p04-03_凯伦的详细信息.txt"
+  },
+  {
+    "n": 7,
+    "level": 2,
+    "title": "初步调查 远离营地",
+    "start_page": 4,
+    "end_page": 6,
+    "file": "tmp/roots-analysis/sections/007_L2_p04-06_初步调查_远离营地.txt"
+  },
+  {
+    "n": 8,
+    "level": 3,
+    "title": "拜访玛丽和乔 （凯伦的养父母）",
+    "start_page": 4,
+    "end_page": 4,
+    "file": "tmp/roots-analysis/sections/008_L3_p04-04_拜访玛丽和乔_凯伦的养父母.txt"
+  },
+  {
+    "n": 9,
+    "level": 4,
+    "title": "从盖沃隆镇寄来的信",
+    "start_page": 4,
+    "end_page": 4,
+    "file": "tmp/roots-analysis/sections/009_L4_p04-04_从盖沃隆镇寄来的信.txt"
+  },
+  {
+    "n": 10,
+    "level": 4,
+    "title": "凯伦的房间",
+    "start_page": 5,
+    "end_page": 4,
+    "file": "tmp/roots-analysis/sections/010_L4_p05-04_凯伦的房间.txt"
+  },
+  {
+    "n": 11,
+    "level": 3,
+    "title": "拜访麦克斯 詹森， 邻家患相思病的男孩",
+    "start_page": 5,
+    "end_page": 5,
+    "file": "tmp/roots-analysis/sections/011_L3_p05-05_拜访麦克斯_詹森_邻家患相思病的男孩.txt"
+  },
+  {
+    "n": 12,
+    "level": 3,
+    "title": "拜访收养机构",
+    "start_page": 6,
+    "end_page": 5,
+    "file": "tmp/roots-analysis/sections/012_L3_p06-05_拜访收养机构.txt"
+  },
+  {
+    "n": 13,
+    "level": 3,
+    "title": "“血海泳将”和聚光灯酒吧",
+    "start_page": 6,
+    "end_page": 6,
+    "file": "tmp/roots-analysis/sections/013_L3_p06-06_血海泳将_和聚光灯酒吧.txt"
+  },
+  {
+    "n": 14,
+    "level": 2,
+    "title": "小镇之外的调查",
+    "start_page": 7,
+    "end_page": 11,
+    "file": "tmp/roots-analysis/sections/014_L2_p07-11_小镇之外的调查.txt"
+  },
+  {
+    "n": 15,
+    "level": 3,
+    "title": "露营地",
+    "start_page": 8,
+    "end_page": 9,
+    "file": "tmp/roots-analysis/sections/015_L3_p08-09_露营地.txt"
+  },
+  {
+    "n": 16,
+    "level": 3,
+    "title": "公交路线沿途",
+    "start_page": 10,
+    "end_page": 11,
+    "file": "tmp/roots-analysis/sections/016_L3_p10-11_公交路线沿途.txt"
+  },
+  {
+    "n": 17,
+    "level": 4,
+    "title": "公交站的棚屋",
+    "start_page": 10,
+    "end_page": 9,
+    "file": "tmp/roots-analysis/sections/017_L4_p10-09_公交站的棚屋.txt"
+  },
+  {
+    "n": 18,
+    "level": 4,
+    "title": "加油站与下一个公交站",
+    "start_page": 10,
+    "end_page": 11,
+    "file": "tmp/roots-analysis/sections/018_L4_p10-11_加油站与下一个公交站.txt"
+  },
+  {
+    "n": 19,
+    "level": 4,
+    "title": "前往盖沃隆镇的岔道",
+    "start_page": 12,
+    "end_page": 11,
+    "file": "tmp/roots-analysis/sections/019_L4_p12-11_前往盖沃隆镇的岔道.txt"
+  },
+  {
+    "n": 20,
+    "level": 1,
+    "title": "到达盖沃隆镇",
+    "start_page": 12,
+    "end_page": 33,
+    "file": "tmp/roots-analysis/sections/020_L1_p12-33_到达盖沃隆镇.txt"
+  },
+  {
+    "n": 21,
+    "level": 2,
+    "title": "盖沃隆镇的居民",
+    "start_page": 12,
+    "end_page": 12,
+    "file": "tmp/roots-analysis/sections/021_L2_p12-12_盖沃隆镇的居民.txt"
+  },
+  {
+    "n": 22,
+    "level": 2,
+    "title": "盖沃隆镇的真相，以及在镇里的重要场所",
+    "start_page": 13,
+    "end_page": 18,
+    "file": "tmp/roots-analysis/sections/022_L2_p13-18_盖沃隆镇的真相_以及在镇里的重要场所.txt"
+  },
+  {
+    "n": 23,
+    "level": 3,
+    "title": "餐厅",
+    "start_page": 14,
+    "end_page": 14,
+    "file": "tmp/roots-analysis/sections/023_L3_p14-14_餐厅.txt"
+  },
+  {
+    "n": 24,
+    "level": 3,
+    "title": "杂货店",
+    "start_page": 15,
+    "end_page": 14,
+    "file": "tmp/roots-analysis/sections/024_L3_p15-14_杂货店.txt"
+  },
+  {
+    "n": 25,
+    "level": 3,
+    "title": "小镇广场",
+    "start_page": 15,
+    "end_page": 14,
+    "file": "tmp/roots-analysis/sections/025_L3_p15-14_小镇广场.txt"
+  },
+  {
+    "n": 26,
+    "level": 3,
+    "title": "市政厅和图书馆",
+    "start_page": 15,
+    "end_page": 15,
+    "file": "tmp/roots-analysis/sections/026_L3_p15-15_市政厅和图书馆.txt"
+  },
+  {
+    "n": 27,
+    "level": 3,
+    "title": "教堂（其实是学校）",
+    "start_page": 16,
+    "end_page": 15,
+    "file": "tmp/roots-analysis/sections/027_L3_p16-15_教堂_其实是学校.txt"
+  },
+  {
+    "n": 28,
+    "level": 3,
+    "title": "乔伊家",
+    "start_page": 16,
+    "end_page": 16,
+    "file": "tmp/roots-analysis/sections/028_L3_p16-16_乔伊家.txt"
+  },
+  {
+    "n": 29,
+    "level": 3,
+    "title": "警长办公室",
+    "start_page": 17,
+    "end_page": 18,
+    "file": "tmp/roots-analysis/sections/029_L3_p17-18_警长办公室.txt"
+  },
+  {
+    "n": 30,
+    "level": 4,
+    "title": "亚历克斯 斯蒂尔，副警长",
+    "start_page": 18,
+    "end_page": 17,
+    "file": "tmp/roots-analysis/sections/030_L4_p18-17_亚历克斯_斯蒂尔_副警长.txt"
+  },
+  {
+    "n": 31,
+    "level": 4,
+    "title": "梅布尔 雷诺兹，警长",
+    "start_page": 18,
+    "end_page": 18,
+    "file": "tmp/roots-analysis/sections/031_L4_p18-18_梅布尔_雷诺兹_警长.txt"
+  },
+  {
+    "n": 32,
+    "level": 3,
+    "title": "盖沃隆镇的农场",
+    "start_page": 19,
+    "end_page": 18,
+    "file": "tmp/roots-analysis/sections/032_L3_p19-18_盖沃隆镇的农场.txt"
+  },
+  {
+    "n": 33,
+    "level": 2,
+    "title": "奥贝里神父",
+    "start_page": 19,
+    "end_page": 19,
+    "file": "tmp/roots-analysis/sections/033_L2_p19-19_奥贝里神父.txt"
+  },
+  {
+    "n": 34,
+    "level": 3,
+    "title": "“神父” 奥贝里",
+    "start_page": 20,
+    "end_page": 19,
+    "file": "tmp/roots-analysis/sections/034_L3_p20-19_神父_奥贝里.txt"
+  },
+  {
+    "n": 35,
+    "level": 2,
+    "title": "在盖沃隆镇过夜？",
+    "start_page": 20,
+    "end_page": 20,
+    "file": "tmp/roots-analysis/sections/035_L2_p20-20_在盖沃隆镇过夜.txt"
+  },
+  {
+    "n": 36,
+    "level": 2,
+    "title": "猫头鹰河谷",
+    "start_page": 21,
+    "end_page": 22,
+    "file": "tmp/roots-analysis/sections/036_L2_p21-22_猫头鹰河谷.txt"
+  },
+  {
+    "n": 37,
+    "level": 3,
+    "title": "敲响钟声",
+    "start_page": 22,
+    "end_page": 22,
+    "file": "tmp/roots-analysis/sections/037_L3_p22-22_敲响钟声.txt"
+  },
+  {
+    "n": 38,
+    "level": 2,
+    "title": "进入森林",
+    "start_page": 23,
+    "end_page": 23,
+    "file": "tmp/roots-analysis/sections/038_L2_p23-23_进入森林.txt"
+  },
+  {
+    "n": 39,
+    "level": 3,
+    "title": "印第安洞穴",
+    "start_page": 23,
+    "end_page": 23,
+    "file": "tmp/roots-analysis/sections/039_L3_p23-23_印第安洞穴.txt"
+  },
+  {
+    "n": 40,
+    "level": 3,
+    "title": "河流",
+    "start_page": 24,
+    "end_page": 23,
+    "file": "tmp/roots-analysis/sections/040_L3_p24-23_河流.txt"
+  },
+  {
+    "n": 41,
+    "level": 3,
+    "title": "野人的森林",
+    "start_page": 24,
+    "end_page": 23,
+    "file": "tmp/roots-analysis/sections/041_L3_p24-23_野人的森林.txt"
+  },
+  {
+    "n": 42,
+    "level": 2,
+    "title": "野人",
+    "start_page": 24,
+    "end_page": 30,
+    "file": "tmp/roots-analysis/sections/042_L2_p24-30_野人.txt"
+  },
+  {
+    "n": 43,
+    "level": 3,
+    "title": "阳盛阴衰的野人们",
+    "start_page": 26,
+    "end_page": 25,
+    "file": "tmp/roots-analysis/sections/043_L3_p26-25_阳盛阴衰的野人们.txt"
+  },
+  {
+    "n": 44,
+    "level": 3,
+    "title": "了解你的玩家， 以及不跨越不适当的界限",
+    "start_page": 26,
+    "end_page": 25,
+    "file": "tmp/roots-analysis/sections/044_L3_p26-25_了解你的玩家_以及不跨越不适当的界限.txt"
+  },
+  {
+    "n": 45,
+    "level": 3,
+    "title": "内米湖",
+    "start_page": 26,
+    "end_page": 26,
+    "file": "tmp/roots-analysis/sections/045_L3_p26-26_内米湖.txt"
+  },
+  {
+    "n": 46,
+    "level": 3,
+    "title": "那棵树",
+    "start_page": 27,
+    "end_page": 27,
+    "file": "tmp/roots-analysis/sections/046_L3_p27-27_那棵树.txt"
+  },
+  {
+    "n": 47,
+    "level": 3,
+    "title": "如果调查员在白天发现了那棵树",
+    "start_page": 28,
+    "end_page": 28,
+    "file": "tmp/roots-analysis/sections/047_L3_p28-28_如果调查员在白天发现了那棵树.txt"
+  },
+  {
+    "n": 48,
+    "level": 4,
+    "title": "正在转变成女野人的凯伦",
+    "start_page": 28,
+    "end_page": 27,
+    "file": "tmp/roots-analysis/sections/048_L4_p28-27_正在转变成女野人的凯伦.txt"
+  },
+  {
+    "n": 49,
+    "level": 4,
+    "title": "莎拉，女野人",
+    "start_page": 28,
+    "end_page": 28,
+    "file": "tmp/roots-analysis/sections/049_L4_p28-28_莎拉_女野人.txt"
+  },
+  {
+    "n": 50,
+    "level": 3,
+    "title": "没有被野人抓住的调查员 在晚上来到了那棵树下",
+    "start_page": 29,
+    "end_page": 28,
+    "file": "tmp/roots-analysis/sections/050_L3_p29-28_没有被野人抓住的调查员_在晚上来到了那棵树下.txt"
+  },
+  {
+    "n": 51,
+    "level": 3,
+    "title": "如果调查员屈服或拒绝逃跑",
+    "start_page": 29,
+    "end_page": 29,
+    "file": "tmp/roots-analysis/sections/051_L3_p29-29_如果调查员屈服或拒绝逃跑.txt"
+  },
+  {
+    "n": 52,
+    "level": 3,
+    "title": "如果所有调查员都失去意识被带到那棵树下",
+    "start_page": 30,
+    "end_page": 30,
+    "file": "tmp/roots-analysis/sections/052_L3_p30-30_如果所有调查员都失去意识被带到那棵树下.txt"
+  },
+  {
+    "n": 53,
+    "level": 2,
+    "title": "逃生？",
+    "start_page": 31,
+    "end_page": 31,
+    "file": "tmp/roots-analysis/sections/053_L2_p31-31_逃生.txt"
+  },
+  {
+    "n": 54,
+    "level": 3,
+    "title": "营救",
+    "start_page": 31,
+    "end_page": 30,
+    "file": "tmp/roots-analysis/sections/054_L3_p31-30_营救.txt"
+  },
+  {
+    "n": 55,
+    "level": 3,
+    "title": "杀死莎拉",
+    "start_page": 31,
+    "end_page": 31,
+    "file": "tmp/roots-analysis/sections/055_L3_p31-31_杀死莎拉.txt"
+  },
+  {
+    "n": 56,
+    "level": 3,
+    "title": "在满月之下",
+    "start_page": 32,
+    "end_page": 31,
+    "file": "tmp/roots-analysis/sections/056_L3_p32-31_在满月之下.txt"
+  },
+  {
+    "n": 57,
+    "level": 2,
+    "title": "解决方法（？）及其概述",
+    "start_page": 32,
+    "end_page": 33,
+    "file": "tmp/roots-analysis/sections/057_L2_p32-33_解决方法_及其概述.txt"
+  },
+  {
+    "n": 58,
+    "level": 3,
+    "title": "格拉汉姆 霍尔",
+    "start_page": 33,
+    "end_page": 32,
+    "file": "tmp/roots-analysis/sections/058_L3_p33-32_格拉汉姆_霍尔.txt"
+  },
+  {
+    "n": 59,
+    "level": 3,
+    "title": "麦克斯 詹森",
+    "start_page": 33,
+    "end_page": 33,
+    "file": "tmp/roots-analysis/sections/059_L3_p33-33_麦克斯_詹森.txt"
+  },
+  {
+    "n": 60,
+    "level": 3,
+    "title": "彼得 芒特",
+    "start_page": 34,
+    "end_page": 33,
+    "file": "tmp/roots-analysis/sections/060_L3_p34-33_彼得_芒特.txt"
+  },
+  {
+    "n": 61,
+    "level": 3,
+    "title": "副警长亚历克斯 斯蒂尔",
+    "start_page": 34,
+    "end_page": 33,
+    "file": "tmp/roots-analysis/sections/061_L3_p34-33_副警长亚历克斯_斯蒂尔.txt"
+  },
+  {
+    "n": 62,
+    "level": 3,
+    "title": "丹尼",
+    "start_page": 34,
+    "end_page": 33,
+    "file": "tmp/roots-analysis/sections/062_L3_p34-33_丹尼.txt"
+  },
+  {
+    "n": 63,
+    "level": 1,
+    "title": "故事如何结束",
+    "start_page": 34,
+    "end_page": 34,
+    "file": "tmp/roots-analysis/sections/063_L1_p34-34_故事如何结束.txt"
+  },
+  {
+    "n": 64,
+    "level": 2,
+    "title": "作者的注释",
+    "start_page": 35,
+    "end_page": 34,
+    "file": "tmp/roots-analysis/sections/064_L2_p35-34_作者的注释.txt"
+  },
+  {
+    "n": 65,
+    "level": 3,
+    "title": "译者",
+    "start_page": 35,
+    "end_page": 34,
+    "file": "tmp/roots-analysis/sections/065_L3_p35-34_译者.txt"
+  },
+  {
+    "n": 66,
+    "level": 3,
+    "title": "校对",
+    "start_page": 35,
+    "end_page": 34,
+    "file": "tmp/roots-analysis/sections/066_L3_p35-34_校对.txt"
+  },
+  {
+    "n": 67,
+    "level": 1,
+    "title": "译名表 （按出现顺序）",
+    "start_page": 35,
+    "end_page": 35,
+    "file": "tmp/roots-analysis/sections/067_L1_p35-35_译名表_按出现顺序.txt"
+  },
+  {
+    "n": 68,
+    "level": 2,
+    "title": "地名",
+    "start_page": 35,
+    "end_page": 34,
+    "file": "tmp/roots-analysis/sections/068_L2_p35-34_地名.txt"
+  },
+  {
+    "n": 69,
+    "level": 2,
+    "title": "人名",
+    "start_page": 35,
+    "end_page": 35,
+    "file": "tmp/roots-analysis/sections/069_L2_p35-35_人名.txt"
+  },
+  {
+    "n": 70,
+    "level": 2,
+    "title": "乐队名称",
+    "start_page": 36,
+    "end_page": 35,
+    "file": "tmp/roots-analysis/sections/070_L2_p36-35_乐队名称.txt"
+  },
+  {
+    "n": 71,
+    "level": 2,
+    "title": "怪物",
+    "start_page": 36,
+    "end_page": 35,
+    "file": "tmp/roots-analysis/sections/071_L2_p36-35_怪物.txt"
+  },
+  {
+    "n": 72,
+    "level": 1,
+    "title": "版权信息",
+    "start_page": 36,
+    "end_page": 36,
+    "file": "tmp/roots-analysis/sections/072_L1_p36-36_版权信息.txt"
+  }
+]
