@@ -2,7 +2,7 @@
   "id": "char.alvyn-brooke",
   "category": "character",
   "displayName": "Alvyn Brooke 阿尔文·布鲁克",
-  "summary": "公开档案显示基础人物卡、属性、技能与外貌；背景记录仅在授权视角中显示。",
+  "summary": "公开档案显示基础人物卡、属性、技能与外貌；核心背景以加密字遮挡。",
   "avatar": "/wiki/characters/char.alvyn-brooke.png",
   "aliasNames": [
     "Alvyn Brooke",
@@ -162,164 +162,201 @@
       ]
     },
     {
-      "type": "secret-panel",
-      "title": "已授权背景记录",
-      "hiddenMode": "mask",
-      "playerIds": [
-        "pl.xxt"
-      ],
-      "blocks": [
+      "type": "heading",
+      "text": "背景"
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
         {
-          "type": "heading",
-          "text": "背景"
+          "type": "text",
+          "text": "家族与童年："
         },
         {
-          "type": "paragraph",
-          "tokens": [
-            {
-              "type": "text",
-              "text": "阿尔文·布鲁克出生在一个主营羊毛贸易的英格兰乡绅家族，他有一个感情很好的兄长——"
-            },
-            {
-              "type": "ref",
-              "entryId": "char.rees-brooke",
-              "label": "里斯·布鲁克"
-            },
-            {
-              "type": "text",
-              "text": "。里斯比阿尔文大十岁，热爱旅行，在阿尔文小时候经常给他带各国的明信片和绘本小册子，阿尔文也因此深受熏陶，从小对各国的语言和文化产生浓厚的兴趣。"
-            }
-          ]
-        },
-        {
-          "type": "paragraph",
-          "tokens": [
-            {
-              "type": "text",
-              "text": "1914年战火燃起，25岁的里斯作为战地记者往返于法国、意大利战线。1917年，阿尔文考入了剑桥大学的罗曼语专业，并收到了远方的哥哥寄来的祝福信和一支名贵的钢笔。在学校期间，阿尔文专心学业，于1919年末前往西班牙游学数月，归国后在学校公告板看到了探险队招募翻译的信息，本着磨炼自己，探索世界各地的想法，阿尔文联系上了探险队..."
-            }
-          ]
-        },
-        {
-          "type": "heading",
-          "text": "个人条目"
-        },
-        {
-          "type": "list",
-          "items": [
-            [
-              {
-                "type": "text",
-                "text": "思想与信念：相信缘分和命运"
-              }
-            ],
-            [
-              {
-                "type": "text",
-                "text": "重要之人：哥哥"
-              }
-            ],
-            [
-              {
-                "type": "text",
-                "text": "意义非凡之地：学校图书馆"
-              }
-            ],
-            [
-              {
-                "type": "text",
-                "text": "宝贵之物：升学时哥哥送的名贵钢笔"
-              }
-            ],
-            [
-              {
-                "type": "text",
-                "text": "特质：有时会产生过于天真和理想化的想法，总是担心莫名其妙的事情"
-              }
-            ],
-            [
-              {
-                "type": "text",
-                "text": "伤口和疤痕：无"
-              }
-            ],
-            [
-              {
-                "type": "text",
-                "text": "恐惧症和躁狂症：无"
-              }
-            ]
-          ]
-        },
-        {
-          "type": "heading",
-          "text": "资产与随身物品"
-        },
-        {
-          "type": "list",
-          "items": [
-            [
-              {
-                "type": "text",
-                "text": "信用评级：10%/5%/2%"
-              }
-            ],
-            [
-              {
-                "type": "text",
-                "text": "生活水平：标准"
-              }
-            ],
-            [
-              {
-                "type": "text",
-                "text": "消费水平：10"
-              }
-            ],
-            [
-              {
-                "type": "text",
-                "text": "其他资产：500"
-              }
-            ],
-            [
-              {
-                "type": "text",
-                "text": "当前现金：20 美元"
-              }
-            ],
-            [
-              {
-                "type": "text",
-                "text": "挎包：钢笔、笔记本、简易语言工具书、小词典、小型放大镜、护照、英国银币、手提灯、镇痛药、便携罐头、防身用的小刀"
-              }
-            ]
-          ]
-        },
-        {
-          "type": "heading",
-          "text": "武器"
-        },
-        {
-          "type": "list",
-          "items": [
-            [
-              {
-                "type": "text",
-                "text": "无：肉搏，斗殴 60，伤害 1D3+DB"
-              }
-            ],
-            [
-              {
-                "type": "text",
-                "text": "小刀：小型刀具，斗殴 60，伤害 1D4+DB，基础射程接触，贯穿"
-              }
-            ]
+          "type": "secret-inline",
+          "text": "阿尔文·布鲁克出生在一个主营羊毛贸易的英格兰乡绅家族，他有一个感情很好的兄长里斯·布鲁克。里斯比阿尔文大十岁，热爱旅行，在阿尔文小时候经常给他带各国的明信片和绘本小册子，阿尔文也因此深受熏陶，从小对各国的语言和文化产生浓厚的兴趣。",
+          "playerIds": [
+            "pl.xxt"
           ]
         }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "tokens": [
+        {
+          "type": "text",
+          "text": "求学与远行："
+        },
+        {
+          "type": "secret-inline",
+          "text": "1914年战火燃起，25岁的里斯作为战地记者往返于法国、意大利战线。1917年，阿尔文考入了剑桥大学的罗曼语专业，并收到了远方的哥哥寄来的祝福信和一支名贵的钢笔。在学校期间，阿尔文专心学业，于1919年末前往西班牙游学数月，归国后在学校公告板看到了探险队招募翻译的信息，本着磨炼自己，探索世界各地的想法，阿尔文联系上了探险队...",
+          "playerIds": [
+            "pl.xxt"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "个人条目"
+    },
+    {
+      "type": "list",
+      "items": [
+        [
+          {
+            "type": "text",
+            "text": "思想与信念："
+          },
+          {
+            "type": "secret-inline",
+            "text": "相信缘分和命运",
+            "playerIds": [
+              "pl.xxt"
+            ]
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "重要之人："
+          },
+          {
+            "type": "secret-inline",
+            "text": "哥哥",
+            "playerIds": [
+              "pl.xxt"
+            ]
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "意义非凡之地："
+          },
+          {
+            "type": "secret-inline",
+            "text": "学校图书馆",
+            "playerIds": [
+              "pl.xxt"
+            ]
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "宝贵之物："
+          },
+          {
+            "type": "secret-inline",
+            "text": "升学时哥哥送的名贵钢笔",
+            "playerIds": [
+              "pl.xxt"
+            ]
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "特质："
+          },
+          {
+            "type": "secret-inline",
+            "text": "有时会产生过于天真和理想化的想法，总是担心莫名其妙的事情",
+            "playerIds": [
+              "pl.xxt"
+            ]
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "伤口和疤痕：无"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "恐惧症和躁狂症：无"
+          }
+        ]
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "资产与随身物品"
+    },
+    {
+      "type": "list",
+      "items": [
+        [
+          {
+            "type": "text",
+            "text": "信用评级：10%/5%/2%"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "生活水平：标准"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "消费水平：10"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "其他资产：500"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "当前现金：20 美元"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "挎包："
+          },
+          {
+            "type": "secret-inline",
+            "text": "钢笔、笔记本、简易语言工具书、小词典、小型放大镜、护照、英国银币、手提灯、镇痛药、便携罐头、防身用的小刀",
+            "playerIds": [
+              "pl.xxt"
+            ]
+          }
+        ]
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "武器"
+    },
+    {
+      "type": "list",
+      "items": [
+        [
+          {
+            "type": "text",
+            "text": "无：肉搏，斗殴 60，伤害 1D3+DB"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "text": "小刀：小型刀具，斗殴 60，伤害 1D4+DB，基础射程接触，贯穿"
+          }
+        ]
       ]
     }
   ],
   "createdAt": "2026-06-29",
-  "updatedAt": "2026-06-30"
+  "updatedAt": "2026-07-01"
 }

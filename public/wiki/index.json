@@ -97,9 +97,9 @@
       "id": "pl.xxt",
       "displayName": "xxt",
       "aliases": [
-        "星星糖",
         "xxt",
-        "阿尔文PL"
+        "阿尔文PL",
+        "Alvyn PL"
       ]
     }
   ],
@@ -856,7 +856,7 @@
       "id": "char.alvyn-brooke",
       "category": "character",
       "displayName": "Alvyn Brooke 阿尔文·布鲁克",
-      "summary": "公开档案显示基础人物卡、属性、技能与外貌；背景记录仅在授权视角中显示。",
+      "summary": "公开档案显示基础人物卡、属性、技能与外貌；核心背景以加密字遮挡。",
       "avatar": "/wiki/characters/char.alvyn-brooke.png",
       "aliasNames": [
         "Alvyn Brooke",
@@ -882,7 +882,7 @@
       ],
       "hasCocSheet": true,
       "createdAt": "2026-06-29",
-      "updatedAt": "2026-06-30"
+      "updatedAt": "2026-07-01"
     },
     {
       "id": "char.amy-luck",
