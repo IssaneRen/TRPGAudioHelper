@@ -104,6 +104,8 @@ pnpm dev
 
 `pnpm dev` 和 `pnpm build` 会自动执行 Wiki 与 Blog 索引生成。
 
+AI 对话与 PL token 校验需要同时启动主仓前端和 `trpg-ai-gateway` 子仓服务。本地联调步骤见 [docs/localhost-ai-gateway-debug.md](docs/localhost-ai-gateway-debug.md)。
+
 ## 内容维护
 
 ### 世界 Wiki
