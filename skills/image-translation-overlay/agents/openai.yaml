@@ -1,0 +1,4 @@
+interface:
+  display_name: "Image Translation Overlay"
+  short_description: "Overlay translated text onto existing images"
+  default_prompt: "Create a translated reading copy of an existing image by covering source text regions and drawing translated text from a structured JSON overlay spec."

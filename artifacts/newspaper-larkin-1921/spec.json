@@ -1,0 +1,129 @@
+{
+  "title": "Daily Express",
+  "dateLine": "London, Monday, February 28, 1921",
+  "price": "One Penny",
+  "leftEar": "Morning Edition",
+  "rightEar": "London",
+  "lead": {
+    "headline": "Explorers Sought For Peruvian Antiquities Expedition",
+    "kicker": "A South American Venture",
+    "deck": "Mr. Augustus Larkin advertises for steady men and women of travel, discretion, and scientific curiosity.",
+    "body": [
+      "Mr. Augustus Larkin, lately returned from the west coast of South America, has issued notice in London of a private expedition to Peru, to depart as soon as passages and papers can be arranged. The party is to proceed first to Lima and thence inland, where Mr. Larkin states that certain antiquities of unusual native workmanship have been reported.",
+      "The undertaking is described as a compact exploratory journey rather than a large museum enterprise. Applicants are asked to possess sound health, a willingness to travel by rail, mule, and river where necessary, and some acquaintance with surveying, medicine, photography, languages, or the keeping of careful field notes.",
+      "Mr. Larkin adds that the expedition will observe all Peruvian laws governing antiquities and that suitable remuneration will be made to accepted members. Letters may be addressed to Mr. A. Larkin, care of the Foreign Travellers' Desk, Continental Hotel, London, before noon on Thursday."
+    ]
+  },
+  "items": [
+    {
+      "headline": "Near East Parley Holds In London",
+      "body": [
+        "The London conference called to examine the unsettled questions left by the Turkish peace has continued its sittings, with Greek and Turkish representatives before the Allied ministers. The chief matter remains the adjustment of the Treaty of Sevres, which the Turkish Nationalist movement has refused to treat as a finished settlement.",
+        "Diplomatic circles expect no swift conclusion, but the presence in London of the contending delegations has given the Government a fresh opportunity to test whether moderation can be found before the Anatolian fighting is renewed on a wider scale."
+      ]
+    },
+    {
+      "headline": "Heavy Losses Reported Near Midleton",
+      "body": [
+        "Reports from County Cork tell of a severe engagement at Clonmult, near Midleton, on February 20. A party of Irish Republican Army volunteers was surrounded by troops, police, and auxiliaries at a farmhouse, and the encounter ended with heavy casualties among the insurgents.",
+        "The affair has increased the sombre temper of recent Irish news. Official and local accounts differ on details of the surrender, but there is no dispute that the action was among the bloodiest reverses yet suffered by a Cork column."
+      ]
+    },
+    {
+      "headline": "British Air Services Face A Stop",
+      "body": [
+        "Aircraft Transport and Travel, the pioneer British concern associated with the daily London-Paris air service, is reported to have reached the end of its present operations. British operators have complained that French competitors enjoy Government subsidy on the Channel route.",
+        "The interruption is a sharp reminder that commercial flying, though proved in courage and speed, remains uncertain in finance. Passengers for Paris may again find the steamer and railway the more dependable arrangement."
+      ]
+    },
+    {
+      "headline": "Coto River Dispute Alarms Panama",
+      "body": [
+        "Telegrams from Central America report a sharp frontier quarrel between Costa Rica and Panama in the Coto district. The dispute began when Costa Rican forces occupied Pueblo Nuevo de Coto on February 21, asserting a claim in territory regarded by Panama as part of Chiriqui.",
+        "Both republics have called up armed men, and feeling is said to be high in the capitals. The matter is watched with particular interest because of American concern for order near the Canal and for the security of foreign interests in the region."
+      ]
+    },
+    {
+      "headline": "Reparations Question Still Presses Europe",
+      "body": [
+        "The German reparations account continues to trouble Allied councils. The machinery set up after the peace is moving toward a final schedule of liability, while British opinion remains divided between the need for payment and the fear that an impossible burden would disturb European trade.",
+        "France and Belgium insist that devastated districts must be restored, and that Germany's capacity must be firmly tested. Financial men in the City meanwhile watch the mark and the coal deliveries with growing care."
+      ]
+    }
+  ],
+  "classifieds": [
+    "EXPEDITION ASSISTANTS WANTED. Persons of sober habits, good health, and discretion may apply by letter to Mr. A. Larkin, Continental Hotel, London. Spanish useful but not essential."
+  ],
+  "showSourcesInArtifact": false,
+  "sources": [
+    {
+      "id": "daily-express-history",
+      "title": "Daily Express publication history",
+      "url": "https://en.wikipedia.org/wiki/Daily_Express",
+      "supports": "The Daily Express existed as a London daily in 1921; the first issue appeared in 1900; public notes describe its early front-page-news style and UK Press Online digitisation.",
+      "confidence": "medium-high"
+    },
+    {
+      "id": "peru-prologue-project-wiki",
+      "title": "Project wiki entry for Masks of Nyarlathotep Peru prologue",
+      "url": "public/wiki/entities/entries/module.profile.masks-of-nyarlathotep.peru-prologue.json",
+      "supports": "Scenario hook: Larkin plans a Peru highlands antiquities expedition and recruits companions or supporters.",
+      "confidence": "high-for-fictional-brief"
+    },
+    {
+      "id": "london-conference-1921",
+      "title": "Conference of London of 1921-1922",
+      "url": "https://en.wikipedia.org/wiki/Conference_of_London_of_1921%E2%80%931922",
+      "supports": "The first London conference stage ran from 21 February to 12 March 1921 and concerned the post-war Turkish settlement and Treaty of Sevres.",
+      "confidence": "medium"
+    },
+    {
+      "id": "clonmult-ambush",
+      "title": "Clonmult ambush",
+      "url": "https://en.wikipedia.org/wiki/Clonmult_ambush",
+      "supports": "The Clonmult action near Midleton occurred on 20 February 1921 and caused major IRA casualties.",
+      "confidence": "medium"
+    },
+    {
+      "id": "aircraft-transport-travel",
+      "title": "Aircraft Transport and Travel",
+      "url": "https://en.wikipedia.org/wiki/Aircraft_Transport_and_Travel",
+      "supports": "AT&T operated early London-Paris commercial air service; British operators stopped services on 28 February 1921 amid subsidy complaints.",
+      "confidence": "medium"
+    },
+    {
+      "id": "british-airways-heritage",
+      "title": "British Airways heritage: Aircraft Transport & Travel",
+      "url": "https://www.britishairways.com/en-gb/information/about-ba/history-and-heritage/explore-our-past/1910-1919",
+      "supports": "Cross-check that AT&T was an early ancestor of British Airways and began London-Paris daily international commercial service in 1919.",
+      "confidence": "medium-high"
+    },
+    {
+      "id": "coto-war",
+      "title": "Coto War",
+      "url": "https://en.wikipedia.org/wiki/Coto_War",
+      "supports": "The Costa Rica-Panama Coto conflict ran from 21 February to 5 March 1921 and began around Pueblo Nuevo de Coto.",
+      "confidence": "medium"
+    },
+    {
+      "id": "wwi-reparations",
+      "title": "World War I reparations",
+      "url": "https://en.wikipedia.org/wiki/World_War_I_reparations",
+      "supports": "The German reparations question remained active in early 1921 before the London Schedule of Payments of 5 May 1921.",
+      "confidence": "medium"
+    },
+    {
+      "id": "unemployment-insurance-act-1921",
+      "title": "Unemployment Insurance Act 1921",
+      "url": "https://www.legislation.gov.uk/ukpga/Geo5/11-12/1/contents/enacted",
+      "supports": "Consulted as nearby British domestic context: Royal Assent was 3 March 1921; not used as a dated 28 February front-page item.",
+      "confidence": "high"
+    }
+  ],
+  "artifactNotes": {
+    "reconstruction": true,
+    "fictionalHook": "Augustus Larkin / Peru expedition recruitment is scenario material for Masks of Nyarlathotep and is not presented as verified history.",
+    "realPublication": "Daily Express was selected because it was a real London daily by 1921 and was known for putting news on the front page.",
+    "sourceNotesFile": "sources.md"
+  }
+}

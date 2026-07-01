@@ -1,0 +1,146 @@
+{
+  "paperColor": "#eee6ca",
+  "inkColor": "#171512",
+  "font": "/System/Library/Fonts/Hiragino Sans GB.ttc",
+  "fontSize": 24,
+  "minFontSize": 12,
+  "lineSpacing": 1.18,
+  "padding": 6,
+  "blocks": [
+    {
+      "box": [156, 58, 600, 30],
+      "source": "London, Monday, February 28, 1921",
+      "text": "伦敦，星期一，1921年2月28日",
+      "fontSize": 21,
+      "align": "left",
+      "valign": "middle"
+    },
+    {
+      "box": [1015, 58, 110, 30],
+      "source": "One Penny",
+      "text": "一便士",
+      "fontSize": 21,
+      "align": "right",
+      "valign": "middle"
+    },
+    {
+      "box": [245, 88, 800, 86],
+      "source": "Daily Express",
+      "text": "每日快报",
+      "fontSize": 76,
+      "minFontSize": 54,
+      "align": "center",
+      "valign": "middle",
+      "padding": 4
+    },
+    {
+      "box": [156, 186, 265, 28],
+      "source": "Morning Edition",
+      "text": "晨间版",
+      "fontSize": 20,
+      "align": "left",
+      "valign": "middle"
+    },
+    {
+      "box": [1035, 186, 90, 28],
+      "source": "London",
+      "text": "伦敦",
+      "fontSize": 20,
+      "align": "right",
+      "valign": "middle"
+    },
+    {
+      "box": [156, 250, 505, 30],
+      "source": "A South American Venture",
+      "text": "南美探险计划",
+      "fontSize": 24,
+      "align": "left",
+      "valign": "middle"
+    },
+    {
+      "box": [156, 281, 850, 156],
+      "source": "Explorers Sought For Peruvian Antiquities Expedition",
+      "text": "秘鲁古物考察队招募探险家",
+      "fontSize": 58,
+      "minFontSize": 42,
+      "align": "left",
+      "valign": "middle",
+      "lineSpacing": 1.03
+    },
+    {
+      "box": [156, 455, 950, 58],
+      "source": "Mr. Augustus Larkin advertises for steady men and women of travel, discretion, and scientific curiosity.",
+      "text": "奥古斯都・拉金先生刊登启事，招募稳健、谨慎，并具科学好奇心的旅行者。",
+      "fontSize": 26,
+      "minFontSize": 20,
+      "align": "left",
+      "valign": "middle",
+      "lineSpacing": 1.05
+    },
+    {
+      "box": [156, 548, 306, 648],
+      "source": "Lead story body",
+      "text": "奥古斯都・拉金先生近日从南美西海岸归来，现于伦敦发布通告，筹组一支私人考察队前往秘鲁；待船票与证件办妥后即行启程。队伍将先抵利马，再入内陆。据拉金先生称，那里有若干工艺异常的本地古物传闻。\n\n此行并非大型博物馆远征，而是一支规模紧凑的探索队。申请者须身体康健，愿意在必要时乘火车、骑骡或沿河旅行；若懂测绘、医药、摄影、语言，或能谨慎记录田野笔记，则尤佳。\n\n拉金先生补充说，考察将遵守秘鲁有关古物的一切法律，获录用者将得适当报酬。有意者请于星期四正午前致函 A. 拉金先生，转伦敦大陆饭店外国旅客柜台。",
+      "fontSize": 23,
+      "minFontSize": 16,
+      "align": "left",
+      "lineSpacing": 1.17
+    },
+    {
+      "box": [156, 1226, 306, 482],
+      "source": "Near East Parley Holds In London",
+      "text": "近东会议仍在伦敦举行\n\n为审议土耳其和约遗留问题而召开的伦敦会议仍在继续。希腊与土耳其代表已在协约国部长面前陈述意见。核心问题仍是如何调整《塞夫尔条约》，而土耳其民族运动并不承认该安排已成定局。\n\n外交界预计短期内难有结果；但各方代表齐聚伦敦，使政府获得新的机会，试探在安纳托利亚战事扩大前是否仍能寻得温和方案。",
+      "fontSize": 22,
+      "minFontSize": 15,
+      "align": "left",
+      "lineSpacing": 1.16
+    },
+    {
+      "box": [488, 548, 306, 430],
+      "source": "Heavy Losses Reported Near Midleton",
+      "text": "米德尔顿附近传出重大伤亡\n\n科克郡来报称，2月20日，米德尔顿附近的克朗马尔特发生激烈交战。一队爱尔兰共和军志愿者在农舍中被军队、警察和辅助部队包围，交火最终造成起义者一方重大伤亡。\n\n此事使近来爱尔兰消息更显阴沉。官方与地方叙述在投降细节上并不一致，但这无疑是科克一支纵队迄今最惨重的挫败之一。",
+      "fontSize": 22,
+      "minFontSize": 15,
+      "align": "left",
+      "lineSpacing": 1.15
+    },
+    {
+      "box": [488, 1010, 306, 460],
+      "source": "British Air Services Face A Stop",
+      "text": "英国航空服务面临停顿\n\n与每日伦敦—巴黎航线相关的英国先驱航空公司“航空运输与旅行”，据报已结束当前运营。英国业者抱怨，法国竞争者在海峡航线上享有政府补贴。\n\n这一中断提醒人们，商业飞行虽已证明其勇气与速度，财政上仍不稳固。前往巴黎的旅客也许又会发现，轮船与铁路才是更可靠的安排。",
+      "fontSize": 22,
+      "minFontSize": 15,
+      "align": "left",
+      "lineSpacing": 1.15
+    },
+    {
+      "box": [818, 548, 306, 430],
+      "source": "Coto River Dispute Alarms Panama",
+      "text": "科托河争端惊动巴拿马\n\n中美洲电报称，哥斯达黎加与巴拿马在科托地区发生尖锐边境争端。争端始于2月21日，哥斯达黎加部队占领科托新镇，并声称该地虽被巴拿马视为奇里基的一部分，却应属其领土。\n\n两共和国均已召集武装人员，首都情绪据称高涨。由于美国关切运河附近秩序及该地区外国利益安全，此事备受关注。",
+      "fontSize": 22,
+      "minFontSize": 15,
+      "align": "left",
+      "lineSpacing": 1.15
+    },
+    {
+      "box": [818, 1010, 306, 445],
+      "source": "Reparations Question Still Presses Europe",
+      "text": "赔款问题仍压迫欧洲\n\n德国赔款账目继续困扰协约国会议。和平之后建立的机制正朝最终责任表推进；英国舆论则在支付必要性与过重负担将扰乱欧洲贸易的担忧之间摇摆。\n\n法国与比利时坚持，受毁地区必须恢复，德国能力也必须受到严格检验。与此同时，伦敦金融界愈发留意马克汇价与煤炭交付。",
+      "fontSize": 22,
+      "minFontSize": 15,
+      "align": "left",
+      "lineSpacing": 1.15
+    },
+    {
+      "box": [821, 1468, 302, 198],
+      "source": "Small Advertisements",
+      "text": "小广告\n\n招聘探险助手。品行稳重、身体健康、谨慎可靠者，可致函伦敦大陆饭店 A. 拉金先生。懂西班牙语者优先，非必要。",
+      "fontSize": 19,
+      "minFontSize": 12,
+      "align": "left",
+      "lineSpacing": 1.12,
+      "padding": 12,
+      "background": "#eee6ca"
+    }
+  ]
+}

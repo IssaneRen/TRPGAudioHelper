@@ -1,0 +1,7 @@
+interface:
+  display_name: "Newspaper Artifact Maker"
+  short_description: "Research-backed historical newspaper prop generator"
+  default_prompt: "Use $newspaper-artifact-maker to research period facts and generate a printable newspaper prop."
+
+policy:
+  allow_implicit_invocation: true

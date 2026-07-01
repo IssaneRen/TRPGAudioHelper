@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Daily Express</title>
+  <style>
+:root {
+  --paper: #efe4c8;
+  --ink: #171512;
+  --muted: #575047;
+  --rule: #171512;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  background: #2f2d29;
+  color: var(--ink);
+  font-family: Georgia, "Times New Roman", serif;
+}
+.page {
+  width: 1080px;
+  min-height: 1500px;
+  padding: 54px 58px 64px;
+  background:
+    radial-gradient(circle at 20% 15%, rgba(255,255,255,.22), transparent 18%),
+    linear-gradient(90deg, rgba(54,41,25,.06), transparent 18%, rgba(54,41,25,.05) 62%, transparent),
+    var(--paper);
+  box-shadow: 0 30px 70px rgba(0,0,0,.38);
+}
+.dateline, .deck, .price, .sources {
+  color: var(--muted);
+  font-size: 18px;
+}
+.masthead {
+  display: grid;
+  gap: 8px;
+  padding-bottom: 12px;
+  border-bottom: 7px double var(--rule);
+  text-align: center;
+}
+.masthead h1 {
+  margin: 0;
+  font-size: 88px;
+  line-height: .9;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.masthead-row {
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  padding: 5px 0;
+  font-size: 16px;
+  text-transform: uppercase;
+}
+.lead {
+  padding: 22px 0 18px;
+  border-bottom: 3px solid var(--rule);
+}
+.kicker {
+  margin: 0 0 6px;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+}
+.lead h2 {
+  margin: 0;
+  font-size: 58px;
+  line-height: .95;
+  text-transform: uppercase;
+}
+.deck {
+  margin: 10px 0 0;
+  font-size: 23px;
+  font-style: italic;
+}
+.columns {
+  columns: 3 280px;
+  column-gap: 28px;
+  column-rule: 1px solid rgba(23,21,18,.55);
+  padding-top: 18px;
+  text-align: left;
+}
+.story {
+  break-inside: avoid;
+  margin: 0 0 18px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(23,21,18,.45);
+}
+.story h2, .classifieds h2, .sources h2 {
+  margin: 0 0 7px;
+  font-size: 24px;
+  line-height: 1;
+  text-transform: uppercase;
+  text-align: left;
+  word-spacing: 0;
+}
+p {
+  margin: 0 0 9px;
+  font-size: 18px;
+  line-height: 1.23;
+  text-align: left;
+}
+.classifieds {
+  break-inside: avoid;
+  border: 2px solid var(--rule);
+  padding: 10px 12px;
+  margin: 0 0 18px;
+}
+.classifieds ul {
+  margin: 0;
+  padding-left: 18px;
+}
+.classifieds li {
+  margin-bottom: 7px;
+  font-size: 16px;
+  line-height: 1.18;
+}
+.sources {
+  margin-top: 22px;
+  padding-top: 10px;
+  border-top: 1px dashed rgba(23,21,18,.5);
+  font-family: system-ui, sans-serif;
+  font-size: 12px;
+}
+.sources h2 { font-size: 13px; }
+.sources ol { margin: 0; padding-left: 18px; }
+@media print {
+  body { background: white; }
+  .page { box-shadow: none; }
+}
+</style>
+</head>
+<body>
+  <main class="page">
+    <header class="masthead">
+      <div class="masthead-row"><span>London, Monday, February 28, 1921</span><span>One Penny</span></div>
+      <h1>Daily Express</h1>
+      <div class="masthead-row"><span>Morning Edition</span><span>London</span></div>
+    </header>
+    <section class="lead">
+      <p class="kicker">A South American Venture</p>
+      <h2>Explorers Sought For Peruvian Antiquities Expedition</h2>
+      <p class="deck">Mr. Augustus Larkin advertises for steady men and women of travel, discretion, and scientific curiosity.</p>
+    </section>
+    <section class="columns">
+      <article class="story"><p>Mr. Augustus Larkin, lately returned from the west coast of South America, has issued notice in London of a private expedition to Peru, to depart as soon as passages and papers can be arranged. The party is to proceed first to Lima and thence inland, where Mr. Larkin states that certain antiquities of unusual native workmanship have been reported.</p>
+<p>The undertaking is described as a compact exploratory journey rather than a large museum enterprise. Applicants are asked to possess sound health, a willingness to travel by rail, mule, and river where necessary, and some acquaintance with surveying, medicine, photography, languages, or the keeping of careful field notes.</p>
+<p>Mr. Larkin adds that the expedition will observe all Peruvian laws governing antiquities and that suitable remuneration will be made to accepted members. Letters may be addressed to Mr. A. Larkin, care of the Foreign Travellers&#x27; Desk, Continental Hotel, London, before noon on Thursday.</p></article>
+      <article class="story"><h2>Near East Parley Holds In London</h2><p>The London conference called to examine the unsettled questions left by the Turkish peace has continued its sittings, with Greek and Turkish representatives before the Allied ministers. The chief matter remains the adjustment of the Treaty of Sevres, which the Turkish Nationalist movement has refused to treat as a finished settlement.</p>
+<p>Diplomatic circles expect no swift conclusion, but the presence in London of the contending delegations has given the Government a fresh opportunity to test whether moderation can be found before the Anatolian fighting is renewed on a wider scale.</p></article>
+<article class="story"><h2>Heavy Losses Reported Near Midleton</h2><p>Reports from County Cork tell of a severe engagement at Clonmult, near Midleton, on February 20. A party of Irish Republican Army volunteers was surrounded by troops, police, and auxiliaries at a farmhouse, and the encounter ended with heavy casualties among the insurgents.</p>
+<p>The affair has increased the sombre temper of recent Irish news. Official and local accounts differ on details of the surrender, but there is no dispute that the action was among the bloodiest reverses yet suffered by a Cork column.</p></article>
+<article class="story"><h2>British Air Services Face A Stop</h2><p>Aircraft Transport and Travel, the pioneer British concern associated with the daily London-Paris air service, is reported to have reached the end of its present operations. British operators have complained that French competitors enjoy Government subsidy on the Channel route.</p>
+<p>The interruption is a sharp reminder that commercial flying, though proved in courage and speed, remains uncertain in finance. Passengers for Paris may again find the steamer and railway the more dependable arrangement.</p></article>
+<article class="story"><h2>Coto River Dispute Alarms Panama</h2><p>Telegrams from Central America report a sharp frontier quarrel between Costa Rica and Panama in the Coto district. The dispute began when Costa Rican forces occupied Pueblo Nuevo de Coto on February 21, asserting a claim in territory regarded by Panama as part of Chiriqui.</p>
+<p>Both republics have called up armed men, and feeling is said to be high in the capitals. The matter is watched with particular interest because of American concern for order near the Canal and for the security of foreign interests in the region.</p></article>
+<article class="story"><h2>Reparations Question Still Presses Europe</h2><p>The German reparations account continues to trouble Allied councils. The machinery set up after the peace is moving toward a final schedule of liability, while British opinion remains divided between the need for payment and the fear that an impossible burden would disturb European trade.</p>
+<p>France and Belgium insist that devastated districts must be restored, and that Germany&#x27;s capacity must be firmly tested. Financial men in the City meanwhile watch the mark and the coal deliveries with growing care.</p></article>
+      <section class="classifieds"><h2>Small Advertisements</h2><ul><li>EXPEDITION ASSISTANTS WANTED. Persons of sober habits, good health, and discretion may apply by letter to Mr. A. Larkin, Continental Hotel, London. Spanish useful but not essential.</li></ul></section>
+    </section>
+    
+  </main>
+</body>
+</html>
