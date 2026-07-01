@@ -58,5 +58,10 @@
     "id": "pl.xxt",
     "displayName": "xxt",
     "aliases": ["xxt", "阿尔文PL", "Alvyn PL"]
+  },
+  {
+    "id": "pl.nian",
+    "displayName": "阿年",
+    "aliases": ["nian", "阿年", "菲恩PL", "Finn PL"]
   }
 ]

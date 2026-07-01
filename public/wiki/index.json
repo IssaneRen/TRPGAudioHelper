@@ -101,6 +101,16 @@
         "阿尔文PL",
         "Alvyn PL"
       ]
+    },
+    {
+      "id": "pl.nian",
+      "displayName": "阿年",
+      "aliases": [
+        "nian",
+        "阿年",
+        "菲恩PL",
+        "Finn PL"
+      ]
     }
   ],
   "modules": [
@@ -1246,6 +1256,28 @@
       "hasCocSheet": false,
       "createdAt": "2026-06-06T00:00:00+08:00",
       "updatedAt": "2026-06-06T00:00:00+08:00"
+    },
+    {
+      "id": "char.finn-mccray",
+      "category": "character",
+      "displayName": "菲恩·麦克雷 Finn·Mccray",
+      "summary": "公开档案显示基础人物卡、属性、技能与外貌；核心背景以加密字遮挡。",
+      "avatar": "/wiki/characters/char.finn-mccray.png",
+      "aliasNames": [
+        "菲恩·麦克雷",
+        "Finn·Mccray",
+        "Finn Mccray",
+        "菲恩"
+      ],
+      "playerIds": [
+        "pl.nian"
+      ],
+      "tags": [
+        "pc"
+      ],
+      "hasCocSheet": true,
+      "createdAt": "2026-07-01",
+      "updatedAt": "2026-07-01"
     },
     {
       "id": "char.gan",
@@ -3097,6 +3129,11 @@
       "emily barr": "char.emily-barr",
       "艾蜜莉": "char.emily-barr",
       "艾蜜莉·巴尔": "char.emily-barr",
+      "菲恩·麦克雷 finn·mccray": "char.finn-mccray",
+      "菲恩·麦克雷": "char.finn-mccray",
+      "finn·mccray": "char.finn-mccray",
+      "finn mccray": "char.finn-mccray",
+      "菲恩": "char.finn-mccray",
       "阿甘 gan": "char.gan",
       "gan": "char.gan",
       "甘": "char.gan",
@@ -3290,7 +3327,12 @@
       "pl.xxt": "pl.xxt",
       "xxt": "pl.xxt",
       "阿尔文pl": "pl.xxt",
-      "alvyn pl": "pl.xxt"
+      "alvyn pl": "pl.xxt",
+      "pl.nian": "pl.nian",
+      "阿年": "pl.nian",
+      "nian": "pl.nian",
+      "菲恩pl": "pl.nian",
+      "finn pl": "pl.nian"
     },
     "moduleIdByName": {
       "永恒恶意": "module.kingsport-city-in-the-mists",
