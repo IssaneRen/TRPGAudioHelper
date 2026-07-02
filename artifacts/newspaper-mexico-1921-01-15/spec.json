@@ -1,0 +1,110 @@
+{
+  "title": "El Universal",
+  "dateLine": "México, D. F., sábado 15 de enero de 1921",
+  "price": "Edición de la mañana",
+  "leftEar": "Fundado en 1916",
+  "rightEar": "El Gran Diario de México",
+  "lead": {
+    "headline": "El Gobierno Afirma La Reconstrucción Nacional",
+    "kicker": "Después De La Revolución",
+    "deck": "La administración del general Obregón busca orden civil, trabajo y escuela para cerrar una década de armas.",
+    "body": [
+      "A mes y medio de haber tomado posesión el general Álvaro Obregón, la capital mira con atención los primeros pasos de un gobierno que se presenta como cierre de la lucha revolucionaria y principio de reconstrucción civil. Las oficinas públicas trabajan en devolver regularidad a los servicios, abrir camino a los asuntos agrarios y encauzar las demandas obreras dentro de la ley.",
+      "El nuevo régimen procura sostener la autoridad federal sin desconocer las promesas sociales nacidas de la Constitución de 1917. En los círculos políticos se repite que la paz duradera dependerá menos de los partes militares que de la escuela, el trabajo y la administración de justicia.",
+      "La tarea inmediata es delicada: contentar a campesinos y trabajadores, atraer capital para la producción y conservar la independencia de México frente a intereses extranjeros. Después de años de levantamientos, la opinión pública pide que la victoria de las armas se traduzca en pan, camino y aula."
+    ]
+  },
+  "items": [
+    {
+      "headline": "Vasconcelos Lleva La Universidad Al Pueblo",
+      "body": [
+        "José Vasconcelos, rector de la Universidad Nacional desde el año pasado, insiste en que la Universidad trabaje para el pueblo. Sus campañas de conferencias, bibliotecas y enseñanza popular son observadas como anticipo de una organización educativa más amplia.",
+        "Entre maestros y estudiantes gana terreno la idea de que la reconstrucción del país no puede quedar sólo en decretos. La escuela rural, el libro barato y la enseñanza de oficios aparecen como instrumentos de pacificación tan necesarios como el ferrocarril o el juzgado."
+      ]
+    },
+    {
+      "headline": "La CROM Gana Lugar En La Política Obrera",
+      "body": [
+        "La Confederación Regional Obrera Mexicana, dirigida por Luis N. Morones y otros líderes sindicales, se consolida como fuerza cercana al nuevo gobierno. Sus partidarios prometen un sindicalismo eficaz, con acción política y negociación ante los patrones.",
+        "Los adversarios temen que la influencia obrera quede demasiado ligada a los ministerios. Por ahora, la cuestión del trabajo ocupa un sitio central en la reconstrucción, pues ningún gabinete podrá ignorar los talleres, tranvías, minas y fábricas que sostienen la vida urbana."
+      ]
+    },
+    {
+      "headline": "España Llora El Naufragio Del Santa Isabel",
+      "body": [
+        "Cables de Europa confirman la magnitud del desastre del vapor Santa Isabel, perdido a comienzos de mes frente a la costa gallega. Las noticias hablan de más de dos centenares de muertos y de escenas de gran confusión durante la tormenta.",
+        "El siniestro ha causado honda impresión en los países de habla española. Las listas de sobrevivientes y desaparecidos se siguen con ansiedad, mientras se piden nuevas medidas para evitar tragedias semejantes en rutas de cabotaje."
+      ]
+    },
+    {
+      "headline": "Regresan Aviadores Perdidos En El Norte",
+      "body": [
+        "Nueva York recibió ayer con ovaciones a los tres aeronautas de la Marina de los Estados Unidos que habían desaparecido desde diciembre. El globo fue hallado al norte de Moose Factory, en Canadá, después de una penosa marcha por regiones heladas.",
+        "La aventura, seguida por la prensa de todo el continente, recuerda que la aviación y los globos aún pertenecen tanto al valor personal como a la técnica. Los tripulantes fueron dados por muertos durante varios días."
+      ]
+    },
+    {
+      "headline": "La Radio Lleva Una Voz A Gran Distancia",
+      "body": [
+        "Desde Pittsburgh se informa que Herbert Hoover dirigirá hoy un mensaje de socorro para Europa transmitido por línea telefónica hasta la estación KDKA, para ser oído por aficionados de radio a muchas millas de distancia.",
+        "El experimento despierta curiosidad entre ingenieros y comerciantes. Si tales emisiones prosperan, la palabra pública podría viajar sin esperar al tren, al cable ordinario o al impreso de la mañana."
+      ]
+    }
+  ],
+  "classifieds": [
+    "EXPEDICIÓN AL PERÚ. Interesados extranjeros con ánimo de viaje pueden tratar en Lima con A. Larkin. Noticias de antigüedades y oro antiguo. Buen pago."
+  ],
+  "classifiedsTitle": "Avisos Clasificados",
+  "showSourcesInArtifact": false,
+  "sources": [
+    {
+      "id": "el-universal-history",
+      "title": "Historia breve de El Universal",
+      "url": "https://www.eluniversal.com.mx/historia-breve/",
+      "supports": "El Universal was founded on 1 October 1916 and adopted the motto El Gran Diario de México in January 1921.",
+      "confidence": "high"
+    },
+    {
+      "id": "obregon-presidency",
+      "title": "Álvaro Obregón",
+      "url": "https://en.wikipedia.org/wiki/%C3%81lvaro_Obreg%C3%B3n",
+      "supports": "Obregón served as president from 1 December 1920 to 30 November 1924; early administration themes included pacification, labor relations, education, and agrarian policy.",
+      "confidence": "medium"
+    },
+    {
+      "id": "vasconcelos-rector",
+      "title": "José Vasconcelos",
+      "url": "https://en.wikipedia.org/wiki/Jos%C3%A9_Vasconcelos",
+      "supports": "Vasconcelos was rector of the National University from 9 June 1920 to 12 October 1921 and advocated university work for the people.",
+      "confidence": "medium"
+    },
+    {
+      "id": "crom-obregon",
+      "title": "Regional Confederation of Mexican Workers",
+      "url": "https://en.wikipedia.org/wiki/Regional_Confederation_of_Mexican_Workers",
+      "supports": "The CROM was a key labor organization aligned with the post-revolutionary governments of Obregón and Calles.",
+      "confidence": "medium"
+    },
+    {
+      "id": "january-1921",
+      "title": "January 1921 chronology",
+      "url": "https://en.wikipedia.org/wiki/January_1921",
+      "supports": "Santa Isabel disaster, return of the missing U.S. Navy balloonists, and Hoover radio address around 15 January 1921.",
+      "confidence": "medium"
+    },
+    {
+      "id": "fictional-larkin-ad",
+      "title": "Scenario hook",
+      "url": "public/wiki/entities/entries/module.profile.masks-of-nyarlathotep.peru-prologue.json",
+      "supports": "Augustus Larkin and the Peru bait are fictional scenario material; the ad is intentionally small, public, and misleading.",
+      "confidence": "high-for-fictional-brief"
+    }
+  ],
+  "artifactNotes": {
+    "reconstruction": true,
+    "language": "Spanish",
+    "fictionalHook": "The A. Larkin classified ad is fictional and deliberately small. It publicly baits travelers with a vague promise of Peruvian antiquities and ancient gold, directing them to contact Larkin in Lima.",
+    "realPublication": "El Universal was selected because it was a real Mexican daily founded before 1921 and adopted its famous motto in January 1921.",
+    "sourceNotesFile": "sources.md"
+  }
+}

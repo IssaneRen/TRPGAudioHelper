@@ -1,0 +1,146 @@
+{
+  "paperColor": "#eee6ca",
+  "inkColor": "#171512",
+  "font": "/System/Library/Fonts/Hiragino Sans GB.ttc",
+  "fontSize": 24,
+  "minFontSize": 12,
+  "lineSpacing": 1.18,
+  "padding": 6,
+  "blocks": [
+    {
+      "box": [156, 58, 610, 30],
+      "source": "México, D. F., sábado 15 de enero de 1921",
+      "text": "墨西哥城，星期六，1921年1月15日",
+      "fontSize": 21,
+      "align": "left",
+      "valign": "middle"
+    },
+    {
+      "box": [920, 58, 205, 30],
+      "source": "Edición de la mañana",
+      "text": "晨间版",
+      "fontSize": 21,
+      "align": "right",
+      "valign": "middle"
+    },
+    {
+      "box": [245, 88, 800, 86],
+      "source": "El Universal",
+      "text": "世界报",
+      "fontSize": 78,
+      "minFontSize": 54,
+      "align": "center",
+      "valign": "middle",
+      "padding": 4
+    },
+    {
+      "box": [156, 186, 240, 28],
+      "source": "Fundado en 1916",
+      "text": "创刊于1916年",
+      "fontSize": 20,
+      "align": "left",
+      "valign": "middle"
+    },
+    {
+      "box": [860, 186, 265, 28],
+      "source": "El Gran Diario de México",
+      "text": "墨西哥大报",
+      "fontSize": 20,
+      "align": "right",
+      "valign": "middle"
+    },
+    {
+      "box": [156, 250, 420, 30],
+      "source": "Después De La Revolución",
+      "text": "革命之后",
+      "fontSize": 24,
+      "align": "left",
+      "valign": "middle"
+    },
+    {
+      "box": [156, 281, 970, 156],
+      "source": "El Gobierno Afirma La Reconstrucción Nacional",
+      "text": "政府着手巩固国家重建",
+      "fontSize": 58,
+      "minFontSize": 42,
+      "align": "left",
+      "valign": "middle",
+      "lineSpacing": 1.03
+    },
+    {
+      "box": [156, 398, 970, 84],
+      "source": "La administración del general Obregón busca orden civil, trabajo y escuela para cerrar una década de armas.",
+      "text": "奥夫雷贡将军的政府试图以民政、劳工与学校，结束十年武装岁月。",
+      "fontSize": 26,
+      "minFontSize": 20,
+      "align": "left",
+      "valign": "middle",
+      "lineSpacing": 1.05
+    },
+    {
+      "box": [156, 492, 306, 692],
+      "source": "Lead story body",
+      "text": "奥夫雷贡将军就职一个半月后，首都正密切观察新政府的最初步伐。这个政府自称是革命斗争的收束，也是民事重建的开端。各机关正努力恢复公共服务的常态，处理土地事务，并把工人诉求纳入法律轨道。\n\n新政权试图维护联邦权威，同时不否认1917年宪法产生的社会承诺。政界反复谈到，持久和平更多取决于学校、工作和司法行政，而不是军事公报。\n\n眼下任务颇为微妙：既要安抚农民和工人，又要吸引资本恢复生产，还要在外国利益面前保持墨西哥独立。多年起义之后，公众要求枪炮的胜利能变成面包、道路和课堂。",
+      "fontSize": 23,
+      "minFontSize": 16,
+      "align": "left",
+      "lineSpacing": 1.17
+    },
+    {
+      "box": [156, 1214, 306, 490],
+      "source": "Vasconcelos Lleva La Universidad Al Pueblo",
+      "text": "瓦斯孔塞洛斯让大学走向人民\n\n何塞・瓦斯孔塞洛斯自去年起担任国立大学校长，他坚持大学应当为人民工作。他推动的讲演、图书馆和大众教育活动，被视为更大规模教育组织的先声。\n\n在教师和学生中，一种看法日益占上风：国家重建不能只停留在法令上。乡村学校、廉价书籍和职业教育，同铁路或法庭一样，是安定国家的工具。",
+      "fontSize": 22,
+      "minFontSize": 15,
+      "align": "left",
+      "lineSpacing": 1.16
+    },
+    {
+      "box": [488, 492, 306, 455],
+      "source": "La CROM Gana Lugar En La Política Obrera",
+      "text": "CROM在劳工政治中取得位置\n\n由路易斯・莫罗内斯等工会领袖领导的墨西哥地区工人联合会，正成为接近新政府的重要力量。支持者承诺以有效工会、政治行动和同雇主谈判推动工人利益。\n\n反对者担心，工人影响力会过分依附各部会。眼下，劳工问题已处在重建中心；任何内阁都不能忽视维持城市生活的车间、电车、矿山和工厂。",
+      "fontSize": 22,
+      "minFontSize": 15,
+      "align": "left",
+      "lineSpacing": 1.15
+    },
+    {
+      "box": [488, 970, 306, 445],
+      "source": "España Llora El Naufragio Del Santa Isabel",
+      "text": "西班牙哀悼“圣伊莎贝尔”号沉没\n\n欧洲电报确认，本月初“圣伊莎贝尔”号汽船在加利西亚海岸遇难，灾情惨重。消息称死亡者超过二百人，风暴中一片混乱。\n\n这场海难在西班牙语国家引起深切震动。幸存者与失踪者名单仍被焦急追踪，人们也呼吁采取新措施，避免沿海航线再发生类似悲剧。",
+      "fontSize": 22,
+      "minFontSize": 15,
+      "align": "left",
+      "lineSpacing": 1.15
+    },
+    {
+      "box": [818, 492, 306, 415],
+      "source": "Regresan Aviadores Perdidos En El Norte",
+      "text": "北方失踪飞行员归来\n\n纽约昨日以欢呼迎接三名美国海军航空员。他们自去年十二月起失踪，其气球后来在加拿大穆斯工厂以北被发现，三人曾在冰寒地区艰难跋涉。\n\n这场冒险受到整个大陆报纸关注，也提醒人们：航空与气球飞行仍不仅属于技术，也属于个人勇气。几天之内，外界曾以为机组已经遇难。",
+      "fontSize": 22,
+      "minFontSize": 15,
+      "align": "left",
+      "lineSpacing": 1.15
+    },
+    {
+      "box": [818, 930, 306, 390],
+      "source": "La Radio Lleva Una Voz A Gran Distancia",
+      "text": "无线电把声音送往远方\n\n匹兹堡消息称，赫伯特・胡佛今日将发表关于欧洲救济的讲话，经电话线传至KDKA电台，再由远距离无线电爱好者收听。\n\n这项实验引起工程师和商人的兴趣。如果这种播送方式成功，公共演说或许能不再等待火车、普通电报或次日清晨的印刷品。",
+      "fontSize": 22,
+      "minFontSize": 15,
+      "align": "left",
+      "lineSpacing": 1.15
+    },
+    {
+      "box": [821, 1346, 302, 198],
+      "source": "A. Larkin classified",
+      "text": "小广告\n\n秘鲁考察。有意旅行之外国人士，可在利马洽 A. 拉金。有关古物与古代黄金消息。酬劳从优。",
+      "fontSize": 19,
+      "minFontSize": 12,
+      "align": "left",
+      "lineSpacing": 1.12,
+      "padding": 12,
+      "background": "#eee6ca"
+    }
+  ]
+}

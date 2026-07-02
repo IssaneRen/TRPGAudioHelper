@@ -38,11 +38,11 @@ def render_items(items: list[dict[str, Any]]) -> str:
     return "\n".join(output)
 
 
-def render_classifieds(items: list[str]) -> str:
+def render_classifieds(items: list[str], title: str = "Small Advertisements") -> str:
     if not items:
         return ""
     body = "".join(f"<li>{esc(item)}</li>" for item in items)
-    return f"<section class=\"classifieds\"><h2>Small Advertisements</h2><ul>{body}</ul></section>"
+    return f"<section class=\"classifieds\"><h2>{esc(title)}</h2><ul>{body}</ul></section>"
 
 
 def source_label(item: Any) -> str:
@@ -223,7 +223,7 @@ p {
     <section class=\"columns\">
       <article class=\"story\">{paragraphs(body_values(lead.get('body')))}</article>
       {render_items(spec.get('items', []))}
-      {render_classifieds(spec.get('classifieds', []))}
+      {render_classifieds(spec.get('classifieds', []), spec.get('classifiedsTitle', 'Small Advertisements'))}
     </section>
     {render_sources(spec.get('sources', [])) if spec.get('showSourcesInArtifact') else ''}
   </main>
