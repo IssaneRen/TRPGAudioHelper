@@ -868,7 +868,7 @@ function TagFilterBar({
                 key={tag}
                 checked={selectedTags.has(tag)}
                 onCheckedChange={() => toggleTag(tag)}
-                onSelect={(e) => e.preventDefault()}
+                onSelect={(e: Event) => e.preventDefault()}
               >
                 {tag}
               </DropdownMenuCheckboxItem>
@@ -899,7 +899,7 @@ function TagFilterBar({
                 key={tag}
                 checked={selectedTags.has(tag)}
                 onCheckedChange={() => toggleTag(tag)}
-                onSelect={(e) => e.preventDefault()}
+                onSelect={(e: Event) => e.preventDefault()}
               >
                 {tag}
               </DropdownMenuCheckboxItem>

@@ -19,6 +19,34 @@ export interface AiChatMessage {
   createdAt?: string;
 }
 
+export interface ModuleClueReviewPlayer {
+  id: string;
+  name: string;
+}
+
+export interface ModuleClueReviewClueDto {
+  id: string;
+  title: string;
+  summary?: string;
+  detail?: string;
+  tags: string[];
+  thumbnail?: string;
+  order: number;
+  reveals: string[];
+  visiblePlayerIds?: string[];
+}
+
+export interface ModuleClueReviewPayload {
+  module: {
+    id: string;
+    name: string;
+  };
+  clues: ModuleClueReviewClueDto[];
+  edges: Array<{ id: string; source: string; target: string }>;
+  tags: string[];
+  players?: ModuleClueReviewPlayer[];
+}
+
 interface GatewayChatMessage {
   timestamp?: string;
   role: "user" | "assistant" | "system";
@@ -139,4 +167,27 @@ export async function deleteAiChatHistory(token: string, npcId: string): Promise
     token,
     body: JSON.stringify({ npcId }),
   });
+}
+
+export async function fetchModuleClues(token: string, moduleId: string): Promise<ModuleClueReviewPayload> {
+  return requestJson<ModuleClueReviewPayload>(`/api/module-clues/${encodeURIComponent(moduleId)}`, {
+    method: "GET",
+    token,
+  });
+}
+
+export async function updateModuleClueVisibility(
+  token: string,
+  moduleId: string,
+  clueId: string,
+  playerIds: string[],
+): Promise<void> {
+  await requestJson<{ ok: boolean }>(
+    `/api/module-clues/${encodeURIComponent(moduleId)}/visibility/${encodeURIComponent(clueId)}`,
+    {
+      method: "PUT",
+      token,
+      body: JSON.stringify({ playerIds }),
+    },
+  );
 }
