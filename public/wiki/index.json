@@ -111,6 +111,25 @@
         "菲恩PL",
         "Finn PL"
       ]
+    },
+    {
+      "id": "pl.20",
+      "displayName": "20",
+      "aliases": [
+        "20",
+        "梅琳PL",
+        "梅琳·默里PL"
+      ]
+    },
+    {
+      "id": "pl.betty",
+      "displayName": "贝蒂",
+      "aliases": [
+        "betty",
+        "贝蒂",
+        "塞西莉亚PL",
+        "Cecilia PL"
+      ]
     }
   ],
   "modules": [
@@ -1011,6 +1030,27 @@
       "updatedAt": "2026-06-06T00:00:00+08:00"
     },
     {
+      "id": "char.cecilia-hammond",
+      "category": "character",
+      "displayName": "塞西莉亚·哈蒙德",
+      "summary": "公开档案显示基础人物卡、属性、技能与外貌；核心背景以加密字遮挡。",
+      "aliasNames": [
+        "塞西莉亚·哈蒙德",
+        "塞西莉亚",
+        "Cecilia Hammond",
+        "Cecilia"
+      ],
+      "playerIds": [
+        "pl.betty"
+      ],
+      "tags": [
+        "pc"
+      ],
+      "hasCocSheet": true,
+      "createdAt": "2026-07-07",
+      "updatedAt": "2026-07-07"
+    },
+    {
       "id": "char.claire-jeplin",
       "category": "character",
       "displayName": "克莱儿·杰普林 Claire Jeplin",
@@ -1882,6 +1922,26 @@
       "hasCocSheet": false,
       "createdAt": "2026-06-06T00:00:00+08:00",
       "updatedAt": "2026-06-06T00:00:00+08:00"
+    },
+    {
+      "id": "char.meilin-murray",
+      "category": "character",
+      "displayName": "梅琳·默里",
+      "summary": "公开档案显示基础人物卡、属性、技能与外貌；核心背景以加密字遮挡。",
+      "avatar": "/wiki/characters/char.meilin-murray.png",
+      "aliasNames": [
+        "梅琳·默里",
+        "梅琳"
+      ],
+      "playerIds": [
+        "pl.20"
+      ],
+      "tags": [
+        "pc"
+      ],
+      "hasCocSheet": true,
+      "createdAt": "2026-07-07",
+      "updatedAt": "2026-07-07"
     },
     {
       "id": "char.norbert-mckenzie",
@@ -3104,6 +3164,10 @@
       "布赖德 bryde": "char.bryde",
       "bryde": "char.bryde",
       "布赖德": "char.bryde",
+      "塞西莉亚·哈蒙德": "char.cecilia-hammond",
+      "塞西莉亚": "char.cecilia-hammond",
+      "cecilia hammond": "char.cecilia-hammond",
+      "cecilia": "char.cecilia-hammond",
       "克莱儿·杰普林 claire jeplin": "char.claire-jeplin",
       "claire jeplin": "char.claire-jeplin",
       "克莱儿": "char.claire-jeplin",
@@ -3180,6 +3244,8 @@
       "麦克道格 mcdougall": "char.mcdougall",
       "mcdougall": "char.mcdougall",
       "麦克道格": "char.mcdougall",
+      "梅琳·默里": "char.meilin-murray",
+      "梅琳": "char.meilin-murray",
       "诺伯特·麦肯齐牧师 norbert mckenzie": "char.norbert-mckenzie",
       "norbert mckenzie": "char.norbert-mckenzie",
       "诺伯特·麦肯齐": "char.norbert-mckenzie",
@@ -3281,6 +3347,7 @@
       "《夜战》26.05.24": "report.mist-city-record-20260524"
     },
     "playerIdByName": {
+      "20": "pl.20",
       "pl.cici": "pl.cici",
       "cici": "pl.cici",
       "cc": "pl.cici",
@@ -3332,7 +3399,15 @@
       "阿年": "pl.nian",
       "nian": "pl.nian",
       "菲恩pl": "pl.nian",
-      "finn pl": "pl.nian"
+      "finn pl": "pl.nian",
+      "pl.20": "pl.20",
+      "梅琳pl": "pl.20",
+      "梅琳·默里pl": "pl.20",
+      "pl.betty": "pl.betty",
+      "贝蒂": "pl.betty",
+      "betty": "pl.betty",
+      "塞西莉亚pl": "pl.betty",
+      "cecilia pl": "pl.betty"
     },
     "moduleIdByName": {
       "永恒恶意": "module.kingsport-city-in-the-mists",

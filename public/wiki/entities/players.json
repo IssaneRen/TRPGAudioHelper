@@ -63,5 +63,15 @@
     "id": "pl.nian",
     "displayName": "阿年",
     "aliases": ["nian", "阿年", "菲恩PL", "Finn PL"]
+  },
+  {
+    "id": "pl.20",
+    "displayName": "20",
+    "aliases": ["20", "梅琳PL", "梅琳·默里PL"]
+  },
+  {
+    "id": "pl.betty",
+    "displayName": "贝蒂",
+    "aliases": ["betty", "贝蒂", "塞西莉亚PL", "Cecilia PL"]
   }
 ]
