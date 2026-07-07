@@ -24,6 +24,11 @@ export interface ModuleClueReviewPlayer {
   name: string;
 }
 
+export interface ModuleClueReviewModuleSummary {
+  id: string;
+  name: string;
+}
+
 export interface ModuleClueReviewClueDto {
   id: string;
   title: string;
@@ -32,7 +37,9 @@ export interface ModuleClueReviewClueDto {
   tags: string[];
   thumbnail?: string;
   order: number;
+  isInitial?: boolean;
   reveals: string[];
+  revealReasons?: Record<string, string>;
   visiblePlayerIds?: string[];
 }
 
@@ -42,7 +49,7 @@ export interface ModuleClueReviewPayload {
     name: string;
   };
   clues: ModuleClueReviewClueDto[];
-  edges: Array<{ id: string; source: string; target: string }>;
+  edges: Array<{ id: string; source: string; target: string; reason?: string }>;
   tags: string[];
   players?: ModuleClueReviewPlayer[];
 }
@@ -174,6 +181,14 @@ export async function fetchModuleClues(token: string, moduleId: string): Promise
     method: "GET",
     token,
   });
+}
+
+export async function fetchModuleClueModules(token: string): Promise<ModuleClueReviewModuleSummary[]> {
+  const data = await requestJson<{ modules: ModuleClueReviewModuleSummary[] }>("/api/module-clues", {
+    method: "GET",
+    token,
+  });
+  return data.modules;
 }
 
 export async function updateModuleClueVisibility(

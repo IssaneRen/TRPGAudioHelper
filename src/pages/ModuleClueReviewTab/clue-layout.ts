@@ -11,7 +11,9 @@ export interface ModuleClueReviewClue {
   tags: string[];
   thumbnail?: string;
   order: number;
+  isInitial?: boolean;
   reveals: string[];
+  revealReasons?: Record<string, string>;
   visiblePlayerIds?: string[];
 }
 
@@ -19,6 +21,7 @@ export interface ModuleClueReviewEdge {
   id: string;
   source: string;
   target: string;
+  reason?: string;
 }
 
 export interface ModuleClueReviewData {
@@ -36,6 +39,7 @@ export interface ModuleClueReviewColumn {
 export interface ModuleClueReviewLayout {
   columns: ModuleClueReviewColumn[];
   columnByClueId: Map<string, number>;
+  rowByClueId: Map<string, number>;
 }
 
 export type HighlightSelection =
@@ -46,6 +50,10 @@ export type HighlightSelection =
 export interface HighlightState {
   highlightedClueIds: Set<string>;
   highlightedEdgeIds: Set<string>;
+}
+
+export interface VisibleOutgoingEdge extends ModuleClueReviewEdge {
+  targetClue: ModuleClueReviewClue;
 }
 
 function compareClues(left: ModuleClueReviewClue, right: ModuleClueReviewClue) {
@@ -67,6 +75,20 @@ export function getVisibleClueGraph(
     edges,
     tags,
   };
+}
+
+export function getVisibleOutgoingEdges(
+  data: ModuleClueReviewData,
+  clueId: string,
+): VisibleOutgoingEdge[] {
+  const clueById = new Map(data.clues.map((clue) => [clue.id, clue]));
+  return data.edges
+    .filter((edge) => edge.source === clueId)
+    .map((edge) => {
+      const targetClue = clueById.get(edge.target);
+      return targetClue ? { ...edge, targetClue } : null;
+    })
+    .filter((edge): edge is VisibleOutgoingEdge => edge !== null);
 }
 
 export function buildClueReviewLayout(data: ModuleClueReviewData): ModuleClueReviewLayout {
@@ -103,11 +125,23 @@ export function buildClueReviewLayout(data: ModuleClueReviewData): ModuleClueRev
     columns.set(column, [...(columns.get(column) ?? []), clue]);
   }
 
+  const sortedColumns = Array.from(columns.entries())
+    .sort(([left], [right]) => left - right)
+    .map(([index, clues]) => ({ index, clues: clues.sort(compareClues) }));
+  const maxColumnSize = Math.max(1, ...sortedColumns.map((column) => column.clues.length));
+  const rowByClueId = new Map<string, number>();
+  for (const column of sortedColumns) {
+    const count = column.clues.length;
+    column.clues.forEach((clue, index) => {
+      const row = count >= maxColumnSize ? index : Math.floor((index * maxColumnSize) / count);
+      rowByClueId.set(clue.id, row);
+    });
+  }
+
   return {
     columnByClueId,
-    columns: Array.from(columns.entries())
-      .sort(([left], [right]) => left - right)
-      .map(([index, clues]) => ({ index, clues: clues.sort(compareClues) })),
+    rowByClueId,
+    columns: sortedColumns,
   };
 }
 

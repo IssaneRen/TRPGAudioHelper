@@ -1,22 +1,32 @@
-import { useEffect, useMemo, useState } from "react";
-import { Eye, Loader2, LogIn, LogOut, Map as MapIcon, Save, Tags, X } from "lucide-react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { ArrowRight, ChevronDown, Eye, Loader2, LogIn, LogOut, Map as MapIcon, Save, Tags, X } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  fetchModuleClueModules,
   fetchModuleClues,
   updateModuleClueVisibility,
+  type ModuleClueReviewModuleSummary,
   type ModuleClueReviewPlayer,
 } from "@/features/ai/ai-gateway-client";
 import { useAiSession } from "@/features/ai/use-ai-session";
 import {
   buildClueReviewLayout,
+  getVisibleOutgoingEdges,
   getHighlightState,
   type HighlightSelection,
   type ModuleClueReviewClue,
   type ModuleClueReviewData,
+  type VisibleOutgoingEdge,
 } from "./clue-layout";
 
-const MODULE_ID = "naimen-prologue";
 const COLUMN_WIDTH = 284;
 const CARD_WIDTH = 220;
 const CARD_HEIGHT = 116;
@@ -83,14 +93,20 @@ function DetailDialog({
   isKeeper,
   players,
   saving,
+  outgoingEdges,
+  clueHighlighted,
   onClose,
+  onHighlightClue,
   onSaveVisibility,
 }: {
   clue: ModuleClueReviewClue | null;
   isKeeper: boolean;
   players: ModuleClueReviewPlayer[];
   saving: boolean;
+  outgoingEdges: VisibleOutgoingEdge[];
+  clueHighlighted: boolean;
   onClose: () => void;
+  onHighlightClue: () => void;
   onSaveVisibility: (playerIds: string[]) => void;
 }) {
   const [selectedPlayerIds, setSelectedPlayerIds] = useState<string[]>([]);
@@ -151,6 +167,31 @@ function DetailDialog({
           <p className="whitespace-pre-wrap text-sm leading-7 text-foreground/88">
             {clue.detail || clue.summary || clue.title}
           </p>
+          <div className="rounded-md border bg-secondary/25 p-4">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <div className="text-sm font-medium">推导出后续线索</div>
+              <Button type="button" variant={clueHighlighted ? "secondary" : "outline"} onClick={onHighlightClue}>
+                {clueHighlighted ? "高亮后续线索" : "取消高亮"}
+              </Button>
+            </div>
+            {outgoingEdges.length > 0 ? (
+              <div className="mt-3 space-y-2">
+                {outgoingEdges.map((edge) => (
+                  <div key={edge.id} className="rounded-md border bg-background/70 px-3 py-2">
+                    <div className="flex items-center gap-2 text-sm font-medium">
+                      <ArrowRight className="h-4 w-4 shrink-0 text-primary" />
+                      <span className="min-w-0 truncate">{edge.targetClue.title}</span>
+                    </div>
+                    <p className="mt-1 text-xs leading-5 text-muted-foreground">
+                      {edge.reason || clue.revealReasons?.[edge.target] || "当前线索直接指向该后续线索。"}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="mt-3 text-sm text-muted-foreground">当前可见范围内没有后续线索。</p>
+            )}
+          </div>
           {isKeeper ? (
             <div className="rounded-md border bg-secondary/35 p-4">
               <div className="mb-3 flex items-center gap-2 text-sm font-medium">
@@ -190,10 +231,17 @@ function DetailDialog({
 
 export default function ModuleClueReviewTab() {
   const aiSession = useAiSession();
+  const moduleRequestSeq = useRef(0);
+  const dataRequestSeq = useRef(0);
+  const selectedModuleIdRef = useRef<string | null>(null);
+  const sessionTokenRef = useRef("");
   const [showLoginDialog, setShowLoginDialog] = useState(false);
+  const [modules, setModules] = useState<ModuleClueReviewModuleSummary[]>([]);
+  const [selectedModuleId, setSelectedModuleId] = useState<string | null>(null);
   const [data, setData] = useState<ModuleClueReviewData | null>(null);
   const [players, setPlayers] = useState<ModuleClueReviewPlayer[]>([]);
   const [loading, setLoading] = useState(false);
+  const [moduleLoading, setModuleLoading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [selection, setSelection] = useState<HighlightSelection>({ type: "none" });
   const [detailClueId, setDetailClueId] = useState<string | null>(null);
@@ -203,19 +251,27 @@ export default function ModuleClueReviewTab() {
     () => data?.clues.find((clue) => clue.id === detailClueId) ?? null,
     [data, detailClueId]
   );
+  const detailOutgoingEdges = useMemo(
+    () => (data && detailClue ? getVisibleOutgoingEdges(data, detailClue.id) : []),
+    [data, detailClue]
+  );
 
   const layout = useMemo(() => (data ? buildClueReviewLayout(data) : null), [data]);
   const highlight = useMemo(
     () => (data ? getHighlightState(data, selection) : { highlightedClueIds: new Set<string>(), highlightedEdgeIds: new Set<string>() }),
     [data, selection]
   );
-  const hasSelection = selection.type !== "none";
+  const selectedModuleName = modules.find((module) => module.id === selectedModuleId)?.name;
+  const moduleTitle = data?.module.id === selectedModuleId
+    ? data.module.name
+    : selectedModuleName ?? "模组线索回顾";
 
   const positions = useMemo(() => {
     const map = new Map<string, { x: number; y: number }>();
     if (!layout) return map;
     for (const column of layout.columns) {
-      column.clues.forEach((clue, rowIndex) => {
+      column.clues.forEach((clue) => {
+        const rowIndex = layout.rowByClueId.get(clue.id) ?? 0;
         map.set(clue.id, {
           x: CANVAS_PADDING_X + column.index * COLUMN_WIDTH,
           y: CANVAS_PADDING_Y + rowIndex * (CARD_HEIGHT + ROW_GAP),
@@ -227,38 +283,108 @@ export default function ModuleClueReviewTab() {
 
   const canvasSize = useMemo(() => {
     const columnCount = layout?.columns.length ?? 1;
-    const rowCount = Math.max(1, ...(layout?.columns.map((column) => column.clues.length) ?? [1]));
+    const rowCount = Math.max(1, ...Array.from(layout?.rowByClueId.values() ?? [0]).map((row) => row + 1));
     return {
       width: CANVAS_PADDING_X * 2 + Math.max(1, columnCount) * COLUMN_WIDTH + CARD_WIDTH,
       height: CANVAS_PADDING_Y * 2 + rowCount * CARD_HEIGHT + Math.max(0, rowCount - 1) * ROW_GAP,
     };
   }, [layout]);
 
+  const loadModules = async () => {
+    const requestId = ++moduleRequestSeq.current;
+    dataRequestSeq.current += 1;
+    const token = aiSession.token;
+    const previousModuleId = selectedModuleId;
+    if (!token || !aiSession.session) {
+      setModules([]);
+      selectedModuleIdRef.current = null;
+      setSelectedModuleId(null);
+      setData(null);
+      setPlayers([]);
+      setLoading(false);
+      return;
+    }
+    setModuleLoading(true);
+    setModules([]);
+    selectedModuleIdRef.current = null;
+    setSelectedModuleId(null);
+    setData(null);
+    setPlayers([]);
+    setLoading(false);
+    try {
+      const options = await fetchModuleClueModules(token);
+      if (requestId !== moduleRequestSeq.current || token !== sessionTokenRef.current) return;
+      const nextModuleId =
+        previousModuleId && options.some((module) => module.id === previousModuleId)
+          ? previousModuleId
+          : options[0]?.id ?? null;
+      setModules(options);
+      selectedModuleIdRef.current = nextModuleId;
+      setSelectedModuleId(nextModuleId);
+    } catch (error) {
+      if (requestId !== moduleRequestSeq.current || token !== sessionTokenRef.current) return;
+      setModules([]);
+      selectedModuleIdRef.current = null;
+      setSelectedModuleId(null);
+      setData(null);
+      setPlayers([]);
+      toast.error(error instanceof Error ? error.message : "模组列表加载失败");
+    } finally {
+      if (requestId === moduleRequestSeq.current) setModuleLoading(false);
+    }
+  };
+
   const loadData = async () => {
-    if (!aiSession.token || !aiSession.session) {
+    const moduleId = selectedModuleId;
+    const token = aiSession.token;
+    if (!token || !aiSession.session || !moduleId) {
       setData(null);
       setPlayers([]);
       return;
     }
+    if (moduleId !== selectedModuleIdRef.current || token !== sessionTokenRef.current) return;
+    const requestId = ++dataRequestSeq.current;
     setLoading(true);
+    setData(null);
+    setPlayers([]);
     try {
-      const payload = await fetchModuleClues(aiSession.token, MODULE_ID);
+      const payload = await fetchModuleClues(token, moduleId);
+      if (
+        requestId !== dataRequestSeq.current ||
+        moduleId !== selectedModuleIdRef.current ||
+        token !== sessionTokenRef.current
+      ) return;
+      if (payload.module.id !== moduleId) throw new Error("线索池响应与当前模组不一致");
       setData(payload);
       setPlayers(payload.players ?? []);
       setDetailClueId((current) => payload.clues.some((clue) => clue.id === current) ? current : null);
     } catch (error) {
+      if (
+        requestId !== dataRequestSeq.current ||
+        moduleId !== selectedModuleIdRef.current ||
+        token !== sessionTokenRef.current
+      ) return;
       setData(null);
       setPlayers([]);
       toast.error(error instanceof Error ? error.message : "线索加载失败");
     } finally {
-      setLoading(false);
+      if (requestId === dataRequestSeq.current) setLoading(false);
     }
   };
 
   useEffect(() => {
-    void loadData();
+    sessionTokenRef.current = aiSession.token;
+    void loadModules();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [aiSession.session?.playerId, aiSession.session?.isKeeper, aiSession.token]);
+
+  useEffect(() => {
+    selectedModuleIdRef.current = selectedModuleId;
+    setSelection({ type: "none" });
+    setDetailClueId(null);
+    void loadData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedModuleId]);
 
   const handleLogin = async (token: string) => {
     try {
@@ -271,10 +397,18 @@ export default function ModuleClueReviewTab() {
   };
 
   const handleSaveVisibility = async (playerIds: string[]) => {
-    if (!aiSession.token || !detailClue) return;
+    const token = aiSession.token;
+    const moduleId = selectedModuleId;
+    if (!token || !moduleId || !detailClue) return;
+    if (data?.module.id !== moduleId) {
+      toast.error("当前线索详情已过期，请重新选择线索");
+      setDetailClueId(null);
+      return;
+    }
     setSaving(true);
     try {
-      await updateModuleClueVisibility(aiSession.token, MODULE_ID, detailClue.id, playerIds);
+      await updateModuleClueVisibility(token, moduleId, detailClue.id, playerIds);
+      if (moduleId !== selectedModuleIdRef.current || token !== sessionTokenRef.current) return;
       toast.success("可见性已更新");
       await loadData();
     } catch (error) {
@@ -292,8 +426,29 @@ export default function ModuleClueReviewTab() {
   };
 
   const selectClue = (clue: ModuleClueReviewClue) => {
-    setSelection({ type: "clue", clueId: clue.id });
     setDetailClueId(clue.id);
+  };
+
+  const toggleDetailHighlight = () => {
+    if (!detailClue) return;
+    setSelection((current) =>
+      current.type === "clue" && current.clueId === detailClue.id
+        ? { type: "none" }
+        : { type: "clue", clueId: detailClue.id }
+    );
+    setDetailClueId(null);
+  };
+
+  const selectModule = (moduleId: string) => {
+    if (moduleId === selectedModuleIdRef.current) return;
+    dataRequestSeq.current += 1;
+    selectedModuleIdRef.current = moduleId;
+    setSelectedModuleId(moduleId);
+    setData(null);
+    setPlayers([]);
+    setLoading(false);
+    setSelection({ type: "none" });
+    setDetailClueId(null);
   };
 
   return (
@@ -309,7 +464,10 @@ export default function ModuleClueReviewTab() {
         isKeeper={isKeeper}
         players={players}
         saving={saving}
+        outgoingEdges={detailOutgoingEdges}
+        clueHighlighted={selection.type === "clue" && selection.clueId === detailClue?.id}
         onClose={() => setDetailClueId(null)}
+        onHighlightClue={toggleDetailHighlight}
         onSaveVisibility={handleSaveVisibility}
       />
 
@@ -319,9 +477,49 @@ export default function ModuleClueReviewTab() {
             <MapIcon className="h-4 w-4" />
             Module Clues
           </div>
-          <h2 className="mt-1 font-heading text-2xl font-semibold tracking-normal">
-            {data?.module.name ?? "模组线索回顾"}
-          </h2>
+          {aiSession.session ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button
+                  type="button"
+                  className="mt-1 flex max-w-full items-center gap-2 rounded-md px-0 py-1 text-left font-heading text-2xl font-semibold tracking-normal outline-none transition-colors hover:text-primary focus-visible:ring-2 focus-visible:ring-primary/45"
+                  aria-label="切换模组"
+                >
+                  <span className="min-w-0 truncate">{moduleTitle}</span>
+                  {moduleLoading ? (
+                    <Loader2 className="h-4 w-4 shrink-0 animate-spin text-muted-foreground" />
+                  ) : (
+                    <ChevronDown className="h-4 w-4 shrink-0 text-muted-foreground" />
+                  )}
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="start" className="w-64">
+                {moduleLoading ? (
+                  <div className="flex items-center gap-2 px-2 py-1.5 text-sm text-muted-foreground">
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                    加载中
+                  </div>
+                ) : modules.length > 0 ? (
+                  <DropdownMenuRadioGroup
+                    value={selectedModuleId ?? ""}
+                    onValueChange={selectModule}
+                  >
+                    {modules.map((module) => (
+                      <DropdownMenuRadioItem key={module.id} value={module.id}>
+                        <span className="min-w-0 truncate">{module.name}</span>
+                      </DropdownMenuRadioItem>
+                    ))}
+                  </DropdownMenuRadioGroup>
+                ) : (
+                  <div className="px-2 py-1.5 text-sm text-muted-foreground">暂无可用模组</div>
+                )}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <h2 className="mt-1 font-heading text-2xl font-semibold tracking-normal">
+              模组线索回顾
+            </h2>
+          )}
         </div>
         <div className="flex items-center gap-2">
           {aiSession.session ? (
@@ -393,7 +591,7 @@ export default function ModuleClueReviewTab() {
                         fill="none"
                         stroke="currentColor"
                         strokeWidth={active ? 2.4 : 1.4}
-                        strokeOpacity={hasSelection ? (active ? 0.95 : 0.18) : 0.48}
+                        strokeOpacity={active ? 0.95 : 0.48}
                         markerEnd="url(#module-clue-arrow)"
                       />
                     );
@@ -404,7 +602,6 @@ export default function ModuleClueReviewTab() {
                     const position = positions.get(clue.id);
                     if (!position) return null;
                     const active = highlight.highlightedClueIds.has(clue.id);
-                    const muted = hasSelection && !active;
                     return (
                       <button
                         key={clue.id}
@@ -414,7 +611,7 @@ export default function ModuleClueReviewTab() {
                           active
                             ? "border-primary bg-primary/12 text-foreground shadow-primary/20"
                             : "border-white/10 bg-card/92 text-foreground hover:border-primary/55"
-                        } ${muted ? "opacity-35" : "opacity-100"}`}
+                        }`}
                         style={{
                           left: position.x,
                           top: position.y,
@@ -437,6 +634,11 @@ export default function ModuleClueReviewTab() {
                 {data && data.clues.length === 0 ? (
                   <div className="absolute left-8 top-8 rounded-md border bg-card px-4 py-3 text-sm text-muted-foreground">
                     当前 token 暂无可见线索。
+                  </div>
+                ) : null}
+                {!moduleLoading && !loading && !data ? (
+                  <div className="absolute left-8 top-8 rounded-md border bg-card px-4 py-3 text-sm text-muted-foreground">
+                    {modules.length === 0 ? "当前 token 暂无可用模组。" : "线索加载失败，请稍后重试。"}
                   </div>
                 ) : null}
               </div>
