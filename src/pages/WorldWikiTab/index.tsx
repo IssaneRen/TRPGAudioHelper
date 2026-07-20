@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
-import { Link, useNavigate, useParams } from "react-router";
+import { Link, useNavigate, useParams, useSearchParams } from "react-router";
 import {
   Search,
   Users,
@@ -16,6 +16,8 @@ import {
   Gem,
   ChevronDown,
   ChevronUp,
+  Download,
+  X,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
@@ -51,6 +53,7 @@ import type {
 import { contentWithoutCocSheets, extractCocSheetFromContent } from "@/utils/coc-sheet";
 
 const WIKI_HOME_ROUTE = "/tools/world-wiki";
+const HOME_CATEGORY_PREVIEW_LIMIT = 6;
 
 const CATEGORY_META: Record<
   WikiCategory,
@@ -116,6 +119,15 @@ const CATEGORY_ORDER: WikiCategory[] = [
 ];
 
 let wikiIndexCache: WikiIndexPayload | null = null;
+
+interface AvatarPreviewState {
+  src: string;
+  name: string;
+}
+
+function isWikiCategory(value: string | null): value is WikiCategory {
+  return CATEGORY_ORDER.includes(value as WikiCategory);
+}
 
 /** 文本统一归一化，确保 PL / 名称 / 别名匹配规则保持一致。 */
 function normalizeText(value: string): string {
@@ -217,14 +229,110 @@ function PlNameDialog({
   );
 }
 
+function AvatarPreviewDialog({
+  avatar,
+  onClose,
+}: {
+  avatar: AvatarPreviewState | null;
+  onClose: () => void;
+}) {
+  useEffect(() => {
+    if (!avatar) return;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") onClose();
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [avatar, onClose]);
+
+  if (!avatar) return null;
+
+  return (
+    <>
+      <div className="fixed inset-0 z-[80] bg-black/70" onClick={onClose} />
+      <motion.div
+        role="dialog"
+        aria-modal="true"
+        aria-label={`${avatar.name}头像大图`}
+        initial={{ opacity: 0, scale: 0.98 }}
+        animate={{ opacity: 1, scale: 1 }}
+        className="fixed left-1/2 top-1/2 z-[81] flex max-h-[90vh] w-[min(92vw,760px)] -translate-x-1/2 -translate-y-1/2 flex-col overflow-hidden rounded-2xl border bg-background shadow-2xl"
+      >
+        <div className="flex items-center justify-between gap-3 border-b border-border/70 px-4 py-3">
+          <div className="min-w-0">
+            <p className="truncate text-sm font-medium">{avatar.name}</p>
+            <p className="text-xs text-muted-foreground">头像大图</p>
+          </div>
+          <div className="flex shrink-0 items-center gap-2">
+            <Button variant="outline" size="sm" asChild>
+              <a href={avatar.src} download>
+                <Download className="h-4 w-4" />
+                保存
+              </a>
+            </Button>
+            <Button variant="ghost" size="icon-sm" onClick={onClose} aria-label="关闭头像大图">
+              <X className="h-4 w-4" />
+            </Button>
+          </div>
+        </div>
+        <div className="flex min-h-0 items-center justify-center bg-black/5 p-4">
+          <img
+            src={avatar.src}
+            alt={`${avatar.name}头像大图`}
+            className="max-h-[72vh] max-w-full rounded-xl object-contain shadow-lg"
+          />
+        </div>
+      </motion.div>
+    </>
+  );
+}
+
+function AvatarPreviewButton({
+  src,
+  name,
+  size,
+  className,
+  onPreview,
+}: {
+  src?: string;
+  name: string;
+  size: number;
+  className?: string;
+  onPreview: (avatar: AvatarPreviewState) => void;
+}) {
+  if (!src) {
+    return <StableAvatar name={name} size={size} className={className} />;
+  }
+
+  return (
+    <button
+      type="button"
+      className="shrink-0 rounded-full transition-transform hover:scale-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+      onClick={(event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        onPreview({ src, name });
+      }}
+      aria-label={`查看${name}头像大图`}
+      title="查看头像大图"
+    >
+      <StableAvatar src={src} name={name} size={size} className={className} />
+    </button>
+  );
+}
+
 function WikiEntryCard({
   entry,
   currentPlayerId,
   playersById,
+  onPreviewAvatar,
 }: {
   entry: WikiIndexEntry;
   currentPlayerId: string | null;
   playersById: Map<string, WikiPlayer>;
+  onPreviewAvatar: (avatar: AvatarPreviewState) => void;
 }) {
   const categoryMeta = CATEGORY_META[entry.category];
   const Icon = categoryMeta.icon;
@@ -236,31 +344,42 @@ function WikiEntryCard({
 
   return (
     <Card className="eldritch-card mobile-safe-width h-full gap-4 border-border/70 bg-card/80 py-5 transition-transform hover:-translate-y-1">
-      <Link
-        to={`${WIKI_HOME_ROUTE}/${entry.id}`}
-        className="block min-w-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-      >
-        <CardHeader className="gap-3">
-          <div className="flex min-w-0 items-start justify-between gap-3">
-            <Badge variant="outline" className={categoryMeta.chipClassName}>
-              <Icon className="h-3.5 w-3.5" />
-              {categoryMeta.label}
-            </Badge>
-            <ArrowUpRight className="h-4 w-4 text-muted-foreground" />
-          </div>
-          <div className="flex min-w-0 items-start gap-3">
-            {isCharacter ? (
-              <StableAvatar src={entry.avatar} name={entry.displayName} size={48} />
-            ) : null}
-            <div className="min-w-0 space-y-2">
+      <CardHeader className="gap-3">
+        <div className="flex min-w-0 items-start justify-between gap-3">
+          <Badge variant="outline" className={categoryMeta.chipClassName}>
+            <Icon className="h-3.5 w-3.5" />
+            {categoryMeta.label}
+          </Badge>
+          <Link
+            to={`${WIKI_HOME_ROUTE}/${entry.id}`}
+            className="rounded-md text-muted-foreground transition-colors hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+            aria-label={`查看${entry.displayName}`}
+          >
+            <ArrowUpRight className="h-4 w-4" />
+          </Link>
+        </div>
+        <div className="flex min-w-0 items-start gap-3">
+          {isCharacter ? (
+            <AvatarPreviewButton
+              src={entry.avatar}
+              name={entry.displayName}
+              size={48}
+              onPreview={onPreviewAvatar}
+            />
+          ) : null}
+          <div className="min-w-0 space-y-2">
+            <Link
+              to={`${WIKI_HOME_ROUTE}/${entry.id}`}
+              className="block min-w-0 rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+            >
               <CardTitle className="break-words text-lg leading-snug">{entry.displayName}</CardTitle>
-              <CardDescription className="break-words text-sm leading-6">
-                {entry.summary}
-              </CardDescription>
-            </div>
+            </Link>
+            <CardDescription className="break-words text-sm leading-6">
+              {entry.summary}
+            </CardDescription>
           </div>
-        </CardHeader>
-      </Link>
+        </div>
+      </CardHeader>
       <CardContent className="space-y-3">
         {isCharacter && (
           <div className="relative z-10">
@@ -310,6 +429,7 @@ function WikiEntryCard({
 export default function WorldWikiTab() {
   const navigate = useNavigate();
   const { entryId } = useParams<{ entryId?: string }>();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [indexData, setIndexData] = useState<WikiIndexPayload | null>(wikiIndexCache);
   const [entryDetailsById, setEntryDetailsById] = useState<Record<string, WikiEntryRecord>>(
     () => getWikiEntryCacheSnapshot()
@@ -322,7 +442,11 @@ export default function WorldWikiTab() {
   const [detailLoading, setDetailLoading] = useState(false);
   const [detailError, setDetailError] = useState(false);
   const [isSearchPanelExpanded, setIsSearchPanelExpanded] = useState(false);
+  const [previewAvatar, setPreviewAvatar] = useState<AvatarPreviewState | null>(null);
   const aiSession = useAiSession();
+  const categoryParam = searchParams.get("category");
+  const routeCategory = isWikiCategory(categoryParam) ? categoryParam : null;
+  const activeCategory = routeCategory ?? selectedCategory;
 
   useEffect(() => {
     let cancelled = false;
@@ -394,6 +518,12 @@ export default function WorldWikiTab() {
     }
   }, [entryId]);
 
+  useEffect(() => {
+    if (categoryParam && !routeCategory) {
+      navigate(WIKI_HOME_ROUTE, { replace: true });
+    }
+  }, [categoryParam, navigate, routeCategory]);
+
   const playersById = useMemo(
     () => new Map((indexData?.players || []).map((player) => [player.id, player])),
     [indexData]
@@ -443,7 +573,7 @@ export default function WorldWikiTab() {
     const normalizedQuery = normalizeText(query);
     return (indexData?.entries || []).filter((entry) => {
       const matchesCategory =
-        selectedCategory === "all" ? true : entry.category === selectedCategory;
+        activeCategory === "all" ? true : entry.category === activeCategory;
       if (!matchesCategory) return false;
       if (!normalizedQuery) return true;
 
@@ -459,14 +589,23 @@ export default function WorldWikiTab() {
 
       return normalizeText(searchTarget).includes(normalizedQuery);
     });
-  }, [indexData, modulesById, playersById, query, selectedCategory]);
+  }, [activeCategory, indexData, modulesById, playersById, query]);
 
   const groupedEntries = useMemo(() => {
+    if (routeCategory) {
+      return [
+        {
+          category: routeCategory,
+          entries: filteredEntries.filter((entry) => entry.category === routeCategory),
+        },
+      ].filter((group) => group.entries.length > 0);
+    }
+
     return CATEGORY_ORDER.map((category) => ({
       category,
       entries: filteredEntries.filter((entry) => entry.category === category),
     })).filter((group) => group.entries.length > 0);
-  }, [filteredEntries]);
+  }, [filteredEntries, routeCategory]);
 
   /** 检索结果按分类计数，供搜索框下方状态文案使用。 */
   const searchResultStats = useMemo(() => {
@@ -523,6 +662,7 @@ export default function WorldWikiTab() {
   );
 
   const trimmedQuery = query.trim();
+  const categoryListTitle = routeCategory ? `${CATEGORY_META[routeCategory].label}列表` : null;
   const showCollapsedZeroResultHint =
     !selectedEntry && trimmedQuery.length > 0 && searchResultStats.total === 0;
 
@@ -658,9 +798,12 @@ export default function WorldWikiTab() {
               <div className="flex h-full flex-col rounded-2xl border border-border/60 bg-background/65 p-4">
                 <div className="flex flex-wrap gap-2">
                   <button
-                    onClick={() => setSelectedCategory("all")}
+                    onClick={() => {
+                      setSelectedCategory("all");
+                      setSearchParams({});
+                    }}
                     className={`rounded-full border px-3 py-1 text-xs transition-colors ${
-                      selectedCategory === "all"
+                      activeCategory === "all"
                         ? "border-primary bg-primary/10 text-primary"
                         : "text-muted-foreground hover:text-foreground"
                     }`}
@@ -670,9 +813,14 @@ export default function WorldWikiTab() {
                   {CATEGORY_ORDER.map((category) => (
                     <button
                       key={category}
-                      onClick={() => setSelectedCategory(category)}
+                      onClick={() => {
+                        setSelectedCategory(category);
+                        if (routeCategory) {
+                          setSearchParams({ category });
+                        }
+                      }}
                       className={`rounded-full border px-3 py-1 text-xs transition-colors ${
-                        selectedCategory === category
+                        activeCategory === category
                           ? "border-primary bg-primary/10 text-primary"
                           : "text-muted-foreground hover:text-foreground"
                       }`}
@@ -815,11 +963,12 @@ export default function WorldWikiTab() {
                 </div>
                 <div className="flex min-w-0 items-start gap-3">
                   {selectedEntry.category === "character" ? (
-                    <StableAvatar
+                    <AvatarPreviewButton
                       src={selectedEntry.avatar}
                       name={selectedEntry.displayName}
                       size={48}
                       className="mt-0.5"
+                      onPreview={setPreviewAvatar}
                     />
                   ) : null}
                   <h2 className="break-words text-2xl font-heading font-semibold leading-tight sm:text-3xl">
@@ -945,11 +1094,31 @@ export default function WorldWikiTab() {
                     entry={entry}
                     currentPlayerId={currentPlayer?.id || null}
                     playersById={playersById}
+                    onPreviewAvatar={setPreviewAvatar}
                   />
                 ))}
               </div>
             </section>
           )}
+
+          {routeCategory ? (
+            <section className="rounded-[24px] border border-border/70 bg-card/70 p-4 sm:p-5">
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                  <h2 className="text-xl font-heading font-semibold">{categoryListTitle}</h2>
+                  <p className="text-sm text-muted-foreground">
+                    {CATEGORY_META[routeCategory].description}
+                  </p>
+                </div>
+                <Button variant="outline" size="sm" asChild className="w-fit">
+                  <Link to={WIKI_HOME_ROUTE} onClick={() => setSelectedCategory("all")}>
+                    <ArrowLeft className="h-4 w-4" />
+                    返回全部
+                  </Link>
+                </Button>
+              </div>
+            </section>
+          ) : null}
 
           {groupedEntries.map((group) => (
             <section key={group.category} className="space-y-4">
@@ -962,18 +1131,32 @@ export default function WorldWikiTab() {
                     {CATEGORY_META[group.category].description}
                   </p>
                 </div>
-                <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                  <CalendarDays className="h-3.5 w-3.5" />
-                  共 {group.entries.length} 条结果
+                <div className="flex shrink-0 items-center gap-2">
+                  <div className="hidden items-center gap-2 text-xs text-muted-foreground sm:flex">
+                    <CalendarDays className="h-3.5 w-3.5" />
+                    共 {group.entries.length} 条结果
+                  </div>
+                  {!routeCategory && group.entries.length > HOME_CATEGORY_PREVIEW_LIMIT ? (
+                    <Button variant="outline" size="sm" asChild>
+                      <Link to={`${WIKI_HOME_ROUTE}?category=${group.category}`}>
+                        更多
+                        <ArrowUpRight className="h-4 w-4" />
+                      </Link>
+                    </Button>
+                  ) : null}
                 </div>
               </div>
               <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-                {group.entries.map((entry) => (
+                {(routeCategory
+                  ? group.entries
+                  : group.entries.slice(0, HOME_CATEGORY_PREVIEW_LIMIT)
+                ).map((entry) => (
                   <WikiEntryCard
                     key={entry.id}
                     entry={entry}
                     currentPlayerId={currentPlayer?.id || null}
                     playersById={playersById}
+                    onPreviewAvatar={setPreviewAvatar}
                   />
                 ))}
               </div>
@@ -994,6 +1177,7 @@ export default function WorldWikiTab() {
           setShowPlDialog(false);
         }}
       />
+      <AvatarPreviewDialog avatar={previewAvatar} onClose={() => setPreviewAvatar(null)} />
     </div>
   );
 }
