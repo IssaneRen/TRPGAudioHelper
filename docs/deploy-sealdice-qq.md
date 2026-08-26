@@ -24,6 +24,38 @@
 
 原则：不要占用 `80/443/3001/3002/8291`；NapCat 管理页不公网暴露，只通过 SSH/Termius 隧道访问。
 
+QQ Chatbot 复用现有 NapCat → 海豹链路，不新增 NapCat 连接。海豹 JS 插件调用 `127.0.0.1:3001` 的 AI Gateway 内部接口。
+
+运行时文件：
+
+```text
+/etc/trpg-ai/qq-chatbot.players.json
+/etc/trpg-ai/trpg-ai.env
+/var/www/trpg-ai-gateway/shared/npcs
+/var/www/trpg-ai-gateway/shared/chat-memory
+```
+
+AI Gateway 环境变量：
+
+```bash
+QQ_CHATBOT_INTERNAL_TOKEN=换成随机长字符串
+QQ_CHATBOT_PLAYER_MAP_FILE=/etc/trpg-ai/qq-chatbot.players.json
+QQ_CHATBOT_ADMIN_QQ_IDS=你的QQ号
+NPC_ROOT_DIR=/var/www/trpg-ai-gateway/shared/npcs
+CHAT_MEMORY_ROOT_DIR=/var/www/trpg-ai-gateway/shared/chat-memory
+WIKI_ENTRIES_DIR=/var/www/trpg-content/wiki/entities/entries
+```
+
+玩家映射示例：
+
+```json
+{
+  "123456789": "pl.ddd"
+}
+```
+
+关闭方式：禁用海豹 `QQ Chatbot` 插件，或移除 `QQ_CHATBOT_INTERNAL_TOKEN` 后重启 `trpg-ai-gateway`。
+
 官方参考：
 
 - https://docs.sealdice.com/deploy/quick-start.html
