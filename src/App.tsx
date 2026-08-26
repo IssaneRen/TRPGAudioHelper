@@ -3,6 +3,7 @@ import { Routes, Route, Navigate } from "react-router";
 import { Toaster } from "@/components/ui/sonner";
 import TabLayout from "@/components/TabLayout";
 import { Skeleton } from "@/components/ui/skeleton";
+import { AnalyticsRouteTracker } from "@/features/analytics/AnalyticsRouteTracker";
 
 const ProfileTab = lazy(() => import("@/pages/ProfileTab"));
 const ToolboxTab = lazy(() => import("@/pages/ToolboxTab"));
@@ -13,6 +14,8 @@ const ModuleClueReviewTab = lazy(() => import("@/pages/ModuleClueReviewTab"));
 const SoundboardTab = lazy(() => import("@/pages/SoundboardTab"));
 const BattleSimulator = lazy(() => import("@/pages/ToolboxTab/BattleSimulator"));
 const AiChatTab = lazy(() => import("@/pages/AiChatTab"));
+const AnalyticsDashboardTab = lazy(() => import("@/pages/AnalyticsDashboardTab"));
+const ContentAdminTab = lazy(() => import("@/pages/ContentAdminTab"));
 const BlogTab = lazy(() => import("@/pages/BlogTab"));
 const NotFound = lazy(() => import("@/pages/NotFound"));
 const WikiAdminTab = import.meta.env.DEV ? lazy(() => import("@/pages/WikiAdminTab")) : null;
@@ -35,8 +38,10 @@ function PageLoader() {
 export default function App() {
   return (
     <>
+      <AnalyticsRouteTracker />
       <Suspense fallback={<PageLoader />}>
         <Routes>
+          <Route path="admin/content" element={<ContentAdminTab />} />
           <Route element={<TabLayout />}>
             <Route index element={<ProfileTab />} />
             {import.meta.env.DEV && WikiAdminTab ? (
@@ -52,6 +57,7 @@ export default function App() {
               <Route path="soundboard" element={<SoundboardTab />} />
               <Route path="module-clue" element={<ModuleClueReviewTab />} />
               <Route path="ai-chat" element={<AiChatTab />} />
+              <Route path="dashboard" element={<AnalyticsDashboardTab />} />
             </Route>
             <Route path="blog" element={<BlogTab />} />
             <Route path="blog/:postId" element={<BlogTab />} />

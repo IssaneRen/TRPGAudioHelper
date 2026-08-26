@@ -3,9 +3,6 @@ name: Deploy to Server
 on:
   push:
     branches: [master]
-    paths-ignore:
-      - 'public/blog/**'
-      - 'public/wiki/**'
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
@@ -36,7 +33,9 @@ jobs:
         run: pnpm build
 
       - name: Package build artifact
-        run: tar -C dist -czf "trpg-helper-dist-${{ github.sha }}.tar.gz" .
+        run: |
+          tar -C dist -czf "trpg-helper-dist-${{ github.sha }}.tar.gz" .
+          tar -czf "trpg-content-ops-${{ github.sha }}.tar.gz" ops/content-admin
 
       - name: Prepare remote release directory
         uses: appleboy/ssh-action@v1
@@ -64,7 +63,7 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
-          source: "trpg-helper-dist-${{ github.sha }}.tar.gz"
+          source: "trpg-helper-dist-${{ github.sha }}.tar.gz,trpg-content-ops-${{ github.sha }}.tar.gz"
           target: "/tmp"
           overwrite: true
 
@@ -81,14 +80,18 @@ jobs:
             APP_ROOT="/var/www/trpg-helper"
             RELEASE_DIR="${APP_ROOT}/releases/${{ github.sha }}"
             ARCHIVE="/tmp/trpg-helper-dist-${{ github.sha }}.tar.gz"
+            OPS_ARCHIVE="/tmp/trpg-content-ops-${{ github.sha }}.tar.gz"
+            OPS_ROOT="/tmp/trpg-content-ops-${{ github.sha }}"
 
-            if ! test -f "$ARCHIVE"; then
-              echo "Release archive is missing: $ARCHIVE" >&2
+            if ! test -f "$ARCHIVE" || ! test -f "$OPS_ARCHIVE"; then
+              echo "Release or content ops archive is missing." >&2
               exit 1
             fi
 
             tar -xzf "$ARCHIVE" -C "$RELEASE_DIR"
-            rm -f "$ARCHIVE"
+            mkdir -p "$OPS_ROOT"
+            tar -xzf "$OPS_ARCHIVE" -C "$OPS_ROOT"
+            rm -f "$ARCHIVE" "$OPS_ARCHIVE"
 
       - name: Configure and reload Nginx
         uses: appleboy/ssh-action@v1
@@ -116,6 +119,7 @@ jobs:
             DEFAULT_SSL_KEY_PATH="/etc/nginx/ssl/issane.cn/privkey.key"
             MANAGED_SSL_DIR="/etc/nginx/ssl/${SITE_NAME}"
             TIMESTAMP="$(date '+%Y%m%d%H%M%S')"
+            OPS_ROOT="/tmp/trpg-content-ops-${{ github.sha }}/ops/content-admin"
 
             if ! sudo test -f "${RELEASE_DIR}/index.html"; then
               echo "Release is missing index.html: ${RELEASE_DIR}" >&2
@@ -135,6 +139,16 @@ jobs:
               sudo chmod 644 "$RUNTIME_CONFIG_FILE"
             fi
             sudo ln -sfn "$RELEASE_DIR" "$APP_CURRENT"
+
+            sudo mkdir -p /etc/nginx/snippets /var/www/trpg-content /home/ubuntu/public_files/gate/trpg-content
+            sudo chown -R "$(id -un):$(id -gn)" /var/www/trpg-content /home/ubuntu/public_files/gate/trpg-content
+            bash "${OPS_ROOT}/migrate-content.sh"
+            sudo install -m 0644 "${OPS_ROOT}/trpg-content-runtime.conf" /etc/nginx/snippets/trpg-content-runtime.conf
+            sudo install -m 0644 "${OPS_ROOT}/trpg-content-release.conf" /etc/nginx/snippets/trpg-content-release.conf
+            sudo install -m 0755 "${OPS_ROOT}/switch-content-source.sh" /usr/local/sbin/trpg-content-source
+            if ! sudo test -L /etc/nginx/snippets/trpg-content-active.conf; then
+              sudo ln -sfn /etc/nginx/snippets/trpg-content-runtime.conf /etc/nginx/snippets/trpg-content-active.conf
+            fi
 
             if [ -e "$CONFIG_AVAILABLE" ]; then
               sudo cp -a "$CONFIG_AVAILABLE" "${CONFIG_AVAILABLE}.bak-${TIMESTAMP}"
@@ -304,6 +318,8 @@ jobs:
                     add_header Cache-Control "no-store" always;
                 }
 
+                include /etc/nginx/snippets/trpg-content-active.conf;
+
                 location / {
                     try_files \$uri /index.html;
                 }
@@ -339,6 +355,8 @@ jobs:
                     default_type application/json;
                     add_header Cache-Control "no-store" always;
                 }
+
+                include /etc/nginx/snippets/trpg-content-active.conf;
 
                 location / {
                     try_files \$uri /index.html;

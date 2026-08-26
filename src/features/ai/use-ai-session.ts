@@ -6,6 +6,7 @@ import {
   validateAiSession,
   type AiSession,
 } from "./ai-gateway-client";
+import { identifyAnalyticsSession } from "@/features/analytics/analytics-client";
 
 export interface AiSessionState {
   token: string;
@@ -36,10 +37,12 @@ export function useAiSession(): AiSessionState {
     try {
       const nextSession = await validateAiSession(currentToken);
       setSession(nextSession);
+      identifyAnalyticsSession(nextSession);
       return nextSession;
     } catch (err) {
       const message = err instanceof Error ? err.message : "登录状态校验失败";
       setSession(null);
+      identifyAnalyticsSession(null);
       setError(message);
       return null;
     } finally {
@@ -73,6 +76,7 @@ export function useAiSession(): AiSessionState {
     storeAiToken(trimmed);
     setToken(trimmed);
     setSession(nextSession);
+    identifyAnalyticsSession(nextSession);
     setError("");
     return nextSession;
   }, []);
@@ -81,6 +85,7 @@ export function useAiSession(): AiSessionState {
     clearStoredAiToken();
     setToken("");
     setSession(null);
+    identifyAnalyticsSession(null);
     setError("");
   }, []);
 

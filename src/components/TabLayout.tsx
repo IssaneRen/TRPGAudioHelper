@@ -1,6 +1,6 @@
 import { Outlet, NavLink, useLocation, useNavigate } from "react-router";
 import { motion, AnimatePresence } from "framer-motion";
-import { User, Wrench, BookOpen, Swords, Music, Map, LibraryBig, MessageCircle } from "lucide-react";
+import { User, Wrench, BookOpen, Swords, Music, Map, LibraryBig, MessageCircle, BarChart3 } from "lucide-react";
 import { ModeToggle } from "@/components/mode-toggle";
 import { useState, useRef, useEffect } from "react";
 
@@ -10,6 +10,7 @@ const toolItems = [
   { to: "/tools/soundboard", label: "音效键盘", icon: Music },
   { to: "/tools/module-clue", label: "模组工具", icon: Map },
   { to: "/tools/ai-chat", label: "AI 对话", icon: MessageCircle },
+  { to: "/tools/dashboard", label: "数据仪表盘", icon: BarChart3 },
 ];
 
 const pageVariants = {
