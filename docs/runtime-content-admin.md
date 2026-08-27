@@ -14,5 +14,6 @@
 - NPC 私有记忆：`NPC_ROOT_DIR=/var/www/trpg-ai-gateway/shared/npcs`
 - 对话运行时记忆：`CHAT_MEMORY_ROOT_DIR=/var/www/trpg-ai-gateway/shared/chat-memory`
 - QQ 到 PL 映射：`/etc/trpg-ai/qq-chatbot.players.json`
+- Gateway 环境文件：`/home/ubuntu/trpg-ai-gateway.env`
 
 `CONTENT_ROOT_DIR` 只放博客和 Wiki 内容；`.chatbot add-memory` 写入 `NPC_ROOT_DIR`，不要写入 `CONTENT_ROOT_DIR`。

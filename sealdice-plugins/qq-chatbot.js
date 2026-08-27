@@ -1,16 +1,16 @@
 // ==UserScript==
 // @name         QQ Chatbot
 // @author       白羽
-// @version      0.1.0
+// @version      0.1.1
 // @description  通过 AI Gateway 复用网页端 NPC 对话记忆，提供 .chatbot talk/add-memory 指令。
-// @timestamp    2026-08-26
+// @timestamp    2026-08-27
 // @license      MIT
 // @homepageURL  https://docs.sealdice.com/advanced/js_start.html
 // ==/UserScript==
 
 var EXT_NAME = "lucius_qq_chatbot";
 var EXT_AUTHOR = "白羽";
-var EXT_VERSION = "0.1.0";
+var EXT_VERSION = "0.1.1";
 
 var ext = seal.ext.find(EXT_NAME);
 if (!ext) {
@@ -18,7 +18,7 @@ if (!ext) {
   seal.ext.register(ext);
 }
 
-seal.ext.registerStringConfig(ext, "gatewayUrl", "http://127.0.0.1:3001", "AI Gateway 地址", "连接");
+seal.ext.registerStringConfig(ext, "gatewayUrl", "https://ai.issane.cn", "AI Gateway 地址", "连接");
 seal.ext.registerStringConfig(ext, "internalToken", "", "QQ Chatbot 内部 token", "连接");
 seal.ext.registerStringConfig(ext, "imageBasePath", "", "可选：立绘图片基础路径或 URL", "图片");
 seal.ext.registerIntConfig(ext, "minAdminPrivilege", 50, "可追加记忆的最低权限：50 管理，60 群主，100 Master", "权限");
@@ -44,6 +44,14 @@ function configInt(key, fallback) {
   return typeof value === "number" && isFinite(value) ? value : fallback;
 }
 
+function errorMessage(err) {
+  return String(err && err.message ? err.message : err);
+}
+
+function formatTroubleReply(err) {
+  return "【诶呀，特仑苏出问题了，脑子太笨，请发给骰主：" + errorMessage(err) + " 这段文字，让他来教育苏苏】";
+}
+
 function normalizeQqUserId(msg) {
   var raw = msg && msg.sender && msg.sender.userId ? String(msg.sender.userId) : "";
   var afterColon = raw.indexOf(":") >= 0 ? raw.split(":").pop() : raw;
@@ -67,15 +75,27 @@ function gatewayUrl(path) {
 }
 
 async function postGateway(path, body) {
-  var response = await fetch(gatewayUrl(path), {
-    method: "POST",
-    headers: gatewayHeaders(),
-    body: JSON.stringify(body)
-  });
+  var response;
+  try {
+    response = await fetch(gatewayUrl(path), {
+      method: "POST",
+      headers: gatewayHeaders(),
+      body: JSON.stringify(body)
+    });
+  } catch (err) {
+    throw new Error("网络请求失败：" + errorMessage(err));
+  }
   var text = await response.text();
-  var data = text ? JSON.parse(text) : {};
+  var data = {};
+  if (text) {
+    try {
+      data = JSON.parse(text);
+    } catch (err) {
+      throw new Error("JSON解析失败：" + errorMessage(err) + "；响应原文：" + text);
+    }
+  }
   if (!response.ok) {
-    throw new Error(data && data.error ? data.error : "Gateway 请求失败：" + response.status);
+    throw new Error(data && data.error ? data.error : "Gateway 请求失败：" + response.status + "；响应原文：" + text);
   }
   return data;
 }
@@ -181,7 +201,7 @@ cmd.solve = async function (ctx, msg, cmdArgs) {
     return ok();
   } catch (err) {
     console.log("[QQ Chatbot] " + String(err && err.stack ? err.stack : err));
-    reply(ctx, msg, "Chatbot 请求失败：" + String(err && err.message ? err.message : err));
+    reply(ctx, msg, formatTroubleReply(err));
     return ok();
   }
 };

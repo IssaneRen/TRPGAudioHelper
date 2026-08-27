@@ -147,7 +147,7 @@ AI NPC 对话需要按 NPC + PL 隔离，并避免前端继续用明文 `pl.xxx`
 
 - 主仓前端只保存 token；刷新后通过 `POST /api/session` 重建内存 session
 - `trpg-ai-gateway` 使用 token 哈希 + `TOKEN_HASH_PEPPER` 鉴权，所有受保护接口走 `Authorization: Bearer <token>`
-- NPC 私有上下文放在子仓 `data/npcs/<npcId>/ai-context.json`，公开 Wiki JSON 不承载 DeepSeek 专用设定
+- NPC 私有上下文放在 Gateway 配置的 `NPC_ROOT_DIR/<npcId>/ai-context.json`，生产环境使用 `/var/www/trpg-ai-gateway/shared/npcs`；公开 Wiki JSON 不承载 DeepSeek 专用设定
 - 聊天运行时记忆写入 `CHAT_MEMORY_ROOT_DIR/<npcId>/players/<plId>/`，不进入 Git，不写 release 目录
 - KP token 只返回 `isKeeper: true`，不默认代入任一 PL 的 NPC 私聊
 

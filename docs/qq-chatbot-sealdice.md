@@ -25,5 +25,5 @@
 
 ```text
 /etc/trpg-ai/qq-chatbot.players.json
-/etc/trpg-ai/trpg-ai.env
+/home/ubuntu/trpg-ai-gateway.env
 ```

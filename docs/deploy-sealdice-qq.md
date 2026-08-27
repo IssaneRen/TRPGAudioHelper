@@ -30,7 +30,7 @@ QQ Chatbot 复用现有 NapCat → 海豹链路，不新增 NapCat 连接。海�
 
 ```text
 /etc/trpg-ai/qq-chatbot.players.json
-/etc/trpg-ai/trpg-ai.env
+/home/ubuntu/trpg-ai-gateway.env
 /var/www/trpg-ai-gateway/shared/npcs
 /var/www/trpg-ai-gateway/shared/chat-memory
 ```
