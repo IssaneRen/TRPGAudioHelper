@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         QQ Chatbot
 // @author       白羽
-// @version      0.1.1
+// @version      0.1.2
 // @description  通过 AI Gateway 复用网页端 NPC 对话记忆，提供 .chatbot talk/add-memory 指令。
 // @timestamp    2026-08-27
 // @license      MIT
@@ -10,7 +10,7 @@
 
 var EXT_NAME = "lucius_qq_chatbot";
 var EXT_AUTHOR = "白羽";
-var EXT_VERSION = "0.1.1";
+var EXT_VERSION = "0.1.2";
 
 var ext = seal.ext.find(EXT_NAME);
 if (!ext) {
@@ -33,6 +33,14 @@ function reply(ctx, msg, text) {
 
 function trimRightSlash(value) {
   return String(value || "").replace(/\/+$/, "");
+}
+
+function isHttpUrl(value) {
+  return /^https?:\/\//i.test(String(value || ""));
+}
+
+function joinImageUrl(base, fileName) {
+  return trimRightSlash(base) + "/" + encodeURIComponent(fileName);
 }
 
 function configString(key) {
@@ -118,7 +126,11 @@ function formatTalkReply(data) {
   var lines = [];
   var imageBasePath = trimRightSlash(configString("imageBasePath"));
   if (data.portraitFile && imageBasePath) {
-    lines.push("[CQ:image,file=" + imageBasePath + "/" + data.portraitFile + "]");
+    if (isHttpUrl(imageBasePath)) {
+      lines.push("[CQ:image,file=" + data.portraitFile + ",url=" + joinImageUrl(imageBasePath, data.portraitFile) + ",cache=0]");
+    } else {
+      lines.push("[CQ:image,file=" + imageBasePath + "/" + data.portraitFile + "]");
+    }
   }
   lines.push("【" + (data.npcDisplayName || data.npcId || "NPC") + "】");
   lines.push(data.content || "");
