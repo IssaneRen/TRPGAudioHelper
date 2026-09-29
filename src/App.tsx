@@ -16,6 +16,8 @@ const BattleSimulator = lazy(() => import("@/pages/ToolboxTab/BattleSimulator"))
 const AiChatTab = lazy(() => import("@/pages/AiChatTab"));
 const AnalyticsDashboardTab = lazy(() => import("@/pages/AnalyticsDashboardTab"));
 const ContentAdminTab = lazy(() => import("@/pages/ContentAdminTab"));
+const WorkbenchTab = lazy(() => import("@/pages/WorkbenchTab"));
+const PortfolioTab = lazy(() => import("@/pages/PortfolioTab"));
 const BlogTab = lazy(() => import("@/pages/BlogTab"));
 const NotFound = lazy(() => import("@/pages/NotFound"));
 const WikiAdminTab = import.meta.env.DEV ? lazy(() => import("@/pages/WikiAdminTab")) : null;
@@ -42,6 +44,9 @@ export default function App() {
       <Suspense fallback={<PageLoader />}>
         <Routes>
           <Route path="admin/content" element={<ContentAdminTab />} />
+          <Route path="workbench" element={<WorkbenchTab />} />
+          <Route path="portfolio" element={<PortfolioTab />} />
+          <Route path="portfolio/:workId" element={<PortfolioTab />} />
           <Route element={<TabLayout />}>
             <Route index element={<ProfileTab />} />
             {import.meta.env.DEV && WikiAdminTab ? (
