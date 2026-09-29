@@ -5,6 +5,9 @@ on:
     branches: [master]
     paths:
       - .github/workflows/deploy-static-overlay.yml
+      - src/pages/WorkbenchTab/**
+      - src/pages/PortfolioTab/**
+      - src/features/workbench/**
   workflow_dispatch:
 
 jobs:
