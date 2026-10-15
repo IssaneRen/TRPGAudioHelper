@@ -6,6 +6,9 @@ import { uploadContentImage } from "@/features/content-admin/content-admin-clien
 import { WorkMarkdown } from "@/features/workbench/WorkMarkdown";
 import type { Learning, Plan, Work } from "@/features/workbench/workbench-client";
 import { learningLabels, localDate, planLabels, workKinds } from "@/features/workbench/workbench-model";
+import { detachAnnualDocument, readAnnualDocument, renderAnnualDocument, type AnnualDocument } from "@/features/workbench/annual-document";
+import { AnnualContentEditor } from "./AnnualContentEditor";
+import { HtmlContentEditor } from "./HtmlContentEditor";
 
 export type Entry = { type: "plans"; item: Plan } | { type: "learning"; item: Learning } | { type: "works"; item: Work };
 interface Props { saveError?: string; entry: Entry; token: string; isNew: boolean; onClose: () => void; onSave: (entry: Entry) => void; onDelete: () => void; onCreateWork: (learning: Learning) => void; }
@@ -15,9 +18,13 @@ export function EntryEditor({ entry, token, isNew, onClose, onSave, onDelete, on
   const [error, setError] = useState("");
   const [uploading, setUploading] = useState(false);
   const [preview, setPreview] = useState(false);
+  const [source, setSource] = useState(false);
+  const [annualFormDraft, setAnnualFormDraft] = useState(() => entry.type === "works" && entry.item.kind === "html" ? readAnnualDocument(entry.item.body) : null);
+  const [annualError, setAnnualError] = useState("");
   const [journal, setJournal] = useState("");
   const fileInput = useRef<HTMLInputElement>(null);
-  const changed = JSON.stringify(draft) !== JSON.stringify(entry) || Boolean(journal.trim());
+  const changed = JSON.stringify(draft) !== JSON.stringify(entry) || Boolean(journal.trim()) || Boolean(annualError);
+  const annualDocument = draft.type === "works" && draft.item.kind === "html" ? readAnnualDocument(draft.item.body) : null;
   useEffect(() => {
     if (!changed) return;
     const warn = (event: BeforeUnloadEvent) => { event.preventDefault(); event.returnValue = ""; };
@@ -31,8 +38,14 @@ export function EntryEditor({ entry, token, isNew, onClose, onSave, onDelete, on
   function withJournal(): Entry {
     return draft.type === "learning" && journal.trim() ? { ...draft, item: { ...draft.item, notes: `${draft.item.notes}\n\n### ${localDate()} 实践记录\n${journal.trim()}` } } : draft;
   }
+  function updateAnnual(document: AnnualDocument) {
+    setAnnualFormDraft(document);
+    try { patch({ body: renderAnnualDocument(document) }); setAnnualError(""); }
+    catch { setAnnualError("内容超出年度表单容量，输入已保留。请缩减后再预览或保存。"); }
+  }
   function submit(event: React.FormEvent) {
     event.preventDefault();
+    if (annualError) return;
     if (!draft.item.title.trim()) { setError("请填写标题。"); return; }
     if (draft.type === "works" && draft.item.coverUrl && !/^(https?:\/\/|\/content-assets\/)/i.test(draft.item.coverUrl)) { setError("封面请使用 http(s) 或站内 /content-assets/ 地址。"); return; }
     if (draft.type === "works" && draft.item.status === "published" && !draft.item.body.trim()) { setError("作品正文为空，请先补充内容再发布。"); return; }
@@ -68,15 +81,19 @@ export function EntryEditor({ entry, token, isNew, onClose, onSave, onDelete, on
             <button type="button" className="studio-button" onClick={() => { if (!draft.item.title.trim()) { setError("请先填写标题。"); return; } onCreateWork((withJournal() as { type: "learning"; item: Learning }).item); }}>保存记录并创建实践作品 <ExternalLink size={15} /></button>
           </>}
           {draft.type === "works" && <>
-            <div className="studio-fields"><label>作品类型<select value={draft.item.kind} onChange={(e) => patch({ kind: e.target.value as Work["kind"] })}>{workKinds.map(([key, label]) => <option key={key} value={key}>{label}</option>)}</select></label><label>可见范围<select value={draft.item.status} onChange={(e) => patch({ status: e.target.value as Work["status"] })}><option value="draft">私密草稿</option><option value="published">公开发布</option></select></label></div>
+            <details className="studio-content-section" open={!annualDocument}><summary>作品设置 · {draft.item.status === "draft" ? "私密草稿" : "公开作品"}</summary>
+            <div className="studio-fields"><label>作品类型<select disabled={Boolean(annualDocument)} value={draft.item.kind} onChange={(e) => patch({ kind: e.target.value as Work["kind"] })}>{workKinds.map(([key, label]) => <option key={key} value={key}>{label}</option>)}</select></label><label>可见范围<select value={draft.item.status} onChange={(e) => patch({ status: e.target.value as Work["status"] })}><option value="draft">私密草稿</option><option value="published">公开发布</option></select></label></div>
+            {annualDocument && <p className="studio-hint">年度作品使用内容表单维护。需要切换作品类型时，请先在高级源码中转换为普通 HTML。</p>}
             {draft.item.status === "published" && <p className="studio-public-note">保存后，正文和封面会在公开作品集展示。请先确认已移除私人笔记与剧透。</p>}
             <label>作品简介<textarea rows={2} maxLength={2000} value={draft.item.summary} onChange={(e) => patch({ summary: e.target.value })} placeholder="用一两句话介绍这次创作" /></label>
             <label>封面地址<input maxLength={2000} value={draft.item.coverUrl} onChange={(e) => patch({ coverUrl: e.target.value })} placeholder="https:// 或 /content-assets/..." /></label>
             <input ref={fileInput} type="file" hidden accept="image/*" onChange={(e) => { void upload(e.target.files?.[0]); e.target.value = ""; }} />
             <button type="button" className="studio-button" disabled={uploading} onClick={() => fileInput.current?.click()}><Upload size={15} />{uploading ? "图片上传中…" : "上传封面"}</button>
-            <div className="studio-editor-tabs"><button type="button" aria-pressed={!preview} onClick={() => setPreview(false)}>编辑正文</button><button type="button" aria-pressed={preview} onClick={() => setPreview(true)}><Eye size={15} />预览效果</button>{!isNew && entry.type === "works" && entry.item.status === "published" && <Link to={`/portfolio/${draft.item.id}`} target="_blank">公开页面 <ExternalLink size={14} /></Link>}</div>
-            {preview ? draft.item.kind === "html" ? <iframe className="studio-html" title="HTML 作品预览" sandbox="allow-scripts" referrerPolicy="no-referrer" srcDoc={draft.item.body} /> : <article className="prose studio-markdown"><WorkMarkdown body={draft.item.body || "暂无正文，返回编辑开始创作。"} /></article> : <label>{draft.item.kind === "html" ? "独立 HTML 源码" : "正文 · Markdown"}<textarea className="studio-source" rows={18} maxLength={500_000} value={draft.item.body} onChange={(e) => patch({ body: e.target.value })} placeholder={draft.item.kind === "html" ? "粘贴完整 HTML，CSS 与脚本可内联。" : "用 Markdown 写作，插入图片或 MP4 链接。"} /></label>}
+            </details>
+            <div className="studio-editor-tabs"><button type="button" aria-pressed={!preview && !source} onClick={() => { setPreview(false); setSource(false); }}>编辑内容</button><button type="button" aria-pressed={preview} disabled={Boolean(annualError)} onClick={() => setPreview(true)}><Eye size={15} />预览效果</button>{draft.item.kind === "html" && <button type="button" aria-pressed={!preview && source} onClick={() => { setPreview(false); setSource(true); }}>高级源码</button>}{!isNew && entry.type === "works" && entry.item.status === "published" && <Link to={`/portfolio/${draft.item.id}`} target="_blank">公开页面 <ExternalLink size={14} /></Link>}</div>
+            {preview ? draft.item.kind === "html" ? <iframe className="studio-html" title="HTML 作品预览" sandbox="allow-scripts" referrerPolicy="no-referrer" srcDoc={draft.item.body} /> : <article className="prose studio-markdown"><WorkMarkdown body={draft.item.body || "暂无正文，返回编辑开始创作。"} /></article> : draft.item.kind === "html" && !source ? annualDocument ? <AnnualContentEditor document={annualFormDraft ?? annualDocument} onChange={updateAnnual} /> : <HtmlContentEditor body={draft.item.body} onChange={body => patch({ body })} /> : <>{draft.item.kind === "html" && <p className="studio-hint">高级入口：修改普通 HTML 的页面结构与脚本。年度表单的源码只读，修改布局前须转换为普通 HTML。</p>}<>{annualDocument && <button type="button" className="studio-button" onClick={() => { if (window.confirm("转换为普通 HTML 后，会保留当前页面，但不再提供年度内容表单。未保存前可取消恢复。确定转换？")) { patch({ body: detachAnnualDocument(draft.item.body) }); setAnnualFormDraft(null); setAnnualError(""); } }}>转换为普通 HTML 再改源码</button>}</><label>{draft.item.kind === "html" ? "HTML 源码" : "正文 · Markdown"}<textarea className="studio-source" readOnly={Boolean(annualDocument)} rows={18} maxLength={500_000} value={draft.item.body} onChange={(e) => patch({ body: e.target.value })} placeholder={draft.item.kind === "html" ? "完整 HTML，CSS 与脚本可内联。" : "用 Markdown 写作，插入图片或 MP4 链接。"} /></label></>}
           </>}
+          {annualError && <p role="alert" className="studio-error">{annualError}</p>}
           {error && <p role="alert" className="studio-error">{error}</p>}
         </div>
         {saveError && <p className="studio-error studio-save-error" role="alert">{saveError} 当前编辑仍保留，请调整后重新保存。</p>}
