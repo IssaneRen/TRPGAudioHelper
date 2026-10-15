@@ -14,7 +14,7 @@ export function AnnualContentEditor({ document: doc, onChange }: Props) {
         {field("主线名称", t.title, title => patch({ title }), 1)}{field("一句话重点", t.headline, headline => patch({ headline }), 1)}
         {field("要解决的问题", t.goal, goal => patch({ goal }))}<p className="studio-hint">代表项目由下方项目的「所属主线」自动关联。</p>
         {field("阶段结果与已有材料", t.stage, stage => patch({ stage }))}{field("年底需要讲清楚什么", t.reviewQuestion, reviewQuestion => patch({ reviewQuestion }))}{field("下一步", t.next, next => patch({ next }))}
-        <fieldset><legend>关联材料</legend>{doc.sources.map(s => <label className="studio-check" key={s.id}><input type="checkbox" checked={t.sourceIds.includes(s.id)} onChange={e => patch({ sourceIds: e.target.checked ? [...t.sourceIds, s.id] : t.sourceIds.filter(id => id !== s.id) })} />{s.label || "未命名材料"}</label>)}</fieldset>
+        <fieldset><legend>关联材料</legend>{doc.sources.map(s => <label className="studio-source-option" key={s.id}><input type="checkbox" checked={t.sourceIds.includes(s.id)} onChange={e => patch({ sourceIds: e.target.checked ? [...t.sourceIds, s.id] : t.sourceIds.filter(id => id !== s.id) })} /><span>{s.label || "未命名材料"}</span></label>)}</fieldset>
       </details>;
     })}
     <button type="button" className="studio-button" disabled={doc.themes.length >= 20} onClick={() => onChange({ ...doc, themes: [...doc.themes, { id: crypto.randomUUID(), title: "新主线", headline: "", goal: "", projects: [], stage: "", reviewQuestion: "", next: "", sourceIds: [] }] })}>添加主线</button>
@@ -24,7 +24,7 @@ export function AnnualContentEditor({ document: doc, onChange }: Props) {
       return <details className="studio-content-section" key={i}><summary>{p.title || `项目 ${i + 1}`}</summary>
         {field("项目名称", p.title, title => patch({ title }), 1)}<label>所属主线<select value={p.theme} onChange={e => patch({ theme: e.target.value })}><option value="">未分类</option>{doc.themes.map(t => <option key={t.id} value={t.id}>{t.title}</option>)}</select></label>
         {field("解决什么问题", p.focus, focus => patch({ focus }))}{field("本人负责什么", p.contribution, contribution => patch({ contribution }))}{field("阶段结果", p.stage, stage => patch({ stage }))}{field("还需核实什么", p.gap, gap => patch({ gap }))}
-        <fieldset><legend>关联材料</legend>{doc.sources.map(s => <label className="studio-check" key={s.id}><input type="checkbox" checked={p.sourceIds.includes(s.id)} onChange={e => patch({ sourceIds: e.target.checked ? [...p.sourceIds, s.id] : p.sourceIds.filter(id => id !== s.id) })} />{s.label || "未命名材料"}</label>)}</fieldset>
+        <fieldset><legend>关联材料</legend>{doc.sources.map(s => <label className="studio-source-option" key={s.id}><input type="checkbox" checked={p.sourceIds.includes(s.id)} onChange={e => patch({ sourceIds: e.target.checked ? [...p.sourceIds, s.id] : p.sourceIds.filter(id => id !== s.id) })} /><span>{s.label || "未命名材料"}</span></label>)}</fieldset>
       </details>;
     })}
     <button type="button" className="studio-button" disabled={doc.projects.length >= 100} onClick={() => onChange({ ...doc, projects: [...doc.projects, { theme: doc.themes[0]?.id || "", title: "新项目", focus: "", stage: "", gap: "", contribution: "", sourceIds: [] }] })}>添加项目</button>

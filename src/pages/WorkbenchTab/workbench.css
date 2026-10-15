@@ -73,8 +73,11 @@
 .studio-content-section > summary { cursor: pointer; font-weight: 600; color: #244736; }
 .studio-content-section[open] > summary { margin-bottom: 18px; }
 .studio-content-section > label, .studio-content-section > fieldset { margin-bottom: 16px; }
-.studio-content-section fieldset { border: 1px solid #d9dfd4; border-radius: 8px; padding: 14px; }
+.studio-content-section fieldset { min-width: 0; border: 1px solid #d9dfd4; border-radius: 8px; padding: 14px; }
 .studio-content-section legend { font-size: 12px; color: #68786c; padding: 0 6px; }
-.studio-content-section .studio-check { display: flex; align-items: center; gap: 8px; font-weight: 400; }
-.studio-content-section .studio-check input { width: auto; }
+.studio-content-section .studio-source-option { display: grid; grid-template-columns: 16px minmax(0, 1fr); align-items: start; gap: 10px; min-height: 40px; margin: 0; padding: 10px 8px; border-radius: 6px; color: var(--ink); font-weight: 400; line-height: 20px; cursor: pointer; }
+.studio-source-option:hover { background: #eef2e9; }
+.studio-source-option:focus-within { outline: 2px solid var(--green); outline-offset: 2px; }
+.studio-source-option span { min-width: 0; overflow-wrap: anywhere; }
+.studio-entry-form .studio-source-option input[type="checkbox"] { width: 16px; height: 16px; margin: 2px 0 0; padding: 0; accent-color: var(--green); cursor: pointer; }
 .studio-content-editor label[hidden] { display: none; }
