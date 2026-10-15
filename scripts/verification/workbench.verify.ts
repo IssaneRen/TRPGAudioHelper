@@ -22,6 +22,11 @@ for (const template of workflowTemplates) {
   assert.equal(first.plans.length, 4);
   assert.equal(first.plans.filter(p => p.status === "doing").length, 1);
   assert.equal(first.learning.status, "learning");
+  assert.equal(first.work.status, "draft");
+  assert.equal(first.work.kind, template.kind);
+  assert.equal(first.work.body, template.body);
+  assert.notEqual(first.work.id, second.work.id);
+  assert.deepEqual(parseBackup({ version: 1, plans: first.plans, learning: [first.learning], works: [first.work] }).works[0], first.work);
   assert.notEqual(first.learning.id, second.learning.id);
   assert.equal(new Set([...first.plans, ...second.plans].map(p => p.id)).size, 8);
   assert.equal(work.status, "draft");
@@ -33,4 +38,7 @@ assert.throws(() => parseBackup({ version: 1, plans: [{}], learning: [], works: 
 assert.throws(() => parseBackup({ version: 1, plans: [plan("same", ""), plan("same", "")], learning: [], works: [] }));
 assert.throws(() => parseBackup({ version: 1, plans: [{ ...plan("bad", ""), status: "deleted" }], learning: [], works: [] }));
 assert.throws(() => parseBackup({ version: 2, plans: [], learning: [], works: [] }));
+assert.throws(() => parseBackup({ version: 1, plans: Array.from({ length: 1001 }, (_, i) => plan(`plan${i}`, "")), learning: [], works: [] }));
+const oversizedWorks = Array.from({ length: 5 }, (_, i) => ({ ...workFromTemplate(workflowTemplates[0]), id: `large${i}`, body: "字".repeat(200_000) }));
+assert.throws(() => parseBackup({ version: 1, plans: [], learning: [], works: oversizedWorks }), /超过 2 MB/);
 console.log("Workbench: date filters, priority ordering, six workflow templates and backup validation passed.");

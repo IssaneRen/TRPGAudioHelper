@@ -8,9 +8,9 @@ import type { Learning, Plan, Work } from "@/features/workbench/workbench-client
 import { learningLabels, localDate, planLabels, workKinds } from "@/features/workbench/workbench-model";
 
 export type Entry = { type: "plans"; item: Plan } | { type: "learning"; item: Learning } | { type: "works"; item: Work };
-interface Props { entry: Entry; token: string; isNew: boolean; onClose: () => void; onSave: (entry: Entry) => void; onDelete: () => void; onCreateWork: (learning: Learning) => void; }
+interface Props { saveError?: string; entry: Entry; token: string; isNew: boolean; onClose: () => void; onSave: (entry: Entry) => void; onDelete: () => void; onCreateWork: (learning: Learning) => void; }
 
-export function EntryEditor({ entry, token, isNew, onClose, onSave, onDelete, onCreateWork }: Props) {
+export function EntryEditor({ entry, token, isNew, onClose, onSave, onDelete, onCreateWork, saveError }: Props) {
   const [draft, setDraft] = useState<Entry>(entry);
   const [error, setError] = useState("");
   const [uploading, setUploading] = useState(false);
@@ -79,6 +79,7 @@ export function EntryEditor({ entry, token, isNew, onClose, onSave, onDelete, on
           </>}
           {error && <p role="alert" className="studio-error">{error}</p>}
         </div>
+        {saveError && <p className="studio-error studio-save-error" role="alert">{saveError} 当前编辑仍保留，请调整后重新保存。</p>}
         <footer className="studio-drawer-footer">{!isNew && <button type="button" className="studio-button studio-danger" disabled={uploading} onClick={() => { if (window.confirm("删除这个条目？删除后会同步到服务器。")) onDelete(); }}><Trash2 size={16} />删除</button>}<button type="button" className="studio-button" disabled={uploading} onClick={close}>取消</button><button className="studio-button studio-primary" disabled={uploading}><Save size={16} />{draft.type === "works" && draft.item.status === "published" ? "保存并公开发布" : "保存到工作台"}</button></footer>
       </form>
     </Dialog.Content>

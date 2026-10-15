@@ -54,8 +54,9 @@ export const workflowTemplates: WorkflowTemplate[] = [
   }
 ];
 
-export function startWorkflow(template: WorkflowTemplate): { learning: Learning; plans: Plan[] } {
+export function startWorkflow(template: WorkflowTemplate): { learning: Learning; plans: Plan[]; work: Work } {
   return {
+    work: workFromTemplate(template),
     learning: { id: makeId(), title: template.title, vendor: "", model: template.tool.slice(0, 100), work: template.category, status: "learning", workflow: template.steps.map((step, i) => `${i + 1}. ${step}`).join("\n"), notes: `## 目标产出\n${template.output}\n\n## 提示词\n${template.prompt}\n\n## 参考\n${template.source.url}\n\n## 实践记录\n` },
     plans: template.steps.map((step, i) => ({ id: makeId(), title: `${template.title} · ${i + 1}/4`, detail: step, dueDate: "", status: i === 0 ? "doing" : "todo" }))
   };

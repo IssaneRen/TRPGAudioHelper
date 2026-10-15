@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { readWorkbench, saveWorkbench, type WorkbenchData } from "./workbench-client";
 import { parseBackup } from "./workbench-model";
 
@@ -6,6 +6,7 @@ import { parseBackup } from "./workbench-model";
 // remain dirty and are sent by the next effect, never replaced by the response.
 export function useWorkbench(token: string) {
   const [data, setData] = useState<WorkbenchData | null>(null);
+  const currentData = useRef<WorkbenchData | null>(null);
   const [saved, setSaved] = useState<WorkbenchData | null>(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
@@ -13,7 +14,7 @@ export function useWorkbench(token: string) {
   useEffect(() => {
     let active = true;
     readWorkbench(token).then(parseBackup).then((result) => {
-      if (active) { setData(result); setSaved(result); setError(""); }
+      if (active) { currentData.current = result; setData(result); setSaved(result); setError(""); }
     }).catch((err: unknown) => { if (active) setError(err instanceof Error ? err.message : String(err)); });
     return () => { active = false; };
   }, [token, reload]);
@@ -39,7 +40,11 @@ export function useWorkbench(token: string) {
   }, [dirty]);
 
   const change = useCallback((update: (current: WorkbenchData) => WorkbenchData) => {
-    setData((current) => current ? update(current) : current);
+    if (!currentData.current) throw new Error("工作台尚未加载完成，请稍后重试。");
+    // Reject an invalid mutation before it can poison the pending save queue.
+    const next = parseBackup(update(currentData.current));
+    currentData.current = next;
+    setData(next);
   }, []);
   function retry() { setError(""); if (!data) setReload((count) => count + 1); }
   return { data, dirty, busy, error, change, retry };
