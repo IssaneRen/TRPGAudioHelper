@@ -25,7 +25,7 @@ export default function PersonalProfile() {
       <header className="profile-preview-banner">
         <div className="profile-preview-width profile-preview-identity">
           {profile.photo ? <img src={profile.photo} alt="个人照片" className="profile-preview-photo" /> : <div className="profile-preview-photo profile-preview-photo-placeholder">照片占位</div>}
-          <div className="profile-preview-name"><h1>{profile.name} / {profile.alias}</h1><p>{profile.role || "职位 / 身份（待填写）"}</p></div>
+          <div className="profile-preview-name"><h1>{profile.name} <span>/ {profile.alias}</span></h1><p>{profile.role || "职位 / 身份（待填写）"}</p></div>
         </div>
       </header>
       <div className="profile-preview-width profile-preview-content">
