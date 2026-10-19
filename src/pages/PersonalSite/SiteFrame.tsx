@@ -1,8 +1,13 @@
-import type { ReactNode } from "react";
-import { Link, NavLink } from "react-router";
+import { useEffect, type ReactNode } from "react";
+import { Link, NavLink, useLocation } from "react-router";
 import "./personal-site.css";
 
 export function SiteFrame({ children, profile = false }: { children: ReactNode; profile?: boolean }) {
+  const { pathname, hash } = useLocation();
+  useEffect(() => {
+    if (hash) document.getElementById(hash.slice(1))?.scrollIntoView();
+    else window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+  }, [pathname, hash]);
   return <div className={`personal-site${profile ? " personal-profile" : ""}`}>
     <a className="personal-skip" href="#personal-main">跳到正文</a>
     <div className="personal-shell">
