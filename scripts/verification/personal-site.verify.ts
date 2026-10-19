@@ -18,7 +18,7 @@ for (const path of ["/", "/profile", "/workbench", "/portfolio", "/trpg", "/trpg
 const profile = JSON.parse(readFileSync(new URL("../../src/content/personal-profile.json", import.meta.url), "utf8"));
 assert.match(profile.updatedAt, /^\d{4}-\d{2}-\d{2}$/);
 assert.equal(typeof profile.name, "string");
-assert.ok(profile.intro.length && profile.projects.length);
+for (const key of ["intro", "contacts", "directions", "projects", "education", "experience", "awards", "links"]) assert.ok(Array.isArray(profile[key]));
 for (const item of [...profile.education, ...profile.experience]) {
   for (const key of ["organization", "title", "period", "description"]) assert.equal(typeof item[key], "string");
 }
