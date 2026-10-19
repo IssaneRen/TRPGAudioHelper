@@ -12,7 +12,7 @@
 | `/workbench` | 原私人工作台，登录与保存方式不变 |
 | `/portfolio` | 原公开作品集 |
 
-旧 `/tools/...`、`/blog/...`、`/module-tool`、`/soundboard` 使用浏览器路由重定向，保留查询参数和 hash。这不是服务器 301。静态资源 `/blog/*.md`、`/wiki/...`、`/config/...` 及 `/api/...` 地址不变，避免破坏文章图片、音效、模型、存档和后台接口。开发用 Wiki 管理页为 `/trpg/admin/wiki`，生产环境仍不开放。
+旧 `/tools/...`、`/blog/...`、`/module-tool`、`/soundboard` 使用浏览器路由重定向，保留查询参数和 hash。旧博客文章另由 Nginx 内容片段做 301 跳转（保留查询参数），避免静态目录拦截；`index.json`、`posts`、`images` 不参与跳转。其他旧路径使用浏览器重定向。静态资源 `/blog/*.md`、`/wiki/...`、`/config/...` 及 `/api/...` 地址不变，避免破坏文章图片、音效、模型、存档和后台接口。开发用 Wiki 管理页为 `/trpg/admin/wiki`，生产环境仍不开放。
 
 ## 改介绍，不用编辑 HTML
 
@@ -54,6 +54,8 @@ pnpm build
 ```
 
 只提交这次需要修改的文件。合入并推送 `master` 后，`Deploy static overlay` 会自动构建并部署首页、个人资料和路由改动。资料 JSON 被打包到版本化静态资源中，服务器没有第二份可编辑的个人资料数据库。日常修改无需登录服务器；需要检查服务器或回滚时优先使用 Termius。
+
+Nginx 博客兼容规则维护在 `ops/content-admin/trpg-content-{runtime,release}.conf`，本次通过 Termius 备份原片段、校验并重载生效。此类服务器配置修改需完整部署或通过 Termius 同步；静态 overlay 只更新 HTML 与 assets。
 
 现有 Nginx 的 SPA fallback（`try_files $uri /index.html`）支持新路径。部署后分别直接打开并刷新 `/profile`、`/trpg`、一条 Wiki 深链接和一篇博客，确认页面可用；再从旧链接验证跳转。
 

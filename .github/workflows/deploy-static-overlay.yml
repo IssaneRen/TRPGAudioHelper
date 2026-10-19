@@ -1,4 +1,5 @@
 name: Deploy static overlay
+# Only index.html and assets are deployed here; Nginx snippets use full deploy or Termius.
 
 on:
   push:
