@@ -176,7 +176,7 @@ export function WikiContentRenderer({
   currentPlayerId,
   entriesById,
   revealAllSecrets = false,
-  entryBaseRoute = "/tools/world-wiki",
+  entryBaseRoute = "/trpg/tools/world-wiki",
 }: {
   blocks: WikiBlock[];
   currentPlayerId: string | null;

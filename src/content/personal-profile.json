@@ -1,0 +1,68 @@
+{
+  "name": "Issane",
+  "alias": "Lucius",
+  "role": "客户端开发 / 跨端技术",
+  "updatedAt": "2026-10-19",
+  "intro": [
+    "主要做客户端开发，以 Android 和 Flutter 为主，也处理 iOS 混编、共享模块和多端接口适配。",
+    "工作之外，做一些前端工具和个人项目。最近关注 AI 怎么接入日常开发、自测和问题分析。平时也带团，整理模组、Wiki 和故事。"
+  ],
+  "directions": [
+    { "title": "客户端与跨端", "detail": "Android、Flutter / Dart、原生桥接、共享模型与双端适配。" },
+    { "title": "前端与工具", "detail": "React、TypeScript，配置预览、数据展示和内容编辑。" },
+    { "title": "服务端实践", "detail": "个人项目中的 API 接入、模型网关、权限、部署与日志排查。" },
+    { "title": "AI 研发流程", "detail": "Codex、Skills、MCP，多仓上下文、真机自测和问题分析。" }
+  ],
+  "practice": [
+    {
+      "title": "客户端业务与质量",
+      "period": "2026",
+      "summary": "围绕引导、记录、订阅等业务做客户端开发，结合日志、埋点和真机回归处理问题。"
+    },
+    {
+      "title": "跨端共享与联调",
+      "period": "2026",
+      "summary": "维护共享模型和原生桥接，处理 Android、Flutter、iOS 的差异；把配置与页面预览接进开发工具。"
+    },
+    {
+      "title": "AI 辅助研发",
+      "period": "2026",
+      "summary": "整理多仓工作区和可复用流程，将代码、操作记录、截图与验证结果放在一起，方便后续排查和复测。"
+    }
+  ],
+  "projects": [
+    {
+      "name": "TRPG Lucius Helper",
+      "category": "个人项目",
+      "description": "从跑团需要出发，整理世界 Wiki、模组、线索、音效和 AI 对话工具。自己开发，也在实际带团中使用。",
+      "stack": "React / TypeScript / AI Gateway",
+      "links": [
+        { "label": "访问站点", "href": "/trpg" },
+        { "label": "源代码", "href": "https://github.com/IssaneRen/TRPGAudioHelper" }
+      ]
+    },
+    {
+      "name": "个人工作台",
+      "category": "个人项目",
+      "description": "记录计划、学习笔记与作品，按主线整理工作材料。支持内容编辑、预览和数据备份，逐步积累可回看的年度记录。",
+      "stack": "React / TypeScript / HTML",
+      "links": [{ "label": "公开作品", "href": "/portfolio" }]
+    },
+    {
+      "name": "LuciusGraphNpm",
+      "category": "可视化实验",
+      "description": "用 D3 可视化工作和生活中的数据，方便自己理解和讲解。",
+      "stack": "JavaScript / D3",
+      "links": [{ "label": "源代码", "href": "https://github.com/IssaneRen/LuciusGraphNpm" }]
+    }
+  ],
+  "education": [
+    { "organization": "同济大学", "title": "软件工程 · 本科阶段", "period": "", "description": "" }
+  ],
+  "experience": [],
+  "links": [
+    { "label": "GitHub", "value": "@IssaneRen", "href": "https://github.com/IssaneRen" },
+    { "label": "个人网站", "value": "issane.cn", "href": "/" },
+    { "label": "跑团主页", "value": "白羽 · TRPG", "href": "/trpg" }
+  ]
+}

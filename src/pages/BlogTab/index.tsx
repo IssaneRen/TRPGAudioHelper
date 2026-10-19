@@ -235,7 +235,7 @@ export default function BlogTab() {
 
     const post = posts.find((item) => item.id === postId);
     if (!post) {
-      navigate("/blog", { replace: true });
+      navigate("/trpg/blog", { replace: true });
       return;
     }
     if (selectedPost?.id === post.id) return;
@@ -246,7 +246,7 @@ export default function BlogTab() {
   const handleSelectPost = (post: BlogPostMeta) => {
     void loadPost(post);
     void loadWikiForPost(post);
-    navigate(`/blog/${encodeURIComponent(post.id)}`);
+    navigate(`/trpg/blog/${encodeURIComponent(post.id)}`);
   };
 
   const currentWikiPlayerId = aiSession.session?.playerId || null;
@@ -275,7 +275,7 @@ export default function BlogTab() {
     selectedPostIsReport && !selectedPostPlayerMatched && !hasConfirmedSpoiler;
 
   const closeDetail = useCallback(() => {
-    navigate("/blog", { replace: true });
+    navigate("/trpg/blog", { replace: true });
   }, [navigate]);
 
   useEffect(() => {
@@ -535,7 +535,7 @@ export default function BlogTab() {
                               currentPlayerId={currentWikiPlayerId}
                               entriesById={new Map(wikiIndex.entries.map((e) => [e.id, e]))}
                               revealAllSecrets={revealAllWikiSecrets}
-                              entryBaseRoute="/tools/world-wiki"
+                              entryBaseRoute="/trpg/tools/world-wiki"
                             />
                           )
                         ) : contentLoading ? (

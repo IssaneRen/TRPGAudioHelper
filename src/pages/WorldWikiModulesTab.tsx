@@ -92,7 +92,7 @@ export default function WorldWikiModulesTab() {
 
   return (
     <div className="mobile-safe-width wiki-readable space-y-4">
-      <Link to="/tools/world-wiki" className="inline-flex items-center gap-1 text-sm">
+      <Link to="/trpg/tools/world-wiki" className="inline-flex items-center gap-1 text-sm">
         <ArrowLeft className="h-4 w-4" />
         返回Wiki
       </Link>
@@ -160,7 +160,7 @@ export default function WorldWikiModulesTab() {
                       {!collapsed && (
                         <div className="grid min-w-0 gap-3 md:grid-cols-2">
                           {group.items.map((item) => (
-                            <Link key={item.id} to={`/tools/world-wiki/modules/${item.id}`} className="min-w-0">
+                            <Link key={item.id} to={`/trpg/tools/world-wiki/modules/${item.id}`} className="min-w-0">
                               <ModulePreviewCard module={item} />
                             </Link>
                           ))}
@@ -204,7 +204,7 @@ export default function WorldWikiModulesTab() {
                       ) : (
                         <div className="grid min-w-0 gap-3 md:grid-cols-2">
                           {groupedModules.ungrouped.map((item) => (
-                            <Link key={item.id} to={`/tools/world-wiki/modules/${item.id}`} className="min-w-0">
+                            <Link key={item.id} to={`/trpg/tools/world-wiki/modules/${item.id}`} className="min-w-0">
                               <ModulePreviewCard module={item} />
                             </Link>
                           ))}

@@ -316,7 +316,7 @@ export default function ProfileTab() {
                   variants={effectiveScaleIn}
                   whileHover={{ y: -4, transition: { duration: 0.2 } }}
                 >
-                  <Link to={`/tools/world-wiki/modules/${module.id}`} className="block">
+                  <Link to={`/trpg/tools/world-wiki/modules/${module.id}`} className="block">
                     <ModulePreviewCard module={module} />
                   </Link>
                 </motion.div>
@@ -325,7 +325,7 @@ export default function ProfileTab() {
           )}
           <div className="mt-8 flex justify-center">
             <Button variant="outline" asChild>
-              <Link to="/tools/world-wiki/modules">更多模组</Link>
+              <Link to="/trpg/tools/world-wiki/modules">更多模组</Link>
             </Button>
           </div>
         </motion.div>

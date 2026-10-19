@@ -52,7 +52,7 @@ import type {
 } from "@/types/wiki";
 import { contentWithoutCocSheets, extractCocSheetFromContent } from "@/utils/coc-sheet";
 
-const WIKI_HOME_ROUTE = "/tools/world-wiki";
+const WIKI_HOME_ROUTE = "/trpg/tools/world-wiki";
 const HOME_CATEGORY_PREVIEW_LIMIT = 6;
 
 const CATEGORY_META: Record<
@@ -753,7 +753,7 @@ export default function WorldWikiTab() {
                 )}
               </Button>
               <CurrentPlButton plName={displayPlName} onClick={() => setShowPlDialog(true)} />
-              <Button variant="outline" size="sm" onClick={() => navigate("/tools/world-wiki/modules")}>模组总览</Button>
+              <Button variant="outline" size="sm" onClick={() => navigate("/trpg/tools/world-wiki/modules")}>模组总览</Button>
             </div>
           </div>
         </div>
@@ -789,7 +789,7 @@ export default function WorldWikiTab() {
               </div>
               {import.meta.env.DEV && (
                 <Button variant="outline" size="sm" asChild className="w-fit">
-                  <Link to="/admin/wiki">进入管理台</Link>
+                  <Link to="/trpg/admin/wiki">进入管理台</Link>
                 </Button>
               )}
             </div>

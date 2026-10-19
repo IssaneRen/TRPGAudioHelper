@@ -1,10 +1,14 @@
 import { lazy, Suspense } from "react";
-import { Routes, Route, Navigate } from "react-router";
+import { Routes, Route, Navigate, useLocation } from "react-router";
 import { Toaster } from "@/components/ui/sonner";
 import TabLayout from "@/components/TabLayout";
 import { Skeleton } from "@/components/ui/skeleton";
+import { legacyTrpgTarget } from "@/lib/trpg-routes";
+import { SiteMetadata } from "@/components/SiteMetadata";
 import { AnalyticsRouteTracker } from "@/features/analytics/AnalyticsRouteTracker";
 
+const HomePage = lazy(() => import("@/pages/PersonalSite/HomePage"));
+const PersonalProfile = lazy(() => import("@/pages/PersonalSite/PersonalProfile"));
 const ProfileTab = lazy(() => import("@/pages/ProfileTab"));
 const ToolboxTab = lazy(() => import("@/pages/ToolboxTab"));
 const WorldWikiTab = lazy(() => import("@/pages/WorldWikiTab"));
@@ -21,6 +25,12 @@ const PortfolioTab = lazy(() => import("@/pages/PortfolioTab"));
 const BlogTab = lazy(() => import("@/pages/BlogTab"));
 const NotFound = lazy(() => import("@/pages/NotFound"));
 const WikiAdminTab = import.meta.env.DEV ? lazy(() => import("@/pages/WikiAdminTab")) : null;
+
+function LegacyTrpgRedirect() {
+  const location = useLocation();
+  const pathname = legacyTrpgTarget(location.pathname);
+  return pathname ? <Navigate to={{ pathname, search: location.search, hash: location.hash }} replace /> : <NotFound />;
+}
 
 function PageLoader() {
   return (
@@ -41,13 +51,16 @@ export default function App() {
   return (
     <>
       <AnalyticsRouteTracker />
+      <SiteMetadata />
       <Suspense fallback={<PageLoader />}>
         <Routes>
+          <Route index element={<HomePage />} />
+          <Route path="profile" element={<PersonalProfile />} />
           <Route path="admin/content" element={<ContentAdminTab />} />
           <Route path="workbench" element={<WorkbenchTab />} />
           <Route path="portfolio" element={<PortfolioTab />} />
           <Route path="portfolio/:workId" element={<PortfolioTab />} />
-          <Route element={<TabLayout />}>
+          <Route path="trpg" element={<TabLayout />}>
             <Route index element={<ProfileTab />} />
             {import.meta.env.DEV && WikiAdminTab ? (
               <Route path="admin/wiki" element={<WikiAdminTab />} />
@@ -68,8 +81,11 @@ export default function App() {
             <Route path="blog/:postId" element={<BlogTab />} />
           </Route>
           {/* 旧路由兼容重定向 */}
-          <Route path="module-tool" element={<Navigate to="/tools/module-clue" replace />} />
-          <Route path="soundboard" element={<Navigate to="/tools/soundboard" replace />} />
+          <Route path="tools/*" element={<LegacyTrpgRedirect />} />
+          <Route path="blog/*" element={<LegacyTrpgRedirect />} />
+          <Route path="module-tool" element={<LegacyTrpgRedirect />} />
+          <Route path="soundboard" element={<LegacyTrpgRedirect />} />
+          {import.meta.env.DEV && <Route path="admin/wiki" element={<LegacyTrpgRedirect />} />}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>

@@ -5,6 +5,18 @@ on:
     branches: [master]
     paths:
       - .github/workflows/deploy-static-overlay.yml
+      - index.html
+      - src/App.tsx
+      - src/components/**
+      - src/lib/trpg-routes.ts
+      - src/content/**
+      - src/pages/PersonalSite/**
+      - src/pages/ProfileTab/**
+      - src/pages/BlogTab/**
+      - src/pages/WorldWiki*/**
+      - src/pages/WorldWiki*.tsx
+      - src/pages/WikiAdminTab/**
+      - src/features/wiki/**
       - src/pages/WorkbenchTab/**
       - src/pages/PortfolioTab/**
       - src/features/workbench/**

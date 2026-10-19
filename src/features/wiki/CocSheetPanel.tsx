@@ -17,7 +17,7 @@ import type { CocAttributes, CocSkillChange, NormalizedCocSheet } from "@/types/
 import { ATTRIBUTE_LABELS, DERIVED_LABELS, normalizeCocSheet } from "@/utils/coc-sheet";
 import type { CocSheetData } from "@/types/wiki";
 
-const WIKI_HOME_ROUTE = "/tools/world-wiki";
+const WIKI_HOME_ROUTE = "/trpg/tools/world-wiki";
 
 function stopBubble(event: React.SyntheticEvent) {
   event.stopPropagation();

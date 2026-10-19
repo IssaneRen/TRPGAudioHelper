@@ -5,12 +5,12 @@ import { ModeToggle } from "@/components/mode-toggle";
 import { useState, useRef, useEffect } from "react";
 
 const toolItems = [
-  { to: "/tools/battle", label: "模拟战斗", icon: Swords },
-  { to: "/tools/world-wiki", label: "世界 wiki", icon: LibraryBig },
-  { to: "/tools/soundboard", label: "音效键盘", icon: Music },
-  { to: "/tools/module-clue", label: "模组工具", icon: Map },
-  { to: "/tools/ai-chat", label: "AI 对话", icon: MessageCircle },
-  { to: "/tools/dashboard", label: "数据仪表盘", icon: BarChart3 },
+  { to: "/trpg/tools/battle", label: "模拟战斗", icon: Swords },
+  { to: "/trpg/tools/world-wiki", label: "世界 wiki", icon: LibraryBig },
+  { to: "/trpg/tools/soundboard", label: "音效键盘", icon: Music },
+  { to: "/trpg/tools/module-clue", label: "模组工具", icon: Map },
+  { to: "/trpg/tools/ai-chat", label: "AI 对话", icon: MessageCircle },
+  { to: "/trpg/tools/dashboard", label: "数据仪表盘", icon: BarChart3 },
 ];
 
 const pageVariants = {
@@ -22,13 +22,13 @@ const pageVariants = {
 export default function TabLayout() {
   const location = useLocation();
   const navigate = useNavigate();
-  const animationKey = location.pathname.startsWith("/tools")
-    ? "/tools"
-    : location.pathname.startsWith("/blog")
-      ? "/blog"
+  const animationKey = location.pathname.startsWith("/trpg/tools")
+    ? "/trpg/tools"
+    : location.pathname.startsWith("/trpg/blog")
+      ? "/trpg/blog"
       : location.pathname;
 
-  const isToolsActive = location.pathname.startsWith("/tools");
+  const isToolsActive = location.pathname.startsWith("/trpg/tools");
 
   const [toolsOpen, setToolsOpen] = useState(false);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -66,9 +66,9 @@ export default function TabLayout() {
 
           <div className="flex items-center gap-2">
             <nav className="hidden gap-1 sm:flex">
-              {/* TAB1: 个人介绍 */}
+              {/* TAB1: 跑团主页 */}
               <NavLink
-                to="/"
+                to="/trpg"
                 end
                 className={({ isActive }) =>
                   `relative rounded-md px-4 py-2 text-sm font-medium transition-colors duration-200 ${
@@ -89,7 +89,7 @@ export default function TabLayout() {
                     )}
                     <span className="relative z-10 flex items-center gap-1.5">
                       <User className="h-4 w-4" />
-                      个人介绍
+                      跑团主页
                     </span>
                   </>
                 )}
@@ -102,7 +102,7 @@ export default function TabLayout() {
                 onMouseLeave={handleMouseLeave}
               >
                 <button
-                  onClick={() => navigate("/tools")}
+                  onClick={() => navigate("/trpg/tools")}
                   className={`relative rounded-md px-4 py-2 text-sm font-medium transition-colors duration-200 ${
                     isToolsActive
                       ? "text-primary-foreground"
@@ -155,7 +155,7 @@ export default function TabLayout() {
 
               {/* TAB3: 博客杂谈 */}
               <NavLink
-                to="/blog"
+                to="/trpg/blog"
                 className={({ isActive }) =>
                   `relative rounded-md px-4 py-2 text-sm font-medium transition-colors duration-200 ${
                     isActive
@@ -181,6 +181,7 @@ export default function TabLayout() {
                 )}
               </NavLink>
             </nav>
+            <NavLink to="/" className="px-2 text-xs text-muted-foreground hover:text-foreground">个人主页</NavLink>
             <ModeToggle />
           </div>
         </div>
@@ -217,7 +218,7 @@ export default function TabLayout() {
       <nav className="sticky bottom-0 z-50 shrink-0 border-t bg-background/80 backdrop-blur-md sm:hidden">
         <div className="flex items-center justify-around">
           <NavLink
-            to="/"
+            to="/trpg"
             end
             className={({ isActive }) =>
               `relative flex flex-1 flex-col items-center gap-0.5 py-3 text-xs transition-colors duration-200 ${
@@ -235,13 +236,13 @@ export default function TabLayout() {
                   />
                 )}
                 <User className="h-5 w-5" />
-                个人介绍
+                跑团主页
               </>
             )}
           </NavLink>
           <MobileToolsMenu />
           <NavLink
-            to="/blog"
+            to="/trpg/blog"
             className={({ isActive }) =>
               `relative flex flex-1 flex-col items-center gap-0.5 py-3 text-xs transition-colors duration-200 ${
                 isActive ? "text-primary font-semibold" : "text-muted-foreground"
@@ -272,7 +273,7 @@ function MobileToolsMenu() {
   const [open, setOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  const isActive = location.pathname.startsWith("/tools");
+  const isActive = location.pathname.startsWith("/trpg/tools");
 
   useEffect(() => {
     setOpen(false);

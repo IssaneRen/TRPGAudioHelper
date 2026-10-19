@@ -64,7 +64,7 @@ export default function WorldWikiModuleDetailTab() {
 
   return (
     <div className="mobile-safe-width wiki-readable space-y-4">
-      <Link to="/tools/world-wiki/modules" className="inline-flex items-center gap-1 text-sm">
+      <Link to="/trpg/tools/world-wiki/modules" className="inline-flex items-center gap-1 text-sm">
         <ArrowLeft className="h-4 w-4" />
         返回模组列表
       </Link>
@@ -130,7 +130,7 @@ export default function WorldWikiModuleDetailTab() {
                   {campaignChildModules.map((childModule) => (
                     <Link
                       key={childModule.id}
-                      to={`/tools/world-wiki/modules/${childModule.id}`}
+                      to={`/trpg/tools/world-wiki/modules/${childModule.id}`}
                       className="mobile-safe-width rounded-2xl border border-border/60 bg-background/65 p-4 transition-colors hover:border-primary/40 hover:bg-primary/5"
                     >
                       <div className="flex flex-wrap items-start justify-between gap-3">
@@ -173,7 +173,7 @@ export default function WorldWikiModuleDetailTab() {
                 </CardHeader>
                 <CardContent>
                   <Link
-                    to={`/tools/world-wiki/${moduleEntry.id}`}
+                    to={`/trpg/tools/world-wiki/${moduleEntry.id}`}
                     className="flex min-w-0 items-center justify-between gap-3 rounded-xl border border-border/50 bg-background/60 px-3 py-2 text-sm transition-colors hover:bg-accent/40"
                   >
                     <span className="min-w-0 truncate">{moduleEntry.displayName}</span>
@@ -193,7 +193,7 @@ export default function WorldWikiModuleDetailTab() {
                   {relatedEntries.map((entry) => (
                     <Link
                       key={entry.id}
-                      to={`/tools/world-wiki/${entry.id}`}
+                      to={`/trpg/tools/world-wiki/${entry.id}`}
                       className="flex min-w-0 items-center justify-between gap-3 rounded-xl border border-border/50 bg-background/60 px-3 py-2 text-sm transition-colors hover:bg-accent/40"
                     >
                       <span className="min-w-0 truncate">{entry.displayName}</span>

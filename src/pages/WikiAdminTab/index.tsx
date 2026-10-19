@@ -27,7 +27,7 @@ import type {
   WikiRelatedEntryAccess,
 } from "@/types/wiki";
 
-const WIKI_HOME_ROUTE = "/tools/world-wiki";
+const WIKI_HOME_ROUTE = "/trpg/tools/world-wiki";
 const WIKI_ADMIN_SAVE_ROUTE = "/__wiki-admin/save-entry";
 const CATEGORY_OPTIONS: WikiCategory[] = [
   "character",
