@@ -2,6 +2,9 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
+/* dark: 变体跟随 ThemeProvider 的 class 策略（html.light/.dark），而非 OS 偏好 */
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
