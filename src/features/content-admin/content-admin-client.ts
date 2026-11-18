@@ -38,6 +38,18 @@ export interface ContentImportResult {
   backupFile: string;
 }
 
+export interface ContentDeleteReference {
+  kind: "blog" | "wiki";
+  id: string;
+  field: string;
+}
+
+export interface ContentDeleteResult {
+  id: string;
+  trashedTo: string;
+  references: ContentDeleteReference[];
+}
+
 async function contentRequest(path: string, token: string, options: RequestInit = {}): Promise<Response> {
   const baseUrl = await loadAiGatewayUrl();
   const headers = new Headers(options.headers);
@@ -87,6 +99,14 @@ export function saveWikiDocument(token: string, document: WikiEntryRecord): Prom
     method: "PUT",
     body: JSON.stringify(document)
   });
+}
+
+export function deleteBlogDocument(token: string, id: string): Promise<ContentDeleteResult> {
+  return requestJson(`/api/admin/content/blog/${encodeURIComponent(id)}`, token, { method: "DELETE" });
+}
+
+export function deleteWikiDocument(token: string, id: string): Promise<ContentDeleteResult> {
+  return requestJson(`/api/admin/content/wiki/${encodeURIComponent(id)}`, token, { method: "DELETE" });
 }
 
 export async function uploadContentImage(token: string, file: File): Promise<ImageUploadResult> {

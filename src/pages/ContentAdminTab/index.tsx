@@ -14,6 +14,7 @@ import {
   Save,
   Search,
   ShieldCheck,
+  Trash2,
   Upload
 } from "lucide-react";
 import Markdown from "react-markdown";
@@ -24,6 +25,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import {
+  deleteBlogDocument,
+  deleteWikiDocument,
   exportContentZip,
   fetchBlogDocument,
   fetchContentOverview,
@@ -33,6 +36,7 @@ import {
   saveWikiDocument,
   uploadContentImage,
   type BlogPostDocument,
+  type ContentDeleteReference,
   type ContentOverview
 } from "@/features/content-admin/content-admin-client";
 import { useAiSession } from "@/features/ai/use-ai-session";
@@ -143,6 +147,48 @@ function ContentAdminWorkspace() {
   const [wikiJson, setWikiJson] = useState("");
   const [lastImageUrl, setLastImageUrl] = useState("");
   const [transferBusy, setTransferBusy] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+  const [selectedIds, setSelectedIds] = useState<ReadonlySet<string>>(new Set());
+
+  const toggleSelected = (id: string) => {
+    setSelectedIds((current) => {
+      const next = new Set(current);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  };
+
+  const clearSelection = () => setSelectedIds(new Set());
+
+  async function handleBatchDelete() {
+    const ids = [...selectedIds];
+    if (!ids.length) return;
+    const label = section === "blog" ? "篇博客" : "条 Wiki";
+    if (!window.confirm(`确定删除选中的 ${ids.length} ${label}吗？\n\n内容会先移入服务器回收站（trash 目录），不会立即物理删除。被其他词条引用的删除项会在结果里提示。`)) return;
+    setDeleting(true);
+    const references: ContentDeleteReference[] = [];
+    try {
+      for (const id of ids) {
+        const result = section === "blog" ? await deleteBlogDocument(token, id) : await deleteWikiDocument(token, id);
+        references.push(...result.references);
+      }
+      await loadOverview();
+      clearSelection();
+      if (blogDraft && ids.includes(blogDraft.id)) setBlogDraft(null);
+      if (wikiDraft && ids.includes(wikiDraft.id)) setWikiDraft(null);
+      if (references.length) {
+        toast.warning(`已删除 ${ids.length} 项。以下内容仍引用被删项：${references.map((ref) => `${ref.kind}:${ref.id}`).join("、")}`);
+      } else {
+        toast.success(`已删除 ${ids.length} 项，文件已移入服务器回收站。`);
+      }
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "删除失败，已中止剩余项目。");
+      await loadOverview();
+    } finally {
+      setDeleting(false);
+    }
+  }
 
   const token = auth.token;
   const loadOverview = useCallback(async () => {
@@ -327,9 +373,9 @@ function ContentAdminWorkspace() {
       <div className="content-admin__grid">
         <nav className="content-sidebar">
           <div className="content-sidebar__tabs">
-            <button className={section === "blog" ? "active" : ""} onClick={() => setSection("blog")}><FileText />博客</button>
-            <button className={section === "wiki" ? "active" : ""} onClick={() => setSection("wiki")}><BookOpen />Wiki</button>
-            <button className={section === "backup" ? "active" : ""} onClick={() => setSection("backup")}><Archive />备份</button>
+            <button className={section === "blog" ? "active" : ""} onClick={() => { setSection("blog"); clearSelection(); }}><FileText />博客</button>
+            <button className={section === "wiki" ? "active" : ""} onClick={() => { setSection("wiki"); clearSelection(); }}><BookOpen />Wiki</button>
+            <button className={section === "backup" ? "active" : ""} onClick={() => { setSection("backup"); clearSelection(); }}><Archive />备份</button>
           </div>
           {section !== "backup" && (
             <>
@@ -343,16 +389,41 @@ function ContentAdminWorkspace() {
               ><Plus />新建{section === "blog" ? "博客" : "词条"}</Button>
               <div className="content-sidebar__list">
                 {section === "blog" && filteredBlogs.map((post) => (
-                  <button key={post.id} className={blogDraft?.id === post.id ? "active" : ""} onClick={() => void selectBlog(post.id)}>
-                    <strong>{post.title}</strong><span>{post.id}</span>
-                  </button>
+                  <div key={post.id} className={blogDraft?.id === post.id ? "active" : ""}>
+                    <input
+                      type="checkbox"
+                      aria-label={`选择博客 ${post.title}`}
+                      checked={selectedIds.has(post.id)}
+                      onChange={() => toggleSelected(post.id)}
+                    />
+                    <button onClick={() => void selectBlog(post.id)}>
+                      <strong>{post.title}</strong><span>{post.id}</span>
+                    </button>
+                  </div>
                 ))}
                 {section === "wiki" && filteredWiki.map((entry) => (
-                  <button key={entry.id} className={wikiDraft?.id === entry.id ? "active" : ""} onClick={() => void selectWiki(entry.id)}>
-                    <strong>{entry.displayName}</strong><span>{entry.category} · {entry.id}</span>
-                  </button>
+                  <div key={entry.id} className={wikiDraft?.id === entry.id ? "active" : ""}>
+                    <input
+                      type="checkbox"
+                      aria-label={`选择词条 ${entry.displayName}`}
+                      checked={selectedIds.has(entry.id)}
+                      onChange={() => toggleSelected(entry.id)}
+                    />
+                    <button onClick={() => void selectWiki(entry.id)}>
+                      <strong>{entry.displayName}</strong><span>{entry.category} · {entry.id}</span>
+                    </button>
+                  </div>
                 ))}
               </div>
+              {selectedIds.size > 0 && (
+                <div className="content-sidebar__batch">
+                  <span>已选 {selectedIds.size} 项</span>
+                  <Button variant="outline" size="sm" onClick={clearSelection} disabled={deleting}>取消选择</Button>
+                  <Button variant="destructive" size="sm" onClick={() => void handleBatchDelete()} disabled={deleting}>
+                    <Trash2 />{deleting ? "删除中" : "删除选中"}
+                  </Button>
+                </div>
+              )}
             </>
           )}
           <label className="content-upload">
