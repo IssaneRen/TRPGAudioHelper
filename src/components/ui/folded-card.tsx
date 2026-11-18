@@ -19,7 +19,7 @@ function ChatTail({
   isLight?: boolean
   side?: "left" | "right"
 }) {
-  const maskId = useId().replaceAll(":", "")
+  const maskId = useId().replace(/:/g, "")
   const bubbleFill = isLight ? "var(--card)" : "var(--muted)"
   const bubbleStroke = "var(--border)"
   const mirrorTransform =
@@ -79,7 +79,7 @@ function FoldedCard({
 }
 
 function FoldedCardFold({ className, ...props }: React.ComponentProps<"div">) {
-  const gradientId = useId().replaceAll(":", "")
+  const gradientId = useId().replace(/:/g, "")
 
   return (
     <div

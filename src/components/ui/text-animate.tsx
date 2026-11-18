@@ -2,7 +2,7 @@
 
 // Source: cult-ui (https://www.cult-ui.com/r/text-animate.json) · adapted for Vite: motion/react → framer-motion
 
-import { FC, useEffect, useRef } from "react"
+import { type FC, useRef } from "react"
 import { motion, type HTMLMotionProps } from "framer-motion"
 
 type AnimationType =

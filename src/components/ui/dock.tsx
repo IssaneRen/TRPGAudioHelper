@@ -2,9 +2,9 @@
 
 // Source: cult-ui (https://www.cult-ui.com/r/dock.json) · adapted for Vite: motion/react → framer-motion
 
-import React, {
+import {
   createContext,
-  ReactNode,
+  type ReactNode,
   useCallback,
   useContext,
   useEffect,
