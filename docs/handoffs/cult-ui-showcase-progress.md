@@ -6,7 +6,8 @@
 
 ## 1. 当前状态
 
-- 工作树干净，最新提交即本次 WIP 提交（feat(showcase) 组件安装）。**没有 push，不要 push。**
+- 工作树干净。本任务改动已本地提交 **`aa80526`（feat(showcase) 组件安装）**；其上可能叠加并行对话的提交（如 BlockNote 编辑器 `0f4038e`），git log 以实际为准。**没有 push，不要 push。**
+- 该提交基线已验证 `CI=true pnpm type-check` 通过（2026-11-19 凌晨）。
 - 已完成的内容全部落在三类改动：
   1. `src/components/ui/` 新增 9 个组件文件
   2. `src/index.css` 加了 1 处 `@custom-variant dark`
