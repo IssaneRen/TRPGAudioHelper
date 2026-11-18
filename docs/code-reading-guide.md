@@ -9,8 +9,6 @@
 - `docs/business.md`：业务目标、功能范围、用户场景。
 - `docs/tech-decisions.md`：技术选型和关键技术决策记录。
 - `docs/dev-log.md`：按日期记录的开发过程。
-- `docs/reports/`：专项调研和阶段报告，例如 Live2D、Web Audio、音效合成、任务网络设计等。
-- `docs/superpowers/`：部分功能的设计规格和实施计划。
 
 这份文档补充的是“如何读代码”，更偏代码入口和实现链路。
 

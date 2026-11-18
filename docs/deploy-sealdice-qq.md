@@ -62,8 +62,6 @@ WIKI_ENTRIES_DIR=/var/www/trpg-content/wiki/entities/entries
 - https://docs.sealdice.com/deploy/platform-qq.html
 - https://docs.sealdice.com/deploy/platform-qq-docker.html
 
-实际部署排障记录：[deploy-sealdice-qq-session-notes-2026-06-21.md](deploy-sealdice-qq-session-notes-2026-06-21.md)
-
 ---
 
 ## 操作手册

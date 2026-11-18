@@ -128,7 +128,6 @@ public/
 
 ## Documentation
 
-- `user_request.md` — Original user requirements
 - `docs/dev-log.md` — AI development log (time, agent, work content)
 - `docs/business.md` — Business logic & code location index
 - `docs/tech-decisions.md` — Technical decisions record (ADR format)
@@ -152,4 +151,3 @@ public/
 每次功能实现或架构变更后，必须同步更新以下文档（如涉及）：
 - `docs/business.md` — 业务逻辑变更
 - `docs/tech-decisions.md` — 新的技术决策
-- `user_request.md` — 用户需求变化
