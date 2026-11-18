@@ -1,0 +1,12 @@
+/* 内容后台固定纸色外观（content-admin.css），编辑器透明融入页面：
+   不带边框和自身底色，正文颜色与档案墨色一致。 */
+.content-blocknote {
+  --bn-colors-editor-background: transparent;
+  --bn-colors-editor-text: var(--archive-ink, #151714);
+  min-height: 480px;
+  font-size: .95rem;
+}
+
+.content-blocknote .bn-editor {
+  padding-inline: .2rem;
+}

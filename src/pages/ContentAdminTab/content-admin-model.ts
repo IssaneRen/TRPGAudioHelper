@@ -28,6 +28,16 @@ export function createBlankBlog(now = new Date().toISOString()): BlogPostDocumen
   };
 }
 
+/** 从标题推导博客 id（网关要求 [a-z0-9][a-z0-9._-]*），中文标题会得到空串。 */
+export function slugifyBlogTitle(title: string): string {
+  return title
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 64)
+    .replace(/-+$/g, "");
+}
+
 export function createBlankWiki(now = new Date().toISOString()): WikiEntryRecord {
   return {
     id: "",

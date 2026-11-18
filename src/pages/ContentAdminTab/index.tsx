@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   Archive,
   BookOpen,
@@ -13,12 +13,11 @@ import {
   RefreshCcw,
   Save,
   Search,
+  Settings2,
   ShieldCheck,
   Trash2,
   Upload
 } from "lucide-react";
-import Markdown from "react-markdown";
-import remarkGfm from "remark-gfm";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -40,6 +39,7 @@ import {
   type ContentOverview
 } from "@/features/content-admin/content-admin-client";
 import { useAiSession } from "@/features/ai/use-ai-session";
+import { BlockNoteEditor, type BlockNoteEditorHandle } from "@/features/editor/BlockNoteEditor";
 import { WikiBlockEditor } from "@/features/wiki/WikiBlockEditor";
 import { WikiContentRenderer } from "@/features/wiki/WikiContentRenderer";
 import type { WikiBlock, WikiCategory, WikiEntryRecord } from "@/types/wiki";
@@ -48,7 +48,8 @@ import {
   createBlankBlog,
   createBlankWiki,
   formatDelimitedList,
-  parseDelimitedList
+  parseDelimitedList,
+  slugifyBlogTitle
 } from "./content-admin-model";
 import "./content-admin.css";
 
@@ -149,6 +150,8 @@ function ContentAdminWorkspace() {
   const [transferBusy, setTransferBusy] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [selectedIds, setSelectedIds] = useState<ReadonlySet<string>>(new Set());
+  const [blogMetaOpen, setBlogMetaOpen] = useState(false);
+  const blogEditorApi = useRef<BlockNoteEditorHandle | null>(null);
 
   const toggleSelected = (id: string) => {
     setSelectedIds((current) => {
@@ -220,6 +223,17 @@ function ContentAdminWorkspace() {
     [overview]
   );
 
+  const blogMetaSummary = useMemo(() => {
+    if (!blogDraft) return "";
+    const parts: string[] = [];
+    if (blogDraft.id) parts.push(blogDraft.id);
+    if (blogDraft.tags.length) parts.push(blogDraft.tags.map((tag) => `#${tag}`).join(" "));
+    parts.push(blogDraft.renderMode);
+    if (blogDraft.players?.length) parts.push(`可见 ${blogDraft.players.length} PL`);
+    if (blogDraft.wikiEntryId) parts.push(`Wiki ${blogDraft.wikiEntryId}`);
+    return parts.join(" · ");
+  }, [blogDraft]);
+
   async function selectBlog(id: string) {
     setSection("blog");
     setLoading(true);
@@ -250,10 +264,18 @@ function ContentAdminWorkspace() {
   }
 
   async function saveBlog() {
-    if (!blogDraft?.id.trim()) return toast.error("博客 id 不能为空。");
+    if (!blogDraft?.id.trim() && !blogDraft?.title.trim()) return toast.error("请先填写标题或元数据中的 id。");
     setSaving(true);
     try {
-      const saved = await saveBlogDocument(token, { ...blogDraft, updatedAt: new Date().toISOString() });
+      // 编辑器正文是防抖回写的，保存前先冲刷，避免丢最后几百毫秒的输入
+      const flushedMarkdown = blogEditorApi.current?.flush() ?? null;
+      let draft = flushedMarkdown !== null ? { ...blogDraft, markdown: flushedMarkdown } : blogDraft;
+      if (!draft.id.trim()) {
+        const autoId = slugifyBlogTitle(draft.title) || `blog-${Date.now()}`;
+        draft = { ...draft, id: autoId };
+        toast.success(`已自动生成博客 id：${autoId}`);
+      }
+      const saved = await saveBlogDocument(token, { ...draft, updatedAt: new Date().toISOString() });
       setBlogDraft(saved);
       await loadOverview();
       toast.success("博客已保存并立即生效。");
@@ -298,6 +320,12 @@ function ContentAdminWorkspace() {
     } finally {
       setSaving(false);
     }
+  }
+
+  async function handleEditorImageUpload(file: File) {
+    const result = await uploadContentImage(token, file);
+    setLastImageUrl(result.url);
+    return result.url;
   }
 
   async function handleImageUpload(file: File | undefined) {
@@ -452,22 +480,43 @@ function ContentAdminWorkspace() {
           ) : null}
 
           {section === "blog" && blogDraft ? (
-            <section className="content-document">
-              <div className="content-document__title"><div><p className="content-kicker">BLOG DOCUMENT</p><h2>{blogDraft.title || "未命名博客"}</h2></div><Button onClick={() => void saveBlog()} disabled={saving}><Save />{saving ? "保存中" : "保存并发布"}</Button></div>
-              <div className="content-form-grid">
-                <Field label="id"><Input value={blogDraft.id} onChange={(event) => setBlogDraft({ ...blogDraft, id: event.target.value })} disabled={overview?.blogs.some((item) => item.id === blogDraft.id)} /></Field>
-                <Field label="标题"><Input value={blogDraft.title} onChange={(event) => setBlogDraft({ ...blogDraft, title: event.target.value })} /></Field>
-                <Field label="标签（逗号/换行）"><Textarea value={formatDelimitedList(blogDraft.tags)} onChange={(event) => setBlogDraft({ ...blogDraft, tags: parseDelimitedList(event.target.value) })} /></Field>
-                <Field label="封面 URL（逗号/换行）"><Textarea value={formatDelimitedList(blogDraft.cover)} onChange={(event) => setBlogDraft({ ...blogDraft, cover: parseDelimitedList(event.target.value) })} /></Field>
-                <Field label="可见 PL（逗号/换行）"><Textarea value={formatDelimitedList(blogDraft.players)} onChange={(event) => setBlogDraft({ ...blogDraft, players: parseDelimitedList(event.target.value) })} /></Field>
-                <Field label="渲染模式"><select value={blogDraft.renderMode} onChange={(event) => setBlogDraft({ ...blogDraft, renderMode: event.target.value as "markdown" | "wiki" })}><option value="markdown">markdown</option><option value="wiki">wiki</option></select></Field>
-                <Field label="关联 Wiki id"><Input value={blogDraft.wikiEntryId || ""} onChange={(event) => setBlogDraft({ ...blogDraft, wikiEntryId: event.target.value || undefined })} /></Field>
-                <Field label="创建时间"><Input value={blogDraft.createdAt} onChange={(event) => setBlogDraft({ ...blogDraft, createdAt: event.target.value })} /></Field>
+            <section className="content-document content-blog">
+              <div className="content-blog__bar">
+                <button
+                  type="button"
+                  className="content-blog__meta-toggle"
+                  onClick={() => setBlogMetaOpen((open) => !open)}
+                >
+                  <Settings2 />元数据
+                </button>
+                <span className="content-blog__summary">{blogMetaSummary}</span>
+                <Button onClick={() => void saveBlog()} disabled={saving}><Save />{saving ? "保存中" : "保存并发布"}</Button>
               </div>
-              <div className="content-split-editor">
-                <div><Label>Markdown 正文</Label><Textarea className="content-code-editor" value={blogDraft.markdown} onChange={(event) => setBlogDraft({ ...blogDraft, markdown: event.target.value })} /></div>
-                <div className="content-preview"><Label>实时预览</Label><article className="prose prose-sm max-w-none dark:prose-invert"><Markdown remarkPlugins={[remarkGfm]}>{blogDraft.markdown}</Markdown></article></div>
-              </div>
+              {blogMetaOpen ? (
+                <div className="content-form-grid content-blog__meta">
+                  <Field label="id"><Input value={blogDraft.id} onChange={(event) => setBlogDraft({ ...blogDraft, id: event.target.value })} disabled={overview?.blogs.some((item) => item.id === blogDraft.id)} /></Field>
+                  <Field label="标签（逗号/换行）"><Textarea value={formatDelimitedList(blogDraft.tags)} onChange={(event) => setBlogDraft({ ...blogDraft, tags: parseDelimitedList(event.target.value) })} /></Field>
+                  <Field label="封面 URL（逗号/换行）"><Textarea value={formatDelimitedList(blogDraft.cover)} onChange={(event) => setBlogDraft({ ...blogDraft, cover: parseDelimitedList(event.target.value) })} /></Field>
+                  <Field label="可见 PL（逗号/换行）"><Textarea value={formatDelimitedList(blogDraft.players)} onChange={(event) => setBlogDraft({ ...blogDraft, players: parseDelimitedList(event.target.value) })} /></Field>
+                  <Field label="渲染模式"><select value={blogDraft.renderMode} onChange={(event) => setBlogDraft({ ...blogDraft, renderMode: event.target.value as "markdown" | "wiki" })}><option value="markdown">markdown</option><option value="wiki">wiki</option></select></Field>
+                  <Field label="关联 Wiki id"><Input value={blogDraft.wikiEntryId || ""} onChange={(event) => setBlogDraft({ ...blogDraft, wikiEntryId: event.target.value || undefined })} /></Field>
+                  <Field label="创建时间"><Input value={blogDraft.createdAt} onChange={(event) => setBlogDraft({ ...blogDraft, createdAt: event.target.value })} /></Field>
+                </div>
+              ) : null}
+              <input
+                className="content-blog__title"
+                aria-label="博客标题"
+                value={blogDraft.title}
+                onChange={(event) => setBlogDraft({ ...blogDraft, title: event.target.value })}
+                placeholder="无标题"
+              />
+              <BlockNoteEditor
+                key={blogDraft.id || "new"}
+                ref={blogEditorApi}
+                value={blogDraft.markdown}
+                onChange={(markdown) => setBlogDraft((current) => (current ? { ...current, markdown } : current))}
+                uploadImage={handleEditorImageUpload}
+              />
             </section>
           ) : null}
 

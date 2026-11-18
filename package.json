@@ -25,6 +25,9 @@
     "test:module-clues": "tsx src/pages/ModuleClueReviewTab/clue-layout.verify.ts"
   },
   "dependencies": {
+    "@blocknote/core": "^0.57.0",
+    "@blocknote/mantine": "^0.57.0",
+    "@blocknote/react": "^0.57.0",
     "@tailwindcss/typography": "^0.5.19",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
