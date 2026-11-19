@@ -26,7 +26,7 @@ export default function OutlineView() {
 
   const { stages, threads, events } = book.outline
 
-  // 事件卡坐标测量（连线端点用）
+  // 事件卡坐标测量（连线端点用）；浅比较避免无限重渲染
   const measure = useCallback(() => {
     const grid = gridRef.current
     if (!grid) return
@@ -36,12 +36,20 @@ export default function OutlineView() {
       const r = el.getBoundingClientRect()
       next[id] = { x: r.left - gRect.left + grid.scrollLeft, y: r.top - gRect.top + grid.scrollTop, w: r.width, h: r.height }
     })
-    setCardPos(next)
+    setCardPos((prev) => {
+      const keys = new Set([...Object.keys(prev), ...Object.keys(next)])
+      for (const k of keys) {
+        const a = prev[k]
+        const b = next[k]
+        if (!a || !b || a.x !== b.x || a.y !== b.y || a.w !== b.w || a.h !== b.h) return next
+      }
+      return prev
+    })
   }, [])
 
   useLayoutEffect(() => {
     measure()
-  })
+  }, [measure])
   useEffect(() => {
     const grid = gridRef.current
     if (!grid) return

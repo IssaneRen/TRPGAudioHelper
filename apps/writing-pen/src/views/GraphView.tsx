@@ -1,6 +1,6 @@
 // 关系图谱：自由画布节点图。节点 = 人物/地点/势力/物件/线索/事件，边 = 带标签的贝塞尔曲线。
 // 交互：拖拽节点布点、锚点拖出连线、点选高亮邻接、类型过滤、双击空白建节点。
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { uid, useApp } from '../store'
 import { KIND_COLOR, KIND_LABEL, type EntityKind } from '../types'
 import './graph.css'
@@ -23,6 +23,11 @@ export default function GraphView() {
   const wrapRef = useRef<HTMLDivElement>(null)
   const nodeRefs = useRef(new Map<string, HTMLDivElement>())
   const [positions, setPositions] = useState<Record<string, Pt>>({})
+  // positions 提交后再补一轮渲染，让连线读取到已落位的节点 rect
+  const [, setEdgeTick] = useState(0)
+  useLayoutEffect(() => {
+    setEdgeTick((t) => t + 1)
+  }, [positions])
   const [selected, setSelected] = useState<{ type: 'node' | 'edge'; id: string } | null>(null)
   const [filters, setFilters] = useState<Set<FilterKind>>(new Set(KINDS))
   const [linking, setLinking] = useState<{ from: string; to: Pt } | null>(null)
@@ -62,7 +67,10 @@ export default function GraphView() {
       next[e.id] = e.graph ? { ...e.graph } : layoutNode(e.id, i, entityNodes.length)
     })
     eventNodes.forEach((n, i) => {
-      next[n.id] = layoutNode(n.id, entityNodes.length + i, entityNodes.length + eventNodes.length)
+      // 事件节点用更大的外圈，避免与实体节点重叠
+      const angle = ((entityNodes.length + i) / Math.max(entityNodes.length + eventNodes.length, 1)) * Math.PI * 2
+      const radius = 430 + (i % 2) * 100
+      next[n.id] = { x: 480 + Math.cos(angle) * radius, y: 320 + Math.sin(angle) * radius * 0.66 }
     })
     setPositions(next)
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -275,11 +283,11 @@ export default function GraphView() {
             const dx = Math.max(40, Math.abs(b.x - a.x) * 0.35)
             const d = `M ${a.x},${a.y} C ${a.x + dx},${a.y} ${b.x - dx},${b.y} ${b.x},${b.y}`
             const isSel = selected?.type === 'edge' && selected.id === l.id
-            const highlight = neighborIds?.has(l.from) && neighborIds?.has(l.to) && neighborIds?.has(selected?.type === 'edge' ? '' : selected?.id ?? '')
+            const lit = selected?.type === 'node' && !!neighborIds?.has(l.from) && !!neighborIds?.has(l.to)
             return (
-              <g key={l.id} className={`gedge ${isSel ? 'sel' : ''} ${dim(l.from) ? 'dim' : ''}`} onPointerDown={(e) => { e.stopPropagation(); setSelected({ type: 'edge', id: l.id }) }}>
+              <g key={l.id} className={`gedge ${isSel ? 'sel' : ''} ${lit ? 'lit' : ''} ${dim(l.from) ? 'dim' : ''}`} onPointerDown={(e) => { e.stopPropagation(); setSelected({ type: 'edge', id: l.id }) }}>
                 <path d={d} className="hit-path" />
-                <path d={d} className="edge-path" markerEnd={l.directed ? 'url(#g-arrow)' : undefined} style={highlight ? { opacity: 1 } : undefined} />
+                <path d={d} className="edge-path" markerEnd={l.directed ? 'url(#g-arrow)' : undefined} />
                 <g className="gedge-label" style={{ transform: `translate(${(a.x + b.x) / 2}px, ${(a.y + b.y) / 2 - 4}px)` }}>
                   <rect x={-Math.max(20, l.type.length * 7 + 10)} y="-11" width={Math.max(40, l.type.length * 14 + 20)} height="22" rx="11" />
                   <text textAnchor="middle" dominantBaseline="central">{l.type}</text>

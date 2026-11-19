@@ -67,7 +67,8 @@
 }
 
 .gedge:hover .edge-path,
-.gedge.sel .edge-path {
+.gedge.sel .edge-path,
+.gedge.lit .edge-path {
   stroke: var(--accent);
   stroke-width: 2.5;
   opacity: 1;

@@ -47,11 +47,27 @@
 
 - [x] Worktree 建立与架构研读
 - [x] 竞品功能考察（官网 + 更新记录 + 小红书参考）
-- [ ] PRD / UI / 技术评审文档落盘 docs/apps/writing-pen/
-- [ ] 子应用脚手架与数据层
-- [ ] 写作界面 / 大纲矩阵 / 设定台 / 关系图谱 / 导入导出
-- [ ] /apps 目录接入 + 构建验证 + 自测
+- [x] PRD / UI / 技术评审文档落盘 docs/apps/writing-pen/
+- [x] 子应用脚手架与数据层（apps/writing-pen/，Zustand + localStorage 多 key 分书）
+- [x] 六大视图：写作（章节树/编辑器/右栏四页签）、大纲矩阵（事件卡 + 因果/呼应 SVG 连线）、关系图谱（拖拽节点 + 贝塞尔连线 + 边标签 + 类型过滤 + 邻接高亮）、设定台（五类档案 + 线索状态 + 出场条）、灵感箱（转事件/线索）、统计
+- [x] 导入导出：整书 JSON（schema 1）+ 正文 Markdown
+- [x] 子应用构建通过（tsc --noEmit + vite build，gzip 86KB）
+- [x] /apps 目录接入（AppsDirectory writing 占位 → 正式项，commit 5ea44c0）
+- [ ] 主站 pnpm build 全量验证（进行中）
+- [ ] 浏览器自测 PRD 验收清单 8 条
 - [ ] 部署（需用户授权）+ 清理 worktree
+
+## 关键提交
+
+- 43f0081 docs(writing-pen): PRD、UI 稿、技术评审与进度 handoff
+- 5ea44c0 feat(writing-pen): 新增「写作·笔」子应用并接入 /apps 目录
+
+## 已知待打磨（自测后处理）
+
+- 大纲连线坐标依赖 useLayoutEffect 每次渲染重测，行/列多时可能有微小滞后；可改惰性测量。
+- 图谱中「事件」节点坐标不持久化（刷新后重新散布）——如需持久化可加 outline.events[].graph。
+- 正文高亮目前只做右栏关联卡展示，编辑区内联高亮留待后续版本（避免 contentEditable 复杂度）。
+- 未做移动端适配（桌面优先）。
 
 ## 给下一个会话的操作指引
 
