@@ -58,14 +58,21 @@
   1. OutlineView useLayoutEffect 每渲染 setCardPos(新对象) → React #185 无限重渲染崩溃（已加浅比较守卫）
   2. GraphView 连线在 render 中读 DOM rect，读到提交前旧坐标 → 边坍缩不可见（positions 提交后补一轮渲染 + 事件节点改外圈布局）
 - [x] docs/apps/README.md 表格补「写作·笔」行
-- [ ] 部署（本地构建直传 issane.cn，用户已在任务中预授权「本地差不多了再部署」）
-- [ ] 线上验证 + 推送 master（fast-forward，HEAD 带 [skip ci]）+ 清理 worktree
+- [x] **已部署上线**：deploy-direct.sh 直传成功，release `20261120-001219`
+- [x] **线上验证通过**：https://www.issane.cn/apps/ 出现「写作·笔」卡片；/apps/writing-pen/ 全流程 CDP 自测 18/18（对 https://www.issane.cn 直接跑通）
+- [x] 自测脚本归档 scripts/verification/（static-server.mjs + cdp-writing-pen-selftest.mjs，支持本地/线上双模式）
+- [ ] 推送 master（fast-forward，HEAD 带 [skip ci]）+ 清理 worktree
 
 ## 关键提交
 
 - 43f0081 docs(writing-pen): PRD、UI 稿、技术评审与进度 handoff
 - 5ea44c0 feat(writing-pen): 新增「写作·笔」子应用并接入 /apps 目录
 - 1e3e70c fix(writing-pen): 修复大纲矩阵无限重渲染与图谱连线坐标滞后
+- e40d13e docs(writing-pen): handoff 更新自测结论与应用维护表格 [skip ci]
+
+## 线上行为备忘
+
+- nginx 规则：`location ~ ^/apps/(?<app_name>[^/?]+)` → try_files 到子应用 index.html；`/apps`（无斜杠）由主站 SPA 路由承接。本次部署构建的 JS 产物 hash 为 `index-Yptlmj0H.js`（与本地另一次构建 hash 不同属正常，以部署时的产物为准）。
 
 ## 给下一个会话的操作指引
 
