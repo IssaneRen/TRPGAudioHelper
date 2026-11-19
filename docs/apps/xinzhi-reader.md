@@ -4,6 +4,7 @@
 纯前端 + 本地优先（localStorage），无后端、无广告、无追踪。
 
 - 正式地址：<https://www.issane.cn/apps/xinzhi-reader/>
+- 应用目录：<https://issane.cn/apps/>，入口和新增应用见[网页应用维护](README.md)。
 - 源码位置：`apps/xinzhi-reader/`（**唯一开发位置**，独立 npm 项目，不进 pnpm workspace）
 - 历史来源：`lucius_vibe_coding/lucius_reading`（已迁入本仓库，原目录仅作参考，勿再双向修改）
 
@@ -24,10 +25,7 @@ npm run preview    # http://localhost:4173/apps/xinzhi-reader/
 
 - 根 `pnpm build` = 主站构建 + `node scripts/build-apps.mjs`
   （对每个 `apps/*/` 执行 `npm ci && npm run build`，并把产物复制到根 `dist/apps/<name>/`）
-- 因此 **deploy.yml（全量部署）和 deploy-direct.sh 每次发布都自动携带本应用**，
-  主站再发布不会丢失 `/apps/xinzhi-reader/`。
-- `deploy-static-overlay.yml` 的 paths 已包含 `apps/**`，打包清单已包含 `apps`，
-  子应用单独改动走较快的 overlay 发布。
+- 全量发布与静态覆盖发布都携带 `dist/apps/`，主站再发布会一并更新 `/apps/xinzhi-reader/`。
 
 Nginx 路由（SPA fallback，位于 `.github/workflows/deploy.yml` 两份配置 heredoc 中）：
 
@@ -40,17 +38,9 @@ location ~ ^/apps/(?<app_name>[^/?]+) {
 deploy.yml 每次部署都会重新生成整份 Nginx 配置，此块已纳入版本管理；
 **不要只在服务器上手改**，下次全量部署会被覆盖——要改就改 deploy.yml。
 
-## 发布流程（最短路径）
+## 发布流程
 
-```bash
-# 在本仓库任意 worktree/主工作区改 apps/xinzhi-reader/** 后：
-git add apps/xinzhi-reader && git commit -m "feat(xinzhi-reader): ..." && git push origin master
-# GitHub Actions 自动构建并部署；watch 进度：
-#   https://github.com/IssaneRen/TRPGAudioHelper/actions/workflows/deploy.yml
-```
-
-认证方式：GitHub Actions 使用仓库 Secrets（`SERVER_HOST` / `SERVER_USER` / `SSH_PRIVATE_KEY`），
-本地不保存服务器凭据；本机 `~/.ssh/id_rsa` 当前**不被**服务器接受，直连部署（deploy-direct.sh）不可用。
+按[网页应用维护](README.md)的发布流程执行。目录和阅读器可在同一次静态覆盖发布中上线。
 
 ## 确认线上版本
 
@@ -63,11 +53,8 @@ curl -s https://www.issane.cn/apps/xinzhi-reader/ | grep app-version
 
 ## 回滚
 
-- 方式 A（推荐，无需 SSH）：`git revert <commit> && git push origin master`，等 Actions 重新部署。
-- 方式 B（Termius SSH，即时）：服务器上执行
-  `sudo ln -sfn /var/www/trpg-helper/releases/<旧版本SHA> /var/www/trpg-helper/current`
-  （版本目录名 = 当时部署的 commit SHA，`ls /var/www/trpg-helper/releases/` 查看；
-  本任务发布前的线上版本对应 master 提交 `5fa8f79`。）
+- 只回退阅读器时，在 Git 里回退相应改动，保留同版本中无关的主站改动，再按静态覆盖流程发布。
+- 整站紧急回滚可由获授权的服务器维护者将 `current` 切回已验证的历史 release。先核对同版本中的主站及其他应用改动。
 
 ## 服务器目录
 

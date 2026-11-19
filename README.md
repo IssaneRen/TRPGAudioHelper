@@ -179,6 +179,7 @@ flowchart LR
 生产部署通过 GitHub Actions 到腾讯云轻量服务器 Nginx：
 
 - 主应用构建部署：`.github/workflows/deploy.yml`
+- 应用目录和子应用静态覆盖部署：`.github/workflows/deploy-static-overlay.yml`
 - 仅静态内容部署：`.github/workflows/deploy-content.yml`
 
 主部署流程：
@@ -209,6 +210,7 @@ push master
 | [docs/code-reading-guide.md](docs/code-reading-guide.md) | 新人读代码路径 |
 | [docs/deploy-guide.md](docs/deploy-guide.md) | 腾讯云/Nginx 部署基础 |
 | [docs/deploy-https-notes.md](docs/deploy-https-notes.md) | GitHub Actions 与 HTTPS 证书处理 |
+| [docs/apps/README.md](docs/apps/README.md) | 应用目录、阅读·书及其他子应用的开发和发布 |
 | [docs/deploy-sealdice-qq.md](docs/deploy-sealdice-qq.md) | 海豹骰 QQ 服务同服务器 Docker 部署与端口/域名规划 |
 | [docs/dev-log.md](docs/dev-log.md) | 开发记录 |
 | [docs/reports/](docs/reports/) | 阶段调研与专项报告 |

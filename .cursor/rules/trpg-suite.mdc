@@ -26,6 +26,7 @@ Use this repository as a TRPG analysis workspace.
 ## Working rules
 
 - Prefer evidence-backed notes over vague summaries.
+- For web apps, read the root `AGENTS.md` and `docs/apps/README.md` for source paths and deployment rules.
 - Keep file paths, page numbers, and source URLs visible in analysis outputs.
 - In wiki content, `magic-book` refers only to in-story fictional books or occult tomes inside the setting; do not use it for scenario books, rulebooks, sourcebooks, or real-world module publications.
 - For `magic-book` entries, write the content as if composing the book, fragment, marginalia, catalog card, or redacted page itself. Do not treat the entry as an out-of-world book introduction.
