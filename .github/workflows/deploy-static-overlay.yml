@@ -22,6 +22,7 @@ on:
       - src/pages/PortfolioTab/**
       - src/features/workbench/**
       - apps/**
+      - public/apps/**
   workflow_dispatch:
 
 permissions:

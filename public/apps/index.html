@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="description" content="Issane 的网页应用目录。目前收录白羽阅读。" />
+    <meta name="theme-color" content="#f7f7f5" />
+    <title>应用 · Issane</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+        --background: #f7f7f5;
+        --surface: #fff;
+        --text: #171917;
+        --muted: #585d59;
+        --line: #dedfd9;
+        --accent: #244c40;
+        --accent-soft: #e7eee9;
+        font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --background: #141715;
+          --surface: #1c211e;
+          --text: #f1f4ee;
+          --muted: #b2bbb3;
+          --line: #39443d;
+          --accent: #b9e1cb;
+          --accent-soft: #263c31;
+        }
+      }
+
+      * { box-sizing: border-box; }
+      body { margin: 0; background: var(--background); color: var(--text); }
+      a { color: inherit; text-decoration: none; }
+      a:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+      .wrap { width: min(calc(100% - 48px), 840px); margin-inline: auto; }
+
+      .site-bar { border-bottom: 1px solid var(--line); }
+      .site-nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        min-height: 58px;
+        font-size: 14px;
+      }
+      .site-name { padding-block: 12px; font-weight: 680; }
+      .site-nav span { color: var(--muted); }
+      .page { padding-block: clamp(44px, 8vw, 96px) 80px; }
+      .intro { margin-bottom: clamp(36px, 7vw, 64px); }
+      h1, h2, h3, p { margin: 0; }
+      h1 { font-size: clamp(39px, 7vw, 62px); font-weight: 750; letter-spacing: -0.04em; line-height: 1.1; }
+      .intro p { margin-top: 14px; color: var(--muted); font-size: 16px; line-height: 1.6; }
+      h2 { margin-bottom: 13px; font-size: 18px; letter-spacing: -0.015em; }
+      .app-list {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        background: var(--surface);
+      }
+      .app-list li + li { border-top: 1px solid var(--line); }
+      .app-row {
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 18px;
+        padding: 19px;
+        border-radius: 15px;
+      }
+      .app-icon {
+        display: block;
+        width: 74px;
+        height: 74px;
+        border: 1px solid var(--line);
+        border-radius: 17px;
+      }
+      .app-name { font-size: 21px; font-weight: 680; line-height: 1.3; }
+      .app-summary { margin-top: 5px; color: var(--muted); font-size: 14px; line-height: 1.55; }
+      .open {
+        display: grid;
+        min-width: 70px;
+        min-height: 42px;
+        place-items: center;
+        padding-inline: 12px;
+        border-radius: 100px;
+        background: var(--accent-soft);
+        color: var(--accent);
+        font-size: 14px;
+        font-weight: 680;
+      }
+      .app-row:hover .open { background: var(--accent); color: var(--surface); }
+      @media (max-width: 480px) {
+        .wrap { width: calc(100% - 32px); }
+        .app-row { gap: 11px; padding: 13px; }
+        .app-icon { width: 58px; height: 58px; border-radius: 13px; }
+        .app-name { font-size: 17px; }
+        .app-summary { font-size: 13px; }
+        .open { min-width: 52px; min-height: 44px; padding-inline: 8px; }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-bar">
+      <nav class="wrap site-nav" aria-label="站点导航">
+        <a class="site-name" href="/">Issane</a>
+        <span aria-current="page">应用</span>
+      </nav>
+    </header>
+
+    <main class="wrap page">
+      <div class="intro">
+        <h1>应用</h1>
+        <p>在浏览器里打开 Issane 的小工具。</p>
+      </div>
+
+      <section aria-labelledby="app-list-heading">
+        <h2 id="app-list-heading">所有应用</h2>
+        <ul class="app-list" role="list">
+          <li>
+            <a class="app-row" href="/apps/xinzhi-reader/" aria-labelledby="baiyu-name baiyu-open" aria-describedby="baiyu-summary">
+              <img class="app-icon" src="/apps/xinzhi-reader/baiyu-icon-192.png" width="74" height="74" alt="" />
+              <div>
+                <h3 class="app-name" id="baiyu-name">白羽阅读</h3>
+                <p class="app-summary" id="baiyu-summary">收藏文章、划线和回顾。</p>
+              </div>
+              <span class="open" id="baiyu-open">打开</span>
+            </a>
+          </li>
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>
