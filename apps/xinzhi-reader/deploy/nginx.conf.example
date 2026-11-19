@@ -24,12 +24,8 @@ server {
     root /var/www/xinzhi/dist;
     index index.html;
 
-    # .webmanifest 的 MIME 类型（部分系统 Nginx 未内置）。
-    # pdf.js worker 在构建时已重命名为 .js（见 vite.config.ts），
-    # 默认 mime.types 即可正确返回 JS MIME，无需为 .mjs 加映射。
-    types {
-        application/manifest+json webmanifest;
-    }
+    # 应用清单使用 .json 扩展名：Nginx 默认 mime.types 即返回 application/json，
+    # 无需额外 types 映射。pdf.js worker 构建时也已重命名为 .js。
 
     # 带 hash 的静态资源可以长期缓存
     location /assets/ {
@@ -67,7 +63,7 @@ server {
 # 如果部署在子路径，例如 https://example.com/reading/：
 # 1) vite.config.ts:   base: '/reading/'
 # 2) src/main.tsx:     <BrowserRouter basename="/reading">
-# 3) public/manifest.webmanifest:
+# 3) public/manifest.json:
 #      "start_url": "/reading/", "scope": "/reading/"
 # 4) index.html 中的 /leaf.svg、/icon-*.png、manifest 引用改成相对路径或 /reading/...
 # 5) Nginx:

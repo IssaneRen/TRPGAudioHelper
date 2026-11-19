@@ -1,5 +1,5 @@
 name: Deploy static overlay
-# Only index.html and assets are deployed here; Nginx snippets use full deploy or Termius.
+# index.html、assets 与 apps/ 子应用走这里快速发布；Nginx 配置仍由全量 deploy.yml 或 Termius 维护。
 
 on:
   push:
@@ -21,6 +21,7 @@ on:
       - src/pages/WorkbenchTab/**
       - src/pages/PortfolioTab/**
       - src/features/workbench/**
+      - apps/**
   workflow_dispatch:
 
 permissions:
@@ -42,7 +43,9 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
       - name: Package static shell
-        run: tar -C dist -czf "trpg-static-shell-${{ github.sha }}.tar.gz" index.html assets
+        run: |
+          mkdir -p dist/apps
+          tar -C dist -czf "trpg-static-shell-${{ github.sha }}.tar.gz" index.html assets apps
       - name: Upload static shell
         uses: appleboy/scp-action@v0.1.7
         with:
