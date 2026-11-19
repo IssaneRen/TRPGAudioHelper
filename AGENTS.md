@@ -16,6 +16,12 @@ This repository is a TRPG assistant workspace. The project now includes a reusab
 - 新增应用、日常构建和上线验收读 [网页应用维护](docs/apps/README.md)。提交与上线分别处理，推送会自动发布的分支前确认任务已授权上线。
 - SSH 认证、主机校验或权限失败时，立即暂停发布，报告错误并等用户答复；改走 GitHub Actions 须用户明确授权。
 
+## 世界观知识库
+
+- 用户指定世界观请你查资料、回答或辅助创作时，用 `node scripts/query-knowledge.mjs --worlds` 核对名称。再用 `node scripts/query-knowledge.mjs "<世界观>" "<关键词>"` 读取该世界观的原文片段。
+- 检索使用人物名、地点或设定名等短词，一个问题可分多次检索。答案标明条目或出处，资料缺失时如实说明。单次回答沿用用户指定的世界观范围。
+- 知识条目只录入用户提交的正文，发布使用用户亲自写过或修改过的版本。演示检索使用已有资料。
+
 ## Skills
 
 - `trpg-document-reader` - Read PDFs and Word files, extract text, tables, images, and layout cues.

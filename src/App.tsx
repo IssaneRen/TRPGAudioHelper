@@ -21,6 +21,8 @@ const BattleSimulator = lazy(() => import("@/pages/ToolboxTab/BattleSimulator"))
 const AiChatTab = lazy(() => import("@/pages/AiChatTab"));
 const AnalyticsDashboardTab = lazy(() => import("@/pages/AnalyticsDashboardTab"));
 const ContentAdminTab = lazy(() => import("@/pages/ContentAdminTab"));
+// 访问私人知识库时才载入它的页面代码。公开作品使用独立的作品集页面。
+const KnowledgeTab = lazy(() => import("@/pages/KnowledgeTab"));
 const WorkbenchTab = lazy(() => import("@/pages/WorkbenchTab"));
 const PortfolioTab = lazy(() => import("@/pages/PortfolioTab"));
 const BlogTab = lazy(() => import("@/pages/BlogTab"));
@@ -60,6 +62,7 @@ export default function App() {
           <Route path="profile" element={<PersonalProfile />} />
           <Route path="admin/content" element={<ContentAdminTab />} />
           <Route path="workbench" element={<WorkbenchTab />} />
+          <Route path="workbench/knowledge" element={<KnowledgeTab />} />
           <Route path="portfolio" element={<PortfolioTab />} />
           <Route path="portfolio/:workId" element={<PortfolioTab />} />
           <Route path="trpg" element={<TabLayout />}>

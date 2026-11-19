@@ -36,7 +36,10 @@ interface TrackEventOptions {
 }
 
 function canTrack() {
-  return typeof window !== "undefined" && navigator.doNotTrack !== "1";
+  // 私人知识库页跳过站内访问统计，包括停留在该页面时触发的身份事件。
+  return typeof window !== "undefined"
+    && navigator.doNotTrack !== "1"
+    && !/^\/workbench\/knowledge(?:\/|$)/.test(window.location.pathname);
 }
 
 function randomId(prefix: string) {
