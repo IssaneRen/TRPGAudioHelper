@@ -30,7 +30,6 @@ export function HighlightsPage() {
   return (
     <div className="page">
       <header className="page-head">
-        <p className="eyebrow">HIGHLIGHTS</p>
         <h1 className="display">批注</h1>
         <p className="page-sub">划过的句子，写下的想法，都替你留着。</p>
       </header>

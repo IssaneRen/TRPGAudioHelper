@@ -74,7 +74,7 @@ export function SettingsSheet({ open, onClose }: { open: boolean; onClose: () =>
         <section className="settings-section">
           <h3>数据</h3>
           <p className="settings-hint">
-            新枝没有服务器。你的收藏、划线和想法都保存在当前浏览器的本地存储里。换设备时，请手动备份。
+            收藏、划线和想法保存在当前浏览器。换设备时，可以导出备份再导入。
           </p>
           <div className="settings-actions">
             <button
@@ -155,10 +155,10 @@ export function SettingsSheet({ open, onClose }: { open: boolean; onClose: () =>
         <section className="settings-section settings-about">
           <h3>关于</h3>
           <p>
-            新枝 Web · 一个保护注意力的阅读空间。界面语言致敬新枝 App，为个人非商业复刻，并非官方版本。
+            白羽 · 个人阅读空间
           </p>
           <p className="settings-version">
-            版本 0.1 · 无广告 · 无账号 · 本地优先 · 构建 {__BUILD_SHA__.slice(0, 7)}
+            版本 0.1 · 构建 {__BUILD_SHA__.slice(0, 7)}
           </p>
         </section>
       </div>

@@ -26,7 +26,6 @@ import { SourceIcon } from '@/components/SourceIcon'
 import { Sheet } from '@/components/Sheet'
 import { useToast } from '@/components/Toast'
 import { IconButton } from '@/components/ui'
-import { LeafMark } from '@/components/Logo'
 import { copyText } from '@/lib/clipboard'
 import { useArticle, useHighlightsForArticle } from '@/lib/selectors'
 import { useStore } from '@/lib/store'
@@ -137,9 +136,9 @@ export function ReaderPage() {
 
   useEffect(() => {
     if (!article) return
-    document.title = `${article.title} · 新枝`
+    document.title = `${article.title} · 白羽`
     return () => {
-      document.title = '新枝 · 阅读流'
+      document.title = '白羽 · 阅读流'
     }
   }, [article])
 
@@ -392,7 +391,6 @@ export function ReaderPage() {
   if (!article) {
     return (
       <div className="reader-missing">
-        <LeafMark size={28} />
         <p>这一页已经不在书架上了。</p>
         <Link to="/" className="primary-button">
           回到阅读流
@@ -668,9 +666,6 @@ export function ReaderPage() {
             )}
 
             <footer className="reader-end">
-              <div className="reader-end-mark">
-                <LeafMark size={24} />
-              </div>
               <p className="reader-end-title">读到这里了。</p>
               <p className="reader-end-meta">
                 共 {chars} 字 · 约 {minutes} 分钟

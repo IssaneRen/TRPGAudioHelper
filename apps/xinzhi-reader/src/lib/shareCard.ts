@@ -26,28 +26,6 @@ function wrapText(
   return lines
 }
 
-function drawLeaf(ctx: CanvasRenderingContext2D, x: number, y: number, scale = 1) {
-  ctx.save()
-  ctx.translate(x, y)
-  ctx.scale(scale, scale)
-  ctx.strokeStyle = '#3f6b4f'
-  ctx.fillStyle = '#3f6b4f'
-  ctx.lineWidth = 4
-  ctx.lineCap = 'round'
-  ctx.beginPath()
-  ctx.moveTo(0, 34)
-  ctx.lineTo(0, 4)
-  ctx.stroke()
-  ctx.beginPath()
-  ctx.ellipse(-13, 6, 14, 20, Math.PI / 4, 0, Math.PI * 2)
-  ctx.fill()
-  ctx.fillStyle = '#7da287'
-  ctx.beginPath()
-  ctx.ellipse(12, -2, 13, 18, -Math.PI / 5, 0, Math.PI * 2)
-  ctx.fill()
-  ctx.restore()
-}
-
 export type ShareResult = 'shared' | 'downloaded' | 'cancelled' | 'failed'
 
 export async function shareQuoteCard(options: {
@@ -67,39 +45,10 @@ export async function shareQuoteCard(options: {
     ctx.fillStyle = '#f7f4ed'
     ctx.fillRect(0, 0, W, H)
 
-    // paper grain
-    for (let i = 0; i < 9000; i += 1) {
-      const x = Math.random() * W
-      const y = Math.random() * H
-      ctx.fillStyle = Math.random() > 0.5 ? 'rgba(60,52,38,0.022)' : 'rgba(255,255,255,0.3)'
-      ctx.fillRect(x, y, 1.2, 1.2)
-    }
-
-    // subtle rings in the corner
-    ctx.strokeStyle = 'rgba(60,52,38,0.05)'
-    ctx.lineWidth = 1
-    for (let r = 120; r <= 520; r += 34) {
-      ctx.beginPath()
-      ctx.arc(W + 40, -40, r, 0, Math.PI * 2)
-      ctx.stroke()
-    }
-
-    // frame
-    ctx.strokeStyle = 'rgba(60,52,38,0.12)'
-    ctx.lineWidth = 1.5
-    ctx.strokeRect(48, 48, W - 96, H - 96)
-
-    drawLeaf(ctx, 112, 120, 1.1)
     ctx.fillStyle = '#25241f'
-    ctx.font = '500 30px "Songti SC", "Noto Serif CJK SC", "SimSun", serif'
+    ctx.font = '600 42px "Songti SC", "Noto Serif CJK SC", "SimSun", serif'
     ctx.textBaseline = 'middle'
-    ctx.fillText('新枝', 152, 132)
-
-    ctx.fillStyle = 'rgba(60,52,38,0.42)'
-    ctx.font = '400 22px "PingFang SC", "Microsoft YaHei", sans-serif'
-    ctx.textAlign = 'right'
-    ctx.fillText('一个保护注意力的阅读空间', W - 108, 132)
-    ctx.textAlign = 'left'
+    ctx.fillText('白羽', 112, 132)
 
     ctx.fillStyle = 'rgba(60,52,38,0.18)'
     ctx.fillRect(112, 196, W - 224, 1)
@@ -138,19 +87,12 @@ export async function shareQuoteCard(options: {
     const meta = [options.source, options.date].filter(Boolean).join(' · ')
     ctx.fillText(meta, 112, footerY + 70 + titleLines.length * 44 + 16)
 
-    drawLeaf(ctx, W - 156, footerY + 74, 0.55)
-    ctx.fillStyle = 'rgba(60,52,38,0.32)'
-    ctx.font = '400 20px "PingFang SC", "Microsoft YaHei", sans-serif'
-    ctx.textAlign = 'right'
-    ctx.fillText('新枝 · 摘录', W - 112, footerY + 120)
-    ctx.textAlign = 'left'
-
     const blob = await new Promise<Blob | null>((resolve) =>
       canvas.toBlob((value) => resolve(value), 'image/png'),
     )
     if (!blob) return 'failed'
 
-    const file = new File([blob], `新枝摘录-${Date.now()}.png`, { type: 'image/png' })
+    const file = new File([blob], `白羽摘录-${Date.now()}.png`, { type: 'image/png' })
     const nav = navigator as Navigator & {
       canShare?: (data: { files: File[] }) => boolean
       share?: (data: { files: File[]; title?: string; text?: string }) => Promise<void>
@@ -158,7 +100,7 @@ export async function shareQuoteCard(options: {
 
     if (nav.canShare?.({ files: [file] }) && nav.share) {
       try {
-        await nav.share({ files: [file], title: '新枝摘录' })
+        await nav.share({ files: [file], title: '白羽摘录' })
         return 'shared'
       } catch (error) {
         if ((error as DOMException)?.name === 'AbortError') return 'cancelled'

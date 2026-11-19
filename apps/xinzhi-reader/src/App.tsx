@@ -9,12 +9,10 @@ import { ReaderPage } from '@/pages/ReaderPage'
 import { ReviewPage } from '@/pages/ReviewPage'
 import { TagsPage, TagDetailPage } from '@/pages/TagsPage'
 import { useStore } from '@/lib/store'
-import { LeafMark } from '@/components/Logo'
 
 function NotFound() {
   return (
     <div className="page not-found">
-      <LeafMark size={32} />
       <h1 className="display">这一页不见了</h1>
       <p>也许它被移到了别处，或者从来没有存在过。</p>
       <Link to="/" className="primary-button">

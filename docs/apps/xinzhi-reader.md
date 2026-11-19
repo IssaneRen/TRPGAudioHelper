@@ -1,6 +1,6 @@
-# apps/xinzhi-reader · 新枝阅读空间
+# apps/xinzhi-reader · 白羽阅读空间
 
-「新枝」App 的个人非商业 Web 复刻：收藏、沉浸阅读、划线批注、每日回顾。
+给自己和朋友使用的个人 Web 阅读空间：收藏、沉浸阅读、划线批注、每日回顾。
 纯前端 + 本地优先（localStorage），无后端、无广告、无追踪。
 
 - 正式地址：<https://www.issane.cn/apps/xinzhi-reader/>

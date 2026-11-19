@@ -12,7 +12,6 @@ export function TagsPage() {
   return (
     <div className="page">
       <header className="page-head">
-        <p className="eyebrow">ORGANIZE</p>
         <h1 className="display">标签</h1>
         <p className="page-sub">让信息自然有序，而不是被文件夹切碎。</p>
       </header>

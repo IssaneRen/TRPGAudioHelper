@@ -13,7 +13,6 @@ export function ArchivePage() {
   return (
     <div className="page">
       <header className="page-head">
-        <p className="eyebrow">ARCHIVE</p>
         <h1 className="display">已归档</h1>
         <p className="page-sub">归档不是删除，是给读过的内容一个安静的位置。</p>
       </header>

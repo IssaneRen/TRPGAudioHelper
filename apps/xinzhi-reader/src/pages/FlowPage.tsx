@@ -1,20 +1,15 @@
 import { useState } from 'react'
 import { Link, useOutletContext } from 'react-router-dom'
 import {
-  Archive,
   ArrowRight,
   ArrowUpRight,
   Feather,
   Hash,
-  Highlighter,
-  Inbox,
-  Rss,
   Search,
   Settings,
-  Sparkles,
 } from 'lucide-react'
 import { ArticleRow } from '@/components/ArticleRow'
-import { LeafMark } from '@/components/Logo'
+import { Logo } from '@/components/Logo'
 import { useToast } from '@/components/Toast'
 import { Empty, IconButton } from '@/components/ui'
 import type { ShellContext } from '@/components/shellContext'
@@ -50,18 +45,12 @@ export function FlowPage() {
   return (
     <div className="page flow-page">
       <header className="page-head flow-head">
-        <p className="eyebrow">
-          <span className="live-dot" />
-          {todayLabel()}
-        </p>
+        <div className="flow-dateline">
+          <div className="flow-mobile-brand"><Logo /></div>
+          <time>{todayLabel()}</time>
+        </div>
         <div className="flow-title-line">
-          <span className="flow-glyph" aria-hidden="true">
-            <LeafMark size={23} />
-          </span>
-          <div className="flow-title-copy">
-            <h1 className="display">阅读流</h1>
-            <p className="flow-sub">把值得读的，慢慢读完。</p>
-          </div>
+          <h1 className="display">阅读流</h1>
           <div className="head-actions">
             <Link to="/tags" className="icon-button" aria-label="标签" title="标签">
               <Hash size={18} strokeWidth={1.7} />
@@ -78,44 +67,12 @@ export function FlowPage() {
 
       <div className="flow-layout">
         <div className="flow-main">
-          <section className="stat-grid" aria-label="概览">
-            <a href="#inbox" className="stat-card" data-tone="sage">
-              <div className="stat-top">
-                <span className="stat-icon">
-                  <Inbox size={17} strokeWidth={1.7} />
-                </span>
-                <strong>{stats.inbox}</strong>
-              </div>
-              <span className="stat-label">暂存箱</span>
-            </a>
-            <Link to="/archive" className="stat-card" data-tone="sand">
-              <div className="stat-top">
-                <span className="stat-icon">
-                  <Archive size={17} strokeWidth={1.7} />
-                </span>
-                <strong>{stats.archived}</strong>
-              </div>
-              <span className="stat-label">已归档</span>
-            </Link>
-            <Link to="/highlights" className="stat-card" data-tone="clay">
-              <div className="stat-top">
-                <span className="stat-icon">
-                  <Highlighter size={17} strokeWidth={1.7} />
-                </span>
-                <strong>{stats.highlights}</strong>
-              </div>
-              <span className="stat-label">批注</span>
-            </Link>
-            <Link to="/feeds" className="stat-card" data-tone="mist">
-              <div className="stat-top">
-                <span className="stat-icon">
-                  <Rss size={17} strokeWidth={1.7} />
-                </span>
-                <strong>{stats.feeds}</strong>
-              </div>
-              <span className="stat-label">订阅</span>
-            </Link>
-          </section>
+          <nav className="flow-index" aria-label="阅读概览">
+            <a href="#inbox">暂存箱 <span>{stats.inbox}</span></a>
+            <Link to="/archive">已归档 <span>{stats.archived}</span></Link>
+            <Link to="/highlights">批注 <span>{stats.highlights}</span></Link>
+            <Link to="/feeds">订阅 <span>{stats.feeds}</span></Link>
+          </nav>
 
           {continueArticle && (
             <Link to={`/read/${continueArticle.id}`} className="continue-card">
@@ -139,16 +96,13 @@ export function FlowPage() {
               <span className="continue-arrow">
                 <ArrowRight size={18} strokeWidth={1.7} />
               </span>
-              <span className="continue-rings" aria-hidden="true" />
             </Link>
           )}
 
           <section className="inbox-section" id="inbox">
             <div className="section-head">
-              <h2>
-                随手翻阅 <span className="section-count">{filtered.length}</span>
-              </h2>
-              <p>{inbox.length} 篇待读</p>
+              <h2>待阅读</h2>
+              <p>{filtered.length} 篇</p>
             </div>
 
             <div className="tag-filter" role="tablist" aria-label="按标签筛选">
@@ -194,8 +148,8 @@ export function FlowPage() {
             ) : (
               <Empty
                 icon={<Feather size={22} strokeWidth={1.4} />}
-                title="这一栏还空着"
-                hint="换一个标签，或者去收集一点新的东西。"
+                title="没有待阅读的文章"
+                hint="试试其他标签，或收集一篇文章。"
               />
             )}
           </section>
@@ -205,7 +159,6 @@ export function FlowPage() {
           {quote && (
             <Link to="/review" className="quote-card">
               <div className="quote-card-head">
-                <Sparkles size={14} strokeWidth={1.7} />
                 <span>今日回顾</span>
               </div>
               <blockquote>“{quote.text}”</blockquote>
@@ -213,7 +166,7 @@ export function FlowPage() {
                 {ageLabel(quote.createdAt)} · 摘自《{quote.articleTitle}》
               </p>
               <span className="quote-card-cta">
-                翻一翻 <ArrowRight size={13} strokeWidth={1.7} />
+                查看回顾 <ArrowRight size={13} strokeWidth={1.7} />
               </span>
             </Link>
           )}
@@ -233,16 +186,6 @@ export function FlowPage() {
                 />
               ))}
             </div>
-            <p className="rhythm-note">
-              {activeDays > 0
-                ? '不必每天读很多，保持回来的习惯就好。'
-                : '今天还没有翻开一页。要不要从继续阅读开始？'}
-            </p>
-          </div>
-
-          <div className="aside-note">
-            <LeafMark size={18} />
-            <p>无广告，无推荐流。所有收藏与批注只保存在这台设备。</p>
           </div>
         </aside>
       </div>

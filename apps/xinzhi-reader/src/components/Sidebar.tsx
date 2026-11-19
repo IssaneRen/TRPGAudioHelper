@@ -50,7 +50,6 @@ export function Sidebar({
       </div>
 
       <nav className="side-nav" aria-label="主导航">
-        <p className="side-label">我的空间</p>
         {items.map((item) => {
           const Icon = item.icon
           const count = item.count ? stats[item.count] : undefined
@@ -70,10 +69,6 @@ export function Sidebar({
       </nav>
 
       <div className="side-bottom">
-        <div className="local-note">
-          <span className="local-dot" />
-          <p>无广告 · 数据只留在此设备</p>
-        </div>
         <button type="button" className="side-settings" onClick={onSettings}>
           <Settings size={16} strokeWidth={1.7} />
           <span>设置</span>

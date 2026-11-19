@@ -13,7 +13,6 @@ export function FeedsPage() {
   return (
     <div className="page">
       <header className="page-head">
-        <p className="eyebrow">SUBSCRIBE</p>
         <h1 className="display">订阅</h1>
         <p className="page-sub">把喜欢的作者，放进自己的阅读流。</p>
       </header>

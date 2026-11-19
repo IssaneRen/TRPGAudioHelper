@@ -29,7 +29,6 @@ export function ReviewPage() {
     return (
       <div className="page">
         <header className="page-head">
-          <p className="eyebrow">REVIEW</p>
           <h1 className="display">回顾</h1>
           <p className="page-sub">让旧的划线，重新长出来。</p>
         </header>
