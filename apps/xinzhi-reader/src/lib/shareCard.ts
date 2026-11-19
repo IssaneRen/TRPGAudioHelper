@@ -48,7 +48,7 @@ export async function shareQuoteCard(options: {
     ctx.fillStyle = '#25241f'
     ctx.font = '600 42px "Songti SC", "Noto Serif CJK SC", "SimSun", serif'
     ctx.textBaseline = 'middle'
-    ctx.fillText('白羽', 112, 132)
+    ctx.fillText('阅读·书', 112, 132)
 
     ctx.fillStyle = 'rgba(60,52,38,0.18)'
     ctx.fillRect(112, 196, W - 224, 1)
@@ -92,7 +92,7 @@ export async function shareQuoteCard(options: {
     )
     if (!blob) return 'failed'
 
-    const file = new File([blob], `白羽摘录-${Date.now()}.png`, { type: 'image/png' })
+    const file = new File([blob], `阅读·书-摘录-${Date.now()}.png`, { type: 'image/png' })
     const nav = navigator as Navigator & {
       canShare?: (data: { files: File[] }) => boolean
       share?: (data: { files: File[]; title?: string; text?: string }) => Promise<void>
@@ -100,7 +100,7 @@ export async function shareQuoteCard(options: {
 
     if (nav.canShare?.({ files: [file] }) && nav.share) {
       try {
-        await nav.share({ files: [file], title: '白羽摘录' })
+        await nav.share({ files: [file], title: '阅读·书-摘录' })
         return 'shared'
       } catch (error) {
         if ((error as DOMException)?.name === 'AbortError') return 'cancelled'

@@ -3,13 +3,15 @@ import styles from "./apps.module.css";
 
 const apps = [
   {
-    id: "baiyu",
-    name: "白羽阅读",
+    id: "reading",
+    name: "阅读·书",
     summary: "收藏文章、划线和回顾。",
     href: "/apps/xinzhi-reader/",
-    icon: "/apps/xinzhi-reader/baiyu-icon-192.png",
+    icon: "/apps/xinzhi-reader/reading-icon-192.png",
   },
-];
+  { id: "writing", name: "写作·笔", letter: "笔" },
+  { id: "aesthetics", name: "美学·画", letter: "画" },
+] as const;
 
 export default function AppsDirectory() {
   return (
@@ -30,16 +32,24 @@ export default function AppsDirectory() {
         <section aria-labelledby="app-list-heading">
           <h2 className={styles.sectionTitle} id="app-list-heading">所有应用</h2>
           <ul className={styles.appList} role="list">
-            {apps.map(({ id, name, summary, href, icon }) => (
-              <li key={id}>
-                <a className={styles.appRow} href={href} aria-labelledby={`${id}-name ${id}-open`} aria-describedby={`${id}-summary`}>
-                  <img className={styles.appIcon} src={icon} width={74} height={74} alt="" />
-                  <div>
-                    <h3 className={styles.appName} id={`${id}-name`}>{name}</h3>
-                    <p className={styles.appSummary} id={`${id}-summary`}>{summary}</p>
+            {apps.map((app) => (
+              <li key={app.id}>
+                {"href" in app ? (
+                  <a className={styles.appRow} href={app.href} aria-labelledby={`${app.id}-name ${app.id}-open`} aria-describedby={`${app.id}-summary`}>
+                    <img className={styles.appIcon} src={app.icon} width={74} height={74} alt="" />
+                    <div>
+                      <h3 className={styles.appName} id={`${app.id}-name`}>{app.name}</h3>
+                      <p className={styles.appSummary} id={`${app.id}-summary`}>{app.summary}</p>
+                    </div>
+                    <span className={styles.open} id={`${app.id}-open`}>打开</span>
+                  </a>
+                ) : (
+                  <div className={styles.appRow}>
+                    <span className={`${styles.appIcon} ${styles.placeholderIcon}`} aria-hidden="true">{app.letter}</span>
+                    <h3 className={styles.appName}>{app.name}</h3>
+                    <span className={styles.pending}>未开放</span>
                   </div>
-                  <span className={styles.open} id={`${id}-open`}>打开</span>
-                </a>
+                )}
               </li>
             ))}
           </ul>

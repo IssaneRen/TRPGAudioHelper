@@ -298,7 +298,7 @@ export function downloadExport() {
   const anchor = document.createElement('a')
   const stamp = new Date().toISOString().slice(0, 10)
   anchor.href = url
-  anchor.download = `白羽备份-${stamp}.json`
+  anchor.download = `阅读·书-备份-${stamp}.json`
   anchor.click()
   URL.revokeObjectURL(url)
 }

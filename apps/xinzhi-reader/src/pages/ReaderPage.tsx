@@ -136,9 +136,9 @@ export function ReaderPage() {
 
   useEffect(() => {
     if (!article) return
-    document.title = `${article.title} · 白羽`
+    document.title = `${article.title} · 阅读·书`
     return () => {
-      document.title = '白羽 · 阅读流'
+      document.title = '阅读·书'
     }
   }, [article])
 

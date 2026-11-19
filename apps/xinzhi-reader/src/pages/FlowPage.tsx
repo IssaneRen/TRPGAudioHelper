@@ -9,7 +9,6 @@ import {
   Settings,
 } from 'lucide-react'
 import { ArticleRow } from '@/components/ArticleRow'
-import { Logo } from '@/components/Logo'
 import { useToast } from '@/components/Toast'
 import { Empty, IconButton } from '@/components/ui'
 import type { ShellContext } from '@/components/shellContext'
@@ -45,12 +44,8 @@ export function FlowPage() {
   return (
     <div className="page flow-page">
       <header className="page-head flow-head">
-        <div className="flow-dateline">
-          <div className="flow-mobile-brand"><Logo /></div>
-          <time>{todayLabel()}</time>
-        </div>
         <div className="flow-title-line">
-          <h1 className="display">阅读流</h1>
+          <h1 className="display">阅读·书</h1>
           <div className="head-actions">
             <Link to="/tags" className="icon-button" aria-label="标签" title="标签">
               <Hash size={18} strokeWidth={1.7} />
@@ -62,6 +57,10 @@ export function FlowPage() {
               <Settings size={18} strokeWidth={1.7} />
             </IconButton>
           </div>
+        </div>
+        <div className="flow-byline">
+          <p><span lang="en">reading</span>{' 阅读流 '}<span lang="en">of</span>{' '}<span className="flow-signature">白羽</span></p>
+          <span className="flow-date">{todayLabel()}</span>
         </div>
       </header>
 

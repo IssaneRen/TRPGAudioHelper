@@ -1,6 +1,7 @@
 import { NavLink } from 'react-router-dom'
 import {
   Archive,
+  ArrowLeft,
   Hash,
   Highlighter,
   Plus,
@@ -10,7 +11,6 @@ import {
   Sparkles,
   Sun,
 } from 'lucide-react'
-import { Logo } from '@/components/Logo'
 import { useStats } from '@/lib/selectors'
 
 const items = [
@@ -36,7 +36,9 @@ export function Sidebar({
   return (
     <aside className="sidebar">
       <div className="sidebar-top">
-        <Logo />
+        <a href="/apps/" className="library-link">
+          <ArrowLeft size={15} strokeWidth={1.7} /> 应用目录
+        </a>
         <button type="button" className="collect-button" onClick={onCapture}>
           <Plus size={16} strokeWidth={1.9} />
           <span>收集</span>

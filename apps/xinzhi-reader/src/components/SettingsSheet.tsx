@@ -155,7 +155,7 @@ export function SettingsSheet({ open, onClose }: { open: boolean; onClose: () =>
         <section className="settings-section settings-about">
           <h3>关于</h3>
           <p>
-            白羽 · 个人阅读空间
+            阅读·书 · 个人阅读空间
           </p>
           <p className="settings-version">
             版本 0.1 · 构建 {__BUILD_SHA__.slice(0, 7)}

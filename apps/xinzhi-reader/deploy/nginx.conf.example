@@ -1,4 +1,4 @@
-# 白羽 Web · Nginx 部署示例
+# 阅读·书 Web · Nginx 部署示例
 #
 # 1. 本地执行 npm ci && npm run build
 # 2. 把 dist/ 上传到 /var/www/xinzhi/dist
@@ -65,7 +65,7 @@ server {
 # 2) src/main.tsx:     <BrowserRouter basename="/reading">
 # 3) public/manifest.json:
 #      "start_url": "/reading/", "scope": "/reading/"
-# 4) index.html 中的 /baiyu-*.png、manifest 引用改成相对路径或 /reading/...
+# 4) index.html 中的 /reading-*.png、manifest 引用改成相对路径或 /reading/...
 # 5) Nginx:
 #
 # location /reading/ {

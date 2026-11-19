@@ -1,4 +1,4 @@
-# apps/xinzhi-reader · 白羽阅读空间
+# apps/xinzhi-reader · 阅读·书
 
 给自己和朋友使用的个人 Web 阅读空间：收藏、沉浸阅读、划线批注、每日回顾。
 纯前端 + 本地优先（localStorage），无后端、无广告、无追踪。
