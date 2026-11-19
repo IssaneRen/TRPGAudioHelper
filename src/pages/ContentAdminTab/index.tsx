@@ -9,6 +9,7 @@ import {
   ImagePlus,
   LoaderCircle,
   LogOut,
+  PenLine,
   Plus,
   RefreshCcw,
   Save,
@@ -40,6 +41,7 @@ import {
 } from "@/features/content-admin/content-admin-client";
 import { useAiSession } from "@/features/ai/use-ai-session";
 import { BlockNoteEditor, type BlockNoteEditorHandle } from "@/features/editor/BlockNoteEditor";
+import { WikiBlockNoteEditor, type WikiBlockNoteEditorHandle } from "@/features/editor/WikiBlockNoteEditor";
 import { WikiBlockEditor } from "@/features/wiki/WikiBlockEditor";
 import { WikiContentRenderer } from "@/features/wiki/WikiContentRenderer";
 import type { WikiBlock, WikiCategory, WikiEntryRecord } from "@/types/wiki";
@@ -54,7 +56,7 @@ import {
 import "./content-admin.css";
 
 type Section = "blog" | "wiki" | "backup";
-type WikiMode = "structured" | "json" | "preview";
+type WikiMode = "wysiwyg" | "structured" | "json" | "preview";
 
 const categories: Array<{ value: WikiCategory; label: string }> = [
   { value: "character", label: "人物" },
@@ -152,6 +154,7 @@ function ContentAdminWorkspace() {
   const [selectedIds, setSelectedIds] = useState<ReadonlySet<string>>(new Set());
   const [blogMetaOpen, setBlogMetaOpen] = useState(false);
   const blogEditorApi = useRef<BlockNoteEditorHandle | null>(null);
+  const wikiEditorApi = useRef<WikiBlockNoteEditorHandle | null>(null);
 
   const toggleSelected = (id: string) => {
     setSelectedIds((current) => {
@@ -254,7 +257,7 @@ function ContentAdminWorkspace() {
       const entry = await fetchWikiDocument(token, id);
       setWikiDraft(entry);
       setWikiJson(JSON.stringify(entry, null, 2));
-      setWikiMode("structured");
+      setWikiMode("wysiwyg");
       setBlogDraft(null);
     } catch {
       toast.error("Wiki 读取失败。");
@@ -300,13 +303,26 @@ function ContentAdminWorkspace() {
 
   function switchWikiMode(nextMode: WikiMode) {
     if (!wikiDraft) return;
+    let draft = wikiDraft;
+    if (wikiMode === "wysiwyg" && nextMode !== "wysiwyg") {
+      // 离开所见即所得前冲刷防抖中的正文
+      const flushed = wikiEditorApi.current?.flush() ?? null;
+      if (flushed) {
+        draft = { ...wikiDraft, content: flushed };
+        setWikiDraft(draft);
+      }
+    }
     if (wikiMode === "json" && nextMode !== "json" && !syncWikiJsonToDraft()) return;
-    if (nextMode === "json") setWikiJson(JSON.stringify(wikiDraft, null, 2));
+    if (nextMode === "json") setWikiJson(JSON.stringify(draft, null, 2));
     setWikiMode(nextMode);
   }
 
   async function saveWiki() {
-    const source = wikiMode === "json" ? syncWikiJsonToDraft() : wikiDraft;
+    // 所见即所得编辑器正文是防抖回写的，保存前先冲刷
+    const flushedBlocks = wikiMode === "wysiwyg" ? (wikiEditorApi.current?.flush() ?? null) : null;
+    const flushedDraft = flushedBlocks && wikiDraft ? { ...wikiDraft, content: flushedBlocks } : wikiDraft;
+    if (flushedBlocks && wikiDraft) setWikiDraft(flushedDraft);
+    const source = wikiMode === "json" ? syncWikiJsonToDraft() : flushedDraft;
     if (!source?.id.trim()) return toast.error("Wiki id 不能为空。");
     setSaving(true);
     try {
@@ -412,7 +428,7 @@ function ContentAdminWorkspace() {
                 className="content-sidebar__new"
                 onClick={() => {
                   if (section === "blog") { setBlogDraft(createBlankBlog()); setWikiDraft(null); }
-                  else { const draft = createBlankWiki(); setWikiDraft(draft); setWikiJson(JSON.stringify(draft, null, 2)); setBlogDraft(null); }
+                  else { const draft = createBlankWiki(); setWikiDraft(draft); setWikiJson(JSON.stringify(draft, null, 2)); setWikiMode("wysiwyg"); setBlogDraft(null); }
                 }}
               ><Plus />新建{section === "blog" ? "博客" : "词条"}</Button>
               <div className="content-sidebar__list">
@@ -524,10 +540,21 @@ function ContentAdminWorkspace() {
             <section className="content-document">
               <div className="content-document__title"><div><p className="content-kicker">WIKI ENTITY</p><h2>{wikiDraft.displayName || "未命名词条"}</h2></div><Button onClick={() => void saveWiki()} disabled={saving}><Save />{saving ? "保存中" : "保存并发布"}</Button></div>
               <div className="content-mode-tabs">
+                <button className={wikiMode === "wysiwyg" ? "active" : ""} onClick={() => switchWikiMode("wysiwyg")}><PenLine />所见即所得</button>
                 <button className={wikiMode === "structured" ? "active" : ""} onClick={() => switchWikiMode("structured")}><BookOpen />结构化</button>
                 <button className={wikiMode === "json" ? "active" : ""} onClick={() => switchWikiMode("json")}><Braces />原始 JSON</button>
                 <button className={wikiMode === "preview" ? "active" : ""} onClick={() => switchWikiMode("preview")}><ExternalLink />预览</button>
               </div>
+              {wikiMode === "wysiwyg" ? (
+                <WikiBlockNoteEditor
+                  key={wikiDraft.id || "new"}
+                  ref={wikiEditorApi}
+                  value={wikiDraft.content}
+                  deps={{ players: overview?.players ?? [], entries: overview?.wikiEntries ?? [] }}
+                  onChange={(content) => setWikiDraft((current) => (current ? { ...current, content } : current))}
+                  uploadImage={handleEditorImageUpload}
+                />
+              ) : null}
               {wikiMode === "structured" ? (
                 <>
                   <div className="content-form-grid">

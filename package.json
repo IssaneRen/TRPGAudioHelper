@@ -22,7 +22,8 @@
     "preview": "vite preview",
     "lint": "eslint .",
     "type-check": "tsc --noEmit",
-    "test:module-clues": "tsx src/pages/ModuleClueReviewTab/clue-layout.verify.ts"
+    "test:module-clues": "tsx src/pages/ModuleClueReviewTab/clue-layout.verify.ts",
+    "test:wiki-convert": "tsx src/features/wiki/wiki-blocknote-convert.verify.ts"
   },
   "dependencies": {
     "@blocknote/core": "^0.57.0",

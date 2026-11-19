@@ -13,7 +13,7 @@ import type {
 type BlockType = WikiBlock["type"];
 type TokenType = WikiInlineToken["type"];
 
-interface OptionItem {
+export interface OptionItem {
   id: string;
   label: string;
 }
@@ -145,7 +145,7 @@ function createDefaultBlock(type: BlockType, entries: WikiIndexEntry[], players:
   };
 }
 
-function SelectionChips({
+export function SelectionChips({
   title,
   values,
   options,
