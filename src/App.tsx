@@ -8,6 +8,7 @@ import { SiteMetadata } from "@/components/SiteMetadata";
 import { AnalyticsRouteTracker } from "@/features/analytics/AnalyticsRouteTracker";
 
 const HomePage = lazy(() => import("@/pages/PersonalSite/HomePage"));
+const AppsDirectory = lazy(() => import("@/pages/AppsDirectory"));
 const PersonalProfile = lazy(() => import("@/pages/PersonalSite/PersonalProfile"));
 const ProfileTab = lazy(() => import("@/pages/ProfileTab"));
 const ToolboxTab = lazy(() => import("@/pages/ToolboxTab"));
@@ -55,6 +56,7 @@ export default function App() {
       <Suspense fallback={<PageLoader />}>
         <Routes>
           <Route index element={<HomePage />} />
+          <Route path="apps" element={<AppsDirectory />} />
           <Route path="profile" element={<PersonalProfile />} />
           <Route path="admin/content" element={<ContentAdminTab />} />
           <Route path="workbench" element={<WorkbenchTab />} />

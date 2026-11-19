@@ -12,6 +12,7 @@ on:
       - src/lib/trpg-routes.ts
       - src/content/**
       - src/pages/PersonalSite/**
+      - src/pages/AppsDirectory/**
       - src/pages/ProfileTab/**
       - src/pages/BlogTab/**
       - src/pages/WorldWiki*/**
