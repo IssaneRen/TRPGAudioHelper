@@ -1,0 +1,78 @@
+# 新枝 Web · Nginx 部署示例
+#
+# 1. 本地执行 npm ci && npm run build
+# 2. 把 dist/ 上传到 /var/www/xinzhi/dist
+# 3. 按需修改 server_name / 证书路径后 include 到 nginx.conf
+# 4. nginx -t && systemctl reload nginx
+#
+# 关键点：这是 History 路由的 SPA，任何未知路径都必须回退到 index.html。
+
+# HTTP → HTTPS
+server {
+    listen 80;
+    server_name reading.example.com;
+    return 301 https://$host$request_uri;
+}
+
+server {
+    listen 443 ssl http2;
+    server_name reading.example.com;
+
+    ssl_certificate     /etc/letsencrypt/live/reading.example.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/reading.example.com/privkey.pem;
+
+    root /var/www/xinzhi/dist;
+    index index.html;
+
+    # .webmanifest 的 MIME 类型（部分系统 Nginx 未内置）。
+    # pdf.js worker 在构建时已重命名为 .js（见 vite.config.ts），
+    # 默认 mime.types 即可正确返回 JS MIME，无需为 .mjs 加映射。
+    types {
+        application/manifest+json webmanifest;
+    }
+
+    # 带 hash 的静态资源可以长期缓存
+    location /assets/ {
+        try_files $uri =404;
+        add_header Cache-Control "public, max-age=31536000, immutable";
+    }
+
+    # 入口 html 不缓存，保证发版后立即生效
+    location = /index.html {
+        add_header Cache-Control "no-cache";
+    }
+
+    # SPA fallback：/read/xxx、/feeds、/tags 等直接刷新也能打开
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+
+    # 基础安全头（按需调整）
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header X-Frame-Options "SAMEORIGIN" always;
+    add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+    add_header Permissions-Policy "camera=(), microphone=(), geolocation=()" always;
+
+    # 压缩建议放在 http {} 里开启：
+    # gzip on;
+    # gzip_types text/css application/javascript application/json image/svg+xml application/manifest+json;
+}
+
+# 如果只在内网用 HTTP（没有域名/证书）：
+# - 删除上面的 80 → 443 server
+# - 把下面的 listen 443 ssl http2 改成 listen 80
+# - 删除 ssl_certificate / ssl_certificate_key
+# - 其余 location / 配置不变
+#
+# 如果部署在子路径，例如 https://example.com/reading/：
+# 1) vite.config.ts:   base: '/reading/'
+# 2) src/main.tsx:     <BrowserRouter basename="/reading">
+# 3) public/manifest.webmanifest:
+#      "start_url": "/reading/", "scope": "/reading/"
+# 4) index.html 中的 /leaf.svg、/icon-*.png、manifest 引用改成相对路径或 /reading/...
+# 5) Nginx:
+#
+# location /reading/ {
+#     alias /var/www/xinzhi/dist/;
+#     try_files $uri $uri/ /reading/index.html;
+# }

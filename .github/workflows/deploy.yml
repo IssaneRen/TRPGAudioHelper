@@ -312,6 +312,12 @@ jobs:
                     try_files /index.html =404;
                 }
 
+                # /apps/<name>/ are independently built SPAs shipped inside every release
+                # (built by scripts/build-apps.mjs). SPA fallback stays inside the app.
+                location ~ ^/apps/(?<app_name>[^/?]+) {
+                    try_files \$uri \$uri/ /apps/\$app_name/index.html;
+                }
+
                 location = /config/runtime.json {
                     alias ${RUNTIME_CONFIG_FILE};
                     default_type application/json;
@@ -348,6 +354,12 @@ jobs:
 
                 location = /blog/ {
                     try_files /index.html =404;
+                }
+
+                # /apps/<name>/ are independently built SPAs shipped inside every release
+                # (built by scripts/build-apps.mjs). SPA fallback stays inside the app.
+                location ~ ^/apps/(?<app_name>[^/?]+) {
+                    try_files \$uri \$uri/ /apps/\$app_name/index.html;
                 }
 
                 location = /config/runtime.json {
