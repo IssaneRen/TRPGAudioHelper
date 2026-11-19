@@ -1,0 +1,137 @@
+/* 设定台样式 */
+.codex-side {
+  width: 220px;
+  flex: none;
+}
+
+.kind-row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 10px 14px;
+  text-align: left;
+  border-left: 2px solid transparent;
+}
+
+.kind-row:hover {
+  background: var(--panel-2);
+}
+
+.kind-row.on {
+  background: var(--accent-soft);
+  border-left-color: var(--accent);
+}
+
+.kind-row .tcount {
+  margin-left: auto;
+  font-size: 11px;
+  color: var(--text-dim);
+}
+
+.codex-zone {
+  flex: 1;
+  min-width: 0;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+.codex-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 14px;
+  max-width: 1100px;
+}
+
+.codex-card {
+  display: flex;
+  gap: 12px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+
+.codex-card:hover {
+  border-color: var(--accent);
+}
+
+.codex-main {
+  min-width: 0;
+  flex: 1;
+}
+
+.codex-name {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.codex-sum {
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-top: 5px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.presence {
+  display: flex;
+  gap: 2px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+
+.presence .seg {
+  width: 10px;
+  height: 5px;
+  border-radius: 2px;
+  background: var(--border);
+}
+
+.presence .seg.hit {
+  background: var(--purple);
+}
+
+.presence-edit {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+}
+
+.chcheck {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--text-dim);
+}
+
+.codex-detail {
+  width: 344px;
+  flex: none;
+  border-right: none;
+  border-left: 1px solid var(--border);
+}
+
+.trace-row {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.trace-row input {
+  flex: 1;
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 6px 9px;
+  outline: none;
+  font-size: 12px;
+}

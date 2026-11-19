@@ -9,7 +9,13 @@ const apps = [
     href: "/apps/xinzhi-reader/",
     icon: "/apps/xinzhi-reader/reading-icon-192.png",
   },
-  { id: "writing", name: "写作·笔", letter: "笔" },
+  {
+    id: "writing",
+    name: "写作·笔",
+    summary: "章节、大纲连线、关系图谱与设定档案，内容可导入导出。",
+    href: "/apps/writing-pen/",
+    icon: "/apps/writing-pen/pen-icon-192.png",
+  },
   { id: "aesthetics", name: "美学·画", letter: "画" },
 ] as const;
 
