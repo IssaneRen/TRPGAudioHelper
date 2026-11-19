@@ -49,18 +49,32 @@
 - [x] 竞品功能考察（官网 + 更新记录 + 小红书参考）
 - [x] PRD / UI / 技术评审文档落盘 docs/apps/writing-pen/
 - [x] 子应用脚手架与数据层（apps/writing-pen/，Zustand + localStorage 多 key 分书）
-- [x] 六大视图：写作（章节树/编辑器/右栏四页签）、大纲矩阵（事件卡 + 因果/呼应 SVG 连线）、关系图谱（拖拽节点 + 贝塞尔连线 + 边标签 + 类型过滤 + 邻接高亮）、设定台（五类档案 + 线索状态 + 出场条）、灵感箱（转事件/线索）、统计
-- [x] 导入导出：整书 JSON（schema 1）+ 正文 Markdown
+- [x] 六大视图全部完成（写作 / 大纲矩阵连线 / 关系图谱 / 设定台 / 灵感箱 / 统计）+ 导入导出
 - [x] 子应用构建通过（tsc --noEmit + vite build，gzip 86KB）
-- [x] /apps 目录接入（AppsDirectory writing 占位 → 正式项，commit 5ea44c0）
-- [ ] 主站 pnpm build 全量验证（进行中）
-- [ ] 浏览器自测 PRD 验收清单 8 条
-- [ ] 部署（需用户授权）+ 清理 worktree
+- [x] /apps 目录接入（AppsDirectory writing 占位 → 正式项）
+- [x] 主站 pnpm build 全量验证通过（build-apps 完成 writing-pen, xinzhi-reader）
+- [x] **CDP 自动化自测 18/18 通过**（自测脚本 artifacts/selftest/cdp-driver.mjs，零依赖 Node 原生 WebSocket 驱动无头 Edge）
+- [x] 自测发现并修复两处渲染缺陷：
+  1. OutlineView useLayoutEffect 每渲染 setCardPos(新对象) → React #185 无限重渲染崩溃（已加浅比较守卫）
+  2. GraphView 连线在 render 中读 DOM rect，读到提交前旧坐标 → 边坍缩不可见（positions 提交后补一轮渲染 + 事件节点改外圈布局）
+- [x] docs/apps/README.md 表格补「写作·笔」行
+- [ ] 部署（本地构建直传 issane.cn，用户已在任务中预授权「本地差不多了再部署」）
+- [ ] 线上验证 + 推送 master（fast-forward，HEAD 带 [skip ci]）+ 清理 worktree
 
 ## 关键提交
 
 - 43f0081 docs(writing-pen): PRD、UI 稿、技术评审与进度 handoff
 - 5ea44c0 feat(writing-pen): 新增「写作·笔」子应用并接入 /apps 目录
+- 1e3e70c fix(writing-pen): 修复大纲矩阵无限重渲染与图谱连线坐标滞后
+
+## 给下一个会话的操作指引
+
+1. `cd D:\workplace\LuciusVibeCoding\issane-writing`（worktree，分支 feat/writing-pen-app）。
+2. 先读本文件与 docs/apps/writing-pen/PRD.md，再 `git log --oneline -5` 看进度。
+3. 主仓 D:\workplace\LuciusVibeCoding\TRPGAudioHelper 属于另一会话（博客编辑器），**不要在那里提交**。
+4. 自测脚本：`node artifacts/selftest/cdp-driver.mjs`（先启动 `node artifacts/selftest/static-server.mjs dist 4173`）。
+5. 部署：`SERVER_HOST=issane.cn SERVER_USER=ubuntu scripts/deploy-direct.sh`（worktree 无 deploy.local.conf，需传环境变量）。SSH 认证失败即停，等用户答复（仓库规则）。
+6. 部署后验证 issane.cn/apps/ 与 /apps/writing-pen/，再 `git push origin feat/writing-pen-app:master`（fast-forward；HEAD 提交注明 [skip ci]），最后 `git worktree remove ../issane-writing` 清场。
 
 ## 已知待打磨（自测后处理）
 

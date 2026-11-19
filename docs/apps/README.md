@@ -6,9 +6,10 @@
 | --- | --- |
 | 修改目录里的应用名称、顺序、图标或占位 | [应用目录配置](../../src/pages/AppsDirectory/index.tsx) |
 | 修改「阅读·书」的页面、交互或数据 | [apps/xinzhi-reader/](../../apps/xinzhi-reader/) |
+| 修改「写作·笔」的页面、交互或数据 | [apps/writing-pen/](../../apps/writing-pen/)，产品文档见 [docs/apps/writing-pen/](./writing-pen/PRD.md) |
 | 修改阅读器首页标题、副标题、署名 | [FlowPage.tsx](../../apps/xinzhi-reader/src/pages/FlowPage.tsx) |
 | 修改阅读器网页及手机桌面图标 | [public/](../../apps/xinzhi-reader/public/) 下的 `reading-*.png`，引用见应用的 `index.html` 和 `public/manifest.json` |
-| 开发「写作·笔」或「美学·画」 | 两项现在只有目录占位；正式开发时为各自新增 `apps/<英文短名>/` |
+| 开发「美学·画」 | 现在只有目录占位；正式开发时新增 `apps/<英文短名>/` |
 
 ## 从哪里开始
 
