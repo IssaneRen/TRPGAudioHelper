@@ -47,6 +47,7 @@ export function knowledgeClient(token: string) {
   return {
     listWorlds: () => request<World[]>(),
     createWorld: (name: string) => request<World>("", "POST", { name }),
+    importWorld: (name: string, backup: WorldExport) => request<World>("/import", "POST", { name, backup }),
     graph: (world: string) => request<Graph>(`/${world}/graph`),
     read: (world: string, id: string) => request<KnowledgeDocument>(`/${world}/documents/${id}`),
     save: (world: string, data: DocumentInput, id?: string) => id

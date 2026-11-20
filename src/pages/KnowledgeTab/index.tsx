@@ -8,6 +8,7 @@ import {
 import { KnowledgeEditor } from "./KnowledgeEditor";
 import { KnowledgeGraph } from "./KnowledgeGraph";
 import { KnowledgeGuide } from "./KnowledgeGuide";
+import { KnowledgeBackupImport } from "./KnowledgeBackupImport";
 import "./knowledge.css";
 
 // 私人入口复用工作台的 KP 登录。游客作品页由独立的作品集路由处理。
@@ -44,6 +45,7 @@ function KnowledgeWorkspace({ token }: { token: string }) {
   const [newWorld, setNewWorld] = useState(false);
   const [name, setName] = useState("");
   const [guide, setGuide] = useState(false);
+  const [importing, setImporting] = useState(false);
   const [dirty, setDirty] = useState(false);
   const [savingWorld, setSavingWorld] = useState(false);
   const [error, setError] = useState("");
@@ -95,6 +97,7 @@ function KnowledgeWorkspace({ token }: { token: string }) {
         <label>世界观名称<input autoFocus required maxLength={100} value={name} onChange={(event) => setName(event.target.value)} /></label>
         <div className="kb-row"><button className="kb-primary" disabled={savingWorld || !name.trim()}>建立</button><button type="button" onClick={() => setNewWorld(false)}>取消</button></div>
       </form>}
+      {worlds && <button type="button" onClick={() => { if (mayLeave()) setImporting(true); }}>导入世界观备份</button>}
       <button type="button" className="kb-guide-button" onClick={() => setGuide(true)}><CircleHelp size={17} /> 操作引导</button>
     </aside>
     <div className="kb-main">
@@ -111,6 +114,12 @@ function KnowledgeWorkspace({ token }: { token: string }) {
       {world && <WorldWorkspace key={world.id} world={world} api={api} onDirty={setDirty} mayLeave={mayLeave} />}
     </div>
     {guide && <KnowledgeGuide onClose={() => setGuide(false)} />}
+    {importing && <KnowledgeBackupImport api={api} onClose={() => setImporting(false)} onImported={(result) => {
+      setWorlds((previous) => [...(previous ?? []), result]);
+      setDirty(false);
+      setWorld(result);
+      setImporting(false);
+    }} />}
   </main>;
 }
 

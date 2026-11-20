@@ -7,13 +7,16 @@
 - 世界观中的文章、关系、检索索引和 Agent 凭据存入该世界观的 SQLite。人物 Wiki 可按条目关联。要让 Agent 查到一段 Wiki 引文，先检查保密内容，将希望使用的片段和出处加入私人原稿。
 - 「关系与索引」查看文章关系、切片数量和未关联文章。「检索」按当前世界观匹配标题、来源、章节和正文，并保留章节、来源与修订号。
 - 「公开版」单独编辑公开标题、摘要和正文，预览后发布到 `/portfolio/:workId`。访客可直接阅读。修改原稿后，使用公开版重新发布需要公开的更新。
-- 「导出世界观」下载当前世界观的文章和关系 JSON。导出包含私密正文，按机密资料保存。生产恢复使用下文的 SQLite 备份。
+- 「导出世界观」下载当前世界观的文章、修订号、来源和关系 JSON。备份包括私密正文，妥善保管。
+- 左栏的「导入世界观备份」打开导出的 JSON，预览文章和关系数量，再确认恢复为一个新的私有世界观。遇到同名世界观时，可给副本改名。导入重新生成文章编号和全文索引，并保留文章内容、修订和关系。单个 JSON 文件上限 8 MiB。已发布快照和 Agent 凭据随服务器的完整 SQLite 备份保存。
 
 ## Gateway 配置
 
-启用知识库需要 Node.js 22.13 或更新版本，以及支持 FTS5 trigram 的 SQLite。使用与构建测试一致的 Node.js 22 补丁版本。在 Gateway 的服务器环境文件设置 `KNOWLEDGE_ROOT_DIR=/var/www/trpg-ai-gateway/shared/knowledge`。在本地联调使用独立临时目录。
+生产启用知识库和在线备份需要 Node.js 22.16 或更新版本，以及支持 FTS5 trigram 的 SQLite。Gateway 的生产部署为服务配置 `KNOWLEDGE_ROOT_DIR=/var/www/trpg-ai-gateway/shared/knowledge`。在本地联调使用独立临时目录。
 
-目录归 Gateway 服务账户，目录权限建议 `0700`，发布归档、静态站目录和 Wiki 文件目录均使用各自路径。Gateway 启用后创建 `catalog.sqlite` 和 `worlds/`。完整备份覆盖目录数据库和所有世界观 SQLite，使用 SQLite 在线备份接口。整套恢复先停止写入，在隔离目录核对各库，再按运维流程切换。备份包含私密正文与凭据哈希，需要加密维护。部署顺序、上线记录和回滚规则见 [团队发布手册](release-workflow.md)。
+目录归 Gateway 服务账户，目录权限为 `0700`。主站发版使用 `/var/www/trpg-helper/releases`，知识库数据库放在独立的 Gateway 持久目录。Gateway 每次更新前在 `/var/www/trpg-ai-gateway/shared/knowledge-backups` 保存当前目录和各世界观的 SQLite 快照，并运行完整性检查。首次上线尚无数据库时跳过快照。
+
+运维可使用 `node scripts/backup-knowledge.mjs <知识库目录> <备份目录>` 手动保存全量快照。备份保证各个库的已提交数据一致。需要让多个库处在同一时刻时，先暂停写入。整套恢复先保存当前数据，在隔离目录核对快照，再停止写入并切换到验证后的恢复目录。快照含私密数据和凭据哈希，建议加密保管异机副本。代码部署与回滚的共通做法见 [团队发布手册](release-workflow.md)。
 
 ## 外部 Agent 检索
 
