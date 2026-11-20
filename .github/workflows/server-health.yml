@@ -52,12 +52,18 @@ jobs:
             for svc in nginx docker; do
               echo "$svc: enabled=$(systemctl is-enabled $svc 2>&1 || true) active=$(systemctl is-active $svc 2>&1 || true)"
             done
-            echo "--- 运行中的服务 ---"
-            systemctl list-units --type=service --state=running --no-pager | awk 'NR<=25'
-            echo "--- docker 容器与重启策略 ---"
-            docker ps --format '{{.Names}} | {{.Status}}' 2>&1 | head -8 || true
-            for c in $(docker ps -q 2>/dev/null); do
-              docker inspect --format '{{.Name}} | restart={{.HostConfig.RestartPolicy.Name}}' "$c" 2>/dev/null || true
+            echo "--- 全部已启用(自启)的服务 ---"
+            systemctl list-unit-files --state=enabled --type=service --no-pager | head -45
+            echo "--- 运行中的服务（自定义部分）---"
+            systemctl list-units --type=service --state=running --no-pager | grep -E "lucius|public|weekly|sealdice|gateway|note|report|node" || echo "（无匹配）"
+            echo "--- docker 容器与重启策略（sudo）---"
+            sudo docker ps --format '{{.Names}} | {{.Status}}' 2>&1 | head -8 || true
+            for c in $(sudo docker ps -q 2>/dev/null); do
+              sudo docker inspect --format '{{.Name}} | restart={{.HostConfig.RestartPolicy.Name}}' "$c" 2>/dev/null || true
+            done
+            echo "--- 定时任务（用户与条目数）---"
+            for u in $(sudo ls /var/spool/cron/crontabs/ 2>/dev/null); do
+              echo "[$u] $(sudo crontab -l -u "$u" 2>/dev/null | grep -vc '^#' || echo 0) 条"
             done
             echo
             echo "===== 网站发布目录 ====="
