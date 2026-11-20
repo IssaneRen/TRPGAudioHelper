@@ -148,7 +148,7 @@ export function FlowPage() {
               <Empty
                 icon={<Feather size={22} strokeWidth={1.4} />}
                 title="没有待阅读的文章"
-                hint="试试其他标签，或收集一篇文章。"
+                hint="点底部 + 收集第一篇：粘贴文字，或导入 epub / txt / pdf。"
               />
             )}
           </section>

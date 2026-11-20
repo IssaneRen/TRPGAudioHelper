@@ -14,7 +14,8 @@
     <title>阅读·书</title>
     <script>
       try {
-        var saved = localStorage.getItem('xinzhi.web.v1')
+        localStorage.removeItem('xinzhi.web.v1')
+        var saved = localStorage.getItem('xinzhi.web.v2')
         if (saved) {
           var theme = JSON.parse(saved)?.state?.settings?.appearance
           if (theme) document.documentElement.dataset.theme = theme

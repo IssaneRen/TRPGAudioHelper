@@ -3166,6 +3166,12 @@ kbd {
   backdrop-filter: blur(18px);
   transform: translate(-50%, -100%);
   animation: fadeIn 0.12s ease;
+  /* 触屏：取消双击缩放延迟，避免第一次点击浮条按钮被系统当成缩放 */
+  touch-action: manipulation;
+}
+
+.selection-bar button {
+  touch-action: manipulation;
 }
 
 .selection-bar.is-below {

@@ -140,12 +140,12 @@ export function SettingsSheet({ open, onClose }: { open: boolean; onClose: () =>
                 }
                 resetData()
                 setConfirmReset(false)
-                toast('已恢复为示例内容')
+                toast('已清空全部数据')
               }}
             >
               <RotateCcw size={16} strokeWidth={1.7} />
               <span>
-                {confirmReset ? '再点一次确认恢复' : '恢复示例内容'}
+                {confirmReset ? '再点一次确认清空' : '清空全部数据'}
                 <em>当前的收藏与批注会被清除</em>
               </span>
             </button>

@@ -43,11 +43,11 @@ export function FeedsPage() {
         <Empty
           icon={<Rss size={22} strokeWidth={1.5} />}
           title="还没有订阅"
-          hint="示例数据可以随时在设置里恢复。"
+          hint="Web 版暂无在线订阅源；可先从「收集 → 本地文件」导入 epub / txt 小说。"
         />
       )}
 
-      <p className="page-foot-note">订阅内容为本地示例，不连接任何外部服务。</p>
+      <p className="page-foot-note">在线 RSS 订阅需要后端支持（见维护文档路线图）。</p>
     </div>
   )
 }

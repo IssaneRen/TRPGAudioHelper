@@ -238,8 +238,17 @@ export function SearchPalette({ open, onClose }: { open: boolean; onClose: () =>
 
           {!hasResults && (
             <div className="palette-empty">
-              <p>没有找到「{query}」</p>
-              <span>换一个词，或者去收集新的内容。</span>
+              {query ? (
+                <>
+                  <p>没有找到「{query}」</p>
+                  <span>换一个词，或者去收集新的内容。</span>
+                </>
+              ) : (
+                <>
+                  <p>书架还是空的</p>
+                  <span>收集文章之后，这里会显示最近的内容。</span>
+                </>
+              )}
             </div>
           )}
         </div>

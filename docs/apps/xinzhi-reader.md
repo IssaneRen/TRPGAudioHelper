@@ -65,7 +65,7 @@ curl -s https://www.issane.cn/apps/xinzhi-reader/ | grep app-version
 
 ## 数据与备份
 
-- 所有收藏、划线、想法、设置存于**浏览器 localStorage**（键 `xinzhi.web.v1`），按域名隔离。
+- 所有收藏、划线、想法、设置存于**浏览器 localStorage**（键 `xinzhi.web.v2`），按域名隔离。应用不内置演示内容，首次打开为空书架。
 - 数据不跨设备同步，也不上传服务器；换设备用「设置 → 数据 → 导出/导入备份」（JSON）。
 - 应用内「合并导入文章」支持 agent 产出的 JSON 批量追加，格式见 `apps/xinzhi-reader/README.md`。
 

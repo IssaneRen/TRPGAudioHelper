@@ -51,6 +51,25 @@ function offsetWithinBlock(block: HTMLElement, node: Node, offset: number): numb
   return range.toString().length
 }
 
+/**
+ * 计算划线浮条位置。
+ * 触屏设备上，系统的文本选择菜单（拷贝/查询等）出现在选区上方，
+ * 浮条默认放在选区下方，避免被原生菜单挡住；贴近屏幕底部时才放上方。
+ */
+function toolbarPlacement(rect: DOMRect): { top: number; left: number; above: boolean } {
+  const half = Math.min(156, window.innerWidth / 2 - 12)
+  const center = rect.left + rect.width / 2
+  const left = Math.min(window.innerWidth - 12 - half, Math.max(12 + half, center))
+  let above = rect.top > 96
+  if (
+    window.matchMedia('(pointer: coarse)').matches &&
+    rect.bottom + 64 <= window.innerHeight
+  ) {
+    above = false
+  }
+  return { top: above ? rect.top - 12 : rect.bottom + 12, left, above }
+}
+
 export function ReaderPage() {
   const { articleId } = useParams()
   const article = useArticle(articleId)
@@ -304,17 +323,17 @@ export function ReaderPage() {
     if (!sel || sel.isCollapsed || sel.rangeCount === 0) return
     const range = sel.getRangeAt(0)
     const startBlock = closestBlock(range.startContainer)
-    const endBlock = closestBlock(range.endContainer)
-    if (!startBlock || startBlock !== endBlock) {
-      if (sel.toString().trim()) toast('一次高亮一段文字，会更舒服')
-      return
-    }
+    if (!startBlock) return
     const blockId = startBlock.dataset.blockId
     if (!blockId) return
     const block = article.blocks.find((entry) => entry.id === blockId)
     if (!block?.text) return
     let start = offsetWithinBlock(startBlock, range.startContainer, range.startOffset)
-    let end = offsetWithinBlock(startBlock, range.endContainer, range.endOffset)
+    // 跨段落选择时只保留第一段内的部分，手机上拖选很容易跨段，不再整体放弃
+    let end =
+      closestBlock(range.endContainer) === startBlock
+        ? offsetWithinBlock(startBlock, range.endContainer, range.endOffset)
+        : block.text.length
     if (start > end) [start, end] = [end, start]
     const raw = block.text.slice(start, end)
     const trimmed = raw.trim()
@@ -327,18 +346,15 @@ export function ReaderPage() {
     )
     const rect = range.getBoundingClientRect()
     if (!rect.width && !rect.height) return
-    const toolbarHalf = Math.min(156, window.innerWidth / 2 - 12)
-    const center = rect.left + rect.width / 2
-    const left = Math.min(window.innerWidth - 12 - toolbarHalf, Math.max(12 + toolbarHalf, center))
-    const above = rect.top > 96
+    const placement = toolbarPlacement(rect)
     setSelection({
       blockId,
       start,
       end,
       text: trimmed,
-      top: above ? rect.top - 12 : rect.bottom + 12,
-      left,
-      above,
+      top: placement.top,
+      left: placement.left,
+      above: placement.above,
       highlightId: existing?.id,
       color: existing?.color,
     })
@@ -359,8 +375,9 @@ export function ReaderPage() {
 
   useEffect(() => {
     const onSelectionChange = () => {
-      const sel = window.getSelection()
-      if (sel && !sel.isCollapsed) schedulePickSelection(380)
+      // 不在事件回调里同步读取 selection（iOS WebKit 可能返回过期快照），
+      // 无条件延迟调度，由 pickSelection 自行判断选区是否有效。
+      schedulePickSelection(380)
     }
     const onPointerDown = (event: PointerEvent) => {
       const target = event.target as HTMLElement | null
@@ -445,20 +462,15 @@ export function ReaderPage() {
     if (!highlight) return
     clearNativeSelection()
     const rect = element.getBoundingClientRect()
-    const toolbarHalf = Math.min(156, window.innerWidth / 2 - 12)
-    const left = Math.min(
-      window.innerWidth - 12 - toolbarHalf,
-      Math.max(12 + toolbarHalf, rect.left + rect.width / 2),
-    )
-    const above = rect.top > 96
+    const placement = toolbarPlacement(rect)
     setSelection({
       blockId: highlight.blockId,
       start: highlight.start,
       end: highlight.end,
       text: highlight.text,
-      top: above ? rect.top - 10 : rect.bottom + 10,
-      left,
-      above,
+      top: placement.top,
+      left: placement.left,
+      above: placement.above,
       highlightId: highlight.id,
       color: highlight.color,
     })

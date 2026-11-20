@@ -273,9 +273,9 @@ export const useStore = create<StoreState>()(
       resetData: () => set(() => ({ ...createSeedData() })),
     }),
     {
-      name: 'xinzhi.web.v1',
+      name: 'xinzhi.web.v2',
       storage: createJSONStorage(() => localStorage),
-      version: 1,
+      version: 2,
       partialize: (state) => ({
         articles: state.articles,
         highlights: state.highlights,

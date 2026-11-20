@@ -7,7 +7,7 @@
 - 手机与桌面各自有一套舒服的交互，而不是简单把页面缩小
 - 没有服务端，打开即用
 
-> 界面语言与信息结构致敬新枝 App（杭州新枝科技有限公司）。本项目不是官方版本，示例文章与订阅源均为本地演示内容。
+> 界面语言与信息结构致敬新枝 App（杭州新枝科技有限公司）。本项目不是官方版本；不内置演示内容，首次打开为空书架。
 
 ---
 
@@ -62,13 +62,13 @@ npm run preview
 - **本地文件导入**：`.txt` / `.md` / `.html` / `.pdf` / `.epub`，支持多文件与拖拽
 - 标签、订阅、已归档
 - 全局搜索（文章正文、划线、想法）
-- 数据导出 / 导入备份、合并导入、恢复示例内容
+- 数据导出 / 导入备份、合并导入、一键清空
 
 ### 本地优先
 
 - `localStorage` 持久化，无网络请求、无广告脚本
 - 导出为 JSON，换设备时可手动迁移
-- 设置里可完全恢复为初始示例内容
+- 设置里可一键清空全部数据
 
 ## 快捷键
 
@@ -92,7 +92,7 @@ npm run preview
 ```
 src/
   components/       应用外壳、浮层、阅读器控件
-  data/seed.ts      本地示例文章 / 订阅 / 批注
+  data/seed.ts      空种子（首次打开为空书架）
   lib/              存储、选择器、文本解析、文件导入、摘录卡片
   pages/            阅读流、订阅、标签、批注、回顾、阅读器
   styles/global.css 设计系统与响应式样式
@@ -165,10 +165,11 @@ src/
 ## 开发须知（别踩的坑）
 
 - **划线锚点**：`Highlight.blockId + start/end` 基于 `block.text` 的纯文本偏移。文章创建后不要重排或重新生成 block id，否则已有划线会错位。
-- **选区浮条调度**：`ReaderPage` 用 `pickSelectionRef + schedulePickSelection` 稳定调度（React onPointerUp/onTouchEnd + document selectionchange 兜底）。不要改回「在依赖 pickSelection 的 useEffect 里挂监听并在 cleanup 里 clearTimeout」的写法——阅读进度写入会让 effect 重建，从而吞掉选区检测。
+- **选区浮条调度**：`ReaderPage` 用 `pickSelectionRef + schedulePickSelection` 稳定调度（React onPointerUp/onTouchEnd + document selectionchange 兜底）。不要改回「在依赖 pickSelection 的 useEffect 里挂监听并在 cleanup 里 clearTimeout」的写法——阅读进度写入会让 effect 重建，从而吞掉选区检测。selectionchange 回调里不要同步读取选区（iOS WebKit 可能给过期快照），一律交给延迟后的 pickSelection 判断。
+- **手机批注**：触屏上系统选择菜单出现在选区上方，浮条由 `toolbarPlacement()` 默认放在选区**下方**；跨段落选择会自动截断为第一段内的部分。改动这两处前先在真机验证长按选中。
 - **阅读器滚动恢复**：恢复进度后要把 `lastScrollY.current` 设为当前 scrollTop，否则一打开就触发工具栏自动隐藏。
 - **Zustand selector**：派生数组一律走 `src/lib/selectors.ts` 的 useMemo hooks，不要在组件里直接 `useStore(s => s.articles.filter(...))`。
-- **主题预读脚本**：`index.html` 里有段内联脚本直接读 `localStorage['xinzhi.web.v1']` 防主题闪烁；改存储结构时要同步改它。
+- **主题预读脚本**：`index.html` 里有段内联脚本直接读 `localStorage['xinzhi.web.v2']` 防主题闪烁（并清理旧键 v1）；改存储结构时要同步改它。
 - **pdf.js worker**：`public/pdfjs/pdf.worker.min.mjs` 是模块 worker，Nginx 需要给 `.mjs` 正确的 JS MIME（示例配置已包含）。
 - **存储上限**：localStorage 约 5MB，导入器限制了 60 万字；不要往里存 base64 图片。
 - **路由**：History 模式，静态托管必须把未知路径回退到 `index.html`。
@@ -182,12 +183,6 @@ src/
 
 ## 数据说明
 
-- 存储键：`xinzhi.web.v1`
+- 存储键：`xinzhi.web.v2`（v1 为旧演示数据键，打开页面时自动清理）
 - 设置 → 数据 → 导出备份，可得到包含全部文章和批注的 JSON
-- 设置 → 恢复示例内容，会清空当前数据并重新种入示例内容
-
-## 数据说明
-
-- 存储键：`xinzhi.web.v1`
-- 设置 → 数据 → 导出备份，可得到包含全部文章和批注的 JSON
-- 设置 → 恢复示例内容，会清空当前数据并重新种入示例内容
+- 设置 → 清空全部数据，会删除当前浏览器的全部收藏与批注
