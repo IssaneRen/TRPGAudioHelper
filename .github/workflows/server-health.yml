@@ -1,0 +1,55 @@
+name: Server Health Check
+
+# 手动触发的只读体检：通过仓库 Secrets SSH 到生产服务器，
+# 采集负载/内存/磁盘/服务状态并输出到 Actions 日志。
+# 不修改服务器任何内容；需要更新时另走部署流程。
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  health:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Collect server health metrics
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script: |
+            set -eu
+            echo "===== 时间 / 开机 / 负载 ====="
+            date
+            who -b || true
+            uptime
+            echo "CPU 核心数: $(nproc)"
+            echo
+            echo "===== 内存 / Swap ====="
+            free -m
+            echo
+            echo "===== 磁盘 ====="
+            df -h
+            echo
+            echo "===== inode（根分区）====="
+            df -i / | head -3
+            echo
+            echo "===== CPU 占用前几名（仅进程名，不含参数）====="
+            ps -eo user,pid,pcpu,pmem,etime,comm --sort=-pcpu | head -8
+            echo
+            echo "===== 内存占用前几名 ====="
+            ps -eo user,pid,pcpu,pmem,etime,comm --sort=-pmem | head -8
+            echo
+            echo "===== 系统与服务 ====="
+            systemctl is-system-running || true
+            echo "nginx: $(systemctl is-active nginx || true)"
+            echo
+            echo "===== 网站发布目录 ====="
+            echo "releases 目录数: $(ls -1d /var/www/trpg-helper/releases/*/ 2>/dev/null | wc -l)"
+            ls -1dt /var/www/trpg-helper/releases/*/ 2>/dev/null | head -5
+            du -sh /var/www/trpg-helper/releases 2>/dev/null || true
+            du -sh /var/www/trpg-helper/current 2>/dev/null || true
