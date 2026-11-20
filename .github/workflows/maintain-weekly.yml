@@ -1,0 +1,48 @@
+name: 维护独立周报入口
+
+on:
+  workflow_dispatch:
+    inputs:
+      operation:
+        description: 检查或恢复周报转发
+        type: choice
+        default: inspect
+        options: [inspect, repair]
+      transfer_certificate:
+        description: 本机一次性传输证书的 Base64
+        type: string
+        required: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: weekly-maintenance-production
+  cancel-in-progress: false
+
+jobs:
+  maintain:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: 上传维护脚本
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: ops/weekly/maintain.py,ops/weekly/nginx.conf
+          target: /tmp/weekly-maintenance-${{ github.run_id }}
+      - name: 检查周报并加密取回最近记录
+        uses: appleboy/ssh-action@v1
+        env:
+          WEEKLY_OPERATION: ${{ inputs.operation }}
+          WEEKLY_CERTIFICATE: ${{ inputs.transfer_certificate }}
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          envs: WEEKLY_OPERATION,WEEKLY_CERTIFICATE
+          script: |
+            set -eu
+            sudo python3 /tmp/weekly-maintenance-${{ github.run_id }}/ops/weekly/maintain.py "$WEEKLY_OPERATION" "$WEEKLY_CERTIFICATE"

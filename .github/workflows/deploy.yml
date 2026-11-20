@@ -326,6 +326,8 @@ jobs:
 
                 include /etc/nginx/snippets/trpg-content-active.conf;
 
+                include /etc/nginx/snippets/weekly-report*.conf;
+
                 location / {
                     try_files \$uri /index.html;
                 }
