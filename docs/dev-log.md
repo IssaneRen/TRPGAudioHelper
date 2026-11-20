@@ -206,3 +206,4 @@ Agent 角色：`团队负责人` / `实习生` / `技术专家` / `git-reviewer`
 
 | 2026-11-20 | Codex | codex/weekly-maintenance | 补充周报入口检查与恢复工作流，加密取回最近记录；HTTPS 发布模板保留独立周报引用，失败自动恢复 Nginx 配置 | .github/workflows/maintain-weekly.yml, .github/workflows/deploy.yml, ops/weekly/maintain.py, ops/weekly/nginx.conf, docs/weekly-maintenance.md |
 | 2026-11-20 | Codex | codex/weekly-maintenance | 周报独立服务已确认正常；首次恢复验证失败已自动回滚，改为带证书验证的本机 HTTPS 探测并等待 Nginx worker 切换 | ops/weekly/maintain.py |
+| 2026-11-20 | Codex | codex/weekly-maintenance | Actions 恢复周报路由成功，Nginx 及公网/本机 HTTPS 鉴权通过；认证目录读取38篇记录，最新11月13日，未重启独立服务或修改数据 | docs/weekly-maintenance.md |
