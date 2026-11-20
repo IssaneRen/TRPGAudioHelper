@@ -79,14 +79,11 @@ export function FlowPage() {
                 <p className="eyebrow">继续阅读</p>
                 <h2>{continueArticle.title}</h2>
                 <p className="continue-meta">
-                  {continueArticle.source.name} · 已读 {Math.round(continueArticle.progress * 100)}%
-                  {' · '}
-                  还剩{' '}
-                  {Math.max(
+                  {continueArticle.serverBook ? '服务器' : '本地'} · {continueArticle.source.name} · 已读 {Math.round(continueArticle.progress * 100)}%
+                  {continueArticle.blocks.length > 0 && <> · 还剩 {Math.max(
                     1,
                     Math.ceil(readingMinutes(continueArticle) * (1 - continueArticle.progress)),
-                  )}{' '}
-                  分钟
+                  )} 分钟</>}
                 </p>
                 <div className="continue-progress" aria-hidden="true">
                   <span style={{ width: `${Math.round(continueArticle.progress * 100)}%` }} />

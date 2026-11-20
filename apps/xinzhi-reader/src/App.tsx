@@ -9,6 +9,7 @@ import { ReaderPage } from '@/pages/ReaderPage'
 import { ReviewPage } from '@/pages/ReviewPage'
 import { TagsPage, TagDetailPage } from '@/pages/TagsPage'
 import { useStore } from '@/lib/store'
+import { PrivateLibrary } from '@/components/PrivateLibrary'
 
 function NotFound() {
   return (
@@ -37,7 +38,7 @@ export function App() {
   }, [appearance])
 
   return (
-    <Routes>
+    <><PrivateLibrary /><Routes>
       <Route path="/read/:articleId" element={<ReaderPage />} />
       <Route element={<AppShell />}>
         <Route index element={<FlowPage />} />
@@ -50,6 +51,6 @@ export function App() {
         <Route path="archive" element={<ArchivePage />} />
         <Route path="*" element={<NotFound />} />
       </Route>
-    </Routes>
+    </Routes></>
   )
 }

@@ -12,6 +12,8 @@ This repository is a TRPG assistant workspace. The project now includes a reusab
 
 ## 网页应用维护
 
+- 阅读·书服务器书库仅 KP 登录可读；文件不得进入网站静态目录或代码仓库。发布前逐本在对话中发送书名、语言、来源与使用依据、原文件直链、实际大小（KB/MB）和 SHA-256，等用户明确批准。只收完整正文，不收链接占位、AI 示例、未经授权的译文或付费正文。书库审核与上线流程见 [阅读·书维护说明](docs/apps/xinzhi-reader.md)。
+
 - 先同步最新 `origin/master`。`/apps/` 应用目录维护在 `src/pages/AppsDirectory/`，「阅读·书」源码在 `apps/xinzhi-reader/`。旧 `lucius_reading/` 仅作参考。
 - 新增应用、日常构建和上线验收读 [网页应用维护](docs/apps/README.md)。提交与上线分别处理，推送会自动发布的分支前确认任务已授权上线。
 - SSH 认证、主机校验或权限失败时，立即暂停发布，报告错误并等用户答复；改走 GitHub Actions 须用户明确授权。
