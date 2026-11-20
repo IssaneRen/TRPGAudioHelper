@@ -48,6 +48,18 @@ jobs:
             systemctl is-system-running || true
             echo "nginx: $(systemctl is-active nginx || true)"
             echo
+            echo "===== 开机自启检查 ====="
+            for svc in nginx docker; do
+              echo "$svc: enabled=$(systemctl is-enabled $svc 2>&1 || true) active=$(systemctl is-active $svc 2>&1 || true)"
+            done
+            echo "--- 运行中的服务 ---"
+            systemctl list-units --type=service --state=running --no-pager | awk 'NR<=25'
+            echo "--- docker 容器与重启策略 ---"
+            docker ps --format '{{.Names}} | {{.Status}}' 2>&1 | head -8 || true
+            for c in $(docker ps -q 2>/dev/null); do
+              docker inspect --format '{{.Name}} | restart={{.HostConfig.RestartPolicy.Name}}' "$c" 2>/dev/null || true
+            done
+            echo
             echo "===== 网站发布目录 ====="
             echo "releases 目录数: $(ls -1d /var/www/trpg-helper/releases/*/ 2>/dev/null | wc -l)"
             ls -1dt /var/www/trpg-helper/releases/*/ 2>/dev/null | head -5
