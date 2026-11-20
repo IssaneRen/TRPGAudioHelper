@@ -49,7 +49,7 @@ jobs:
             echo "nginx: $(systemctl is-active nginx || true)"
             echo
             echo "===== 开机自启检查 ====="
-            for svc in nginx docker; do
+            for svc in nginx docker lucius-note public-files trpg-ai-gateway weekly-report; do
               echo "$svc: enabled=$(systemctl is-enabled $svc 2>&1 || true) active=$(systemctl is-active $svc 2>&1 || true)"
             done
             echo "--- 全部已启用(自启)的服务 ---"
