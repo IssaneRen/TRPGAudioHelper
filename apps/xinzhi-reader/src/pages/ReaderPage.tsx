@@ -29,6 +29,7 @@ import { IconButton } from '@/components/ui'
 import { copyText } from '@/lib/clipboard'
 import { useArticle, useHighlightsForArticle } from '@/lib/selectors'
 import { useStore } from '@/lib/store'
+import { readServerBook } from '@/lib/server-books'
 import { shareQuoteCard } from '@/lib/shareCard'
 import { ageLabel, countChars, fullDate, readingMinutes } from '@/lib/text'
 import type { HighlightColor } from '@/types'
@@ -71,6 +72,32 @@ function toolbarPlacement(rect: DOMRect): { top: number; left: number; above: bo
 }
 
 export function ReaderPage() {
+  const { articleId } = useParams()
+  const article = useArticle(articleId)
+  const pending = article?.serverBook && !article.blocks.length ? article.id : null
+  const [failure, setFailure] = useState<{ id: string; message: string } | null>(null)
+  const [attempt, setAttempt] = useState(0)
+  useEffect(() => {
+    if (!pending) return
+    const controller = new AbortController()
+    readServerBook(pending, controller.signal).then(blocks => {
+      if (!controller.signal.aborted) useStore.setState(state => ({
+        articles: state.articles.map(item => item.id === pending ? { ...item, blocks } : item),
+      }))
+    }).catch((err: unknown) => {
+      if (!controller.signal.aborted) setFailure({ id: pending, message: err instanceof Error ? err.message : '无法读取正文' })
+    })
+    return () => controller.abort()
+  }, [pending, attempt])
+  if (pending) return <div className="reader-missing" role="status">
+    <p>{failure?.id === pending ? failure.message : '正在读取服务器正文…'}</p>
+    {failure?.id === pending && <button onClick={() => { setFailure(null); setAttempt(value => value + 1) }}>重试</button>}
+    <Link to="/">回到阅读流</Link>
+  </div>
+  return <ReadingView key={articleId} />
+}
+
+function ReadingView() {
   const { articleId } = useParams()
   const article = useArticle(articleId)
   const highlights = useHighlightsForArticle(articleId)
@@ -622,6 +649,7 @@ export function ReaderPage() {
           <article className="reader-article" style={readerStyle} ref={articleRef}>
             <header className="reader-head">
               <div className="reader-source-line">
+                <span className="row-tag">{article.serverBook ? '服务器' : '本地'}</span>
                 <SourceIcon kind={article.source.kind} size={22} />
                 {article.source.url ? (
                   <a href={article.source.url} target="_blank" rel="noreferrer">

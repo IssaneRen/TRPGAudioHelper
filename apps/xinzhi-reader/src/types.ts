@@ -36,6 +36,7 @@ export interface Highlight {
 }
 
 export interface Article {
+  serverBook?: boolean
   id: string
   title: string
   subtitle?: string
@@ -77,6 +78,7 @@ export interface Settings {
 }
 
 export interface AppData {
+  hiddenServerBooks?: string[]
   articles: Article[]
   highlights: Highlight[]
   feeds: Feed[]

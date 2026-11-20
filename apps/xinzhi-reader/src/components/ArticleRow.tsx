@@ -39,11 +39,12 @@ export function ArticleRow({
           </div>
           {showExcerpt && excerpt && <p className="article-row-excerpt">{excerpt}</p>}
           <div className="article-row-meta">
+            <span className="row-tag">{article.serverBook ? '服务器' : '本地'}</span>
             <span>{article.source.name}</span>
             <span className="meta-dot" />
             <span>{relativeTime(article.savedAt)}</span>
             <span className="meta-dot" />
-            <span>{readingMinutes(article)} 分钟</span>
+            {article.blocks.length > 0 && <span>{readingMinutes(article)} 分钟</span>}
             {highlightCount > 0 && (
               <span className="row-highlight-count" title={`${highlightCount} 处划线`}>
                 <Highlighter size={11} strokeWidth={1.8} />

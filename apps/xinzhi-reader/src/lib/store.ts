@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
 import { createSeedData } from '@/data/seed'
+import { reconcileBooks } from './server-books'
 import { hostOf, parseBlocks, uid } from '@/lib/text'
 import type {
   AppData,
@@ -26,6 +27,7 @@ export interface NewArticleInput {
 }
 
 interface StoreState extends AppData {
+  readerProgress?: Record<string, Pick<Article, 'progress' | 'status' | 'readAt' | 'lastReadAt'>>
   addArticle: (input: NewArticleInput) => Article
   addLink: (input: { url: string; title?: string; note?: string; tags?: string[] }) => Article
   mergeImportArticles: (list: SlimArticle[]) => number
@@ -59,6 +61,7 @@ export const useStore = create<StoreState>()(
   persist(
     (set, get) => ({
       ...createSeedData(),
+      articles: reconcileBooks([], []),
 
       addArticle: (input) => {
         const now = new Date().toISOString()
@@ -100,7 +103,7 @@ export const useStore = create<StoreState>()(
                 ? parseBlocks(item.text, uid('p'))
                 : []
           if (!blocks.length) continue
-          const id = item.id && !existingIds.has(item.id) ? item.id : uid('a')
+          const id = item.id && !item.id.startsWith('server-') && !existingIds.has(item.id) ? item.id : uid('a')
           existingIds.add(id)
           const savedAt = item.savedAt || now
           articles.push({
@@ -177,6 +180,8 @@ export const useStore = create<StoreState>()(
 
       removeArticle: (id) =>
         set((state) => ({
+          hiddenServerBooks: state.articles.some(article => article.id === id && article.serverBook)
+            ? [...(state.hiddenServerBooks || []), id] : state.hiddenServerBooks,
           articles: state.articles.filter((article) => article.id !== id),
           highlights: state.highlights.filter((highlight) => highlight.articleId !== id),
         })),
@@ -264,20 +269,27 @@ export const useStore = create<StoreState>()(
 
       importData: (data) =>
         set(() => ({
-          articles: data.articles,
+          articles: reconcileBooks(data.articles, data.hiddenServerBooks || []),
+          hiddenServerBooks: data.hiddenServerBooks || [],
           highlights: data.highlights,
           feeds: data.feeds,
           settings: data.settings,
         })),
 
-      resetData: () => set(() => ({ ...createSeedData() })),
+      resetData: () => set(() => ({ ...createSeedData(), articles: reconcileBooks([], []), hiddenServerBooks: [] })),
     }),
     {
       name: 'xinzhi.web.v2',
       storage: createJSONStorage(() => localStorage),
       version: 2,
+      merge: (saved, current) => {
+        const data = saved as Partial<AppData> | undefined
+        return { ...current, ...data, articles: reconcileBooks(data?.articles || [], data?.hiddenServerBooks || []) }
+      },
       partialize: (state) => ({
-        articles: state.articles,
+        articles: state.articles.filter(article => !article.serverBook),
+        readerProgress: progressFor(state),
+        hiddenServerBooks: state.hiddenServerBooks,
         highlights: state.highlights,
         feeds: state.feeds,
         settings: state.settings,
@@ -286,9 +298,22 @@ export const useStore = create<StoreState>()(
   ),
 )
 
+function progressFor(state: StoreState) {
+  return { ...state.readerProgress, ...Object.fromEntries(state.articles.filter(article => article.serverBook)
+    .map(({ id, progress, status, readAt, lastReadAt }) => [id, { progress, status, readAt, lastReadAt }])) }
+}
+
+export function refreshShelf() {
+  useStore.setState(state => {
+    const readerProgress = progressFor(state)
+    return { readerProgress, articles: reconcileBooks(state.articles, state.hiddenServerBooks || [])
+      .map(article => article.serverBook ? { ...article, ...readerProgress[article.id] } : article) }
+  })
+}
+
 export function exportData(): AppData {
-  const { articles, highlights, feeds, settings } = useStore.getState()
-  return { articles, highlights, feeds, settings }
+  const { articles, highlights, feeds, settings, hiddenServerBooks } = useStore.getState()
+  return { articles: articles.filter(article => !article.serverBook), highlights, feeds, settings, hiddenServerBooks }
 }
 
 export function downloadExport() {
