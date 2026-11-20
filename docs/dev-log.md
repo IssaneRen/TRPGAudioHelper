@@ -205,3 +205,4 @@ Agent 角色：`团队负责人` / `实习生` / `技术专家` / `git-reviewer`
 | 2026-06-12 12:00 | Codex | master | **GitHub Actions 部署上传加速**: 完整部署改为先将 `dist` 打包成单个 `tar.gz`，SCP 上传后在服务器 release 目录解压；静态内容部署同样改为打包 `public/blog` 与 `public/wiki` 后单文件上传，减少 SCP 多文件传输开销 | .github/workflows/deploy.yml, .github/workflows/deploy-content.yml, docs/dev-log.md |
 
 | 2026-11-20 | Codex | codex/weekly-maintenance | 补充周报入口检查与恢复工作流，加密取回最近记录；HTTPS 发布模板保留独立周报引用，失败自动恢复 Nginx 配置 | .github/workflows/maintain-weekly.yml, .github/workflows/deploy.yml, ops/weekly/maintain.py, ops/weekly/nginx.conf, docs/weekly-maintenance.md |
+| 2026-11-20 | Codex | codex/weekly-maintenance | 周报独立服务已确认正常；首次恢复验证失败已自动回滚，改为带证书验证的本机 HTTPS 探测并等待 Nginx worker 切换 | ops/weekly/maintain.py |

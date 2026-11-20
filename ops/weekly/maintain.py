@@ -10,6 +10,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import time
 import urllib.error
 import urllib.request
 
@@ -20,6 +21,11 @@ def status(url):
             return response.status
     except urllib.error.HTTPError as error:
         return error.code
+
+
+def local_status():
+    result = subprocess.run(['curl', '--silent', '--show-error', '--max-time', '10', '--resolve', 'issane.cn:443:127.0.0.1', '-o', '/dev/null', '-w', '%{http_code}', 'https://issane.cn/weekly/'], check=True, stdout=subprocess.PIPE, text=True)
+    return int(result.stdout)
 
 
 def main():
@@ -64,8 +70,12 @@ def main():
             config.write_text(original.replace(marker, marker + '\n    ' + include, 1))
             subprocess.run(['nginx', '-t'], check=True)
             subprocess.run(['systemctl', 'reload', 'nginx'], check=True)
-            if status(origin + '/weekly/') != 401:
-                raise RuntimeError('周报入口鉴权检查失败')
+            for attempt in range(10):
+                if local_status() == 401:
+                    break
+                time.sleep(0.5)
+            else:
+                raise RuntimeError('周报本机 HTTPS 入口未返回 401')
         except Exception:
             shutil.copy2(backup, config)
             subprocess.run(['nginx', '-t'], check=True)
@@ -73,6 +83,7 @@ def main():
             raise
         print('已恢复周报转发，配置检查通过，原配置备份已保留。')
     print('周报入口状态：', status(origin + '/weekly/'))
+    print('本机 HTTPS 周报状态：', local_status())
     data = Path(settings['WEEKLY_DATA_DIR']).resolve()
     reports = []
     for path in (data / 'reports').glob('*.md'):
