@@ -200,6 +200,47 @@ kbd {
    app shell
 --------------------------------------------------------- */
 
+.private-library-login {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  padding: calc(10px + var(--safe-top)) 20px 10px;
+  border-bottom: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.private-library-login form {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.private-library-login input {
+  width: 9em;
+  max-width: 100%;
+  padding: 8px 10px;
+  font-size: 16px;
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+}
+
+.private-library-login button {
+  padding: 9px 14px;
+  background: var(--green-soft);
+  color: var(--ink);
+  border-radius: 6px;
+}
+
+.private-library-login [role='alert'] { color: var(--dish); }
+
+@media (min-width: 901px) {
+  .private-library-login:has(+ .app-shell) { margin-left: var(--sidebar-w); }
+}
+
 .app-shell {
   display: flex;
   min-height: 100dvh;
