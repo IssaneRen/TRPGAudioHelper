@@ -15,6 +15,7 @@
     <div class="brand"><span class="mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span><h1 data-i18n="app.title">Chiptune Studio</h1></div>
     <p class="tagline" data-i18n="app.tagline"></p>
     <div class="files">
+      <button class="tb" id="guide-open" type="button" aria-haspopup="dialog">新手教程 · 跟着听</button>
       <button class="tb" id="btn-new" data-i18n="file.new">New</button>
       <button class="tb" id="btn-demo" data-i18n="file.demo">Demo</button>
       <button class="tb" id="btn-open" data-i18n="file.open">Open</button>
@@ -89,6 +90,34 @@
 
   <footer class="foot"><span data-i18n="foot.text"></span> <a href="https://github.com/ardakalper/chiptune-studio" data-i18n="foot.source">Source on GitHub</a></footer>
   <div class="toast" id="toast" hidden role="status"></div>
+  <dialog id="guide" aria-labelledby="guide-title">
+    <header><h2 id="guide-title">第一次编曲</h2><button class="tb" id="guide-close" type="button">关闭教程</button></header>
+    <section>
+      <h3>1. 听出每条轨的声音</h3>
+      <p>音轨像乐队里的声部。先听合奏，再单独听一种声音，找找它在曲子里的位置。</p>
+      <button type="button" class="tb play" data-guide-channel="all">听合奏</button>
+      <dl class="guide-voices">
+        <dt><button class="tb" data-guide-channel="0">听主旋律</button></dt><dd>亮亮的电子琴声，弹的是你可以跟着哼的那串音。</dd>
+        <dt><button class="tb" data-guide-channel="1">听琶音伴奏</button></dt><dd>几个音快速轮流响，在旋律背后闪动。</dd>
+        <dt><button class="tb" data-guide-channel="2">听贝斯</button></dt><dd>低沉、圆润的声音，跟着它很容易点头打拍子。</dd>
+        <dt><button class="tb" data-guide-channel="3">听鼓组</button></dt><dd>底鼓的「咚」、军鼓的「啪」、踩镲的「呲」一起打出节奏。</dd>
+      </dl>
+    </section>
+    <section>
+      <h3>2. 给同一句旋律换个声音</h3>
+      <p>先试听原句，再把第一个音从「咪」改成「哆」，或换成更亮的锯齿音色。每次只改一项，差别最好听。</p>
+      <div class="guide-fields"><label>旋律音色<select id="guide-tone"><option value="0">脉冲电子琴</option><option value="7">锯齿合成器</option></select></label>
+        <label>第一个音<select id="guide-note"><option value="76">咪（E）</option><option value="72">哆（C）</option><option value="79">嗦（G）</option></select></label>
+        <button class="tb" data-guide-channel="0">试听这句旋律</button></div>
+      <p>在工作台里也可以这样改：先在「乐器音色」选一个声音，点轨道里的音符格，再选「音符」并按「写入当前格」。</p>
+    </section>
+    <section>
+      <h3>3. 带走这段练习</h3>
+      <p>选「小曲谱」可以下次导入接着改；选 WAV 可以直接听。教程只使用独立练习曲。</p>
+      <button class="tb" id="guide-score">导出练习小曲谱</button> <button class="tb" id="guide-wav">导出练习 WAV</button>
+    </section>
+    <p id="guide-status" role="status"></p>
+  </dialog>
   <script type="module" src="js/main.js"></script>
 </body>
 </html>

@@ -2,6 +2,7 @@
 import { CHANNELS, NOTE_OFF, WAVES, DUTIES, renderSong, songSamples } from './synth.js';
 import * as G from './song.js';
 import { setupLibrary } from './library.js';
+import { setupGuide } from './guide.js';
 import { encodeWav } from './wav.js';
 import { t, setLang, getLang, applyI18n, detectLang } from './i18n.js';
 
@@ -35,6 +36,7 @@ function edit(fn, { rerender = 'grid' } = {}) {
 }
 function changed(what = 'grid') {
   persist(); sendSong();
+  if (what !== 'all' && what !== 'none') renderHeads();
   if (what === 'all') renderAll(); else if (what === 'grid') renderGrid(); else if (what === 'order') { renderOrder(); renderGrid(); } else if (what === 'inst') renderInstruments();
 }
 function undoStep(stack, other) { if (!stack.length) return; other.push(JSON.stringify(song)); song = JSON.parse(stack.pop()); clampCursor(); changed('all'); }
@@ -112,17 +114,50 @@ function drawScope() {
 }
 
 // ---------- rendering ----------
+function presetName(name) {
+  return G.DEFAULT_INSTRUMENTS.some(preset => preset.name === name) ? t('preset.' + name) : String(name);
+}
+
+// The tracker carries the last instrument forward until a row selects another.
+function trackInstruments() {
+  const used = Array.from({ length: CHANNELS }, () => new Set());
+  const selected = Array(CHANNELS).fill(null);
+  for (const index of song.order) {
+    for (const row of song.patterns[index].cells) {
+      row.forEach(([note, instrument], ch) => {
+        if (song.instruments[instrument]) selected[ch] = song.instruments[instrument];
+        if (note != null && note !== NOTE_OFF && selected[ch]) used[ch].add(selected[ch]);
+      });
+    }
+  }
+  return used.map(set => [...set]);
+}
+
 function renderHeads() {
   const box = $('#ch-heads'); box.replaceChildren(el('div'));
+  const instruments = trackInstruments();
   for (let ch = 0; ch < CHANNELS; ch++) {
     const h = el('div', `ch-head${effectiveMute()[ch] ? ' muted' : ''}`); h.style.setProperty('--chc', CH_COLORS[ch]); h.dataset.ch = ch;
-    const nm = el('div', 'nm'); nm.append(el('span', null, t('ch.name', { n: ch + 1 })));
+    const voices = instruments[ch];
+    const drumTrack = voices.length && voices.every(i => ['Kick','Snare','Hat'].includes(i.name));
+    const label = drumTrack ? t('ch.drums') : voices.length === 1 ? presetName(voices[0].name) :
+      t(voices.length ? 'ch.mixed' : 'ch.empty');
+    const heading = t('ch.name', { n: ch + 1 }) + ' · ' + label;
+    const nm = el('div', 'nm'); nm.append(el('strong', null, heading));
+    const timbres = voices.map(i => voices.length === 1 ? t('wave.' + i.wave) :
+      presetName(i.name) + ' (' + t('wave.' + i.wave) + ')');
+    const sounds = el('span', 'track-sounds', voices.length > 1 ? voices.map(i => presetName(i.name)).join(' / ') : timbres[0]);
+    sounds.title = timbres.join(' / ');
     const bs = el('span');
     const mb = el('button', 'tb', 'M'); mb.title = t('ch.mute'); mb.setAttribute('aria-pressed', String(mute[ch])); mb.dataset.mute = ch;
     const sb = el('button', 'tb', 'S'); sb.title = t('ch.solo'); sb.setAttribute('aria-pressed', String(solo[ch])); sb.dataset.solo = ch;
     mb.addEventListener('click', () => { mute[ch] = !mute[ch]; sendMute(); renderHeads(); });
     sb.addEventListener('click', () => { solo[ch] = !solo[ch]; sendMute(); renderHeads(); });
-    bs.append(mb, document.createTextNode(' '), sb); nm.append(bs);
+    for (const button of [mb, sb]) {
+      button.textContent = button.title;
+      button.setAttribute('aria-label', heading + ' · ' + button.title);
+    }
+    bs.append(mb, document.createTextNode(' '), sb); nm.append(sounds, bs);
     const vu = el('div', 'vu'); vu.append(el('i'));
     h.append(nm, vu); box.append(h);
   }
@@ -180,7 +215,7 @@ function renderInstruments() {
   const ul = $('#inst-list'); ul.replaceChildren();
   song.instruments.forEach((ins, i) => {
     const li = el('li'); li.dataset.inst = i; li.setAttribute('aria-selected', String(i === cur.inst));
-    li.append(el('b', null, G.hex(i + 1)), el('span', null, ins.name), el('small', null, t(`wave.${ins.wave}`)));
+    li.append(el('b', null, G.hex(i + 1)), el('span', null, presetName(ins.name)), el('small', null, t(`wave.${ins.wave}`)));
     li.addEventListener('click', () => { cur.inst = i; renderInstruments(); });
     ul.append(li);
   });
@@ -285,6 +320,7 @@ function download(bytes, name, type) {
 function loadSong(s, msg) { stop(); song = s; Object.assign(cur, { order: 0, row: 0, ch: 0, col: 0, inst: 0 }); undo.length = 0; redo.length = 0; persist(); sendSong(true); renderAll(); if (msg) toast(msg); }
 
 function init() {
+  setupGuide({ stopEditor: () => { if (playing) stop(); }, download });
   for (const [i, name] of G.NAMES.entries()) $('#touch-note').add(new Option(name.replace('-', ''), String(i)));
   $('#touch-note').add(new Option('截音', '-1'));
   $('#write-note').onclick = () => {

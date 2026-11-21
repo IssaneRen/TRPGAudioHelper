@@ -75,7 +75,21 @@ a { color: var(--key-orange); }
 .ch-heads, .grid .row { display: grid; grid-template-columns: 34px repeat(4, minmax(0, 1fr)); }
 .ch-heads { border-bottom: 1px solid var(--lcd-line); padding-bottom: 6px; margin-bottom: 4px; }
 .ch-head { padding: 4px 8px; display: grid; gap: 5px; }
-.ch-head .nm { font-family: var(--mono); color: var(--chc); display: flex; justify-content: space-between; align-items: center; gap: 6px; letter-spacing: .08em; }
+.ch-head .nm { font-family: var(--font); color: var(--chc); display: grid; grid-template-rows: auto 1fr auto; align-items: start; gap: 5px; overflow-wrap:anywhere; }
+.ch-head .nm strong { font-size: 15px; }
+.track-sounds { color: var(--lcd-ink); font-size: 13px; }
+.ch-head .nm button.tb { height: auto; min-height: 24px; font-size: 12px; color: var(--lcd-ink); }
+#guide { width: min(600px, calc(100% - 24px)); max-height: 86dvh; overflow: auto; box-sizing: border-box; border: 1px solid var(--seam); border-radius: 14px; padding: 20px; background: var(--panel); color: var(--ink); }
+#guide::backdrop { background: rgb(14 20 22 / .62); }
+#guide header, .guide-fields { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+#guide header { justify-content: space-between; }
+#guide h2, #guide h3 { margin: 0; }
+#guide section { border-top: 1px solid var(--seam); margin-top: 16px; padding-top: 16px; }
+#guide p, #guide dd { line-height: 1.65; }
+.guide-voices { display: grid; grid-template-columns: auto 1fr; gap: 10px; align-items: center; }
+.guide-voices dd { margin: 0; }
+.guide-fields label { display: grid; gap: 3px; }
+#guide-open { color: #165740; border-color: #749987; }
 .ch-head .nm button { height: 20px; padding: 0 7px; font-size: 10.5px; border-radius: 10px; background: var(--lcd-2); color: var(--lcd-dim); box-shadow: none; }
 .ch-head .nm button[aria-pressed="true"] { background: var(--chc); color: var(--lcd); outline: none; }
 .vu { height: 4px; background: var(--lcd-2); border-radius: 2px; overflow: hidden; }
