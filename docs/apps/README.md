@@ -9,7 +9,7 @@
 | 修改「写作·笔」的页面、交互或数据 | [apps/writing-pen/](../../apps/writing-pen/)，产品文档见 [docs/apps/writing-pen/](./writing-pen/PRD.md) |
 | 修改阅读器首页标题、副标题、署名 | [FlowPage.tsx](../../apps/xinzhi-reader/src/pages/FlowPage.tsx) |
 | 修改阅读器网页及手机桌面图标 | [public/](../../apps/xinzhi-reader/public/) 下的 `reading-*.png`，引用见应用的 `index.html` 和 `public/manifest.json` |
-| 开发「美学·画」 | 现在只有目录占位；正式开发时新增 `apps/<英文短名>/` |
+| 维护「美学·画」 | [作品清单](../../apps/gallery/public/works.js) 按数组顺序平铺。新增作品时追加一项，填写唯一的 `id`、`title`、`thumb`、`image` 和可选的 `alt`。图片可放在 `apps/gallery/public/media/`，也可使用 HTTPS 图片直链。 |
 
 ## 从哪里开始
 
@@ -17,7 +17,7 @@
 2. 先检查 `git status` 和已有 worktree，再执行 `git fetch origin`，从最新 `origin/master` 建工作分支。保留主工作区已有改动。
 3. 旧 `lucius_reading/` 目录只作参考。阅读器后续改动都在 TRPGAudioHelper 的 `apps/xinzhi-reader/` 进行。
 
-目录里的可用应用包含 `href`、`icon` 和 `summary`。占位项保留名称与 `letter`，页面会显示「未开放」，不生成链接。新增真实应用时，在 `apps/<英文短名>/` 保留依赖锁文件和 `build` 命令，配置 Vite base、路由 basename 和 PWA 路径，再把入口加到目录。根 [build-apps.mjs](../../scripts/build-apps.mjs) 会把子应用产物放入 `dist/apps/<英文短名>/`。
+目录里的应用包含 `href`、`icon` 和 `summary`。新增应用时，在 `apps/<英文短名>/` 保留依赖锁文件和 `build` 命令，确保资源、路由和 PWA 清单能从应用子路径访问，再把入口加到目录。根 [build-apps.mjs](../../scripts/build-apps.mjs) 会把子应用产物放入 `dist/apps/<英文短名>/`。
 
 ## 构建、发布和验证
 

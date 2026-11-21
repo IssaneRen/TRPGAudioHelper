@@ -1,0 +1,8 @@
+{
+  "name": "issane-gallery",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "node -e \"require('node:fs').cpSync('public', 'dist', {recursive: true})\""
+  }
+}

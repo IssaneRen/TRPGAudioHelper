@@ -23,7 +23,13 @@ const apps = [
     href: "/apps/music-listen/studio/",
     icon: "/apps/music-listen/note.png",
   },
-  { id: "aesthetics", name: "美学·画", letter: "画" },
+  {
+    id: "aesthetics",
+    name: "美学·画",
+    summary: "浏览摄影与 AIGC 作品。",
+    href: "/apps/gallery/",
+    icon: "/apps/gallery/icon.png",
+  },
 ] as const;
 
 export default function AppsDirectory() {
@@ -47,22 +53,14 @@ export default function AppsDirectory() {
           <ul className={styles.appList} role="list">
             {apps.map((app) => (
               <li key={app.id}>
-                {"href" in app ? (
-                  <a className={styles.appRow} href={app.href} aria-labelledby={`${app.id}-name ${app.id}-open`} aria-describedby={`${app.id}-summary`}>
-                    <img className={styles.appIcon} src={app.icon} width={74} height={74} alt="" />
-                    <div>
-                      <h3 className={styles.appName} id={`${app.id}-name`}>{app.name}</h3>
-                      <p className={styles.appSummary} id={`${app.id}-summary`}>{app.summary}</p>
-                    </div>
-                    <span className={styles.open} id={`${app.id}-open`}>打开</span>
-                  </a>
-                ) : (
-                  <div className={styles.appRow}>
-                    <span className={`${styles.appIcon} ${styles.placeholderIcon}`} aria-hidden="true">{app.letter}</span>
-                    <h3 className={styles.appName}>{app.name}</h3>
-                    <span className={styles.pending}>未开放</span>
+                <a className={styles.appRow} href={app.href} aria-labelledby={`${app.id}-name ${app.id}-open`} aria-describedby={`${app.id}-summary`}>
+                  <img className={styles.appIcon} src={app.icon} width={74} height={74} alt="" />
+                  <div>
+                    <h3 className={styles.appName} id={`${app.id}-name`}>{app.name}</h3>
+                    <p className={styles.appSummary} id={`${app.id}-summary`}>{app.summary}</p>
                   </div>
-                )}
+                  <span className={styles.open} id={`${app.id}-open`}>打开</span>
+                </a>
               </li>
             ))}
           </ul>
