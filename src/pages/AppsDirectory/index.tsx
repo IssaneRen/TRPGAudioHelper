@@ -19,8 +19,8 @@ const apps = [
   {
     id: "music",
     name: "音乐·听",
-    summary: "生成一段红白机风格的旋律，循环听。",
-    href: "/apps/music-listen/",
+    summary: "听公开曲目，用四条音轨编曲，导出曲谱或 WAV。",
+    href: "/apps/music-listen/studio/",
     icon: "/apps/music-listen/note.png",
   },
   { id: "aesthetics", name: "美学·画", letter: "画" },
