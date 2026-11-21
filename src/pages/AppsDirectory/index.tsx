@@ -16,6 +16,13 @@ const apps = [
     href: "/apps/writing-pen/",
     icon: "/apps/writing-pen/pen-icon-192.png",
   },
+  {
+    id: "music",
+    name: "音乐·听",
+    summary: "生成一段红白机风格的旋律，循环听。",
+    href: "/apps/music-listen/",
+    icon: "/apps/music-listen/note.png",
+  },
   { id: "aesthetics", name: "美学·画", letter: "画" },
 ] as const;
 

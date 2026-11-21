@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#153e35">
+<title>音乐·听 · Issane</title>
+<link rel="icon" href="./note.png">
+<link rel="stylesheet" href="./style.css">
+<header><nav><a href="/apps/">Issane / 应用</a><span>音乐·听</span></nav></header>
+<main>
+  <h1>音乐·听</h1>
+  <p>红白机风格的循环小曲。收藏当前链接，下次还能听到这一首。</p>
+  <section aria-label="音乐播放器">
+    <div class="display">
+      <div class="caption"><span id="track">曲目</span><span id="tempo"></span></div>
+      <canvas width="704" height="160" aria-label="当前曲目的旋律音高图"></canvas>
+    </div>
+    <div class="controls"><button type="button" id="play">播放</button><button type="button" id="next">换一首</button></div>
+    <small role="status" id="status"></small>
+  </section>
+</main>
+<script type="module" src="./player.js"></script>
+</html>
