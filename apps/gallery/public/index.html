@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#182528">
+    <meta name="theme-color" content="#000000">
     <title>美学·画 · Issane</title>
     <link rel="icon" href="./icon.png">
     <link rel="apple-touch-icon" href="./icon.png">
@@ -14,26 +14,14 @@
   <body>
     <main class="gallery">
       <section class="viewer" aria-label="作品展示">
-        <div class="stage-bar">
-          <a class="back" href="/apps/"><span aria-hidden="true">←</span> 应用目录</a>
-          <span id="counter"></span>
-        </div>
-        <div class="stage">
-          <img id="art" alt="" hidden>
-          <p id="message" role="status" hidden></p>
-        </div>
-        <footer class="caption">
-          <h2 id="title" aria-live="polite"></h2>
-          <nav class="arrows" aria-label="切换作品">
-            <button id="previous" type="button" aria-label="上一幅">←</button>
-            <button id="next" type="button" aria-label="下一幅">→</button>
-          </nav>
-        </footer>
+        <img id="art" alt="" hidden>
       </section>
       <aside class="catalog" aria-labelledby="gallery-name">
+        <a class="back" href="/apps/"><span aria-hidden="true">←</span> 应用目录</a>
         <h1 id="gallery-name">美学<span>·</span>画</h1>
         <nav class="thumbnails" aria-label="选择作品"></nav>
-        <noscript>请启用 JavaScript 以浏览相册。</noscript>
+        <p id="message" role="status"></p>
+        <noscript>请启用 JavaScript 以浏览作品。</noscript>
       </aside>
     </main>
   </body>
